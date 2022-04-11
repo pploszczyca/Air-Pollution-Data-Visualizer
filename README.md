@@ -1,29 +1,34 @@
-# README #
+# Air Pollution Data Visualizer
+## Technologies
+### Frontend
+* [Flutter](https://flutter.dev/)
 
-This README would normally document whatever steps are necessary to get your application up and running.
+### Backend
+* [Java 17](https://openjdk.java.net/projects/jdk/17/)
+* [Spring](https://spring.io/)
 
-### What is this repository for? ###
+## Ports
+* Backend - 5000 - http://localhost:5000
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+## How to run with Docker
+### Backend
+Go to `backend` folder, build the image using Dockerfile:
+```
+$ sudo docker build . -t apdv-backend
+```
+To run image:
+```
+$ sudo docker run -p 5000:5000 -d apdv-backend
+```
+Backend is now running at http://localhost:5000
 
-### How do I get set up? ###
-
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+### Frontend
+Go to `frontend` folder, build the image using Dockerfile:
+```
+$ sudo docker build . -t apdv-frontend
+```
+To run image:
+```
+$ sudo docker run -p 3000:80 -d apdv-frontend
+```
+Frontend is now running at http://localhost:3000

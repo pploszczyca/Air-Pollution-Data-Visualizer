@@ -1,10 +1,7 @@
 package pl.edu.agh.apdvbackend.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.edu.agh.apdvbackend.models.User;
 import pl.edu.agh.apdvbackend.repositories.UserRepository;
 
@@ -27,5 +24,10 @@ public class UserController {
     @PostMapping("/user")
     public void addUser(@RequestBody User user) {
         userRepository.save(user);
+    }
+
+    @DeleteMapping("/user/{id}")
+    public void removeUser(@PathVariable long id) {
+        userRepository.deleteById(id);
     }
 }

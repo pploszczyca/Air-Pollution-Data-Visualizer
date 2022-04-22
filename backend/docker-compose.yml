@@ -20,7 +20,7 @@ services:
     image: postgres
     container_name: PostgesSQL
     volumes:
-      - ./postgres-data:/var/lib/postgresql/data
+      - apdv_volume:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     environment:
@@ -28,3 +28,6 @@ services:
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=adpv_db
     restart: always
+
+volumes:
+  apdv_volume:

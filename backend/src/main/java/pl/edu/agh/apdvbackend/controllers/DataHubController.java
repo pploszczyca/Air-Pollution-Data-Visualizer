@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.edu.agh.apdvbackend.models.body_models.DataHubDataRequest;
 import pl.edu.agh.apdvbackend.models.body_models.DataResponse;
+import pl.edu.agh.apdvbackend.models.body_models.SensorInfo;
 import pl.edu.agh.apdvbackend.services.DataHubService;
 
 import java.util.List;
@@ -24,5 +25,10 @@ public class DataHubController {
     @GetMapping
     public List<DataResponse> getData(@RequestBody DataHubDataRequest dataHubDataRequest) {
         return dataHubService.getData(dataHubDataRequest);
+    }
+
+    @GetMapping("/info")
+    public SensorInfo getSensorInfo(@RequestBody DataHubDataRequest dataHubDataRequest) {
+        return dataHubService.getSensorInfo(dataHubDataRequest);
     }
 }

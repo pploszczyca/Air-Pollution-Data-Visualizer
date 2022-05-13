@@ -9,6 +9,8 @@ import pl.edu.agh.apdvbackend.deserializer.DataDeserializer;
 import pl.edu.agh.apdvbackend.models.DataTypes;
 import pl.edu.agh.apdvbackend.models.body_models.DataHubDataRequest;
 import pl.edu.agh.apdvbackend.models.body_models.DataResponse;
+import pl.edu.agh.apdvbackend.models.body_models.SensorInfo;
+import pl.edu.agh.apdvbackend.models.body_models.SensorLocation;
 import pl.edu.agh.apdvbackend.utilities.StreamUtilities;
 
 import java.util.Iterator;
@@ -41,6 +43,20 @@ public class DataHubService {
                         dataDeserializer.getDoubleValue(DataTypes.PM10, jsonNode)
                 )
         ).toList();
+    }
+
+    public SensorInfo getSensorInfo(DataHubDataRequest dataHubDataRequest) {
+        JsonNode firstJsonNode = makeRequestAndGetResults(dataHubDataRequest.url()).next();
+        return new SensorInfo(
+                dataDeserializer.getStringValue(DataTypes.LABEL, firstJsonNode),
+                dataDeserializer.getStringValue(DataTypes.ID, firstJsonNode),
+                new SensorLocation(
+                        dataDeserializer.getDoubleValue(DataTypes.LOCATION_ALT, firstJsonNode),
+                        dataDeserializer.getDoubleValue(DataTypes.LOCATION_LAT, firstJsonNode),
+                        dataDeserializer.getDoubleValue(DataTypes.LOCATION_LON, firstJsonNode),
+                        dataDeserializer.getStringValue(DataTypes.LOCATION_NAME, firstJsonNode)
+                )
+        );
     }
 
     private Iterator<JsonNode> makeRequestAndGetResults(String uri) {

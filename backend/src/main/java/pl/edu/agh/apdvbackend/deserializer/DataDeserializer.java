@@ -32,4 +32,8 @@ public class DataDeserializer {
     public double getDoubleValue(DataTypes dataType, JsonNode jsonNode) {
         return getKeyNode(dataType, jsonNode).asDouble();
     }
+
+    public String getStringValue(DataTypes dataType, JsonNode jsonNode) {
+        return getKeyNode(dataType, jsonNode).asText();
+    }
 }

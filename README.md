@@ -6,21 +6,32 @@
 ### Backend
 * [Java 17](https://openjdk.java.net/projects/jdk/17/)
 * [Spring](https://spring.io/)
+* [PostgreSQL](https://www.postgresql.org/)
 
 ## Ports
 * Backend - 5000 - http://localhost:5000
+* Database - 5432
 
 ## How to run with Docker
 ### Backend
-Go to `backend` folder, build the image using Dockerfile:
+In backend root directory is placed a [docker-compose.yml](/backend/docker-compose.yml). This file specify project environment. Project can be run with IntelIJ or in terminal:
 ```
-$ sudo docker build . -t apdv-backend
-```
-To run image:
-```
-$ sudo docker run -p 5000:5000 -d apdv-backend
+$ docker-compose up
 ```
 Backend is now running at http://localhost:5000
+
+#### Build failed error
+If you see something like this:
+```
+Building apdv_backend
+error checking context: 'can't stat '/home/pepe/Projekty/air-pollution-data-visualizer/backend/postgres-data''.
+ERROR: Service 'apdv_backend' failed to build : Build failed
+`docker-compose` process finished with exit code 1
+```
+You have to type in your terminal:
+```
+$ sudo chown -R $USER postgres-data  
+```
 
 ### Frontend
 Go to `frontend` folder, build the image using Dockerfile:

@@ -1,7 +1,7 @@
 FROM gradle:7.4.2-jdk17 AS build
 COPY --chown=gradle:gradle . src
 WORKDIR /home/gradle/src
-RUN gradle build --no-daemon
+RUN gradle build --no-daemon -x test
 
 FROM openjdk:17
 

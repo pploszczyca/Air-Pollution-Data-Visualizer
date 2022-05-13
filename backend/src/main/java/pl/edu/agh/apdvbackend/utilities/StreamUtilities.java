@@ -1,7 +1,5 @@
 package pl.edu.agh.apdvbackend.utilities;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
 import java.util.Iterator;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;

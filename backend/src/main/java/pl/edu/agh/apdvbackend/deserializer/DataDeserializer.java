@@ -1,7 +1,6 @@
 package pl.edu.agh.apdvbackend.deserializer;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -23,7 +22,7 @@ public class DataDeserializer {
         List<String> path = valuesMap.get(dataType);
         JsonNode node = jsonNode;
 
-        for(String s: path) {
+        for (String s : path) {
             node = node.get(s);
         }
 

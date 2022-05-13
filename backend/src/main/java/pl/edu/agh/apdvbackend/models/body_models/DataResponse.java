@@ -1,4 +1,4 @@
-package pl.edu.agh.apdvbackend.models;
+package pl.edu.agh.apdvbackend.models.body_models;
 
 public record DataResponse(
         double temperature,

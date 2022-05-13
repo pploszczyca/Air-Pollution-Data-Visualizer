@@ -18,6 +18,7 @@ import java.util.List;
 
 @Service
 public class DataHubService {
+    private final static String RESULTS = "results";
     private final WebClient webClient;
     private final StreamUtilities streamUtilities;
     private final DataDeserializer dataDeserializer;
@@ -61,7 +62,7 @@ public class DataHubService {
 
     private Iterator<JsonNode> makeRequestAndGetResults(String uri) {
         return makeRequest(uri)
-                .get("results")
+                .get(RESULTS)
                 .iterator();
     }
 

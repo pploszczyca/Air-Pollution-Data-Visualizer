@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import pl.edu.agh.apdvbackend.deserializer.DataDeserializer;
 import pl.edu.agh.apdvbackend.models.DataTypes;
-import pl.edu.agh.apdvbackend.models.body_models.DataHubDataRequest;
 import pl.edu.agh.apdvbackend.models.body_models.DataResponse;
 import pl.edu.agh.apdvbackend.models.body_models.SensorInfo;
 import pl.edu.agh.apdvbackend.models.body_models.SensorLocation;
@@ -32,9 +31,9 @@ public class DataHubService {
         this.dataDeserializer = dataDeserializer;
     }
 
-    public List<DataResponse> getData(DataHubDataRequest dataHubDataRequest) {
+    public List<DataResponse> getData(String sensorUrl) {
         return streamUtilities.asStream(
-                makeRequestAndGetResults(dataHubDataRequest.url())
+                makeRequestAndGetResults(sensorUrl)
         ).map(jsonNode -> new DataResponse(
                         dataDeserializer.getDoubleValue(DataTypes.TEMPERATURE, jsonNode),
                         dataDeserializer.getDoubleValue(DataTypes.PRESSURE, jsonNode),
@@ -46,8 +45,8 @@ public class DataHubService {
         ).toList();
     }
 
-    public SensorInfo getSensorInfo(DataHubDataRequest dataHubDataRequest) {
-        JsonNode firstJsonNode = makeRequestAndGetResults(dataHubDataRequest.url()).next();
+    public SensorInfo getSensorInfo(String sensorUrl) {
+        JsonNode firstJsonNode = makeRequestAndGetResults(sensorUrl).next();
         return new SensorInfo(
                 dataDeserializer.getStringValue(DataTypes.LABEL, firstJsonNode),
                 dataDeserializer.getStringValue(DataTypes.ID, firstJsonNode),

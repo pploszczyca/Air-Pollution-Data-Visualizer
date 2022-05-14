@@ -12,6 +12,7 @@
     - [Frontend](#frontend-1)
   - [How to run frontend web on Raspberry Pi](#how-to-run-frontend-web-on-raspberry-pi)
   - [Backend API documentation](#backend-api-documentation)
+  - [Add prefix to commits](#add-prefix-to-commits)
   
 ## Technologies
 ### Frontend
@@ -82,3 +83,9 @@ App is running at http://localhost:8888
 
 ## Backend API documentation
 Backend project has springdoc. If you want to see API documentation, run backend and go to: http://localhost:5000/swagger-ui/index.html#/ 
+
+## Add prefix to commits
+In folder `.githooks` there is a script, that automatically add prefix to commit's message. To enable it run:
+```
+$ git config --local core.hooksPath .githooks/
+```

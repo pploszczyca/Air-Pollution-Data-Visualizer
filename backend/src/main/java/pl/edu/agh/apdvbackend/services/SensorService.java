@@ -9,10 +9,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import pl.edu.agh.apdvbackend.deserializer.DataDeserializer;
 import pl.edu.agh.apdvbackend.models.DataTypes;
-import pl.edu.agh.apdvbackend.models.body_models.sensors.EndpointData;
+import pl.edu.agh.apdvbackend.models.EndpointInfo;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
+import pl.edu.agh.apdvbackend.models.body_models.sensors.Endpoint;
+import pl.edu.agh.apdvbackend.models.body_models.sensors.EndpointData;
 import pl.edu.agh.apdvbackend.models.body_models.sensors.SensorInfo;
 import pl.edu.agh.apdvbackend.models.body_models.sensors.SensorLocation;
+import pl.edu.agh.apdvbackend.repositories.EndpointRepository;
+import pl.edu.agh.apdvbackend.utilities.ListUtilities;
 import pl.edu.agh.apdvbackend.utilities.StreamUtilities;
 
 @Service
@@ -25,19 +29,28 @@ public class SensorService {
 
     private final DataDeserializer dataDeserializer;
 
+    private final EndpointRepository endpointRepository;
+
+    private final ListUtilities listUtilities;
+
     @Autowired
     public SensorService(WebClient webClient,
                          StreamUtilities streamUtilities,
-                         DataDeserializer dataDeserializer) {
+                         DataDeserializer dataDeserializer,
+                         EndpointRepository endpointRepository,
+                         ListUtilities listUtilities) {
         this.webClient = webClient;
         this.streamUtilities = streamUtilities;
         this.dataDeserializer = dataDeserializer;
+        this.endpointRepository = endpointRepository;
+        this.listUtilities = listUtilities;
     }
 
-    public Response<List<EndpointData>> getWeatherData(String sensorUrl) {
+    public Response<Endpoint> getWeatherData(Long sensorId) {
         try {
-            return Response.withOkStatus(
-                    parseWeatherData(makeRequestAndGetResults(sensorUrl)));
+            final var endpoint = endpointRepository.findById(sensorId).orElseThrow();
+            final var endpointData = parseWeatherData(makeRequestAndGetResults(endpoint.getSensorUrl()));
+            return Response.withOkStatus(new Endpoint(sensorId, endpoint.getLabel(), endpointData));
         } catch (Exception exception) {
             return Response.withError(exception.getMessage());
         }
@@ -98,5 +111,10 @@ public class SensorService {
                 .retrieve()
                 .bodyToMono(ObjectNode.class)
                 .block();
+    }
+
+    public Response<List<EndpointInfo>> getEndpointsList() {
+        return Response.withOkStatus(
+                listUtilities.iterableToList(endpointRepository.findAll()));
     }
 }

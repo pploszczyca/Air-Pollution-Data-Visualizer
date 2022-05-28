@@ -1,9 +1,13 @@
 package pl.edu.agh.apdvbackend.models;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "endpoint_info")
 public class EndpointInfo {
     @Id
     @GeneratedValue

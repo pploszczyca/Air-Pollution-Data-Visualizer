@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import pl.edu.agh.apdvbackend.deserializer.DataDeserializer;
 import pl.edu.agh.apdvbackend.models.DataTypes;
-import pl.edu.agh.apdvbackend.models.body_models.DataResponse;
+import pl.edu.agh.apdvbackend.models.body_models.sensors.EndpointData;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
-import pl.edu.agh.apdvbackend.models.body_models.SensorInfo;
-import pl.edu.agh.apdvbackend.models.body_models.SensorLocation;
+import pl.edu.agh.apdvbackend.models.body_models.sensors.SensorInfo;
+import pl.edu.agh.apdvbackend.models.body_models.sensors.SensorLocation;
 import pl.edu.agh.apdvbackend.utilities.StreamUtilities;
 
 @Service
@@ -34,7 +34,7 @@ public class SensorService {
         this.dataDeserializer = dataDeserializer;
     }
 
-    public Response<List<DataResponse>> getWeatherData(String sensorUrl) {
+    public Response<List<EndpointData>> getWeatherData(String sensorUrl) {
         try {
             return Response.withOkStatus(
                     parseWeatherData(makeRequestAndGetResults(sensorUrl)));
@@ -52,11 +52,11 @@ public class SensorService {
         }
     }
 
-    private List<DataResponse> parseWeatherData(
+    private List<EndpointData> parseWeatherData(
             Iterator<JsonNode> dataIterator) {
         return streamUtilities.asStream(
                 dataIterator
-        ).map(jsonNode -> new DataResponse(
+        ).map(jsonNode -> new EndpointData(
                         dataDeserializer.getDoubleValue(DataTypes.TEMPERATURE,
                                 jsonNode),
                         dataDeserializer.getDoubleValue(DataTypes.PRESSURE, jsonNode),

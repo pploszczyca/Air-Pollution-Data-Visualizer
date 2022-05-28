@@ -1,6 +1,6 @@
-package pl.edu.agh.apdvbackend.models.body_models;
+package pl.edu.agh.apdvbackend.models.body_models.sensors;
 
-public record DataResponse(
+public record EndpointData(
         double temperature,
         double pressure,
         double humidity,

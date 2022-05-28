@@ -1,6 +1,7 @@
 package pl.edu.agh.apdvbackend.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,8 +11,6 @@ import pl.edu.agh.apdvbackend.models.body_models.DataResponse;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
 import pl.edu.agh.apdvbackend.models.body_models.SensorInfo;
 import pl.edu.agh.apdvbackend.services.SensorService;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/sensor")
@@ -25,7 +24,8 @@ public class SensorController {
 
     @Operation(summary = "Get list of data from sensor")
     @GetMapping
-    public Response<List<DataResponse>> getWeatherData(@RequestParam String sensorUrl) {
+    public Response<List<DataResponse>> getWeatherData(
+            @RequestParam String sensorUrl) {
         return sensorService.getWeatherData(sensorUrl);
     }
 

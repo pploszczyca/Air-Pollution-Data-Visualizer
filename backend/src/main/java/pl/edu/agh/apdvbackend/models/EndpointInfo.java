@@ -31,6 +31,12 @@ public class EndpointInfo {
         this.sensorUrl = sensorUrl;
     }
 
+    public EndpointInfo(int endpointNumber, String label, String sensorUrl) {
+        this.endpointNumber = endpointNumber;
+        this.label = label;
+        this.sensorUrl = sensorUrl;
+    }
+
     public EndpointInfo() {
     }
 

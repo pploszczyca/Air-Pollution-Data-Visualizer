@@ -10,7 +10,6 @@ import pl.edu.agh.apdvbackend.models.DataTypes;
 @Configuration
 public class DataDeserializerConfig {
 
-    @SuppressWarnings("checkstyle:ArrayTrailingComma")
     @Bean(name = "dataDeserializerMap")
     @Scope("singleton")
     public Map<DataTypes, List<String>> initMap() {

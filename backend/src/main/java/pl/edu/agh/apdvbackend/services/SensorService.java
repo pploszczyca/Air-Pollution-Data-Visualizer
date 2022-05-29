@@ -68,14 +68,14 @@ public class SensorService {
         return streamUtilities.asStream(
                 dataIterator
         ).map(jsonNode -> new EndpointData(
-                        dataDeserializer.getDoubleValue(DataTypes.TEMPERATURE,
+                        dataDeserializer.getDoubleValue(DataTypes.TEMPERATURE.name(),
                                 jsonNode),
-                        dataDeserializer.getDoubleValue(DataTypes.PRESSURE, jsonNode),
-                        dataDeserializer.getDoubleValue(DataTypes.HUMIDITY, jsonNode),
-                        dataDeserializer.getDoubleValue(DataTypes.PM1_0, jsonNode),
-                        dataDeserializer.getDoubleValue(DataTypes.PM2_5, jsonNode),
-                        dataDeserializer.getDoubleValue(DataTypes.PM10, jsonNode),
-                        dataDeserializer.getStringValue(DataTypes.TIMESTAMP, jsonNode)
+                        dataDeserializer.getDoubleValue(DataTypes.PRESSURE.name(), jsonNode),
+                        dataDeserializer.getDoubleValue(DataTypes.HUMIDITY.name(), jsonNode),
+                        dataDeserializer.getDoubleValue(DataTypes.PM1_0.name(), jsonNode),
+                        dataDeserializer.getDoubleValue(DataTypes.PM2_5.name(), jsonNode),
+                        dataDeserializer.getDoubleValue(DataTypes.PM10.name(), jsonNode),
+                        dataDeserializer.getStringValue(DataTypes.TIMESTAMP.name(), jsonNode)
                 )
         ).toList();
     }

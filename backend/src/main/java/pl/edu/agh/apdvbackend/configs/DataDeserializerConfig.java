@@ -12,17 +12,17 @@ public class DataDeserializerConfig {
 
     @Bean(name = "dataDeserializerMap")
     @Scope("singleton")
-    public Map<DataTypes, List<String>> initMap() {
+    public Map<String, List<String>> initMap() {
         return Map.of(
-                DataTypes.TEMPERATURE, List.of("data", "envSensor", "temperature"),
-                DataTypes.PRESSURE, List.of("data", "envSensor", "pressure"),
-                DataTypes.HUMIDITY, List.of("data", "envSensor", "relativeHumidity"),
-                DataTypes.PM1_0, List.of("data", "particleConcentrationSensor", "concentration", "pm1"),
-                DataTypes.PM2_5, List.of("data", "particleConcentrationSensor", "concentration", "pm2_5"),
-                DataTypes.PM10, List.of("data", "particleConcentrationSensor", "concentration", "pm10"),
-                DataTypes.LABEL, List.of("label"),
-                DataTypes.ID, List.of("data", "id"),
-                DataTypes.TIMESTAMP, List.of("timestamp")
+                DataTypes.TEMPERATURE.name(), List.of("data", "envSensor", "temperature"),
+                DataTypes.PRESSURE.name(), List.of("data", "envSensor", "pressure"),
+                DataTypes.HUMIDITY.name(), List.of("data", "envSensor", "relativeHumidity"),
+                DataTypes.PM1_0.name(), List.of("data", "particleConcentrationSensor", "concentration", "pm1"),
+                DataTypes.PM2_5.name(), List.of("data", "particleConcentrationSensor", "concentration", "pm2_5"),
+                DataTypes.PM10.name(), List.of("data", "particleConcentrationSensor", "concentration", "pm10"),
+                DataTypes.LABEL.name(), List.of("label"),
+                DataTypes.ID.name(), List.of("data", "id"),
+                DataTypes.TIMESTAMP.name(), List.of("timestamp")
         );
     }
 }

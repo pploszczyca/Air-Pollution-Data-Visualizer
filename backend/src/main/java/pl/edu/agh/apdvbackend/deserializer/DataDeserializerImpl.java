@@ -10,15 +10,15 @@ import pl.edu.agh.apdvbackend.models.DataTypes;
 
 @Component
 public class DataDeserializerImpl implements DataDeserializer {
-    private final Map<DataTypes, List<String>> valuesMap;
+    private final Map<String, List<String>> valuesMap;
 
     @Autowired
     public DataDeserializerImpl(@Qualifier("dataDeserializerMap")
-                                Map<DataTypes, List<String>> valuesMap) {
+                                Map<String, List<String>> valuesMap) {
         this.valuesMap = valuesMap;
     }
 
-    private JsonNode getKeyNode(DataTypes dataType, JsonNode jsonNode) {
+    private JsonNode getKeyNode(String dataType, JsonNode jsonNode) {
         final List<String> path = valuesMap.get(dataType);
         JsonNode node = jsonNode;
 
@@ -30,12 +30,12 @@ public class DataDeserializerImpl implements DataDeserializer {
     }
 
     @Override
-    public double getDoubleValue(DataTypes dataType, JsonNode jsonNode) {
+    public double getDoubleValue(String dataType, JsonNode jsonNode) {
         return getKeyNode(dataType, jsonNode).asDouble();
     }
 
     @Override
-    public String getStringValue(DataTypes dataType, JsonNode jsonNode) {
+    public String getStringValue(String dataType, JsonNode jsonNode) {
         return getKeyNode(dataType, jsonNode).asText();
     }
 }

@@ -12,11 +12,9 @@ import pl.edu.agh.apdvbackend.mappers.EndpointInfoMapper;
 import pl.edu.agh.apdvbackend.models.DataTypes;
 import pl.edu.agh.apdvbackend.models.EndpointInfo;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
-import pl.edu.agh.apdvbackend.models.body_models.sensors.AddEndpointRequestBody;
-import pl.edu.agh.apdvbackend.models.body_models.sensors.Endpoint;
-import pl.edu.agh.apdvbackend.models.body_models.sensors.EndpointData;
-import pl.edu.agh.apdvbackend.models.body_models.sensors.SensorInfo;
-import pl.edu.agh.apdvbackend.models.body_models.sensors.SensorLocation;
+import pl.edu.agh.apdvbackend.controllers.sensor.body_models.AddEndpointRequestBody;
+import pl.edu.agh.apdvbackend.controllers.sensor.body_models.Endpoint;
+import pl.edu.agh.apdvbackend.controllers.sensor.body_models.EndpointData;
 import pl.edu.agh.apdvbackend.repositories.EndpointRepository;
 import pl.edu.agh.apdvbackend.utilities.ListUtilities;
 import pl.edu.agh.apdvbackend.utilities.StreamUtilities;
@@ -65,15 +63,6 @@ public class SensorService {
         }
     }
 
-    public Response<SensorInfo> getSensorInfo(String sensorUrl) {
-        try {
-            return Response.withOkStatus(parseSensorInfo(
-                    makeRequestAndGetResults(sensorUrl).next()));
-        } catch (Exception exception) {
-            return Response.withError(exception.getMessage());
-        }
-    }
-
     private List<EndpointData> parseWeatherData(
             Iterator<JsonNode> dataIterator) {
         return streamUtilities.asStream(
@@ -88,23 +77,6 @@ public class SensorService {
                         dataDeserializer.getDoubleValue(DataTypes.PM10, jsonNode)
                 )
         ).toList();
-    }
-
-    private SensorInfo parseSensorInfo(JsonNode firstJsonNode) {
-        return new SensorInfo(
-                dataDeserializer.getStringValue(DataTypes.LABEL, firstJsonNode),
-                dataDeserializer.getStringValue(DataTypes.ID, firstJsonNode),
-                new SensorLocation(
-                        dataDeserializer.getDoubleValue(DataTypes.LOCATION_ALT,
-                                firstJsonNode),
-                        dataDeserializer.getDoubleValue(DataTypes.LOCATION_LAT,
-                                firstJsonNode),
-                        dataDeserializer.getDoubleValue(DataTypes.LOCATION_LON,
-                                firstJsonNode),
-                        dataDeserializer.getStringValue(DataTypes.LOCATION_NAME,
-                                firstJsonNode)
-                )
-        );
     }
 
     private Iterator<JsonNode> makeRequestAndGetResults(String uri) {

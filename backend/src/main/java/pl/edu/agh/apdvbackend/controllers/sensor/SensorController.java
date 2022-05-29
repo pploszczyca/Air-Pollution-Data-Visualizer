@@ -1,4 +1,4 @@
-package pl.edu.agh.apdvbackend.controllers;
+package pl.edu.agh.apdvbackend.controllers.sensor;
 
 import io.swagger.v3.oas.annotations.Operation;
 import java.util.List;
@@ -12,9 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.edu.agh.apdvbackend.models.EndpointInfo;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
-import pl.edu.agh.apdvbackend.models.body_models.sensors.AddEndpointRequestBody;
-import pl.edu.agh.apdvbackend.models.body_models.sensors.Endpoint;
-import pl.edu.agh.apdvbackend.models.body_models.sensors.SensorInfo;
+import pl.edu.agh.apdvbackend.controllers.sensor.body_models.AddEndpointRequestBody;
+import pl.edu.agh.apdvbackend.controllers.sensor.body_models.Endpoint;
 import pl.edu.agh.apdvbackend.services.SensorService;
 
 @RestController
@@ -32,12 +31,6 @@ public class SensorController {
     public Response<Endpoint> getWeatherData(
             @RequestParam Long sensorId) {
         return sensorService.getWeatherData(sensorId);
-    }
-
-    @Operation(summary = "Get sensor information")
-    @GetMapping("/info")
-    public Response<SensorInfo> getSensorInfo(@RequestParam String sensorUrl) {
-        return sensorService.getSensorInfo(sensorUrl);
     }
 
     @Operation(summary = "Get endpoint list")

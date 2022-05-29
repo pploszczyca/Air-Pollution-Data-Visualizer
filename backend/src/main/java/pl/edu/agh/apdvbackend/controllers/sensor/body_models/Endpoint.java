@@ -1,4 +1,4 @@
-package pl.edu.agh.apdvbackend.models.body_models.sensors;
+package pl.edu.agh.apdvbackend.controllers.sensor.body_models;
 
 import java.util.List;
 

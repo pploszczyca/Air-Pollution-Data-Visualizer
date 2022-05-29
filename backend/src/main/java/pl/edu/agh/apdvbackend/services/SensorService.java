@@ -74,7 +74,8 @@ public class SensorService {
                         dataDeserializer.getDoubleValue(DataTypes.HUMIDITY, jsonNode),
                         dataDeserializer.getDoubleValue(DataTypes.PM1_0, jsonNode),
                         dataDeserializer.getDoubleValue(DataTypes.PM2_5, jsonNode),
-                        dataDeserializer.getDoubleValue(DataTypes.PM10, jsonNode)
+                        dataDeserializer.getDoubleValue(DataTypes.PM10, jsonNode),
+                        dataDeserializer.getStringValue(DataTypes.TIMESTAMP, jsonNode)
                 )
         ).toList();
     }

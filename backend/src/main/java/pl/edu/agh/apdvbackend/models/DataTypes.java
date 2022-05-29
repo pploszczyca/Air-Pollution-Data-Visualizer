@@ -9,4 +9,5 @@ public enum DataTypes {
     PM10,
     LABEL,
     ID,
+    TIMESTAMP
 }

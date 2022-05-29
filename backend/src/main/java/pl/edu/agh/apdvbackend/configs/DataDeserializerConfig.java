@@ -21,7 +21,8 @@ public class DataDeserializerConfig {
                 DataTypes.PM2_5, List.of("data", "particleConcentrationSensor", "concentration", "pm2_5"),
                 DataTypes.PM10, List.of("data", "particleConcentrationSensor", "concentration", "pm10"),
                 DataTypes.LABEL, List.of("label"),
-                DataTypes.ID, List.of("data", "id")
+                DataTypes.ID, List.of("data", "id"),
+                DataTypes.TIMESTAMP, List.of("timestamp")
         );
     }
 }

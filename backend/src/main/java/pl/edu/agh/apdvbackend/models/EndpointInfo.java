@@ -5,9 +5,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "endpoint_info")
+@Getter
+@Setter
+@NoArgsConstructor
 public class EndpointInfo {
     @Id
     @GeneratedValue
@@ -34,41 +40,6 @@ public class EndpointInfo {
     public EndpointInfo(int endpointNumber, String label, String sensorUrl) {
         this.endpointNumber = endpointNumber;
         this.label = label;
-        this.sensorUrl = sensorUrl;
-    }
-
-    public EndpointInfo() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public int getEndpointNumber() {
-        return endpointNumber;
-    }
-
-    public void setEndpointNumber(int endpointNumber) {
-        this.endpointNumber = endpointNumber;
-    }
-
-    public String getLabel() {
-        return label;
-    }
-
-    public void setLabel(String label) {
-        this.label = label;
-    }
-
-    public String getSensorUrl() {
-        return sensorUrl;
-    }
-
-    public void setSensorUrl(String sensorUrl) {
         this.sensorUrl = sensorUrl;
     }
 }

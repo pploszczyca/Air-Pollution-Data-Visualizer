@@ -28,18 +28,4 @@ public class EndpointInfo {
 
     @Schema(required = true)
     private String sensorUrl;
-
-    public EndpointInfo(Long id, int endpointNumber, String label,
-                        String sensorUrl) {
-        this.id = id;
-        this.endpointNumber = endpointNumber;
-        this.label = label;
-        this.sensorUrl = sensorUrl;
-    }
-
-    public EndpointInfo(int endpointNumber, String label, String sensorUrl) {
-        this.endpointNumber = endpointNumber;
-        this.label = label;
-        this.sensorUrl = sensorUrl;
-    }
 }

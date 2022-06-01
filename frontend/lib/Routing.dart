@@ -3,8 +3,8 @@ const String endpointListRoute = '/';
 const String endpointViewRoute = '/endpoint';
 
 // Consts for routing Profile
-const String profileRoute = '/';
+const String profileRoute = '/profile';
 
 // Consts for routing Compare Endpoints
-const String compareEndpointsRoute = '/';
+const String compareEndpointsRoute = '/compareEndpoints';
 

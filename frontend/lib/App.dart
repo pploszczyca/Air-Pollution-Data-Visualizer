@@ -1,4 +1,4 @@
-import 'package:adpv_frontend/CompareEndpoints/CompareChartsView.dart';
+import 'package:adpv_frontend/CompareEndpoints/CompareEndpointsView.dart';
 import 'package:adpv_frontend/EndpointList/EndpointNavigator.dart';
 import 'package:adpv_frontend/EndpointList/EnpointList.dart';
 import 'package:adpv_frontend/Profile/ProfileView.dart';

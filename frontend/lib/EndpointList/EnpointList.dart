@@ -2,10 +2,6 @@ import 'package:adpv_frontend/Repository/EndpointRepository.dart';
 import 'package:adpv_frontend/Routing.dart';
 import 'package:flutter/material.dart';
 
-import 'EndpointView/EndpointView.dart';
-
-
-
 class EndpointList extends StatefulWidget {
   const EndpointList({Key? key, required this.endpointRepository})
       : super(key: key);

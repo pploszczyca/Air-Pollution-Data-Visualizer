@@ -1,6 +1,7 @@
-import 'package:adpv_frontend/CompareChartsView.dart';
+import 'package:adpv_frontend/CompareEndpoints/CompareChartsView.dart';
+import 'package:adpv_frontend/EndpointList/EndpointNavigator.dart';
 import 'package:adpv_frontend/EndpointList/EnpointList.dart';
-import 'package:adpv_frontend/ProfileView.dart';
+import 'package:adpv_frontend/Profile/ProfileView.dart';
 import 'package:adpv_frontend/Repository/EndpointRepository.dart';
 import 'package:flutter/material.dart';
 
@@ -16,34 +17,37 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   int _selectedIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: IndexedStack(
           index: _selectedIndex,
           children: <Widget>[
-            EndpointList(endpointRepository: widget.endpointRepository),
+            EndpointNavigator(endpointRepository: widget.endpointRepository),
             CompareChartsView(),
             ProfileView(),
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          items: [
-            _buildNavigationItem(),
-            _buildNavigationItem(),
-            _buildNavigationItem(),
+          items: <BottomNavigationBarItem>[
+            _buildNavigationItem("Endpoint List"),
+            _buildNavigationItem("Compare Endpoints"),
+            _buildNavigationItem("Profile"),
           ],
           onTap: (index) => setState(() {
             _selectedIndex = index;
           }),
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.pink,
         ));
   }
 
-  BottomNavigationBarItem _buildNavigationItem() {
-    return const BottomNavigationBarItem(
-      icon: Icon(Icons.layers, color: Colors.grey),
-      label: "Label",
+  BottomNavigationBarItem _buildNavigationItem(String stringLabel) {
+    return BottomNavigationBarItem(
+      icon: const Icon(Icons.layers),
+      label: stringLabel,
     );
   }
 }

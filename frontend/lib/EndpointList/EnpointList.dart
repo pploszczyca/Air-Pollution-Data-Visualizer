@@ -1,7 +1,10 @@
 import 'package:adpv_frontend/Repository/EndpointRepository.dart';
+import 'package:adpv_frontend/Routing.dart';
 import 'package:flutter/material.dart';
 
-import '../EndpointView/EndpointView.dart';
+import 'EndpointView/EndpointView.dart';
+
+
 
 class EndpointList extends StatefulWidget {
   const EndpointList({Key? key, required this.endpointRepository})
@@ -16,14 +19,7 @@ class EndpointList extends StatefulWidget {
 class _EndpointListState extends State<EndpointList> {
   void onTapHandler(String id, EndpointRepository endpointRepository) {
     print("handle tap");
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) =>
-              EndpointView(
-                endpoint: endpointRepository.getEndpoint(id),
-              ),
-        ));
+    Navigator.pushNamed(context, endpointViewRoute + "/" + id);
   }
 
   @override

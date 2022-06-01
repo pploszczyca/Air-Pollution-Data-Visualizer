@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
-import '../Models/EndpointData.dart';
+
+import '../../Models/EndpointData.dart';
 import 'DataChart.dart';
 
 class TitledLinedChart extends StatelessWidget {

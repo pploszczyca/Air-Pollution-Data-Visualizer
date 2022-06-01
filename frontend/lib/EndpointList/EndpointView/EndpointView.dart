@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../../Models/Endpoint.dart';
-import '../Models/EndpointData.dart';
+
+import '../../Models/EndpointData.dart';
 import 'TitledLineChart.dart';
 
 class EndpointView extends StatefulWidget {

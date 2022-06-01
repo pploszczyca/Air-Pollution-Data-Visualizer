@@ -1,6 +1,7 @@
-import 'package:adpv_frontend/EndpointView/EndpointView.dart';
 import 'package:adpv_frontend/Repository/EndpointRepository.dart';
 import 'package:flutter/material.dart';
+
+import '../EndpointView/EndpointView.dart';
 
 class EndpointList extends StatefulWidget {
   const EndpointList({Key? key, required this.endpointRepository})
@@ -13,8 +14,6 @@ class EndpointList extends StatefulWidget {
 }
 
 class _EndpointListState extends State<EndpointList> {
-  final _biggerFont = const TextStyle(fontSize: 18);
-
   void onTapHandler(String id, EndpointRepository endpointRepository) {
     print("handle tap");
     Navigator.push(

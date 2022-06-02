@@ -5,6 +5,10 @@ import 'CompareEndpoints/CompareEndpointsView.dart';
 import 'EndpointList/EndpointNavigator.dart';
 import 'Profile/ProfileView.dart';
 
+const String endpointList = "Endpoint List";
+const String compareEnpoints = "Compare Endpoints";
+const String profile = "Profile";
+
 class App extends StatefulWidget {
   EndpointRepository endpointRepository;
 
@@ -16,7 +20,6 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   _AppState();
-
   int _selectedIndex = 0;
   late final List<Widget> _navigationOptions = <Widget>[
     EndpointNavigator(endpointRepository: widget.endpointRepository),
@@ -24,19 +27,15 @@ class _AppState extends State<App> {
     const ProfileView(),
   ];
 
+
+
   @override
   Widget build(BuildContext context) {
-    MediaQueryData queryData;
-    queryData = MediaQuery.of(context);
-    
-    if (queryData.size.width > 560) {
-      return _buildRailNavigationScaffold();
-    }
-    else {
-      return _buildBottomNavigationScaffold();
-    }
+    MediaQueryData queryData = MediaQuery.of(context);
+
+    return queryData.size.width > 560 ? _buildRailNavigationScaffold() : _buildBottomNavigationScaffold();
   }
-  
+
   Scaffold _buildRailNavigationScaffold() {
     Widget _navi = Expanded(
       flex: 1,
@@ -49,9 +48,9 @@ class _AppState extends State<App> {
         },
         labelType: NavigationRailLabelType.selected,
         destinations: [
-          _buildRailNavigationItem("Endpoint List"),
-          _buildRailNavigationItem("Compare Endpoints"),
-          _buildRailNavigationItem("Profile"),
+          _buildRailNavigationItem(endpointList),
+          _buildRailNavigationItem(compareEnpoints),
+          _buildRailNavigationItem(profile),
         ],
       ),
     );
@@ -64,7 +63,7 @@ class _AppState extends State<App> {
             const VerticalDivider(thickness: 1, width: 1),
             // line splitting navbar and main content
             Expanded(
-              child: IndexedStack(
+              child:IndexedStack(
                 index: _selectedIndex,
                 children: _navigationOptions,
               ),
@@ -77,9 +76,9 @@ class _AppState extends State<App> {
     Widget _navBar = BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
       items: <BottomNavigationBarItem>[
-        _buildNavigationItem("Endpoint List"),
-        _buildNavigationItem("Compare Endpoints"),
-        _buildNavigationItem("Profile"),
+        _buildNavigationItem(endpointList),
+        _buildNavigationItem(compareEnpoints),
+        _buildNavigationItem(profile),
       ],
       onTap: (index) =>
           setState(() {

@@ -29,19 +29,21 @@ class _TwoChartsDateTimeState extends State<TwoChartsDateTime> {
           print("TwoChartsDateTime waiting for future");
           return LoadingInCenter();
         } else {
-          var series = _createData(snapshot.data!);
-          var chart = _createCharts(series);
+          var series = _createData(snapshot.data!, widget.measureFnCallback);
+          var chart = _createCharts(series, widget.chartTitle, widget.yLabel);
           print("TwoChartsDateTime created chart");
 
           MediaQueryData mediaQueryData = MediaQuery.of(context);
 
           return Column(
             children: [
-              Text("Temperature"),
-              SizedBox(
-                height: 200,
-                width: 600,
-                child: chart,
+              Container(
+                margin: EdgeInsets.all(8),
+                child: SizedBox(
+                  height: mediaQueryData.size.height * 0.5,
+                  width: mediaQueryData.size.width * 0.9,
+                  child: chart,
+                ),
               ),
             ],
           );

@@ -3,6 +3,7 @@ import 'package:adpv_frontend/Repository/EndpointRepository.dart';
 import 'package:flutter/material.dart';
 
 import '../Common/Common.dart';
+import '../Models/ChartData.dart';
 
 class CompareChartsView extends StatefulWidget {
   const CompareChartsView({Key? key, required this.endpointRepository})

@@ -11,10 +11,8 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
-      AppBar(title: Text("Your profile"),),
-      Container(
-        child: Text("Some profile info here"),
-      ),
+      AppBar(title: const Text("Your profile"),),
+      const Text("Some profile info here"),
     ]);
   }
 }

@@ -1,6 +1,6 @@
 import 'package:adpv_frontend/Models/EndpointData.dart';
 import 'package:../../charts_flutter/flutter.dart' as charts;
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class DataChart extends StatelessWidget {
   const DataChart({

@@ -1,6 +1,6 @@
+import 'package:adpv_frontend/Common/Common.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../../Models/Endpoint.dart';
 
@@ -18,42 +18,40 @@ class EndpointView extends StatefulWidget {
 class _EndpointViewState extends State<EndpointView> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("Endpoint Details")),
-      body: FutureBuilder<Endpoint>(
+
+     return FutureBuilder<Endpoint>(
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.none ||
                 snapshot.data == null) {
-              return Center(
-                child: LoadingAnimationWidget.halfTriangleDot(
-                  size: 90,
-                  color: Colors.pink,
-                ),
+              return Scaffold(
+                appBar: AppBar(title: const Text("Endpoint Details")),
+                body: LoadingInCenter(),
               );
             }
-            return SingleChildScrollView(
-              child: Column(
-                children: [
-
-                  TitledLinedChart(
-                      chartName: "Temperature",
-                      measureFnCallback: (EndpointData endpointData, _) => endpointData.temperature,
-                      dataList: snapshot.data!.dataList),
-                  const SizedBox(height: 25),
-                  TitledLinedChart(
-                      chartName: "Pressure",
-                      measureFnCallback: (EndpointData endpointData, _) => endpointData.pressure,
-                      dataList: snapshot.data!.dataList),
-                  const SizedBox(height: 25),
-                  TitledLinedChart(
-                      chartName: "Humidity",
-                      measureFnCallback: (EndpointData endpointData, _) => endpointData.humidity,
-                      dataList: snapshot.data!.dataList)
-                ],
+            return Scaffold(
+              appBar: AppBar(title: Text(snapshot.data!.endpointName)),
+              body:  SingleChildScrollView(
+                child: Column(
+                  children: [
+                    TitledLinedChart(
+                        chartName: "Temperature",
+                        measureFnCallback: (EndpointData endpointData, _) => endpointData.temperature,
+                        dataList: snapshot.data!.dataList),
+                    const SizedBox(height: 25),
+                    TitledLinedChart(
+                        chartName: "Pressure",
+                        measureFnCallback: (EndpointData endpointData, _) => endpointData.pressure,
+                        dataList: snapshot.data!.dataList),
+                    const SizedBox(height: 25),
+                    TitledLinedChart(
+                        chartName: "Humidity",
+                        measureFnCallback: (EndpointData endpointData, _) => endpointData.humidity,
+                        dataList: snapshot.data!.dataList)
+                  ],
+                ),
               ),
             );
           },
-          future: widget.endpoint),
-    );
+          future: widget.endpoint);
   }
 }

@@ -16,7 +16,10 @@ class CompareChartsView extends StatefulWidget {
 class _CompareChartsViewState extends State<CompareChartsView> {
   String? _firstEndpoint;
   String? _secondEndpoint;
+  Map<ChartData, bool> isChipsSelected = {};
+  List<ChartData> chartDataSelected = [];
   Widget chart = Container();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,26 +67,78 @@ class _CompareChartsViewState extends State<CompareChartsView> {
                     ),
                   ],
                 ),
+                Center(
+                    child: Container(
+                  margin: const EdgeInsets.only(left: 24, right: 24),
+                  child: _makeInputChips(
+                      widget.endpointRepository.getAvailableFields()),
+                )),
                 Container(
                   margin: const EdgeInsets.all(10.0),
                   child: ElevatedButton(
-                      onPressed: () => {
-                            this.chart = TwoChartsDateTime(endpoints: [
-                              widget.endpointRepository
-                                  .getEndpoint(_firstEndpoint!),
-                              widget.endpointRepository
-                                  .getEndpoint(_secondEndpoint!)
-                            ])
-                          },
+                      onPressed: () {
+                        var firstEndpointData = widget.endpointRepository
+                            .getEndpoint(_firstEndpoint!);
+                        var secondEndpointData = widget.endpointRepository
+                            .getEndpoint(_secondEndpoint!);
+                        var endpoints = [firstEndpointData, secondEndpointData];
+
+                        chart = Column(
+                          children: chartDataSelected
+                              .map((chartData) => TwoChartsDateTime(
+                                  endpoints: endpoints,
+                                  measureFnCallback:
+                                      chartData.measureFnCallback,
+                                  chartTitle: chartData.name,
+                                  yLabel: chartData.unit))
+                              .toList(),
+                        );
+                      },
                       child: const Text("Generate charts")),
                 ),
-                chart
+                 chart
+
               ],
             );
           }
         },
         future: widget.endpointRepository.getEndpointSummary(),
       ),
+    );
+  }
+
+  Widget _makeInputChips(Future<List<ChartData>> chartDataFuture) {
+    return FutureBuilder<List<ChartData>>(
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.none ||
+              snapshot.data == null) {
+            return LoadingInCenter();
+          } else {
+            return Row(
+                children: snapshot.data!
+                    .map(mapChartDataToInputChip)
+                    .toList());
+          }
+        },
+        future: chartDataFuture);
+  }
+
+  InputChip mapChartDataToInputChip(ChartData chartData) {
+    isChipsSelected.putIfAbsent(chartData, () => false);
+
+    return InputChip(
+      label: Text(chartData.name),
+      selected: isChipsSelected[chartData]!,
+      onSelected: (bool value) {
+        setState(() {
+          isChipsSelected[chartData] = value;
+          if (value) {
+            chartDataSelected.add(chartData);
+          } else {
+            chartDataSelected.remove(chartData);
+          }
+        });
+      },
     );
   }
 
@@ -94,5 +149,4 @@ class _CompareChartsViewState extends State<CompareChartsView> {
           value: item,
         ));
   }
-
 }

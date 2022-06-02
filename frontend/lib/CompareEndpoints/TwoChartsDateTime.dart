@@ -7,8 +7,11 @@ import '../Models/EndpointData.dart';
 
 class TwoChartsDateTime extends StatefulWidget {
   final List<Future<Endpoint>> endpoints;
+  final num? Function(EndpointData, int?) measureFnCallback ;
+  final String yLabel;
+  final String chartTitle;
 
-  const TwoChartsDateTime({Key? key, required this.endpoints})
+  const TwoChartsDateTime({Key? key, required this.endpoints, required this.measureFnCallback, required this.chartTitle, required this.yLabel})
       : super(key: key);
 
   @override
@@ -29,6 +32,9 @@ class _TwoChartsDateTimeState extends State<TwoChartsDateTime> {
           var series = _createData(snapshot.data!);
           var chart = _createCharts(series);
           print("TwoChartsDateTime created chart");
+
+          MediaQueryData mediaQueryData = MediaQuery.of(context);
+
           return Column(
             children: [
               Text("Temperature"),
@@ -45,24 +51,39 @@ class _TwoChartsDateTimeState extends State<TwoChartsDateTime> {
     );
   }
 
-  List<charts.Series<EndpointData, DateTime>> _createData(List<Endpoint> list) {
-    List<charts.Series<EndpointData, DateTime>> data = [];
-    for (Endpoint e in list) {
-      data.add(charts.Series(
-        id: e.endpointName,
-        data: e.dataList,
-        domainFn: (EndpointData endpointData, _) => endpointData.date,
-        measureFn: (EndpointData endpointData, _) => endpointData.temperature,
-      ));
-    }
-    return data;
+  List<charts.Series<EndpointData, DateTime>> _createData(List<Endpoint> list,
+      num? Function(EndpointData, int?) measureFn) {
+    return list
+        .map((e) => charts.Series(
+              id: e.endpointName,
+              data: e.dataList,
+              displayName: e.endpointName,
+              domainFn: (EndpointData endpointData, _) => endpointData.date,
+              measureFn: measureFn,
+            ))
+        .toList();
   }
 
   charts.TimeSeriesChart _createCharts(
-      List<charts.Series<EndpointData, DateTime>> seriesList) {
-    return charts.TimeSeriesChart(seriesList,
-        animate: true,
-        defaultRenderer: charts.LineRendererConfig(),
-        dateTimeFactory: const charts.LocalDateTimeFactory());
+      List<charts.Series<EndpointData, DateTime>> seriesList,
+      String titleName,
+      String yLabel) {
+    return charts.TimeSeriesChart(
+      seriesList,
+      animate: false,
+      defaultRenderer: charts.LineRendererConfig(),
+      dateTimeFactory: const charts.LocalDateTimeFactory(),
+      behaviors: [
+        charts.SeriesLegend(),
+        charts.ChartTitle(titleName,
+            behaviorPosition: charts.BehaviorPosition.top,
+            titleOutsideJustification:
+                charts.OutsideJustification.middleDrawArea),
+        charts.ChartTitle(yLabel,
+            behaviorPosition: charts.BehaviorPosition.start,
+            titleOutsideJustification:
+            charts.OutsideJustification.middleDrawArea)
+      ],
+    );
   }
 }

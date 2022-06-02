@@ -19,6 +19,8 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
+  @override
+  bool get wantKeepAlive => true;
   _AppState();
 
   int _selectedIndex = 0;

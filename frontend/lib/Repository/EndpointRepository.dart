@@ -1,11 +1,17 @@
 import 'dart:collection';
 
+import 'package:adpv_frontend/Models/ChartData.dart';
 import 'package:adpv_frontend/Models/EndpointData.dart';
 
 import '../Models/Endpoint.dart';
 
 class EndpointRepository {
   final _endpointsMap = HashMap<String, Endpoint>();
+  final List<ChartData> _endpointDataFields = [
+    ChartData((EndpointData e, _) => e.temperature, "Temperature", "°C"),
+    ChartData((EndpointData e, _) => e.humidity, "Humidity", "°C"),
+    ChartData((EndpointData e, _) => e.pressure, "Pressure", "°C"),
+  ];
 
   EndpointRepository.mock() {
     addMockData();
@@ -100,16 +106,21 @@ class EndpointRepository {
 
     Endpoint endpoint2 = Endpoint.name(2, "secondEndpoint", dataList2);
 
-    _endpointsMap.addAll({endpoint1.endpointName: endpoint1, endpoint2.endpointName: endpoint2});
-
+    _endpointsMap.addAll(
+        {endpoint1.endpointName: endpoint1, endpoint2.endpointName: endpoint2});
   }
 
-  Future<List<String>> getEndpointSummary(){
-    return Future.delayed(const Duration(seconds: 2), () =>  _endpointsMap.keys.toList());
+  Future<List<String>> getEndpointSummary() {
+    return Future.delayed(
+        const Duration(seconds: 1), () => _endpointsMap.keys.toList());
   }
 
   Future<Endpoint> getEndpoint(String name) {
     return Future.delayed(
-        const Duration(seconds: 2), () => _endpointsMap[name]!);
+        const Duration(seconds: 1), () => _endpointsMap[name]!);
+  }
+
+  Future<List<ChartData>> getAvailableFields() {
+    return Future.delayed(const Duration(seconds: 1), () => _endpointDataFields);
   }
 }

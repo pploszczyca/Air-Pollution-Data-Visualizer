@@ -11,10 +11,10 @@ jobs:
         working-directory: backend
 
     services:
-      postgresql:
+      PostgreSQL:
         image: postgres:latest
         env:
-          POSTGRES_DB: apdv_db
+          POSTGRES_DB: postgres
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: password
 

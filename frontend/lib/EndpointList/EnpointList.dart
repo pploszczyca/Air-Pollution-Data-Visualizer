@@ -14,7 +14,6 @@ class EndpointList extends StatefulWidget {
 
 class _EndpointListState extends State<EndpointList> {
   void onTapHandler(String id, EndpointRepository endpointRepository) {
-    print("handle tap");
     Navigator.pushNamed(context, endpointViewRoute + "/" + id);
   }
 

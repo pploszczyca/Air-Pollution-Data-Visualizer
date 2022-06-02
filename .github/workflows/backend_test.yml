@@ -11,7 +11,7 @@ jobs:
         working-directory: backend
 
     services:
-      postgres:
+      postgresql:
         image: postgres:latest
         env:
           POSTGRES_DB: apdv_db

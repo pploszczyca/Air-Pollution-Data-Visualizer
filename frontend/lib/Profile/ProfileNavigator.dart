@@ -19,9 +19,7 @@ class _ProfileNavigatorState extends State<ProfileNavigator> {
     return Navigator(
       onGenerateRoute: (RouteSettings settings) {
         late Widget page;
-        if(settings.name ==profileRoute){
-          page = const ProfileView();
-        }
+        page = const ProfileView();
 
         return MaterialPageRoute<dynamic>(
             builder: (context){

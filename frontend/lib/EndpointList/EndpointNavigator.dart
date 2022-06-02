@@ -23,6 +23,7 @@ class _EndpointNavigatorState extends State<EndpointNavigator> {
       onGenerateRoute: (RouteSettings settings) {
         late Widget page;
         if(settings.name == endpointListRoute){
+          print(settings.name);
           page =  EndpointList(endpointRepository: widget.endpointRepository,);
         }else if(settings.name!.startsWith(endpointViewRoute)){
           var endpointName = settings.name!.split("/")[2];

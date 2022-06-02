@@ -20,20 +20,23 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   _AppState();
+
   int _selectedIndex = 0;
   late final List<Widget> _navigationOptions = <Widget>[
     EndpointNavigator(endpointRepository: widget.endpointRepository),
-    const CompareChartsView(),
+    CompareChartsView(
+      endpointRepository: widget.endpointRepository,
+    ),
     const ProfileView(),
   ];
-
-
 
   @override
   Widget build(BuildContext context) {
     MediaQueryData queryData = MediaQuery.of(context);
 
-    return queryData.size.width > 560 ? _buildRailNavigationScaffold() : _buildBottomNavigationScaffold();
+    return queryData.size.width > 560
+        ? _buildRailNavigationScaffold()
+        : _buildBottomNavigationScaffold();
   }
 
   Scaffold _buildRailNavigationScaffold() {
@@ -56,20 +59,21 @@ class _AppState extends State<App> {
     );
     return Scaffold(
         body: Row(
-          children: [
-            SizedBox(
-              width: 100,
-              child: _navi,),
-            const VerticalDivider(thickness: 1, width: 1),
-            // line splitting navbar and main content
-            Expanded(
-              child:IndexedStack(
-                index: _selectedIndex,
-                children: _navigationOptions,
-              ),
-            ),
-          ],
-        ));
+      children: [
+        SizedBox(
+          width: 100,
+          child: _navi,
+        ),
+        const VerticalDivider(thickness: 1, width: 1),
+        // line splitting navbar and main content
+        Expanded(
+          child: IndexedStack(
+            index: _selectedIndex,
+            children: _navigationOptions,
+          ),
+        ),
+      ],
+    ));
   }
 
   Scaffold _buildBottomNavigationScaffold() {
@@ -80,10 +84,10 @@ class _AppState extends State<App> {
         _buildNavigationItem(compareEnpoints),
         _buildNavigationItem(profile),
       ],
-      onTap: (index) =>
-          setState(() {
-            _selectedIndex = index;
-          }),
+      onTap: (index) => setState(() {
+        _selectedIndex = index;
+        if (index == 0) {}
+      }),
       currentIndex: _selectedIndex,
       selectedItemColor: Colors.pink,
     );
@@ -98,16 +102,17 @@ class _AppState extends State<App> {
 
   NavigationRailDestination _buildRailNavigationItem(String stringLabel) {
     return NavigationRailDestination(
-        icon: const Icon(Icons.layers),
-        selectedIcon: const Icon(
-          Icons.layers,
-          color: Colors.pink,
-        ),
-        label: Text(
-          stringLabel,
-          style: const TextStyle(color: Colors.pink),
-          textAlign: TextAlign.center,
-        ));
+      icon: const Icon(Icons.layers),
+      selectedIcon: const Icon(
+        Icons.layers,
+        color: Colors.pink,
+      ),
+      label: Text(
+        stringLabel,
+        style: const TextStyle(color: Colors.pink),
+        textAlign: TextAlign.center,
+      ),
+    );
   }
 
   BottomNavigationBarItem _buildNavigationItem(String stringLabel) {

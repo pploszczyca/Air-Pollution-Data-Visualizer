@@ -1,3 +1,4 @@
+import 'package:adpv_frontend/Common/Common.dart';
 import 'package:adpv_frontend/Repository/EndpointRepository.dart';
 import 'package:adpv_frontend/Routing.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,7 @@ class _EndpointListState extends State<EndpointList> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.none ||
               snapshot.data == null) {
-            return Container();
+            return LoadingInCenter();
           }
           return ListView.builder(
             itemCount: snapshot.data!.length,

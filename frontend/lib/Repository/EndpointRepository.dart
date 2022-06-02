@@ -9,8 +9,8 @@ class EndpointRepository {
   final _endpointsMap = HashMap<String, Endpoint>();
   final List<ChartData> _endpointDataFields = [
     ChartData((EndpointData e, _) => e.temperature, "Temperature", "°C"),
-    ChartData((EndpointData e, _) => e.humidity, "Humidity", "°C"),
-    ChartData((EndpointData e, _) => e.pressure, "Pressure", "°C"),
+    ChartData((EndpointData e, _) => e.humidity, "Humidity", "%"),
+    ChartData((EndpointData e, _) => e.pressure, "Pressure", "Pa"),
   ];
 
   EndpointRepository.mock() {

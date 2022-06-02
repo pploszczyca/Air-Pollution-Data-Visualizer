@@ -33,73 +33,83 @@ class _CompareChartsViewState extends State<CompareChartsView> {
               snapshot.data == null) {
             return LoadingInCenter();
           } else {
-            return Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    DropdownButton(
-                      hint: const Text("SelectEndpoint"),
-                      value: _firstEndpoint,
-                      items: buildDropDownMenuItems(snapshot).toList(),
-                      underline: Container(
-                        height: 2,
-                        color: Colors.blue,
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      DropdownButton(
+                        hint: const Text("SelectEndpoint"),
+                        value: _firstEndpoint,
+                        items: buildDropDownMenuItems(snapshot).toList(),
+                        underline: Container(
+                          height: 2,
+                          color: Colors.blue,
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            _firstEndpoint = value as String?;
+                          });
+                        },
                       ),
-                      onChanged: (value) {
-                        setState(() {
-                          _firstEndpoint = value as String?;
-                        });
-                      },
-                    ),
-                    DropdownButton(
-                      hint: const Text("SelectEndpoint"),
-                      value: _secondEndpoint,
-                      items: buildDropDownMenuItems(snapshot).toList(),
-                      underline: Container(
-                        height: 2,
-                        color: Colors.red,
+                      DropdownButton(
+                        hint: const Text("SelectEndpoint"),
+                        value: _secondEndpoint,
+                        items: buildDropDownMenuItems(snapshot).toList(),
+                        underline: Container(
+                          height: 2,
+                          color: Colors.red,
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            _secondEndpoint = value as String?;
+                          });
+                        },
                       ),
-                      onChanged: (value) {
-                        setState(() {
-                          _secondEndpoint = value as String?;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-                Center(
-                    child: Container(
-                  margin: const EdgeInsets.only(left: 24, right: 24),
-                  child: _makeInputChips(
-                      widget.endpointRepository.getAvailableFields()),
-                )),
-                Container(
-                  margin: const EdgeInsets.all(10.0),
-                  child: ElevatedButton(
-                      onPressed: () {
-                        var firstEndpointData = widget.endpointRepository
-                            .getEndpoint(_firstEndpoint!);
-                        var secondEndpointData = widget.endpointRepository
-                            .getEndpoint(_secondEndpoint!);
-                        var endpoints = [firstEndpointData, secondEndpointData];
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(left: 12, right: 12),
+                        child: _makeInputChips(
+                            widget.endpointRepository.getAvailableFields()),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  Container(
+                    margin: const EdgeInsets.all(10.0),
+                    child: ElevatedButton(
+                        onPressed: () {
+                          var firstEndpointData = widget.endpointRepository
+                              .getEndpoint(_firstEndpoint!);
+                          var secondEndpointData = widget.endpointRepository
+                              .getEndpoint(_secondEndpoint!);
+                          var endpoints = [
+                            firstEndpointData,
+                            secondEndpointData
+                          ];
 
-                        chart = Column(
-                          children: chartDataSelected
-                              .map((chartData) => TwoChartsDateTime(
-                                  endpoints: endpoints,
-                                  measureFnCallback:
-                                      chartData.measureFnCallback,
-                                  chartTitle: chartData.name,
-                                  yLabel: chartData.unit))
-                              .toList(),
-                        );
-                      },
-                      child: const Text("Generate charts")),
-                ),
-                 chart
-
-              ],
+                          chart = Column(
+                            children: chartDataSelected
+                                .map((chartData) => TwoChartsDateTime(
+                                    endpoints: endpoints,
+                                    measureFnCallback:
+                                        chartData.measureFnCallback,
+                                    chartTitle: chartData.name,
+                                    yLabel: chartData.unit))
+                                .toList(),
+                          );
+                        },
+                        child: const Text("Generate charts")),
+                  ),
+                  chart
+                ],
+              ),
             );
           }
         },
@@ -116,30 +126,31 @@ class _CompareChartsViewState extends State<CompareChartsView> {
             return LoadingInCenter();
           } else {
             return Row(
-                children: snapshot.data!
-                    .map(mapChartDataToInputChip)
-                    .toList());
+                children: snapshot.data!.map(mapChartDataToInputChip).toList());
           }
         },
         future: chartDataFuture);
   }
 
-  InputChip mapChartDataToInputChip(ChartData chartData) {
+  Widget mapChartDataToInputChip(ChartData chartData) {
     isChipsSelected.putIfAbsent(chartData, () => false);
 
-    return InputChip(
-      label: Text(chartData.name),
-      selected: isChipsSelected[chartData]!,
-      onSelected: (bool value) {
-        setState(() {
-          isChipsSelected[chartData] = value;
-          if (value) {
-            chartDataSelected.add(chartData);
-          } else {
-            chartDataSelected.remove(chartData);
-          }
-        });
-      },
+    return Container(
+      margin: const EdgeInsets.only(left: 12, right: 12),
+      child: InputChip(
+        label: Text(chartData.name),
+        selected: isChipsSelected[chartData]!,
+        onSelected: (bool value) {
+          setState(() {
+            isChipsSelected[chartData] = value;
+            if (value) {
+              chartDataSelected.add(chartData);
+            } else {
+              chartDataSelected.remove(chartData);
+            }
+          });
+        },
+      ),
     );
   }
 

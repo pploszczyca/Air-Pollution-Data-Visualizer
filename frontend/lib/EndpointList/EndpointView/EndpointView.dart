@@ -31,24 +31,25 @@ class _EndpointViewState extends State<EndpointView> {
             }
             return Scaffold(
               appBar: AppBar(title: Text(snapshot.data!.endpointName)),
-              body:  Column(
-                children: [
-
-                  TitledLinedChart(
-                      chartName: "Temperature",
-                      measureFnCallback: (EndpointData endpointData, _) => endpointData.temperature,
-                      dataList: snapshot.data!.dataList),
-                  const SizedBox(height: 25),
-                  TitledLinedChart(
-                      chartName: "Pressure",
-                      measureFnCallback: (EndpointData endpointData, _) => endpointData.pressure,
-                      dataList: snapshot.data!.dataList),
-                  const SizedBox(height: 25),
-                  TitledLinedChart(
-                      chartName: "Humidity",
-                      measureFnCallback: (EndpointData endpointData, _) => endpointData.humidity,
-                      dataList: snapshot.data!.dataList)
-                ],
+              body:  SingleChildScrollView(
+                child: Column(
+                  children: [
+                    TitledLinedChart(
+                        chartName: "Temperature",
+                        measureFnCallback: (EndpointData endpointData, _) => endpointData.temperature,
+                        dataList: snapshot.data!.dataList),
+                    const SizedBox(height: 25),
+                    TitledLinedChart(
+                        chartName: "Pressure",
+                        measureFnCallback: (EndpointData endpointData, _) => endpointData.pressure,
+                        dataList: snapshot.data!.dataList),
+                    const SizedBox(height: 25),
+                    TitledLinedChart(
+                        chartName: "Humidity",
+                        measureFnCallback: (EndpointData endpointData, _) => endpointData.humidity,
+                        dataList: snapshot.data!.dataList)
+                  ],
+                ),
               ),
             );
           },

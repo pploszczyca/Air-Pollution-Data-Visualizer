@@ -19,8 +19,6 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  @override
-  bool get wantKeepAlive => true;
   _AppState();
 
   int _selectedIndex = 0;
@@ -64,7 +62,11 @@ class _AppState extends State<App> {
       children: [
         SizedBox(
           width: 100,
-          child: _navi,
+          child: Column(
+            children: [
+              _navi,
+            ],
+          ),
         ),
         const VerticalDivider(thickness: 1, width: 1),
         // line splitting navbar and main content

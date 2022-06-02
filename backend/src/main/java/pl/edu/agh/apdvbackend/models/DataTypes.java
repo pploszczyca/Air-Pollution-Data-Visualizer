@@ -9,8 +9,5 @@ public enum DataTypes {
     PM10,
     LABEL,
     ID,
-    LOCATION_ALT,
-    LOCATION_LAT,
-    LOCATION_LON,
-    LOCATION_NAME
+    TIMESTAMP;
 }

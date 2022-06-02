@@ -26,7 +26,7 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=adpv_db
+      - POSTGRES_DB=apdv_db
     restart: always
 
 volumes:

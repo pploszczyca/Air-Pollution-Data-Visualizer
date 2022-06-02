@@ -1,7 +1,6 @@
 import 'package:adpv_frontend/Common/Common.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../../Models/Endpoint.dart';
 

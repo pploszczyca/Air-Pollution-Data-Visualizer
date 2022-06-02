@@ -7,11 +7,17 @@ import '../Models/EndpointData.dart';
 
 class TwoChartsDateTime extends StatefulWidget {
   final List<Future<Endpoint>> endpoints;
-  final num? Function(EndpointData, int?) measureFnCallback ;
+  final num? Function(EndpointData, int?) measureFnCallback;
+
   final String yLabel;
   final String chartTitle;
 
-  const TwoChartsDateTime({Key? key, required this.endpoints, required this.measureFnCallback, required this.chartTitle, required this.yLabel})
+  const TwoChartsDateTime(
+      {Key? key,
+      required this.endpoints,
+      required this.measureFnCallback,
+      required this.chartTitle,
+      required this.yLabel})
       : super(key: key);
 
   @override
@@ -38,7 +44,7 @@ class _TwoChartsDateTimeState extends State<TwoChartsDateTime> {
           return Column(
             children: [
               Container(
-                margin: EdgeInsets.all(8),
+                margin: const EdgeInsets.all(8),
                 child: SizedBox(
                   height: mediaQueryData.size.height * 0.5,
                   width: mediaQueryData.size.width * 0.9,
@@ -53,8 +59,8 @@ class _TwoChartsDateTimeState extends State<TwoChartsDateTime> {
     );
   }
 
-  List<charts.Series<EndpointData, DateTime>> _createData(List<Endpoint> list,
-      num? Function(EndpointData, int?) measureFn) {
+  List<charts.Series<EndpointData, DateTime>> _createData(
+      List<Endpoint> list, num? Function(EndpointData, int?) measureFn) {
     return list
         .map((e) => charts.Series(
               id: e.endpointName,
@@ -84,7 +90,7 @@ class _TwoChartsDateTimeState extends State<TwoChartsDateTime> {
         charts.ChartTitle(yLabel,
             behaviorPosition: charts.BehaviorPosition.start,
             titleOutsideJustification:
-            charts.OutsideJustification.middleDrawArea)
+                charts.OutsideJustification.middleDrawArea)
       ],
     );
   }

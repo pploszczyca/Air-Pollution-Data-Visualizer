@@ -25,7 +25,7 @@ class _CompareChartsViewState extends State<CompareChartsView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Compare charts"),
+        title: const Text("Compare charts"),
       ),
       body: FutureBuilder<List<String>>(
         builder: (context, snapshot) {

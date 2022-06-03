@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,16 +31,11 @@ public class Group {
     @ManyToMany
     @JoinTable(
             name = "users_in_group",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "group_id")
+            joinColumns = @JoinColumn(name = "group_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     private Set<User> usersInGroup;
 
-    @ManyToMany
-    @JoinTable(
-            name = "endpoints_in_group",
-            joinColumns = @JoinColumn(name = "endpoint_info_id"),
-            inverseJoinColumns = @JoinColumn(name = "group_id")
-    )
-    private Set<EndpointInfo> availableEndpoints;
+    @OneToMany(mappedBy = "group")
+    private Set<EnableEndpointsForGroup> enableEndpointsForGroups;
 }

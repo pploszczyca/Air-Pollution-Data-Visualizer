@@ -2,7 +2,7 @@ package pl.edu.agh.apdvbackend.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
-import java.util.Set;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -27,6 +27,6 @@ public class DataType {
     @Schema(required = true)
     private String label;
 
-    @ManyToMany(mappedBy = "dataTypes")
-    private Set<EndpointInfo> endpointInfos;
+    @ManyToMany(mappedBy = "enableDataTypes")
+    private List<EnableEndpointsForGroup> enableEndpointsForGroup;
 }

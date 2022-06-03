@@ -4,11 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.Map;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.MapKeyJoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,10 +38,13 @@ public class EndpointInfo {
     @Schema(required = true)
     private String sensorUrl;
 
-    @ManyToMany(mappedBy = "availableEndpoints")
-    private Set<Group> groups;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "data_type_parser_mapping",
+        joinColumns = {@JoinColumn(name = "endpoint_info_id", referencedColumnName = "id")},
+        inverseJoinColumns = {@JoinColumn(name = "data_type_parser_id", referencedColumnName = "id")})
+    @MapKeyJoinColumn(name = "data_type_id")
+    private Map<DataType, DataTypeParser> dataTypeParserMap;
 
-    @ManyToMany
-    @JoinTable
-    private Set<DataType> dataTypes;
+    @OneToMany(mappedBy = "endpointInfo")
+    private Set<EnableEndpointsForGroup> enableEndpointsForGroups;
 }

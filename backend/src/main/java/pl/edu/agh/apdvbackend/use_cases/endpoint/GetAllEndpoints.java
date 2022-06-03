@@ -1,7 +1,8 @@
 package pl.edu.agh.apdvbackend.use_cases.endpoint;
 
+import java.util.List;
 import pl.edu.agh.apdvbackend.models.Endpoint;
 
-public interface GetEndpointById {
-    Endpoint execute(Long endpointId);
+public interface GetAllEndpoints {
+    List<Endpoint> execute();
 }

@@ -14,40 +14,40 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.edu.agh.apdvbackend.controllers.sensor.body_models.AddEndpointRequestBody;
 import pl.edu.agh.apdvbackend.models.Endpoint;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
-import pl.edu.agh.apdvbackend.services.SensorService;
+import pl.edu.agh.apdvbackend.services.EndpointService;
 
 @RestController
 @RequestMapping("/sensor")
 @RequiredArgsConstructor
-public class SensorController {
-    private static final  Long GROUP_ID = 1L;
+public class EndpointController {
+    private static final Long GROUP_ID = 1L;
 
-    private final SensorService sensorService;
+    private final EndpointService endpointService;
 
 
     @Operation(summary = "Get list of data from sensor")
     @GetMapping
     public Response<List<ObjectNode>> getWeatherData(
             @RequestParam Long sensorId) {
-        return sensorService.getWeatherData(GROUP_ID, sensorId);
+        return endpointService.getWeatherData(GROUP_ID, sensorId);
     }
 
     @Operation(summary = "Get endpoint list")
     @GetMapping("/list")
     public Response<List<Endpoint>> getEndpointsList() {
-        return sensorService.getEndpointsList();
+        return endpointService.getEndpointsList();
     }
 
     @Operation(summary = "Add new endpoint")
     @PostMapping
     public Endpoint addEndpoint(
             @RequestBody AddEndpointRequestBody addEndpointRequestBody) {
-        return sensorService.addEndpoint(addEndpointRequestBody);
+        return endpointService.addEndpoint(addEndpointRequestBody);
     }
 
     @Operation(summary = "Remove endpoint")
     @DeleteMapping
     public void removeEndpoint(@RequestParam Long endpointId) {
-        sensorService.removeEndpoint(endpointId);
+        endpointService.removeEndpoint(endpointId);
     }
 }

@@ -36,8 +36,8 @@ public class EndpointService {
 
     private final GetAllEndpoints getAllEndpoints;
 
-    public Response<List<ObjectNode>> getWeatherData(Long groupId,
-                                                     Long sensorId) {
+    public Response<List<ObjectNode>> getData(Long groupId,
+                                              Long sensorId) {
         try {
             final var enableEndpoints =
                     getEnableEndpointByGroupAndEndpointIds.execute(groupId,

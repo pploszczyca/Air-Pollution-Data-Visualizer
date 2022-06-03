@@ -27,9 +27,9 @@ public class EndpointController {
 
     @Operation(summary = "Get list of data from sensor")
     @GetMapping
-    public Response<List<ObjectNode>> getWeatherData(
+    public Response<List<ObjectNode>> getData(
             @RequestParam Long sensorId) {
-        return endpointService.getWeatherData(GROUP_ID, sensorId);
+        return endpointService.getData(GROUP_ID, sensorId);
     }
 
     @Operation(summary = "Get endpoint list")

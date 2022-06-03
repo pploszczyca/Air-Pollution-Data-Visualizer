@@ -39,11 +39,11 @@ public class Endpoint {
     private String sensorUrl;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "data_type_parser_mapping",
+    @JoinTable(name = "fields_parser_mapping",
         joinColumns = {@JoinColumn(name = "endpoint_id", referencedColumnName = "id")},
-        inverseJoinColumns = {@JoinColumn(name = "data_type_parser_id", referencedColumnName = "id")})
-    @MapKeyJoinColumn(name = "data_type_id")
-    private Map<DataType, DataTypeParser> dataTypeParserMap;
+        inverseJoinColumns = {@JoinColumn(name = "field_parser_id", referencedColumnName = "id")})
+    @MapKeyJoinColumn(name = "field_id")
+    private Map<Field, FieldParser> fieldParserMap;
 
     @OneToMany(mappedBy = "endpoint")
     private Set<EnableEndpointsForGroup> enableEndpointsForGroups;

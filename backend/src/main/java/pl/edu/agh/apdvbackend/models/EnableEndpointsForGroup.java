@@ -35,9 +35,9 @@ public class EnableEndpointsForGroup {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "enable_data_types",
+            name = "enable_fields",
             joinColumns = {@JoinColumn(name = "group_id"), @JoinColumn(name = "endpoint_id")},
-            inverseJoinColumns = {@JoinColumn(name = "data_type_id")}
+            inverseJoinColumns = {@JoinColumn(name = "field_id")}
     )
-    private List<DataType> enableDataTypes;
+    private List<Field> enableFields;
 }

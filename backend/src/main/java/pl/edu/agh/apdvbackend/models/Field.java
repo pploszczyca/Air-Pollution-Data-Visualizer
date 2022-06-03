@@ -1,6 +1,5 @@
 package pl.edu.agh.apdvbackend.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import javax.persistence.Entity;
@@ -13,12 +12,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "data_type")
+@Table(name = "field")
 @Getter
 @Setter
 @NoArgsConstructor
-@JsonIgnoreProperties("endpointInfos")
-public class DataType {
+public class Field {
     @Id
     @GeneratedValue
     @Schema(required = true)
@@ -27,6 +25,6 @@ public class DataType {
     @Schema(required = true)
     private String label;
 
-    @ManyToMany(mappedBy = "enableDataTypes")
+    @ManyToMany(mappedBy = "enableFields")
     private List<EnableEndpointsForGroup> enableEndpointsForGroup;
 }

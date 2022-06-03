@@ -10,11 +10,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "data_type_parser")
+@Table(name = "field_parser")
 @Getter
 @Setter
 @NoArgsConstructor
-public class DataTypeParser {
+public class FieldParser {
     @Id
     @GeneratedValue
     @Schema(required = true)

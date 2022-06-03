@@ -4,30 +4,24 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.util.Iterator;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
 import pl.edu.agh.apdvbackend.controllers.sensor.body_models.AddEndpointRequestBody;
-import pl.edu.agh.apdvbackend.controllers.sensor.body_models.EndpointData;
-import pl.edu.agh.apdvbackend.controllers.sensor.body_models.EndpointWithData;
-import pl.edu.agh.apdvbackend.deserializer.DataDeserializer;
+import pl.edu.agh.apdvbackend.deserializer.EndpointDeserializer;
 import pl.edu.agh.apdvbackend.mappers.EndpointInfoMapper;
-import pl.edu.agh.apdvbackend.models.DataTypes;
 import pl.edu.agh.apdvbackend.models.Endpoint;
+import pl.edu.agh.apdvbackend.models.Field;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
 import pl.edu.agh.apdvbackend.repositories.EndpointRepository;
+import pl.edu.agh.apdvbackend.use_cases.datahub.GetJsonNodeFromDataHub;
+import pl.edu.agh.apdvbackend.use_cases.enable_endpoints.GetEnableEndpointByGroupAndEndpointIds;
 import pl.edu.agh.apdvbackend.utilities.ListUtilities;
 import pl.edu.agh.apdvbackend.utilities.StreamUtilities;
 
 @Service
+@RequiredArgsConstructor
 public class SensorService {
-    private static final String RESULTS = "results";
-
-    private final WebClient webClient;
-
     private final StreamUtilities streamUtilities;
-
-    private final DataDeserializer dataDeserializer;
 
     private final EndpointRepository endpointRepository;
 
@@ -35,71 +29,35 @@ public class SensorService {
 
     private final EndpointInfoMapper endpointInfoMapper;
 
-    @Autowired
-    public SensorService(WebClient webClient,
-                         StreamUtilities streamUtilities,
-                         DataDeserializer dataDeserializer,
-                         EndpointRepository endpointRepository,
-                         ListUtilities listUtilities,
-                         EndpointInfoMapper endpointInfoMapper) {
-        this.webClient = webClient;
-        this.streamUtilities = streamUtilities;
-        this.dataDeserializer = dataDeserializer;
-        this.endpointRepository = endpointRepository;
-        this.listUtilities = listUtilities;
-        this.endpointInfoMapper = endpointInfoMapper;
-    }
+    private final GetJsonNodeFromDataHub getJsonNodeFromDataHub;
 
-    public Response<EndpointWithData> getWeatherData(Long sensorId) {
+    private final EndpointDeserializer endpointDeserializer;
+
+    private final GetEnableEndpointByGroupAndEndpointIds getEnableEndpointByGroupAndEndpointIds;
+
+    public Response<List<ObjectNode>> getWeatherData(Long groupId, Long sensorId) {
         try {
-            final var endpoint =
-                    endpointRepository.findById(sensorId).orElseThrow();
-            final var endpointData = parseWeatherData(
-                    makeRequestAndGetResults(endpoint.getSensorUrl()));
-            return Response.withOkStatus(
-                    new EndpointWithData(sensorId, endpoint.getLabel(),
-                            endpointData));
+            final var enableEndpoints = getEnableEndpointByGroupAndEndpointIds.execute(groupId, sensorId);
+            final var endpoint = enableEndpoints.getEndpoint();
+            final var rawEndpointData = getJsonNodeFromDataHub.execute(endpoint.getSensorUrl());
+            final var result = parseWeatherData(rawEndpointData, endpoint, enableEndpoints.getEnableFields());
+
+            return Response.withOkStatus(result);
+
+
         } catch (Exception exception) {
             return Response.withError(exception.getMessage());
         }
     }
 
-    private List<EndpointData> parseWeatherData(
-            Iterator<JsonNode> dataIterator) {
+    private List<ObjectNode> parseWeatherData(
+            Iterator<JsonNode> dataIterator,
+            Endpoint endpoint,
+            List<Field> enableFields) {
         return streamUtilities.asStream(
                 dataIterator
-        ).map(jsonNode -> new EndpointData(
-                        dataDeserializer.getDoubleValue(DataTypes.TEMPERATURE.name(),
-                                jsonNode),
-                        dataDeserializer.getDoubleValue(DataTypes.PRESSURE.name(),
-                                jsonNode),
-                        dataDeserializer.getDoubleValue(DataTypes.HUMIDITY.name(),
-                                jsonNode),
-                        dataDeserializer.getDoubleValue(DataTypes.PM1_0.name(),
-                                jsonNode),
-                        dataDeserializer.getDoubleValue(DataTypes.PM2_5.name(),
-                                jsonNode),
-                        dataDeserializer.getDoubleValue(DataTypes.PM10.name(),
-                                jsonNode),
-                        dataDeserializer.getStringValue(DataTypes.TIMESTAMP.name(),
-                                jsonNode)
-                )
+        ).map(jsonNode -> endpointDeserializer.deserialize(jsonNode, endpoint, enableFields)
         ).toList();
-    }
-
-    private Iterator<JsonNode> makeRequestAndGetResults(String uri) {
-        return makeRequest(uri)
-                .get(RESULTS)
-                .iterator();
-    }
-
-    private ObjectNode makeRequest(String uri) {
-        return webClient
-                .get()
-                .uri(uri)
-                .retrieve()
-                .bodyToMono(ObjectNode.class)
-                .block();
     }
 
     public Response<List<Endpoint>> getEndpointsList() {

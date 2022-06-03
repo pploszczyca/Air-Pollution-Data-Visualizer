@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import pl.edu.agh.apdvbackend.models.EndpointInfo;
+import pl.edu.agh.apdvbackend.models.Endpoint;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
 import pl.edu.agh.apdvbackend.controllers.sensor.body_models.AddEndpointRequestBody;
-import pl.edu.agh.apdvbackend.controllers.sensor.body_models.Endpoint;
+import pl.edu.agh.apdvbackend.controllers.sensor.body_models.EndpointWithData;
 import pl.edu.agh.apdvbackend.services.SensorService;
 
 @RestController
@@ -28,20 +28,20 @@ public class SensorController {
 
     @Operation(summary = "Get list of data from sensor")
     @GetMapping
-    public Response<Endpoint> getWeatherData(
+    public Response<EndpointWithData> getWeatherData(
             @RequestParam Long sensorId) {
         return sensorService.getWeatherData(sensorId);
     }
 
     @Operation(summary = "Get endpoint list")
     @GetMapping("/list")
-    public Response<List<EndpointInfo>> getEndpointsList() {
+    public Response<List<Endpoint>> getEndpointsList() {
         return sensorService.getEndpointsList();
     }
 
     @Operation(summary = "Add new endpoint")
     @PostMapping
-    public EndpointInfo addEndpoint(
+    public Endpoint addEndpoint(
             @RequestBody AddEndpointRequestBody addEndpointRequestBody) {
         return sensorService.addEndpoint(addEndpointRequestBody);
     }

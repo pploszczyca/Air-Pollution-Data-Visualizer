@@ -1,11 +1,11 @@
 package pl.edu.agh.apdvbackend.mappers;
 
 import org.mapstruct.Mapper;
-import pl.edu.agh.apdvbackend.models.EndpointInfo;
+import pl.edu.agh.apdvbackend.models.Endpoint;
 import pl.edu.agh.apdvbackend.controllers.sensor.body_models.AddEndpointRequestBody;
 
 @Mapper(componentModel = "spring")
 public interface EndpointInfoMapper {
-    EndpointInfo fromAddRequestBodyToEndpointInfo(
+    Endpoint fromAddRequestBodyToEndpointInfo(
             AddEndpointRequestBody addEndpointRequestBody);
 }

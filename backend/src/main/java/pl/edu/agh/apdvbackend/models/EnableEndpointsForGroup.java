@@ -29,14 +29,14 @@ public class EnableEndpointsForGroup {
     private Group group;
 
     @ManyToOne
-    @MapsId("endpointInfoId")
-    @JoinColumn(name = "endpoint_info_id")
-    private EndpointInfo endpointInfo;
+    @MapsId("endpointId")
+    @JoinColumn(name = "endpoint_id")
+    private Endpoint endpoint;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "enable_data_types",
-            joinColumns = {@JoinColumn(name = "group_id"), @JoinColumn(name = "endpoint_info_id")},
+            joinColumns = {@JoinColumn(name = "group_id"), @JoinColumn(name = "endpoint_id")},
             inverseJoinColumns = {@JoinColumn(name = "data_type_id")}
     )
     private List<DataType> enableDataTypes;

@@ -18,12 +18,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "endpoint_info")
+@Table(name = "endpoint")
 @Getter
 @Setter
 @NoArgsConstructor
 @JsonIgnoreProperties({"groups"})
-public class EndpointInfo {
+public class Endpoint {
     @Id
     @GeneratedValue
     @Schema(required = true)
@@ -40,11 +40,11 @@ public class EndpointInfo {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "data_type_parser_mapping",
-        joinColumns = {@JoinColumn(name = "endpoint_info_id", referencedColumnName = "id")},
+        joinColumns = {@JoinColumn(name = "endpoint_id", referencedColumnName = "id")},
         inverseJoinColumns = {@JoinColumn(name = "data_type_parser_id", referencedColumnName = "id")})
     @MapKeyJoinColumn(name = "data_type_id")
     private Map<DataType, DataTypeParser> dataTypeParserMap;
 
-    @OneToMany(mappedBy = "endpointInfo")
+    @OneToMany(mappedBy = "endpoint")
     private Set<EnableEndpointsForGroup> enableEndpointsForGroups;
 }

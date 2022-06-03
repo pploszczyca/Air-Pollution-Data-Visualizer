@@ -49,4 +49,8 @@ public class Endpoint {
 
     @OneToMany(mappedBy = "endpoint")
     private Set<EnableEndpointsForGroup> enableEndpointsForGroups;
+
+    public String getFieldPath(Field field) {
+        return fieldParserMap.get(field).getPath();
+    }
 }

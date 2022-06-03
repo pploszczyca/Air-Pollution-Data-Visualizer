@@ -40,8 +40,10 @@ public class Endpoint {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "fields_parser_mapping",
-        joinColumns = {@JoinColumn(name = "endpoint_id", referencedColumnName = "id")},
-        inverseJoinColumns = {@JoinColumn(name = "field_parser_id", referencedColumnName = "id")})
+            joinColumns = {
+                    @JoinColumn(name = "endpoint_id", referencedColumnName = "id")},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "field_parser_id", referencedColumnName = "id")})
     @MapKeyJoinColumn(name = "field_id")
     private Map<Field, FieldParser> fieldParserMap;
 

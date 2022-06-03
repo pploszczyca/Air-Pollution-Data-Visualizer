@@ -36,8 +36,13 @@ public class EnableEndpointsForGroup {
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "enable_fields",
-            joinColumns = {@JoinColumn(name = "group_id"), @JoinColumn(name = "endpoint_id")},
+            joinColumns = {@JoinColumn(name = "group_id"),
+                    @JoinColumn(name = "endpoint_id")},
             inverseJoinColumns = {@JoinColumn(name = "field_id")}
     )
     private List<Field> enableFields;
+
+    private Integer detailedMeasurementDays;
+
+    private Integer approximationPrecission;
 }

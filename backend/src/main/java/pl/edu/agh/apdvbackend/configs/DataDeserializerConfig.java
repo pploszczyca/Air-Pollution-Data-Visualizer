@@ -14,12 +14,21 @@ public class DataDeserializerConfig {
     @Scope("singleton")
     public Map<String, List<String>> initMap() {
         return Map.of(
-                DataTypes.TEMPERATURE.name(), List.of("data", "envSensor", "temperature"),
-                DataTypes.PRESSURE.name(), List.of("data", "envSensor", "pressure"),
-                DataTypes.HUMIDITY.name(), List.of("data", "envSensor", "relativeHumidity"),
-                DataTypes.PM1_0.name(), List.of("data", "particleConcentrationSensor", "concentration", "pm1"),
-                DataTypes.PM2_5.name(), List.of("data", "particleConcentrationSensor", "concentration", "pm2_5"),
-                DataTypes.PM10.name(), List.of("data", "particleConcentrationSensor", "concentration", "pm10"),
+                DataTypes.TEMPERATURE.name(),
+                List.of("data", "envSensor", "temperature"),
+                DataTypes.PRESSURE.name(),
+                List.of("data", "envSensor", "pressure"),
+                DataTypes.HUMIDITY.name(),
+                List.of("data", "envSensor", "relativeHumidity"),
+                DataTypes.PM1_0.name(),
+                List.of("data", "particleConcentrationSensor", "concentration",
+                        "pm1"),
+                DataTypes.PM2_5.name(),
+                List.of("data", "particleConcentrationSensor", "concentration",
+                        "pm2_5"),
+                DataTypes.PM10.name(),
+                List.of("data", "particleConcentrationSensor", "concentration",
+                        "pm10"),
                 DataTypes.LABEL.name(), List.of("label"),
                 DataTypes.ID.name(), List.of("data", "id"),
                 DataTypes.TIMESTAMP.name(), List.of("timestamp")

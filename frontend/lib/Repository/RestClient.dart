@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:adpv_frontend/Models/BackendResponse.dart';
 import 'package:adpv_frontend/Models/EndpointSummary.dart';
 import 'package:adpv_frontend/Repository/AbstractEndpointRepository.dart';
@@ -32,7 +34,7 @@ class RestClient implements AbstractEndpointRepository{
   }
 
   @override
-  Future<List> getEndpointData(int id) async{
+  Future<List<Map<dynamic, dynamic>>> getEndpointData(int id) async{
     try {
       Response response = await client.get(backendURL + getEndpointDataURL, queryParameters: {
         'sensorId': id
@@ -41,7 +43,7 @@ class RestClient implements AbstractEndpointRepository{
       if (response.statusCode == 200) {
         BackendResponse backendResponse = BackendResponse.fromJson(response.data);
         if (backendResponse.error == "") {
-          return Future.value(backendResponse.data);
+         return Future.value(backendResponse.data.map<Map<dynamic, dynamic>>((e) => Map.from(e)).toList());
         }
         print(backendResponse.error);
       }

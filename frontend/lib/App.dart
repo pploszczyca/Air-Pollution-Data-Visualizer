@@ -12,7 +12,7 @@ const String profile = "Profile";
 class App extends StatefulWidget {
   EndpointRepository endpointRepository;
 
-  App({Key? key, required this.endpointRepository}) : super(key: key);
+  App({Key? key, required this.endpointRepository, required this.repository}) : super(key: key);
 
   @override
   State<App> createState() => _AppState();

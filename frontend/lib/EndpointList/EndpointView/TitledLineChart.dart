@@ -9,8 +9,8 @@ class TitledLinedChart extends StatelessWidget {
   required this.dataList}) : super(key: key);
 
   final String chartName;
-  final num? Function(EndpointData, int?) measureFnCallback ;
-  final List<EndpointData> dataList;
+  final num? Function(Map<dynamic, dynamic>, int?) measureFnCallback ;
+  final List<Map<dynamic, dynamic>> dataList;
 
 
   @override

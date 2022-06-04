@@ -4,10 +4,12 @@ import 'package:adpv_frontend/Repository/MockRepository.dart';
 import 'package:adpv_frontend/Routing.dart';
 import 'package:flutter/material.dart';
 
+import '../Repository/AbstractEndpointRepository.dart';
+
 
 
 class EndpointNavigator extends StatefulWidget {
-  EndpointRepository endpointRepository;
+  AbstractEndpointRepository endpointRepository;
 
   EndpointNavigator({Key? key, required this.endpointRepository})
       : super(key: key);

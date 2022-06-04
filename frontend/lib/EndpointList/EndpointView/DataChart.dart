@@ -9,8 +9,8 @@ class DataChart extends StatelessWidget {
     required this.measureFnCallback,
   }) : super(key: key);
 
-  final List<EndpointData> endpointDataList;
-  final num? Function(EndpointData, int?) measureFnCallback;
+  final List<Map<dynamic, dynamic>> endpointDataList;
+  final num? Function(Map<dynamic, dynamic>, int?) measureFnCallback;
 
   @override
   Widget build(BuildContext context) {
@@ -18,26 +18,24 @@ class DataChart extends StatelessWidget {
       charts.Series(
         id: "my_chart",
         data: endpointDataList,
-        domainFn: (EndpointData endpointData, _) => endpointData.date.day,
+        domainFn: (Map<dynamic, dynamic> endpointData, _) =>
+            DateTime.parse(endpointData['timestamp']),
         measureFn: measureFnCallback,
         displayName: "temperature",
       )
     ];
 
     const axisSetting = charts.NumericAxisSpec(
-      tickProviderSpec:
-      charts.BasicNumericTickProviderSpec(zeroBound: false),
+      tickProviderSpec: charts.BasicNumericTickProviderSpec(zeroBound: false),
     );
 
     return SizedBox(
-      height: 200,
-      width: 600,
-      child: charts.LineChart(
-        series,
-        animate: true,
-        primaryMeasureAxis: axisSetting,
-        domainAxis: axisSetting,
-      ),
-    );
+        height: MediaQuery.of(context).size.height * 0.5,
+        width: MediaQuery.of(context).size.width * 0.9,
+        child: charts.TimeSeriesChart(series,
+            primaryMeasureAxis: charts.NumericAxisSpec(
+              tickProviderSpec:
+                  charts.BasicNumericTickProviderSpec(zeroBound: false),
+            )));
   }
 }

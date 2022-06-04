@@ -6,5 +6,5 @@ abstract class AbstractEndpointRepository {
 
   Future<List<EndpointSummary>> getEndpointSummary();
 
-  Future<List<dynamic>> getEndpointData(int id);
+  Future<List<Map<dynamic, dynamic>>> getEndpointData(int id);
 }

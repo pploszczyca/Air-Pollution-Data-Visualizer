@@ -28,9 +28,9 @@ class _EndpointNavigatorState extends State<EndpointNavigator> {
           print(settings.name);
           page =  EndpointList(endpointRepository: widget.endpointRepository,);
         }else if(settings.name!.startsWith(endpointViewRoute)){
-          var endpointName = settings.name!.split("/")[2];
+          var endpointId = settings.name!.split("/")[2];
 
-          page = EndpointView(endpoint: widget.endpointRepository.getEndpoint(endpointName));
+          page = EndpointView(endpointData: widget.endpointRepository.getEndpointData(int.parse(endpointId)));
         }
 
         return MaterialPageRoute<dynamic>(

@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'TitledLineChart.dart';
 
 class EndpointView extends StatefulWidget {
-  const EndpointView({Key? key, required this.endpoint}) : super(key: key);
-  final Future<Endpoint> endpoint;
+  const EndpointView({Key? key, required this.endpointData}) : super(key: key);
+  final Future<List<Map<dynamic, dynamic>>> endpointData;
 
   @override
   State<EndpointView> createState() => _EndpointViewState();

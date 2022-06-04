@@ -8,7 +8,7 @@ import '../Repository/AbstractEndpointRepository.dart';
 class CompareEndpointsNavigator extends StatefulWidget {
   AbstractEndpointRepository repository;
 
-  CompareEndpointsNavigator({Key? key, required this.endpointRepository})
+  CompareEndpointsNavigator({Key? key, required this.repository})
       : super(key: key);
 
   @override

@@ -1,3 +1,4 @@
+import 'package:adpv_frontend/Repository/AbstractEndpointRepository.dart';
 import 'package:adpv_frontend/Repository/MockRepository.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +12,7 @@ const String profile = "Profile";
 
 class App extends StatefulWidget {
   EndpointRepository endpointRepository;
+  AbstractEndpointRepository repository;
 
   App({Key? key, required this.endpointRepository, required this.repository}) : super(key: key);
 
@@ -23,7 +25,7 @@ class _AppState extends State<App> {
 
   int _selectedIndex = 0;
   late final List<Widget> _navigationOptions = <Widget>[
-    EndpointNavigator(endpointRepository: widget.endpointRepository),
+    EndpointNavigator(endpointRepository: widget.repository),
     CompareChartsView(
       endpointRepository: widget.endpointRepository,
     ),

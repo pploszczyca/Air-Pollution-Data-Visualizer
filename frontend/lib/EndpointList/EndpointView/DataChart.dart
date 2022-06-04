@@ -1,4 +1,3 @@
-import 'package:adpv_frontend/Models/EndpointData.dart';
 import 'package:../../charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 
@@ -14,7 +13,10 @@ class DataChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<charts.Series<EndpointData, int>> series = [
+    print(
+        "######" + DateTime.parse(endpointDataList[0]['timestamp']).toString());
+
+    List<charts.Series<Map<dynamic, dynamic>, DateTime>> series = [
       charts.Series(
         id: "my_chart",
         data: endpointDataList,

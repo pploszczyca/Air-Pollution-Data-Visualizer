@@ -5,7 +5,7 @@ import pl.edu.agh.apdvbackend.controllers.sensor.body_models.AddEndpointRequestB
 import pl.edu.agh.apdvbackend.models.Endpoint;
 
 @Mapper(componentModel = "spring")
-public interface EndpointInfoMapper {
+public interface EndpointMapper {
     Endpoint fromAddRequestBodyToEndpointInfo(
             AddEndpointRequestBody addEndpointRequestBody);
 }

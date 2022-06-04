@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.MapKeyJoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -22,7 +23,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@JsonIgnoreProperties({"groups"})
+@JsonIgnoreProperties({"fieldParserMap", "enableEndpointsForGroups"})
 public class Endpoint {
     @Id
     @GeneratedValue
@@ -38,7 +39,7 @@ public class Endpoint {
     @Schema(required = true)
     private String sensorUrl;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "fields_parser_mapping",
             joinColumns = {
                     @JoinColumn(name = "endpoint_id", referencedColumnName = "id")},
@@ -49,4 +50,8 @@ public class Endpoint {
 
     @OneToMany(mappedBy = "endpoint")
     private Set<EnableEndpointsForGroup> enableEndpointsForGroups;
+
+    public String getFieldPath(Field field) {
+        return fieldParserMap.get(field).getPath();
+    }
 }

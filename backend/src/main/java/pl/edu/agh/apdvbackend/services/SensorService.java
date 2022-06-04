@@ -7,14 +7,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import pl.edu.agh.apdvbackend.controllers.sensor.body_models.AddEndpointRequestBody;
+import pl.edu.agh.apdvbackend.controllers.sensor.body_models.EndpointData;
+import pl.edu.agh.apdvbackend.controllers.sensor.body_models.EndpointWithData;
 import pl.edu.agh.apdvbackend.deserializer.DataDeserializer;
 import pl.edu.agh.apdvbackend.mappers.EndpointInfoMapper;
 import pl.edu.agh.apdvbackend.models.DataTypes;
-import pl.edu.agh.apdvbackend.models.EndpointInfo;
+import pl.edu.agh.apdvbackend.models.Endpoint;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
-import pl.edu.agh.apdvbackend.controllers.sensor.body_models.AddEndpointRequestBody;
-import pl.edu.agh.apdvbackend.controllers.sensor.body_models.Endpoint;
-import pl.edu.agh.apdvbackend.controllers.sensor.body_models.EndpointData;
 import pl.edu.agh.apdvbackend.repositories.EndpointRepository;
 import pl.edu.agh.apdvbackend.utilities.ListUtilities;
 import pl.edu.agh.apdvbackend.utilities.StreamUtilities;
@@ -50,14 +50,15 @@ public class SensorService {
         this.endpointInfoMapper = endpointInfoMapper;
     }
 
-    public Response<Endpoint> getWeatherData(Long sensorId) {
+    public Response<EndpointWithData> getWeatherData(Long sensorId) {
         try {
             final var endpoint =
                     endpointRepository.findById(sensorId).orElseThrow();
             final var endpointData = parseWeatherData(
                     makeRequestAndGetResults(endpoint.getSensorUrl()));
             return Response.withOkStatus(
-                    new Endpoint(sensorId, endpoint.getLabel(), endpointData));
+                    new EndpointWithData(sensorId, endpoint.getLabel(),
+                            endpointData));
         } catch (Exception exception) {
             return Response.withError(exception.getMessage());
         }
@@ -70,12 +71,18 @@ public class SensorService {
         ).map(jsonNode -> new EndpointData(
                         dataDeserializer.getDoubleValue(DataTypes.TEMPERATURE.name(),
                                 jsonNode),
-                        dataDeserializer.getDoubleValue(DataTypes.PRESSURE.name(), jsonNode),
-                        dataDeserializer.getDoubleValue(DataTypes.HUMIDITY.name(), jsonNode),
-                        dataDeserializer.getDoubleValue(DataTypes.PM1_0.name(), jsonNode),
-                        dataDeserializer.getDoubleValue(DataTypes.PM2_5.name(), jsonNode),
-                        dataDeserializer.getDoubleValue(DataTypes.PM10.name(), jsonNode),
-                        dataDeserializer.getStringValue(DataTypes.TIMESTAMP.name(), jsonNode)
+                        dataDeserializer.getDoubleValue(DataTypes.PRESSURE.name(),
+                                jsonNode),
+                        dataDeserializer.getDoubleValue(DataTypes.HUMIDITY.name(),
+                                jsonNode),
+                        dataDeserializer.getDoubleValue(DataTypes.PM1_0.name(),
+                                jsonNode),
+                        dataDeserializer.getDoubleValue(DataTypes.PM2_5.name(),
+                                jsonNode),
+                        dataDeserializer.getDoubleValue(DataTypes.PM10.name(),
+                                jsonNode),
+                        dataDeserializer.getStringValue(DataTypes.TIMESTAMP.name(),
+                                jsonNode)
                 )
         ).toList();
     }
@@ -95,12 +102,12 @@ public class SensorService {
                 .block();
     }
 
-    public Response<List<EndpointInfo>> getEndpointsList() {
+    public Response<List<Endpoint>> getEndpointsList() {
         return Response.withOkStatus(
                 listUtilities.iterableToList(endpointRepository.findAll()));
     }
 
-    public EndpointInfo addEndpoint(
+    public Endpoint addEndpoint(
             AddEndpointRequestBody addEndpointRequestBody) {
         return endpointRepository.save(
                 endpointInfoMapper.fromAddRequestBodyToEndpointInfo(

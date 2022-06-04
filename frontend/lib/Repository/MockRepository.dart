@@ -5,7 +5,7 @@ import 'package:adpv_frontend/Models/EndpointData.dart';
 
 import '../Models/Endpoint.dart';
 
-class EndpointRepository {
+class EndpointRepository{
   final _endpointsMap = HashMap<String, Endpoint>();
   final List<ChartData> _endpointDataFields = [
     ChartData((EndpointData e, _) => e.temperature, "Temperature", "°C"),
@@ -121,6 +121,7 @@ class EndpointRepository {
   }
 
   Future<List<ChartData>> getAvailableFields() {
-    return Future.delayed(const Duration(seconds: 1), () => _endpointDataFields);
+    return Future.delayed(
+        const Duration(seconds: 1), () => _endpointDataFields);
   }
 }

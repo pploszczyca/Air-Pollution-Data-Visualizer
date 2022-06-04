@@ -1,5 +1,5 @@
 import 'package:adpv_frontend/CompareEndpoints/TwoChartsDateTime.dart';
-import 'package:adpv_frontend/Repository/EndpointRepository.dart';
+import 'package:adpv_frontend/Repository/MockRepository.dart';
 import 'package:flutter/material.dart';
 
 import '../Common/Common.dart';
@@ -72,11 +72,8 @@ class _CompareChartsViewState extends State<CompareChartsView> {
                   const SizedBox(height: 10),
                   Wrap(
                     children: [
-                      Container(
-                        margin: const EdgeInsets.only(left: 12, right: 12),
-                        child: _makeInputChips(
-                            widget.endpointRepository.getAvailableFields()),
-                      ),
+                      _makeInputChips(
+                          widget.endpointRepository.getAvailableFields()),
                     ],
                   ),
                   const SizedBox(height: 10),

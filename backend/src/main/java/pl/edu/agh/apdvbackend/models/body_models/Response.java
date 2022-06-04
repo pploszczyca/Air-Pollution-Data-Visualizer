@@ -7,7 +7,7 @@ public record Response<T>(
         @Schema(required = true) String error
 ) {
     public static <P> Response<P> withOkStatus(P data) {
-        return new Response<>(data, null);
+        return new Response<>(data, "");
     }
 
     public static <P> Response<P> withError(String error) {

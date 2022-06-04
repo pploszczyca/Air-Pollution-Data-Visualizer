@@ -1,4 +1,4 @@
-import 'package:adpv_frontend/Repository/EndpointRepository.dart';
+import 'package:adpv_frontend/Repository/MockRepository.dart';
 import 'package:flutter/material.dart';
 
 import 'CompareEndpoints/CompareEndpointsView.dart';
@@ -6,7 +6,7 @@ import 'EndpointList/EndpointNavigator.dart';
 import 'Profile/ProfileView.dart';
 
 const String endpointList = "Endpoint List";
-const String compareEnpoints = "Compare Endpoints";
+const String compareEnpoints = "Compare";
 const String profile = "Profile";
 
 class App extends StatefulWidget {

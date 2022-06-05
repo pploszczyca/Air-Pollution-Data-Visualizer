@@ -43,7 +43,8 @@ public class Group {
     private Set<User> usersInGroup = new HashSet<>();
 
     @OneToMany(mappedBy = "group")
-    private List<EnableEndpointsForGroup> enableEndpointsForGroups = new ArrayList<>();
+    private List<EnableEndpointsForGroup> enableEndpointsForGroups =
+            new ArrayList<>();
 
     public void addUser(User user) {
         usersInGroup.add(user);

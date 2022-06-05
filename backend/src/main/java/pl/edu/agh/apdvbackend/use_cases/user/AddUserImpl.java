@@ -18,6 +18,7 @@ public class AddUserImpl
 
     @Override
     public User execute(AddUserRequestBody addUserRequestBody) {
-        return userRepository.save(userMapper.addRequestBodyToUser(addUserRequestBody));
+        return userRepository.save(
+                userMapper.addRequestBodyToUser(addUserRequestBody));
     }
 }

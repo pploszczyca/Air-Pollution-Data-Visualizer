@@ -43,25 +43,34 @@ public class GroupService {
         return Response.withOkStatus(getAboutGroupInfo.execute(groupId));
     }
 
-    public Response<AboutGroupResponseBody> addUserToGroup(Long groupId, Long userId) {
+    public Response<AboutGroupResponseBody> addUserToGroup(Long groupId,
+                                                           Long userId) {
         return Response.withOkStatus(addUserToGroup.execute(groupId, userId));
     }
 
-    public Response<AboutGroupResponseBody> removeUserFromGroup(Long groupId, Long userId) {
-        return Response.withOkStatus(removeUserFromGroup.execute(groupId, userId));
+    public Response<AboutGroupResponseBody> removeUserFromGroup(Long groupId,
+                                                                Long userId) {
+        return Response.withOkStatus(
+                removeUserFromGroup.execute(groupId, userId));
     }
 
-    public Response<AboutGroupResponseBody> changeEnableEndpoints(List<AddEnableEndpointRequestBody> addEnableEndpointRequestBodyList, Long groupId) {
-        final var updatedGroup = changeEnableEndpointsInGroup.execute(addEnableEndpointRequestBodyList, groupId);
+    public Response<AboutGroupResponseBody> changeEnableEndpoints(
+            List<AddEnableEndpointRequestBody> addEnableEndpointRequestBodyList,
+            Long groupId) {
+        final var updatedGroup = changeEnableEndpointsInGroup.execute(
+                addEnableEndpointRequestBodyList, groupId);
         return makeAboutGroupResponse(updatedGroup);
     }
 
-    public Response<AboutGroupResponseBody> addGroup(AddGroupRequestBody addGroupRequestBody) {
+    public Response<AboutGroupResponseBody> addGroup(
+            AddGroupRequestBody addGroupRequestBody) {
         final var newGroup = addNewGroup.execute(addGroupRequestBody);
         return makeAboutGroupResponse(newGroup);
     }
 
-    private Response<AboutGroupResponseBody> makeAboutGroupResponse(Group group) {
-        return Response.withOkStatus(groupMapper.groupToAboutResponseBody(group));
+    private Response<AboutGroupResponseBody> makeAboutGroupResponse(
+            Group group) {
+        return Response.withOkStatus(
+                groupMapper.groupToAboutResponseBody(group));
     }
 }

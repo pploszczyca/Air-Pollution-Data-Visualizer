@@ -30,5 +30,6 @@ public class Field {
     private String label;
 
     @ManyToMany(mappedBy = "enableFields")
-    private List<EnableEndpointsForGroup> enableEndpointsForGroup = new ArrayList<>();
+    private List<EnableEndpointsForGroup> enableEndpointsForGroup =
+            new ArrayList<>();
 }

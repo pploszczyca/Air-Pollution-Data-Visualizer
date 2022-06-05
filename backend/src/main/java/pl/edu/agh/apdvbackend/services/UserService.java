@@ -39,8 +39,10 @@ public class UserService {
         return Response.withOkStatus(addUser.execute(addUserRequestBody));
     }
 
-    public Response<User> updateUser(Long userId, AddUserRequestBody addUserRequestBody) {
-        return Response.withOkStatus(updateUser.execute(userId, addUserRequestBody));
+    public Response<User> updateUser(Long userId,
+                                     AddUserRequestBody addUserRequestBody) {
+        return Response.withOkStatus(
+                updateUser.execute(userId, addUserRequestBody));
     }
 
     public void deleteUser(Long userId) {

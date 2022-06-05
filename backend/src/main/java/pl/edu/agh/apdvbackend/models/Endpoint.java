@@ -52,7 +52,8 @@ public class Endpoint {
     private Map<Field, FieldParser> fieldParserMap = new HashMap<>();
 
     @OneToMany(mappedBy = "endpoint")
-    private Set<EnableEndpointsForGroup> enableEndpointsForGroups = new HashSet<>();
+    private Set<EnableEndpointsForGroup> enableEndpointsForGroups =
+            new HashSet<>();
 
     public String getFieldPath(Field field) {
         return fieldParserMap.get(field).getPath();

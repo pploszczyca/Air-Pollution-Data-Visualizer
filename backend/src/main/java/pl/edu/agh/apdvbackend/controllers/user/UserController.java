@@ -38,13 +38,15 @@ public class UserController {
 
     @Operation(summary = "Add new user")
     @PostMapping
-    public Response<User> addUser(@RequestBody AddUserRequestBody addUserRequestBody) {
+    public Response<User> addUser(
+            @RequestBody AddUserRequestBody addUserRequestBody) {
         return userService.addUser(addUserRequestBody);
     }
 
     @Operation(summary = "Update user")
     @PutMapping
-    public Response<User> updateUser(@RequestParam Long userId, @RequestBody AddUserRequestBody addUserRequestBody){
+    public Response<User> updateUser(@RequestParam Long userId, @RequestBody
+    AddUserRequestBody addUserRequestBody) {
         return userService.updateUser(userId, addUserRequestBody);
     }
 

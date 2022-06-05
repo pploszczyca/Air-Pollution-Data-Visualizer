@@ -21,7 +21,8 @@ public class GetAllAboutUsersImpl
 
     @Override
     public List<AboutUserResponseBody> execute() {
-        final var userList = listUtilities.iterableToList(userRepository.findAll());
+        final var userList =
+                listUtilities.iterableToList(userRepository.findAll());
         return userMapper.userListToAboutResponseBodyList(userList);
     }
 }

@@ -19,15 +19,17 @@ public class ChangeEnableEndpointsInGroupImpl
 
     private final SaveOrUpdateGroup saveOrUpdateGroup;
 
-    private final EnableEndpointsForGroupRepository enableEndpointsForGroupRepository;
+    private final EnableEndpointsForGroupRepository
+            enableEndpointsForGroupRepository;
 
     @Override
     public Group execute(
             List<AddEnableEndpointRequestBody> addEnableEndpointRequestBodyList,
             Long groupId) {
         final var group = getGroup.execute(groupId);
-        final var enableEndpointsList = enableEndpointsForGroupMapper.addRequestBodyListToEnableEndpointsList(
-                addEnableEndpointRequestBodyList, group);
+        final var enableEndpointsList =
+                enableEndpointsForGroupMapper.addRequestBodyListToEnableEndpointsList(
+                        addEnableEndpointRequestBodyList, group);
 
         group.setEnableEndpointsForGroups(enableEndpointsList);
         enableEndpointsForGroupRepository.saveAll(enableEndpointsList);

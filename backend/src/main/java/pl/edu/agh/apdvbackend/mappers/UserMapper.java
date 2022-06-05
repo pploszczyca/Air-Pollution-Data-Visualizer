@@ -16,16 +16,20 @@ public abstract class UserMapper {
     @Autowired
     protected ShortMapper shortMapper;
 
-    public abstract User addRequestBodyToUser(AddUserRequestBody addUserRequestBody);
+    public abstract User addRequestBodyToUser(
+            AddUserRequestBody addUserRequestBody);
 
-    public abstract void updateUserFromAddRequestBody(AddUserRequestBody addUserRequestBody, @MappingTarget User user);
+    public abstract void updateUserFromAddRequestBody(
+            AddUserRequestBody addUserRequestBody, @MappingTarget User user);
 
     @Mapping(target = "userGroups", expression = "java(user.getGroups().stream().map(shortMapper::groupToShortGroupInfo).toList())")
     public abstract AboutUserResponseBody userToAboutResponseBody(User user);
 
-    public abstract List<AboutUserResponseBody> userListToAboutResponseBodyList(List<User> userList);
+    public abstract List<AboutUserResponseBody> userListToAboutResponseBodyList(
+            List<User> userList);
 
     public abstract ShortUserInfo userToShortInfo(User user);
 
-    public abstract List<ShortUserInfo> userListToShortInfoList(List<User> userList);
+    public abstract List<ShortUserInfo> userListToShortInfoList(
+            List<User> userList);
 }

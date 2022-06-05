@@ -26,6 +26,7 @@ public class AddUserToGroupImpl
 
         group.addUser(user);
 
-        return groupMapper.groupToAboutResponseBody(saveOrUpdateGroup.execute(group));
+        return groupMapper.groupToAboutResponseBody(
+                saveOrUpdateGroup.execute(group));
     }
 }

@@ -21,7 +21,8 @@ public class GetAllGroupsInfoImpl
 
     @Override
     public List<ShortGroupInfoResponseBody> execute() {
-        final var groupList = listUtilities.iterableToList(groupRepository.findAll());
+        final var groupList =
+                listUtilities.iterableToList(groupRepository.findAll());
         return groupMapper.groupListToShortGroupInfoList(groupList);
     }
 }

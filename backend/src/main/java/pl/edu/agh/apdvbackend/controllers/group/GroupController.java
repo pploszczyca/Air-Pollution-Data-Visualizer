@@ -33,31 +33,39 @@ public class GroupController {
 
     @Operation(summary = "Get information about group")
     @GetMapping
-    public Response<AboutGroupResponseBody> getGroupInfo(@RequestParam Long groupId) {
+    public Response<AboutGroupResponseBody> getGroupInfo(
+            @RequestParam Long groupId) {
         return groupService.getGroupInfo(groupId);
     }
 
     @Operation(summary = "Add user to group")
     @PostMapping("/user/add")
-    public Response<AboutGroupResponseBody> addUserToGroup(@RequestParam Long groupId, @RequestParam Long userId) {
+    public Response<AboutGroupResponseBody> addUserToGroup(
+            @RequestParam Long groupId, @RequestParam Long userId) {
         return groupService.addUserToGroup(groupId, userId);
     }
 
     @Operation(summary = "Remove user from group")
     @DeleteMapping("/user/remove")
-    public Response<AboutGroupResponseBody> removeUserFromGroup(@RequestParam Long groupId, @RequestParam Long userId) {
+    public Response<AboutGroupResponseBody> removeUserFromGroup(
+            @RequestParam Long groupId, @RequestParam Long userId) {
         return groupService.removeUserFromGroup(groupId, userId);
     }
 
     @Operation(summary = "Change enable endpoints for group")
     @PutMapping("/endpoints")
-    public Response<AboutGroupResponseBody> changeEnableEndpoints(@RequestBody List<AddEnableEndpointRequestBody> addEnableEndpointRequestBodyList, @RequestParam Long groupId) {
-        return groupService.changeEnableEndpoints(addEnableEndpointRequestBodyList, groupId);
+    public Response<AboutGroupResponseBody> changeEnableEndpoints(@RequestBody
+                                                                  List<AddEnableEndpointRequestBody> addEnableEndpointRequestBodyList,
+                                                                  @RequestParam
+                                                                  Long groupId) {
+        return groupService.changeEnableEndpoints(
+                addEnableEndpointRequestBodyList, groupId);
     }
 
     @Operation(summary = "Add new group")
     @PostMapping
-    public Response<AboutGroupResponseBody> addGroup(@RequestBody AddGroupRequestBody addGroupRequestBody) {
+    public Response<AboutGroupResponseBody> addGroup(
+            @RequestBody AddGroupRequestBody addGroupRequestBody) {
         return groupService.addGroup(addGroupRequestBody);
     }
 }

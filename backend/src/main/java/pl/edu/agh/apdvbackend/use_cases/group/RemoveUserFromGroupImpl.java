@@ -26,6 +26,7 @@ public class RemoveUserFromGroupImpl
 
         group.removeUser(user);
 
-        return groupMapper.groupToAboutResponseBody(saveOrUpdateGroup.execute(group));
+        return groupMapper.groupToAboutResponseBody(
+                saveOrUpdateGroup.execute(group));
     }
 }

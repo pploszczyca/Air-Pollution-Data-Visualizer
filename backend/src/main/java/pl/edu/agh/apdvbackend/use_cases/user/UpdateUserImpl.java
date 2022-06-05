@@ -19,7 +19,8 @@ public class UpdateUserImpl
     @Override
     public User execute(Long userId, AddUserRequestBody addUserRequestBody) {
         final var updatingUser = userRepository.findById(userId).orElseThrow();
-        userMapper.updateUserFromAddRequestBody(addUserRequestBody, updatingUser);
+        userMapper.updateUserFromAddRequestBody(addUserRequestBody,
+                updatingUser);
         return userRepository.save(updatingUser);
     }
 }

@@ -17,6 +17,7 @@ public class AddNewGroupImpl
 
     @Override
     public Group execute(AddGroupRequestBody addGroupRequestBody) {
-        return saveOrUpdateGroup.execute(groupMapper.addRequestBodyToGroup(addGroupRequestBody));
+        return saveOrUpdateGroup.execute(
+                groupMapper.addRequestBodyToGroup(addGroupRequestBody));
     }
 }

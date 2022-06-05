@@ -9,5 +9,5 @@ public record AboutUserResponseBody(
         @Schema(required = true) String name,
         @Schema(required = true) String email,
         @Schema(required = true) List<ShortGroupInfoResponseBody> userGroups
-        ) {
+) {
 }

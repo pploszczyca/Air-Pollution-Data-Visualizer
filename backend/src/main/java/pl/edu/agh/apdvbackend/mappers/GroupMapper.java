@@ -5,6 +5,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import pl.edu.agh.apdvbackend.controllers.group.body_models.AboutGroupResponseBody;
+import pl.edu.agh.apdvbackend.controllers.group.body_models.AddGroupRequestBody;
 import pl.edu.agh.apdvbackend.controllers.group.body_models.ShortGroupInfoResponseBody;
 import pl.edu.agh.apdvbackend.models.Group;
 
@@ -24,4 +25,6 @@ public abstract class GroupMapper {
     @Mapping(target = "shortUserInfos", expression = "java(userMapper.userListToShortInfoList(group.getUsersInGroup().stream().toList()))")
     @Mapping(target = "enableEndpointInfos", expression = "java(enableEndpointsForGroupMapper.enableEndpointForGroupListToListInfo(group.getEnableEndpointsForGroups().stream().toList()))")
     public abstract AboutGroupResponseBody groupToAboutResponseBody(Group group);
+
+    public abstract Group addRequestBodyToGroup(AddGroupRequestBody addGroupRequestBody);
 }

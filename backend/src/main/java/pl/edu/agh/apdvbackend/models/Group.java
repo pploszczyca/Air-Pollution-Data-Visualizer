@@ -2,6 +2,9 @@ package pl.edu.agh.apdvbackend.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -37,10 +40,10 @@ public class Group {
             joinColumns = @JoinColumn(name = "group_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private Set<User> usersInGroup;
+    private Set<User> usersInGroup = new HashSet<>();
 
     @OneToMany(mappedBy = "group")
-    private Set<EnableEndpointsForGroup> enableEndpointsForGroups;
+    private List<EnableEndpointsForGroup> enableEndpointsForGroups = new ArrayList<>();
 
     public void addUser(User user) {
         usersInGroup.add(user);

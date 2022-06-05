@@ -2,6 +2,7 @@ package pl.edu.agh.apdvbackend.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,5 +33,5 @@ public class User {
     private String email;
 
     @ManyToMany(mappedBy = "usersInGroup")
-    private Set<Group> groups;
+    private Set<Group> groups = new HashSet<>();
 }

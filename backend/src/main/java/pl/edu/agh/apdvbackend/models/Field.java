@@ -2,6 +2,7 @@ package pl.edu.agh.apdvbackend.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,5 +30,5 @@ public class Field {
     private String label;
 
     @ManyToMany(mappedBy = "enableFields")
-    private List<EnableEndpointsForGroup> enableEndpointsForGroup;
+    private List<EnableEndpointsForGroup> enableEndpointsForGroup = new ArrayList<>();
 }

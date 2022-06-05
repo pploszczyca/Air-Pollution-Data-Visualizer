@@ -2,6 +2,8 @@ package pl.edu.agh.apdvbackend.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -47,10 +49,10 @@ public class Endpoint {
             inverseJoinColumns = {
                     @JoinColumn(name = "field_parser_id", referencedColumnName = "id")})
     @MapKeyJoinColumn(name = "field_id")
-    private Map<Field, FieldParser> fieldParserMap;
+    private Map<Field, FieldParser> fieldParserMap = new HashMap<>();
 
     @OneToMany(mappedBy = "endpoint")
-    private Set<EnableEndpointsForGroup> enableEndpointsForGroups;
+    private Set<EnableEndpointsForGroup> enableEndpointsForGroups = new HashSet<>();
 
     public String getFieldPath(Field field) {
         return fieldParserMap.get(field).getPath();

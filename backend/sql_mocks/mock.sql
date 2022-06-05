@@ -1,26 +1,26 @@
-INSERT INTO public.endpoint (id, endpoint_number, label, sensor_url) VALUES (1, 96, 'AGH Test sensor', '/pl/datasets/dyplomy-2022/endpoints/96/data/');
-INSERT INTO public.endpoint (id, endpoint_number, label, sensor_url) VALUES (2, 101, 'AGH Sensor 101', '/pl/datasets/env-mon-agh/endpoints/101/data/');
-INSERT INTO public.endpoint (id, endpoint_number, label, sensor_url) VALUES (3, 59, 'AGH Sensor 59', '/pl/datasets/env-mon-agh/endpoints/59/data/');
+INSERT INTO public.endpoint (iendpoint_number, label, sensor_url) VALUES (96, 'AGH Test sensor', '/pl/datasets/dyplomy-2022/endpoints/96/data/');
+INSERT INTO public.endpoint (endpoint_number, label, sensor_url) VALUES (101, 'AGH Sensor 101', '/pl/datasets/env-mon-agh/endpoints/101/data/');
+INSERT INTO public.endpoint (endpoint_number, label, sensor_url) VALUES (59, 'AGH Sensor 59', '/pl/datasets/env-mon-agh/endpoints/59/data/');
 
-INSERT INTO public.field (id, label) VALUES (1, 'temperature');
-INSERT INTO public.field (id, label) VALUES (2, 'pressure');
-INSERT INTO public.field (id, label) VALUES (3, 'humidity');
-INSERT INTO public.field (id, label) VALUES (4, 'pm1_0');
-INSERT INTO public.field (id, label) VALUES (5, 'pm2_5');
-INSERT INTO public.field (id, label) VALUES (6, 'pm10');
-INSERT INTO public.field (id, label) VALUES (7, 'label');
-INSERT INTO public.field (id, label) VALUES (8, 'id');
-INSERT INTO public.field (id, label) VALUES (9, 'timestamp');
+INSERT INTO public.field (label) VALUES ('temperature');
+INSERT INTO public.field (label) VALUES ('pressure');
+INSERT INTO public.field (label) VALUES ('humidity');
+INSERT INTO public.field (label) VALUES ('pm1_0');
+INSERT INTO public.field (label) VALUES ('pm2_5');
+INSERT INTO public.field (label) VALUES ('pm10');
+INSERT INTO public.field (label) VALUES ('label');
+INSERT INTO public.field (label) VALUES ('id');
+INSERT INTO public.field (label) VALUES ('timestamp');
 
-INSERT INTO public.field_parser (id, path) VALUES (1, '/data/envSensor/temperature');
-INSERT INTO public.field_parser (id, path) VALUES (2, '/data/envSensor/pressure');
-INSERT INTO public.field_parser (id, path) VALUES (3, '/data/envSensor/relativeHumidity');
-INSERT INTO public.field_parser (id, path) VALUES (4, '/data/particleConcentrationSensor/concentration/pm1');
-INSERT INTO public.field_parser (id, path) VALUES (5, '/data/particleConcentrationSensor/concentration/pm2_5');
-INSERT INTO public.field_parser (id, path) VALUES (6, '/data/particleConcentrationSensor/concentration/pm10');
-INSERT INTO public.field_parser (id, path) VALUES (7, '/label');
-INSERT INTO public.field_parser (id, path) VALUES (8, '/data/id');
-INSERT INTO public.field_parser (id, path) VALUES (9, '/timestamp');
+INSERT INTO public.field_parser (path) VALUES ('/data/envSensor/temperature');
+INSERT INTO public.field_parser (path) VALUES ('/data/envSensor/pressure');
+INSERT INTO public.field_parser (path) VALUES ('/data/envSensor/relativeHumidity');
+INSERT INTO public.field_parser (path) VALUES ('/data/particleConcentrationSensor/concentration/pm1');
+INSERT INTO public.field_parser (path) VALUES ('/data/particleConcentrationSensor/concentration/pm2_5');
+INSERT INTO public.field_parser (path) VALUES ('/data/particleConcentrationSensor/concentration/pm10');
+INSERT INTO public.field_parser (path) VALUES ('/label');
+INSERT INTO public.field_parser (path) VALUES ('/data/id');
+INSERT INTO public.field_parser (path) VALUES ('/timestamp');
 
 INSERT INTO public.fields_parser_mapping (endpoint_id, field_parser_id, field_id) VALUES (1, 1, 1);
 INSERT INTO public.fields_parser_mapping (endpoint_id, field_parser_id, field_id) VALUES (1, 2, 2);
@@ -50,9 +50,9 @@ INSERT INTO public.fields_parser_mapping (endpoint_id, field_parser_id, field_id
 INSERT INTO public.fields_parser_mapping (endpoint_id, field_parser_id, field_id) VALUES (3, 8, 8);
 INSERT INTO public.fields_parser_mapping (endpoint_id, field_parser_id, field_id) VALUES (3, 9, 9);
 
-INSERT INTO public."group" (id, name) VALUES (1, 'Best officials');
+INSERT INTO public.group (id, name) VALUES (1, 'Best officials');
 
-INSERT INTO public."user" (id, email, name) VALUES (1, 'test@test.com', 'Jan');
+INSERT INTO public.user (id, email, name) VALUES (1, 'test@test.com', 'Jan');
 
 INSERT INTO public.users_in_group (group_id, user_id) VALUES (1, 1);
 

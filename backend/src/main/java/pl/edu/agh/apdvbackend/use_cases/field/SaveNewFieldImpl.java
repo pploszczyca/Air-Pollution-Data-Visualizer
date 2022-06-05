@@ -18,9 +18,7 @@ public class SaveNewFieldImpl
 
     @Override
     public Field execute(AddFieldBodyRequest addFieldBodyRequest) {
-        //final var field = fieldMapper.AddRequestBodyToField(addFieldBodyRequest);
-        final var field = new Field();
-        field.setLabel(addFieldBodyRequest.label());
+        final var field = fieldMapper.addRequestBodyToField(addFieldBodyRequest);
         return fieldRepository.save(field);
     }
 }

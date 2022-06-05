@@ -6,5 +6,5 @@ import pl.edu.agh.apdvbackend.models.Field;
 
 @Mapper(componentModel = "spring")
 public interface FieldMapper {
-    Field AddRequestBodyToField(AddFieldBodyRequest addFieldBodyRequest);
+    Field addRequestBodyToField(AddFieldBodyRequest addFieldBodyRequest);
 }

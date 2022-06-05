@@ -1,5 +1,6 @@
 package pl.edu.agh.apdvbackend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.Set;
 import javax.persistence.Entity;
@@ -20,6 +21,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@JsonIgnoreProperties({"enableEndpointsForGroups"})
 public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

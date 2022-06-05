@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,8 +37,16 @@ public class FieldController {
     }
 
     @Operation(summary = "Remove field by id")
-    @DeleteMapping()
+    @DeleteMapping
     public void removeFieldById(@RequestParam Long fieldId) {
         fieldService.removeFieldById(fieldId);
+    }
+
+    @Operation(summary = "Update field")
+    @PutMapping
+    public Response<Field> updateField(
+            @RequestParam Long fieldId,
+            @RequestBody AddFieldBodyRequest addFieldBodyRequest) {
+        return fieldService.updateField(fieldId, addFieldBodyRequest);
     }
 }

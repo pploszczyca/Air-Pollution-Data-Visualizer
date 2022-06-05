@@ -41,4 +41,12 @@ public class Group {
 
     @OneToMany(mappedBy = "group")
     private Set<EnableEndpointsForGroup> enableEndpointsForGroups;
+
+    public void addUser(User user) {
+        usersInGroup.add(user);
+    }
+
+    public void removeUser(User user) {
+        usersInGroup.remove(user);
+    }
 }

@@ -38,14 +38,14 @@ public class GroupController {
 
     @Operation(summary = "Add user to group")
     @PostMapping("/user/add")
-    public void addUserToGroup(@RequestParam Long groupId, @RequestParam Long userId) {
-        groupService.addUserToGroup(groupId, userId);
+    public Response<AboutGroupResponseBody> addUserToGroup(@RequestParam Long groupId, @RequestParam Long userId) {
+        return groupService.addUserToGroup(groupId, userId);
     }
 
     @Operation(summary = "Remove user from group")
     @DeleteMapping("/user/remove")
-    public void removeUserFromGroup(@RequestParam Long groupId, @RequestParam Long userId) {
-        groupService.removeUserFromGroup(groupId, userId);
+    public Response<AboutGroupResponseBody> removeUserFromGroup(@RequestParam Long groupId, @RequestParam Long userId) {
+        return groupService.removeUserFromGroup(groupId, userId);
     }
 
     @Operation(summary = "Change enable endpoints for group")

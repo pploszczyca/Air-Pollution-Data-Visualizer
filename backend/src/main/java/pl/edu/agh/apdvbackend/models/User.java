@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
@@ -20,7 +21,7 @@ import lombok.Setter;
 @JsonIgnoreProperties({"groups"})
 public class User {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(required = true)
     private Long id;
 

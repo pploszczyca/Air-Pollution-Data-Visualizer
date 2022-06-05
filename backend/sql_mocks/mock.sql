@@ -50,9 +50,9 @@ INSERT INTO public.fields_parser_mapping (endpoint_id, field_parser_id, field_id
 INSERT INTO public.fields_parser_mapping (endpoint_id, field_parser_id, field_id) VALUES (3, 8, 8);
 INSERT INTO public.fields_parser_mapping (endpoint_id, field_parser_id, field_id) VALUES (3, 9, 9);
 
-INSERT INTO public.group (id, name) VALUES (1, 'Best officials');
+INSERT INTO public.group (name) VALUES ('Best officials');
 
-INSERT INTO public.user (id, email, name) VALUES (1, 'test@test.com', 'Jan');
+INSERT INTO public.user (email, name) VALUES ('test@test.com', 'Jan');
 
 INSERT INTO public.users_in_group (group_id, user_id) VALUES (1, 1);
 

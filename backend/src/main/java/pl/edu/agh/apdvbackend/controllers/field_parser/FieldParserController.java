@@ -42,9 +42,9 @@ public class FieldParserController {
         fieldParserService.removeFieldParserById(fieldParserId);
     }
 
-    @Operation(summary = "Update field")
+    @Operation(summary = "Update field parser")
     @PutMapping
-    public Response<FieldParser> updateField(
+    public Response<FieldParser> updateFieldParser(
             @RequestParam Long fieldParserId,
             @RequestBody AddFieldParserRequestBody addFieldParserRequestBody) {
         return fieldParserService.updateFieldParser(fieldParserId,

@@ -19,8 +19,10 @@ public class UpdateFieldImpl
     @Override
     public Field execute(Long fieldId,
                          AddFieldBodyRequest addFieldBodyRequest) {
-        final var updatingField = fieldRepository.findById(fieldId).orElseThrow();
-        fieldMapper.updateFieldFromAddRequestBody(addFieldBodyRequest, updatingField);
+        final var updatingField =
+                fieldRepository.findById(fieldId).orElseThrow();
+        fieldMapper.updateFieldFromAddRequestBody(addFieldBodyRequest,
+                updatingField);
         return fieldRepository.save(updatingField);
     }
 }

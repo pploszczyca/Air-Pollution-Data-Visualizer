@@ -3,8 +3,6 @@ package pl.edu.agh.apdvbackend.services;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import pl.edu.agh.apdvbackend.controllers.field.body_models.AddFieldBodyRequest;
 import pl.edu.agh.apdvbackend.models.Field;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
@@ -37,7 +35,9 @@ public class FieldService {
         removeField.execute(fieldId);
     }
 
-    public Response<Field> updateField(Long fieldId, AddFieldBodyRequest addFieldBodyRequest) {
-        return Response.withOkStatus(updateField.execute(fieldId, addFieldBodyRequest));
+    public Response<Field> updateField(Long fieldId,
+                                       AddFieldBodyRequest addFieldBodyRequest) {
+        return Response.withOkStatus(
+                updateField.execute(fieldId, addFieldBodyRequest));
     }
 }

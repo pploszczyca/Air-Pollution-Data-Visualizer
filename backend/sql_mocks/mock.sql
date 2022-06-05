@@ -1,4 +1,4 @@
-INSERT INTO public.endpoint (iendpoint_number, label, sensor_url) VALUES (96, 'AGH Test sensor', '/pl/datasets/dyplomy-2022/endpoints/96/data/');
+INSERT INTO public.endpoint (endpoint_number, label, sensor_url) VALUES (96, 'AGH Test sensor', '/pl/datasets/dyplomy-2022/endpoints/96/data/');
 INSERT INTO public.endpoint (endpoint_number, label, sensor_url) VALUES (101, 'AGH Sensor 101', '/pl/datasets/env-mon-agh/endpoints/101/data/');
 INSERT INTO public.endpoint (endpoint_number, label, sensor_url) VALUES (59, 'AGH Sensor 59', '/pl/datasets/env-mon-agh/endpoints/59/data/');
 

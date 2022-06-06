@@ -1,6 +1,7 @@
 package pl.edu.agh.apdvbackend.controllers.field;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,6 +20,7 @@ import pl.edu.agh.apdvbackend.services.FieldService;
 @RestController
 @RequestMapping("/field")
 @RequiredArgsConstructor
+@Tag(name = "Field")
 public class FieldController {
 
     private final FieldService fieldService;

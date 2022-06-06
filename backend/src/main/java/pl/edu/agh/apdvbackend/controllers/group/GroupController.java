@@ -1,6 +1,7 @@
 package pl.edu.agh.apdvbackend.controllers.group;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,6 +22,7 @@ import pl.edu.agh.apdvbackend.services.GroupService;
 @RestController
 @RequestMapping("/group")
 @RequiredArgsConstructor
+@Tag(name = "Group")
 public class GroupController {
 
     private final GroupService groupService;

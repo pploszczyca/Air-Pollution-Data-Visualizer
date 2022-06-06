@@ -1,6 +1,7 @@
 package pl.edu.agh.apdvbackend.controllers.field_parser;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,6 +20,7 @@ import pl.edu.agh.apdvbackend.services.FieldParserService;
 @RestController
 @RequestMapping("/field/parser")
 @RequiredArgsConstructor
+@Tag(name = "Field Parser")
 public class FieldParserController {
 
     private final FieldParserService fieldParserService;

@@ -2,6 +2,7 @@ package pl.edu.agh.apdvbackend.controllers.sensor;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,6 +20,7 @@ import pl.edu.agh.apdvbackend.services.EndpointService;
 @RestController
 @RequestMapping("/sensor")
 @RequiredArgsConstructor
+@Tag(name = "Endpoint")
 public class EndpointController {
     private static final Long USER_ID = 1L;
 

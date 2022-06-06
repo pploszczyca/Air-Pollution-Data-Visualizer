@@ -12,6 +12,7 @@ import pl.edu.agh.apdvbackend.use_cases.endpoint.GetAllUserEndpoints;
 import pl.edu.agh.apdvbackend.use_cases.endpoint.GetUserEndpointData;
 import pl.edu.agh.apdvbackend.use_cases.endpoint.RemoveEndpointById;
 import pl.edu.agh.apdvbackend.use_cases.endpoint.SaveNewEndpoint;
+import pl.edu.agh.apdvbackend.use_cases.endpoint.UpdateEndpoint;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +26,8 @@ public class EndpointService {
     private final GetAllEndpoints getAllEndpoints;
 
     private final GetAllUserEndpoints getAllUserEndpoints;
+
+    private final UpdateEndpoint updateEndpoint;
 
     public Response<List<ObjectNode>> getData(Long userId,
                                               Long sensorId) {
@@ -51,5 +54,9 @@ public class EndpointService {
 
     public Response<List<Endpoint>> getUserEndpointsList(Long userId) {
         return Response.withOkStatus(getAllUserEndpoints.execute(userId));
+    }
+
+    public Response<Endpoint> updateEndpoint(AddEndpointRequestBody addEndpointRequestBody, Long endpointId) {
+        return Response.withOkStatus(updateEndpoint.execute(addEndpointRequestBody, endpointId));
     }
 }

@@ -20,20 +20,26 @@ import pl.edu.agh.apdvbackend.services.EndpointService;
 @RequestMapping("/sensor")
 @RequiredArgsConstructor
 public class EndpointController {
-    private static final Long GROUP_ID = 1L;
+    private static final Long USER_ID = 1L;
 
     private final EndpointService endpointService;
 
 
-    @Operation(summary = "Get list of data from sensor")
+    @Operation(summary = "Get list of data from sensor that belongs to user")
     @GetMapping
     public Response<List<ObjectNode>> getData(
             @RequestParam Long sensorId) {
-        return endpointService.getData(GROUP_ID, sensorId);
+        return endpointService.getData(USER_ID, sensorId);
     }
 
-    @Operation(summary = "Get endpoint list")
+    @Operation(summary = "Get user's endpoints list")
     @GetMapping("/list")
+    public Response<List<Endpoint>> getUserEndpointsList() {
+        return endpointService.getUserEndpointsList(USER_ID);
+    }
+
+    @Operation(summary = "Get endpoints list")
+    @GetMapping("/list/all")
     public Response<List<Endpoint>> getEndpointsList() {
         return endpointService.getEndpointsList();
     }

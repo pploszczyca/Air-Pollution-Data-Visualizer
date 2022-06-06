@@ -1,6 +1,8 @@
 INSERT INTO public.endpoint (endpoint_number, label, sensor_url) VALUES (96, 'AGH Test sensor', '/pl/datasets/dyplomy-2022/endpoints/96/data/');
 INSERT INTO public.endpoint (endpoint_number, label, sensor_url) VALUES (101, 'AGH Sensor 101', '/pl/datasets/env-mon-agh/endpoints/101/data/');
 INSERT INTO public.endpoint (endpoint_number, label, sensor_url) VALUES (59, 'AGH Sensor 59', '/pl/datasets/env-mon-agh/endpoints/59/data/');
+INSERT INTO public.endpoint (endpoint_number, label, sensor_url) VALUES (75, 'Ochotnica Konopnickiej', '/pl/datasets/stacje-ochotnica-21/endpoints/75/data/?limit=25');
+INSERT INTO public.endpoint (endpoint_number, label, sensor_url) VALUES (74, 'Ochotnica Twardowskiego', '/pl/datasets/stacje-ochotnica-21/endpoints/74/data/?limit=25');
 
 INSERT INTO public.field (label) VALUES ('temperature');
 INSERT INTO public.field (label) VALUES ('pressure');
@@ -49,6 +51,24 @@ INSERT INTO public.fields_parser_mapping (endpoint_id, field_parser_id, field_id
 INSERT INTO public.fields_parser_mapping (endpoint_id, field_parser_id, field_id) VALUES (3, 7, 7);
 INSERT INTO public.fields_parser_mapping (endpoint_id, field_parser_id, field_id) VALUES (3, 8, 8);
 INSERT INTO public.fields_parser_mapping (endpoint_id, field_parser_id, field_id) VALUES (3, 9, 9);
+INSERT INTO public.fields_parser_mapping (endpoint_id, field_parser_id, field_id) VALUES (4, 1, 1);
+INSERT INTO public.fields_parser_mapping (endpoint_id, field_parser_id, field_id) VALUES (4, 2, 2);
+INSERT INTO public.fields_parser_mapping (endpoint_id, field_parser_id, field_id) VALUES (4, 3, 3);
+INSERT INTO public.fields_parser_mapping (endpoint_id, field_parser_id, field_id) VALUES (4, 4, 4);
+INSERT INTO public.fields_parser_mapping (endpoint_id, field_parser_id, field_id) VALUES (4, 5, 5);
+INSERT INTO public.fields_parser_mapping (endpoint_id, field_parser_id, field_id) VALUES (4, 6, 6);
+INSERT INTO public.fields_parser_mapping (endpoint_id, field_parser_id, field_id) VALUES (4, 7, 7);
+INSERT INTO public.fields_parser_mapping (endpoint_id, field_parser_id, field_id) VALUES (4, 8, 8);
+INSERT INTO public.fields_parser_mapping (endpoint_id, field_parser_id, field_id) VALUES (4, 9, 9);
+INSERT INTO public.fields_parser_mapping (endpoint_id, field_parser_id, field_id) VALUES (5, 1, 1);
+INSERT INTO public.fields_parser_mapping (endpoint_id, field_parser_id, field_id) VALUES (5, 2, 2);
+INSERT INTO public.fields_parser_mapping (endpoint_id, field_parser_id, field_id) VALUES (5, 3, 3);
+INSERT INTO public.fields_parser_mapping (endpoint_id, field_parser_id, field_id) VALUES (5, 4, 4);
+INSERT INTO public.fields_parser_mapping (endpoint_id, field_parser_id, field_id) VALUES (5, 5, 5);
+INSERT INTO public.fields_parser_mapping (endpoint_id, field_parser_id, field_id) VALUES (5, 6, 6);
+INSERT INTO public.fields_parser_mapping (endpoint_id, field_parser_id, field_id) VALUES (5, 7, 7);
+INSERT INTO public.fields_parser_mapping (endpoint_id, field_parser_id, field_id) VALUES (5, 8, 8);
+INSERT INTO public.fields_parser_mapping (endpoint_id, field_parser_id, field_id) VALUES (5, 9, 9);
 
 INSERT INTO public.group (name) VALUES ('Best officials');
 
@@ -59,6 +79,8 @@ INSERT INTO public.users_in_group (group_id, user_id) VALUES (1, 1);
 INSERT INTO public.enable_endpoints_for_group (endpoint_id, group_id, approximation_precission, detailed_measurement_days) VALUES (1, 1, 10, 10);
 INSERT INTO public.enable_endpoints_for_group (endpoint_id, group_id, approximation_precission, detailed_measurement_days) VALUES (2, 1, 10, 10);
 INSERT INTO public.enable_endpoints_for_group (endpoint_id, group_id, approximation_precission, detailed_measurement_days) VALUES (3, 1, 10, 10);
+INSERT INTO public.enable_endpoints_for_group (endpoint_id, group_id, approximation_precission, detailed_measurement_days) VALUES (4, 1, 10, 10);
+INSERT INTO public.enable_endpoints_for_group (endpoint_id, group_id, approximation_precission, detailed_measurement_days) VALUES (5, 1, 10, 10);
 
 INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (1, 1, 1);
 INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (1, 1, 2);
@@ -66,8 +88,6 @@ INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (1, 1,
 INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (1, 1, 4);
 INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (1, 1, 5);
 INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (1, 1, 6);
-INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (1, 1, 7);
-INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (1, 1, 8);
 INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (1, 1, 9);
 INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (2, 1, 1);
 INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (2, 1, 2);
@@ -75,8 +95,6 @@ INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (2, 1,
 INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (2, 1, 4);
 INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (2, 1, 5);
 INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (2, 1, 6);
-INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (2, 1, 7);
-INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (2, 1, 8);
 INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (2, 1, 9);
 INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (3, 1, 1);
 INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (3, 1, 2);
@@ -85,5 +103,19 @@ INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (3, 1,
 INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (3, 1, 5);
 INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (3, 1, 6);
 INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (3, 1, 9);
-INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (3, 1, 7);
-INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (3, 1, 8);
+INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (4, 1, 1);
+INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (4, 1, 2);
+INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (4, 1, 3);
+INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (4, 1, 4);
+INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (4, 1, 5);
+INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (4, 1, 6);
+INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (4, 1, 9);
+INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (5, 1, 1);
+INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (5, 1, 2);
+INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (5, 1, 3);
+INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (5, 1, 4);
+INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (5, 1, 5);
+INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (5, 1, 6);
+INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (5, 1, 9);
+
+

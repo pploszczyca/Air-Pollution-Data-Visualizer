@@ -29,6 +29,9 @@ public class ChangeEnableEndpointsInGroupImpl
                 enableEndpointsForGroupMapper.addRequestBodyListToEnableEndpointsList(
                         addEnableEndpointRequestBodyList, group);
 
+        enableEndpointsForGroupRepository.deleteAll(
+                group.getEnableEndpointsForGroups());
+
         group.setEnableEndpointsForGroups(enableEndpointsList);
         enableEndpointsForGroupRepository.saveAll(enableEndpointsList);
 

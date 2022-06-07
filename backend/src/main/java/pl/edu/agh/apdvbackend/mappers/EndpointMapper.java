@@ -10,5 +10,7 @@ public interface EndpointMapper {
     Endpoint fromAddRequestBodyToEndpointInfo(
             AddEndpointRequestBody addEndpointRequestBody);
 
-    void updateEndpointFromAddRequestBody(AddEndpointRequestBody addEndpointRequestBody, @MappingTarget Endpoint endpoint);
+    void updateEndpointFromAddRequestBody(
+            AddEndpointRequestBody addEndpointRequestBody,
+            @MappingTarget Endpoint endpoint);
 }

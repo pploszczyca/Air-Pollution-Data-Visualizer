@@ -62,7 +62,10 @@ public class EndpointController {
 
     @Operation(summary = "Update endpoint")
     @PutMapping
-    public Response<Endpoint> updateEndpoint(@RequestBody AddEndpointRequestBody addEndpointRequestBody, @RequestParam Long endpointId) {
-        return endpointService.updateEndpoint(addEndpointRequestBody, endpointId);
+    public Response<Endpoint> updateEndpoint(
+            @RequestBody AddEndpointRequestBody addEndpointRequestBody,
+            @RequestParam Long endpointId) {
+        return endpointService.updateEndpoint(addEndpointRequestBody,
+                endpointId);
     }
 }

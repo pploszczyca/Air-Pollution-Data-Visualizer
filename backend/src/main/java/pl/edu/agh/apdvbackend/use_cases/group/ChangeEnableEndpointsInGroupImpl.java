@@ -17,8 +17,6 @@ public class ChangeEnableEndpointsInGroupImpl
 
     private final GetGroup getGroup;
 
-    private final SaveOrUpdateGroup saveOrUpdateGroup;
-
     private final EnableEndpointsForGroupRepository
             enableEndpointsForGroupRepository;
 

@@ -1,7 +1,11 @@
 package pl.edu.agh.apdvbackend.exceptions;
 
-public class IncorrectNameException extends Exception{
+public class IncorrectNameException extends Exception {
+    private static final String NAME = "Name: ";
+
+    private static final String IS_NOT_CORRECT = " is not correct";
+
     public IncorrectNameException(String name) {
-        super("Name: " + name + " is not correct");
+        super(NAME + name + IS_NOT_CORRECT);
     }
 }

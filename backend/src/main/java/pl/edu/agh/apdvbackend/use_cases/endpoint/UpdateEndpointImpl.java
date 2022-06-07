@@ -23,7 +23,8 @@ public class UpdateEndpointImpl
                             Long endpointId) {
         final var endpoint = getEndpoint.execute(endpointId);
 
-        endpointMapper.updateEndpointFromAddRequestBody(addEndpointRequestBody, endpoint);
+        endpointMapper.updateEndpointFromAddRequestBody(addEndpointRequestBody,
+                endpoint);
 
         return endpointRepository.save(endpoint);
     }

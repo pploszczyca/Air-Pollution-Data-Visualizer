@@ -4,5 +4,6 @@ import pl.edu.agh.apdvbackend.controllers.sensor.body_models.AddEndpointRequestB
 import pl.edu.agh.apdvbackend.models.Endpoint;
 
 public interface UpdateEndpoint {
-    Endpoint execute(AddEndpointRequestBody addEndpointRequestBody, Long endpointId);
+    Endpoint execute(AddEndpointRequestBody addEndpointRequestBody,
+                     Long endpointId);
 }

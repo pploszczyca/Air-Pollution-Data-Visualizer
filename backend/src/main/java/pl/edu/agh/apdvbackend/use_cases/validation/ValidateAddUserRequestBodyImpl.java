@@ -20,9 +20,9 @@ public class ValidateAddUserRequestBodyImpl
         final var email = addUserRequestBody.email();
         final var name = addUserRequestBody.name();
 
-        if(!userDataValidationUtilities.validateEmail(email)) {
+        if (!userDataValidationUtilities.validateEmail(email)) {
             throw new IncorrectEmailException(email);
-        } else if(!userDataValidationUtilities.validateName(name)) {
+        } else if (!userDataValidationUtilities.validateName(name)) {
             throw new IncorrectNameException(name);
         }
     }

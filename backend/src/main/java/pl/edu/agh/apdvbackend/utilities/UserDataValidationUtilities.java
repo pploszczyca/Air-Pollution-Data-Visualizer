@@ -38,11 +38,11 @@ public class UserDataValidationUtilities {
      * <ul>
      *  <li>contain at least 3 chars,</li>
      *  <li>start with big, or small letter,</li>
-     *  <li>rest chars can be big, or small letters, or digits.</li>
+     *  <li>rest chars can be big, or small letters, or digits or space.</li>
      * </ul>
      */
     public boolean validateName(String username) {
-        final String regexPattern = "^[A-Za-z_][A-Za-z0-9_]{2,}$";
+        final String regexPattern = "^[A-Za-z_][A-Za-z0-9_][A-Za-z0-9_ ]{2,}$";
         return patternMatches(username, regexPattern);
     }
 

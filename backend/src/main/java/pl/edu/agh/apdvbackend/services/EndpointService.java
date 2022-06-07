@@ -5,10 +5,11 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.edu.agh.apdvbackend.controllers.endpoint.body_models.AddEndpointRequestBody;
+import pl.edu.agh.apdvbackend.controllers.endpoint.body_models.EndpointSummaryResponseBody;
 import pl.edu.agh.apdvbackend.controllers.endpoint.body_models.UserEndpointResponseBody;
 import pl.edu.agh.apdvbackend.models.Endpoint;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
-import pl.edu.agh.apdvbackend.use_cases.endpoint.GetAllEndpoints;
+import pl.edu.agh.apdvbackend.use_cases.endpoint.GetAllEndpointSummaries;
 import pl.edu.agh.apdvbackend.use_cases.endpoint.GetAllUserEndpoints;
 import pl.edu.agh.apdvbackend.use_cases.endpoint.GetUserEndpointData;
 import pl.edu.agh.apdvbackend.use_cases.endpoint.RemoveEndpointById;
@@ -24,7 +25,7 @@ public class EndpointService {
 
     private final RemoveEndpointById removeEndpointById;
 
-    private final GetAllEndpoints getAllEndpoints;
+    private final GetAllEndpointSummaries getAllEndpointSummaries;
 
     private final GetAllUserEndpoints getAllUserEndpoints;
 
@@ -36,8 +37,8 @@ public class EndpointService {
                 getUserEndpointData.execute(userId, sensorId));
     }
 
-    public Response<List<Endpoint>> getEndpointsList() {
-        return Response.withOkStatus(getAllEndpoints.execute());
+    public Response<List<EndpointSummaryResponseBody>> getEndpointsList() {
+        return Response.withOkStatus(getAllEndpointSummaries.execute());
     }
 
     public Endpoint addEndpoint(
@@ -49,7 +50,8 @@ public class EndpointService {
         removeEndpointById.execute(endpointId);
     }
 
-    public Response<List<UserEndpointResponseBody>> getUserEndpointsList(Long userId) {
+    public Response<List<UserEndpointResponseBody>> getUserEndpointsList(
+            Long userId) {
         return Response.withOkStatus(getAllUserEndpoints.execute(userId));
     }
 

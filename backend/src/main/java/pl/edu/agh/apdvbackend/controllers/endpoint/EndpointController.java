@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.edu.agh.apdvbackend.controllers.endpoint.body_models.AddEndpointRequestBody;
+import pl.edu.agh.apdvbackend.controllers.endpoint.body_models.EndpointSummaryResponseBody;
 import pl.edu.agh.apdvbackend.controllers.endpoint.body_models.UserEndpointResponseBody;
 import pl.edu.agh.apdvbackend.models.Endpoint;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
@@ -42,9 +43,9 @@ public class EndpointController {
         return endpointService.getUserEndpointsList(USER_ID);
     }
 
-    @Operation(summary = "Get endpoints list")
+    @Operation(summary = "Get all endpoints list with fields information")
     @GetMapping("/list/all")
-    public Response<List<Endpoint>> getEndpointsList() {
+    public Response<List<EndpointSummaryResponseBody>> getEndpointsList() {
         return endpointService.getEndpointsList();
     }
 

@@ -4,7 +4,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.edu.agh.apdvbackend.controllers.sensor.body_models.AddEndpointRequestBody;
+import pl.edu.agh.apdvbackend.controllers.endpoint.body_models.AddEndpointRequestBody;
+import pl.edu.agh.apdvbackend.controllers.endpoint.body_models.UserEndpointResponseBody;
 import pl.edu.agh.apdvbackend.models.Endpoint;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
 import pl.edu.agh.apdvbackend.use_cases.endpoint.GetAllEndpoints;
@@ -48,7 +49,7 @@ public class EndpointService {
         removeEndpointById.execute(endpointId);
     }
 
-    public Response<List<Endpoint>> getUserEndpointsList(Long userId) {
+    public Response<List<UserEndpointResponseBody>> getUserEndpointsList(Long userId) {
         return Response.withOkStatus(getAllUserEndpoints.execute(userId));
     }
 

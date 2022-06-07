@@ -1,4 +1,4 @@
-package pl.edu.agh.apdvbackend.controllers.sensor;
+package pl.edu.agh.apdvbackend.controllers.endpoint;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import pl.edu.agh.apdvbackend.controllers.sensor.body_models.AddEndpointRequestBody;
+import pl.edu.agh.apdvbackend.controllers.endpoint.body_models.AddEndpointRequestBody;
+import pl.edu.agh.apdvbackend.controllers.endpoint.body_models.UserEndpointResponseBody;
 import pl.edu.agh.apdvbackend.models.Endpoint;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
 import pl.edu.agh.apdvbackend.services.EndpointService;
@@ -37,7 +38,7 @@ public class EndpointController {
 
     @Operation(summary = "Get user's endpoints list")
     @GetMapping("/list")
-    public Response<List<Endpoint>> getUserEndpointsList() {
+    public Response<List<UserEndpointResponseBody>> getUserEndpointsList() {
         return endpointService.getUserEndpointsList(USER_ID);
     }
 

@@ -1,4 +1,4 @@
-package pl.edu.agh.apdvbackend.controllers.sensor.body_models;
+package pl.edu.agh.apdvbackend.controllers.endpoint.body_models;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

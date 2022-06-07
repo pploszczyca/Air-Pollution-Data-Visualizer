@@ -7,8 +7,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.springframework.beans.factory.annotation.Autowired;
-import pl.edu.agh.apdvbackend.controllers.sensor.body_models.AddEndpointRequestBody;
-import pl.edu.agh.apdvbackend.controllers.sensor.body_models.FieldAndParserKey;
+import pl.edu.agh.apdvbackend.controllers.endpoint.body_models.AddEndpointRequestBody;
+import pl.edu.agh.apdvbackend.controllers.endpoint.body_models.FieldAndParserKey;
+import pl.edu.agh.apdvbackend.controllers.endpoint.body_models.UserEndpointResponseBody;
 import pl.edu.agh.apdvbackend.models.Endpoint;
 import pl.edu.agh.apdvbackend.models.Field;
 import pl.edu.agh.apdvbackend.models.FieldParser;
@@ -37,6 +38,10 @@ public abstract class EndpointMapper {
     public abstract void updateEndpointFromAddRequestBody(
             AddEndpointRequestBody addEndpointRequestBody,
             @MappingTarget Endpoint endpoint);
+
+    public abstract UserEndpointResponseBody endpointToUserEndpointResponseBody(Endpoint endpoint);
+
+    public abstract List<UserEndpointResponseBody> endpointListToUserEndpointResponseBodyList(List<Endpoint> endpoints);
 
     protected Map<Field, FieldParser> fieldAndParserKeyListToMap(
             List<FieldAndParserKey> fieldAndParserKeys) {

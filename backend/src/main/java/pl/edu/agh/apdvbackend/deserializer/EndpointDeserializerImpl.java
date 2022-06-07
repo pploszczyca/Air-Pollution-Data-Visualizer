@@ -3,7 +3,6 @@ package pl.edu.agh.apdvbackend.deserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import io.swagger.v3.core.util.Json;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -39,7 +38,7 @@ public class EndpointDeserializerImpl
 
     @SneakyThrows
     private void checkIfNodeDataIsProper(JsonNode jsonNode, String label) {
-        if(jsonNode.isMissingNode()) {
+        if (jsonNode.isMissingNode()) {
             throw new IncorrectNodeDeserialize(label);
         }
     }

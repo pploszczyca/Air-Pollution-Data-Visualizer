@@ -1,6 +1,6 @@
 package pl.edu.agh.apdvbackend.exceptions;
 
-public class IncorrectNodeDeserialize extends Exception{
+public class IncorrectNodeDeserialize extends Exception {
     public static final String LABEL_CAN_T_BE_DESERIALIZE =
             " label can't be deserialize";
 

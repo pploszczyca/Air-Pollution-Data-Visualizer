@@ -1,5 +1,6 @@
 package pl.edu.agh.apdvbackend.models;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.EmbeddedId;
@@ -40,7 +41,7 @@ public class EnableEndpointsForGroup {
                     @JoinColumn(name = "gropu_id")},
             inverseJoinColumns = {@JoinColumn(name = "field_id")}
     )
-    private List<Field> enableFields;
+    private List<Field> enableFields = new ArrayList<>();
 
     private Integer detailedMeasurementDays;
 

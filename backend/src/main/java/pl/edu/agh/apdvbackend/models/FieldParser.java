@@ -3,6 +3,7 @@ package pl.edu.agh.apdvbackend.models;
 import io.swagger.v3.oas.annotations.media.Schema;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.Getter;
@@ -16,7 +17,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class FieldParser {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(required = true)
     private Long id;
 

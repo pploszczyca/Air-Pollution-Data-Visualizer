@@ -2,9 +2,11 @@ package pl.edu.agh.apdvbackend.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
@@ -20,7 +22,7 @@ import lombok.Setter;
 @JsonIgnoreProperties({"groups"})
 public class User {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(required = true)
     private Long id;
 
@@ -31,5 +33,5 @@ public class User {
     private String email;
 
     @ManyToMany(mappedBy = "usersInGroup")
-    private Set<Group> groups;
+    private Set<Group> groups = new HashSet<>();
 }

@@ -31,12 +31,8 @@ public class EndpointService {
 
     public Response<List<ObjectNode>> getData(Long userId,
                                               Long sensorId) {
-        try {
-            return Response.withOkStatus(
-                    getUserEndpointData.execute(userId, sensorId));
-        } catch (Exception exception) {
-            return Response.withError(exception.getMessage());
-        }
+        return Response.withOkStatus(
+                getUserEndpointData.execute(userId, sensorId));
     }
 
     public Response<List<Endpoint>> getEndpointsList() {
@@ -56,7 +52,9 @@ public class EndpointService {
         return Response.withOkStatus(getAllUserEndpoints.execute(userId));
     }
 
-    public Response<Endpoint> updateEndpoint(AddEndpointRequestBody addEndpointRequestBody, Long endpointId) {
-        return Response.withOkStatus(updateEndpoint.execute(addEndpointRequestBody, endpointId));
+    public Response<Endpoint> updateEndpoint(
+            AddEndpointRequestBody addEndpointRequestBody, Long endpointId) {
+        return Response.withOkStatus(
+                updateEndpoint.execute(addEndpointRequestBody, endpointId));
     }
 }

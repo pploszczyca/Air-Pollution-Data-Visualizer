@@ -1,9 +1,14 @@
 package pl.edu.agh.apdvbackend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -19,9 +24,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@JsonIgnoreProperties({"enableEndpointsForGroups"})
 public class Group {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(required = true)
     private Long id;
 
@@ -34,8 +40,17 @@ public class Group {
             joinColumns = @JoinColumn(name = "group_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private Set<User> usersInGroup;
+    private Set<User> usersInGroup = new HashSet<>();
 
     @OneToMany(mappedBy = "group")
-    private Set<EnableEndpointsForGroup> enableEndpointsForGroups;
+    private List<EnableEndpointsForGroup> enableEndpointsForGroups =
+            new ArrayList<>();
+
+    public void addUser(User user) {
+        usersInGroup.add(user);
+    }
+
+    public void removeUser(User user) {
+        usersInGroup.remove(user);
+    }
 }

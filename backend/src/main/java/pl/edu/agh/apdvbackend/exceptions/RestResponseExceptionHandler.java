@@ -13,18 +13,18 @@ import pl.edu.agh.apdvbackend.models.body_models.Response;
 @RestControllerAdvice
 public class RestResponseExceptionHandler {
 
-    private static final String NO_SUCH_ELEMENT = "Element doesn't exist.";
+    private static final String NO_SUCH_ENTITY = "Entity doesn't exist. Check your request.";
 
     private static final String SAVING_FAILED = "Saving failed, maybe element already exists.";
 
-    private static final String ELEMENT_DOESN_T_EXISTS = "Can't delete, element doesn't exists.";
+    private static final String CAN_T_DELETE = "Can't delete, entity doesn't exists.";
 
     private static final String NO_DATAHUB_CONNECTION = "No connection with DataHub, check if your VPN is running.";
 
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     @ExceptionHandler(NoSuchElementException.class)
     public Response<?> handleNoSuchElement() {
-        return Response.withError(NO_SUCH_ELEMENT);
+        return Response.withError(NO_SUCH_ENTITY);
     }
 
     @ResponseStatus(value = HttpStatus.CONFLICT)
@@ -36,7 +36,7 @@ public class RestResponseExceptionHandler {
     @ResponseStatus(value = HttpStatus.CONFLICT)
     @ExceptionHandler(EmptyResultDataAccessException.class)
     public Response<?> handleEmptyResultDataAccessException() {
-        return Response.withError(ELEMENT_DOESN_T_EXISTS);
+        return Response.withError(CAN_T_DELETE);
     }
 
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
@@ -50,5 +50,11 @@ public class RestResponseExceptionHandler {
     @ExceptionHandler(WebClientResponseException.class)
     public Response<?> handleWebClientResponseException() {
         return Response.withError(NO_DATAHUB_CONNECTION);
+    }
+
+    @ResponseStatus(value = HttpStatus.CONFLICT)
+    @ExceptionHandler(IncorrectNodeDeserialize.class)
+    public Response<?> handleIncorrectNodeDeserialize(Exception exception) {
+        return Response.withError(exception.getMessage());
     }
 }

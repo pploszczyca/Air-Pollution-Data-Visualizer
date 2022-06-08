@@ -1,4 +1,5 @@
 import 'package:../../charts_flutter/flutter.dart' as charts;
+import 'package:adpv_frontend/Common/Common.dart';
 import 'package:adpv_frontend/Models/EndpointData.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +22,7 @@ class DataChart extends StatelessWidget {
         id: "my_chart",
         data: endpointData.dataList,
         domainFn: (Map<dynamic,dynamic> endpointData, _) =>
-            DateTime.parse(endpointData['timestamp']),
+            DateTime.parse(endpointData[ignoreField]),
         measureFn: measureFnCallback,
        // displayName: "temperature",
       )

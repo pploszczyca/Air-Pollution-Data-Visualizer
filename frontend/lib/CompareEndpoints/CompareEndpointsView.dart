@@ -19,7 +19,6 @@ class CompareChartsView extends StatefulWidget {
 }
 
 class _CompareChartsViewState extends State<CompareChartsView> {
-  //Map<String, bool> selectedChips = {};
   Widget chart = Container();
 
   @override
@@ -116,14 +115,9 @@ class _CompareChartsViewState extends State<CompareChartsView> {
     }
     List<Endpoint> endpoints = endpointModel.getEndpointsForDrawing();
     List<String> fields = endpointModel.getFieldsForDrawing();
-    List<Widget> charts = [];
-
-    for (String field in fields) {
-      charts.add(MultiDataChart(field: field, endpoints: endpoints));
-    }
 
     return Column(
-      children: charts,
+      children: fields.map((field) => MultiDataChart(field: field, endpoints: endpoints)).toList(),
     );
   }
 }

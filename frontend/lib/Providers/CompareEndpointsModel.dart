@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:adpv_frontend/Repository/AbstractEndpointRepository.dart';
 import 'package:adpv_frontend/Repository/RestClient.dart';
 import 'package:dio/dio.dart';
@@ -37,15 +39,12 @@ class EndpointModel extends ChangeNotifier {
           }
         }
       }
-      var max =0;
-      counter.forEach((key, value) {
-        if(value>max){
-          max= value;
-        }
-      });
+
+      var maxValue = counter.values.reduce(max);
+
       List<String> newCommonFields = [];
       counter.forEach((key, value) {
-        if(value == max){
+        if(value == maxValue){
           newCommonFields.add(key);
         }
       });
@@ -94,12 +93,6 @@ class EndpointModel extends ChangeNotifier {
   }
 
   List<String> getFieldsForDrawing(){
-    List<String> result = [];
-    for(String field in selectedChips.keys){
-      if(selectedChips[field] == true){
-        result.add(field);
-      }
-    }
-    return result;
+    return selectedChips.keys.where((field) => selectedChips[field] == true).toList();
   }
 }

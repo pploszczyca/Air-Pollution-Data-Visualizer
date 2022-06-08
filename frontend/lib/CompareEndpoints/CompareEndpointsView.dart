@@ -70,8 +70,7 @@ class _CompareChartsViewState extends State<CompareChartsView> {
                     ],
                   ),
                   const SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  Wrap(
                     children: [
                       Container(
                         margin: const EdgeInsets.only(left: 12, right: 12),
@@ -125,7 +124,7 @@ class _CompareChartsViewState extends State<CompareChartsView> {
               snapshot.data == null) {
             return LoadingInCenter();
           } else {
-            return Row(
+        return Wrap(
                 children: snapshot.data!.map(mapChartDataToInputChip).toList());
           }
         },
@@ -136,7 +135,7 @@ class _CompareChartsViewState extends State<CompareChartsView> {
     isChipsSelected.putIfAbsent(chartData, () => false);
 
     return Container(
-      margin: const EdgeInsets.only(left: 12, right: 12),
+      margin:const EdgeInsets.symmetric(horizontal: 12),
       child: InputChip(
         label: Text(chartData.name),
         selected: isChipsSelected[chartData]!,

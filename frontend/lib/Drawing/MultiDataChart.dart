@@ -41,7 +41,8 @@ class _MultiDataChartState extends State<MultiDataChart> {
               ),
             animate: true,
             behaviors: [
-              //charts.SeriesLegend(),
+              //TODO make this MF responsive
+              charts.SeriesLegend(desiredMaxColumns: 2),
             ],
           )),
    ] );
@@ -57,7 +58,6 @@ class _MultiDataChartState extends State<MultiDataChart> {
           DateTime.parse(endpointData['timestamp']),
       measureFn: (Map<dynamic,dynamic> endpointData, _) =>
          endpointData[widget.field],
-      displayName: e.label,
     )).toList();
   }
   

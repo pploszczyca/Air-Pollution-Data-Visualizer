@@ -27,7 +27,7 @@ class EndpointModel extends ChangeNotifier {
   }
 
   void updateCommonFields() {
-    if (selectedEndpoints.length >= 0){
+    if (selectedEndpoints.length > 0){
       Map<String, int> counter = {};
       List fields = endpointsMap[selectedEndpoints[0]]!.data.dataList[0].keys.toList();
       for(String s in fields){

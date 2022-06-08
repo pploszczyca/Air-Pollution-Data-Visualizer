@@ -82,14 +82,6 @@ class _CompareChartsViewState extends State<CompareChartsView> {
                     ),
 
                     const SizedBox(height: 10),
-                    Container(
-                      margin: const EdgeInsets.all(10.0),
-                      child: ElevatedButton(
-                          onPressed: () {
-
-                          },
-                          child: const Text("Generate charts")),
-                    ),
                     Consumer<EndpointModel>(
                         builder: (context, endpointModel, child) {
                           chart = _createChart(endpointModel);

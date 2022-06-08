@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,6 +28,7 @@ public class Field {
     private Long id;
 
     @Schema(required = true)
+    @Column(unique = true)
     private String label;
 
     @ManyToMany(mappedBy = "enableFields")

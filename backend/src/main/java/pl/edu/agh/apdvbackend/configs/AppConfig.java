@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import pl.edu.agh.apdvbackend.utilities.ListUtilities;
 import pl.edu.agh.apdvbackend.utilities.StreamUtilities;
+import pl.edu.agh.apdvbackend.utilities.UserDataValidationUtilities;
 
 @Configuration
 public class AppConfig {
@@ -19,5 +20,11 @@ public class AppConfig {
     @Scope("singleton")
     public ListUtilities getListUtilities() {
         return new ListUtilities();
+    }
+
+    @Bean
+    @Scope("singleton")
+    public UserDataValidationUtilities getUserDataValidationUtilities() {
+        return new UserDataValidationUtilities();
     }
 }

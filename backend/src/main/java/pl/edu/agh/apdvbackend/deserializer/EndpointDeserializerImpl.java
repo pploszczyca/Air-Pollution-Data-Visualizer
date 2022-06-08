@@ -5,7 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
+import pl.edu.agh.apdvbackend.exceptions.IncorrectNodeDeserialize;
 import pl.edu.agh.apdvbackend.models.Endpoint;
 import pl.edu.agh.apdvbackend.models.Field;
 
@@ -24,10 +26,20 @@ public class EndpointDeserializerImpl
 
         requiredFields.forEach(field -> {
             final var path = endpoint.getFieldPath(field);
-            resultObjectNode.set(field.getLabel(), inputJsonNode.at(path));
+            final var node = inputJsonNode.at(path);
+
+            checkIfNodeDataIsProper(node, field.getLabel());
+
+            resultObjectNode.set(field.getLabel(), node);
         });
 
         return resultObjectNode;
     }
 
+    @SneakyThrows
+    private void checkIfNodeDataIsProper(JsonNode jsonNode, String label) {
+        if (jsonNode.isMissingNode()) {
+            throw new IncorrectNodeDeserialize(label);
+        }
+    }
 }

@@ -17,8 +17,6 @@ public class ChangeEnableEndpointsInGroupImpl
 
     private final GetGroup getGroup;
 
-    private final SaveOrUpdateGroup saveOrUpdateGroup;
-
     private final EnableEndpointsForGroupRepository
             enableEndpointsForGroupRepository;
 
@@ -30,6 +28,9 @@ public class ChangeEnableEndpointsInGroupImpl
         final var enableEndpointsList =
                 enableEndpointsForGroupMapper.addRequestBodyListToEnableEndpointsList(
                         addEnableEndpointRequestBodyList, group);
+
+        enableEndpointsForGroupRepository.deleteAll(
+                group.getEnableEndpointsForGroups());
 
         group.setEnableEndpointsForGroups(enableEndpointsList);
         enableEndpointsForGroupRepository.saveAll(enableEndpointsList);

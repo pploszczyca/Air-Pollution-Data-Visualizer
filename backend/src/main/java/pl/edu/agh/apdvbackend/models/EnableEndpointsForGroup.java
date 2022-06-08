@@ -2,7 +2,6 @@ package pl.edu.agh.apdvbackend.models;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -34,7 +33,7 @@ public class EnableEndpointsForGroup {
     @JoinColumn(name = "endpoint_id")
     private Endpoint endpoint;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(
             name = "enable_fields",
             joinColumns = {@JoinColumn(name = "endpoint_id"),

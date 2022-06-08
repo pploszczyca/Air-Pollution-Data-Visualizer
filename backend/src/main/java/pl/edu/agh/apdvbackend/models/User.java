@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,6 +31,7 @@ public class User {
     private String name;
 
     @Schema(required = true)
+    @Column(unique = true)
     private String email;
 
     @ManyToMany(mappedBy = "usersInGroup")

@@ -21,7 +21,23 @@ class _EndpointListState extends State<EndpointList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Data Visualizer")),
+      backgroundColor: const Color.fromARGB(255, 127, 166, 168),
+      appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(100.0),
+          child: AppBar(
+            toolbarHeight: 120.0,
+            automaticallyImplyLeading: false,
+            flexibleSpace: Container(),
+            centerTitle: false,
+            title: const Text("Recent datasets"),
+            backgroundColor: Colors.white,
+            titleTextStyle: const TextStyle(
+                color: Colors.pink,
+                fontFamily: 'Ubuntu Condensed',
+                fontSize: 50,
+                fontWeight: FontWeight.w500),
+            titleSpacing: 20,
+          )),
       body: FutureBuilder<List<String>>(
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.none ||
@@ -33,24 +49,26 @@ class _EndpointListState extends State<EndpointList> {
             itemBuilder: (context, i) {
               final endpointName = snapshot.data![i];
 
-              void onTap () {
+              void onTap() {
                 onTapHandler(endpointName, widget.endpointRepository);
               }
 
-              return ListTile(
+              return Container(
+                height: 100,
+                  decoration: const BoxDecoration(color: Colors.white),
+                  child: ListTile(
                 title: Text(endpointName),
                 onTap: onTap,
                 trailing: IconButton(
                   icon: const Icon(Icons.arrow_forward_ios),
                   onPressed: onTap,
                 ),
-              );
+              ));
             },
           );
         },
         future: widget.endpointRepository.getEndpointSummary(),
       ),
-
     );
   }
 }

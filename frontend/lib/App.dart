@@ -9,6 +9,10 @@ const String endpointList = "Endpoint List";
 const String compareEnpoints = "Compare Endpoints";
 const String profile = "Profile";
 
+const int endpointListIcon = 0xf1ae;
+const int compareEndpointsIcon = 0xf05bb;
+const int profileIcon = 0xf27a;
+
 class App extends StatefulWidget {
   EndpointRepository endpointRepository;
 
@@ -51,9 +55,9 @@ class _AppState extends State<App> {
         },
         labelType: NavigationRailLabelType.selected,
         destinations: [
-          _buildRailNavigationItem(endpointList),
-          _buildRailNavigationItem(compareEnpoints),
-          _buildRailNavigationItem(profile),
+          _buildRailNavigationItem(endpointList, endpointListIcon),
+          _buildRailNavigationItem(compareEnpoints,  compareEndpointsIcon),
+          _buildRailNavigationItem(profile,  profileIcon),
         ],
       ),
     );
@@ -84,9 +88,9 @@ class _AppState extends State<App> {
     Widget _navBar = BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
       items: <BottomNavigationBarItem>[
-        _buildNavigationItem(endpointList),
-        _buildNavigationItem(compareEnpoints),
-        _buildNavigationItem(profile),
+        _buildNavigationItem(endpointList, const Icon(Icons.map_outlined)),
+        _buildNavigationItem(compareEnpoints, const  Icon(Icons.area_chart_outlined)),
+        _buildNavigationItem(profile, const Icon(Icons.person_outline)),
       ],
       onTap: (index) => setState(() {
         _selectedIndex = index;
@@ -104,12 +108,14 @@ class _AppState extends State<App> {
     );
   }
 
-  NavigationRailDestination _buildRailNavigationItem(String stringLabel) {
+  NavigationRailDestination _buildRailNavigationItem(String stringLabel, int codePoint) {
     return NavigationRailDestination(
-      icon: const Icon(Icons.layers),
-      selectedIcon: const Icon(
-        Icons.layers,
+      icon: Icon(IconData(codePoint, fontFamily: 'MaterialIcons'), size: 30,),
+      selectedIcon:
+      Icon(
+        IconData(codePoint, fontFamily: 'MaterialIcons'),
         color: Colors.pink,
+        size: 35,
       ),
       label: Text(
         stringLabel,
@@ -119,9 +125,9 @@ class _AppState extends State<App> {
     );
   }
 
-  BottomNavigationBarItem _buildNavigationItem(String stringLabel) {
+  BottomNavigationBarItem _buildNavigationItem(String stringLabel, Icon icon) {
     return BottomNavigationBarItem(
-      icon: const Icon(Icons.layers),
+      icon: icon,
       label: stringLabel,
     );
   }

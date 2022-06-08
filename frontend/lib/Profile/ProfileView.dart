@@ -5,7 +5,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 import '../Common/Common.dart';
-import '../EndpointList/EndpointView/DataChart.dart';
+import '../Common/DataChart.dart';
+import '../Models/EndpointData.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({Key? key}) : super(key: key);
@@ -16,11 +17,11 @@ class ProfileView extends StatefulWidget {
 
 class _ProfileViewState extends State<ProfileView> {
   charts.Series<Map<dynamic, dynamic>, DateTime> _createData(
-      List<Map<dynamic, dynamic>> list,
+      EndpointData data,
       num? Function(Map<dynamic, dynamic>, int?) measureFn) {
     return charts.Series(
               id: "Something",
-              data: list,
+              data: data.dataList,
               displayName: "Test",
               domainFn: (Map<dynamic, dynamic> endpointData, _) => DateTime.parse(endpointData["timestamp"]),
               measureFn: measureFn,
@@ -36,13 +37,13 @@ class _ProfileViewState extends State<ProfileView> {
       charts.BasicNumericTickProviderSpec(zeroBound: false),
     );
 
-    return FutureBuilder<List<Map<dynamic, dynamic>>>(
+    return FutureBuilder<EndpointData>(
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.none ||
             snapshot.data == null) {
           return LoadingInCenter();
         }
-        print("#############" + snapshot.data![0].toString());
+        print("#############" + snapshot.data!.dataList[0].toString());
 
         return SizedBox(
           width: MediaQuery.of(context).size.width * 1 ,
@@ -69,11 +70,6 @@ class _ProfileViewState extends State<ProfileView> {
           ),
         );
 
-        return DataChart(
-          measureFnCallback: (Map<dynamic, dynamic> endpointData, _) =>
-              endpointData["temperature"] as double,
-          endpointDataList: snapshot.data!,
-        );
       },
       future: repository.getEndpointData(3),
     );

@@ -6,10 +6,10 @@ import 'package:adpv_frontend/Routing.dart';
 import 'package:flutter/material.dart';
 
 class EndpointList extends StatefulWidget {
-  const EndpointList({Key? key, required this.endpointRepository})
+  const EndpointList({Key? key, required this.repository})
       : super(key: key);
 
-  final AbstractEndpointRepository endpointRepository;
+  final AbstractEndpointRepository repository;
 
   @override
   State<EndpointList> createState() => _EndpointListState();
@@ -36,7 +36,7 @@ class _EndpointListState extends State<EndpointList> {
               final endpointSumary = snapshot.data![i];
 
               void onTap () {
-                onTapHandler(endpointSumary.id, widget.endpointRepository);
+                onTapHandler(endpointSumary.id, widget.repository);
               }
 
               return ListTile(
@@ -50,7 +50,7 @@ class _EndpointListState extends State<EndpointList> {
             },
           );
         },
-        future: widget.endpointRepository.getEndpointSummary(),
+        future: widget.repository.getEndpointSummary(),
       ),
 
     );

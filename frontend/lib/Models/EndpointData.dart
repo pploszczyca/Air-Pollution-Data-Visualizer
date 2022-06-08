@@ -1,12 +1,18 @@
 class EndpointData{
-  late double temperature;
-  late double pressure;
-  late double humidity;
-  late double pm1_0;
-  late double pm2_5;
-  late double pm10;
-  late DateTime date;
+  List<Map<dynamic, dynamic>> dataList;
 
-  EndpointData(this.temperature, this.pressure, this.humidity, this.pm1_0,
-      this.pm2_5, this.pm10, this.date);
+  EndpointData(this.dataList);
+
+  EndpointData.empty(): dataList = List.of([]);
+
+  List<dynamic> getCertainField(String field){
+    return dataList.map((e) {
+      return e[field];
+    }).toList();
+  }
+
+  @override
+  String toString() {
+    return 'EndpointData{dataList: $dataList}';
+  }
 }

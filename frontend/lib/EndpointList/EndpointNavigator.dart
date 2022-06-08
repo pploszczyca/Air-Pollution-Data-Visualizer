@@ -9,9 +9,9 @@ import '../Repository/AbstractEndpointRepository.dart';
 
 
 class EndpointNavigator extends StatefulWidget {
-  AbstractEndpointRepository endpointRepository;
+  AbstractEndpointRepository repository;
 
-  EndpointNavigator({Key? key, required this.endpointRepository})
+  EndpointNavigator({Key? key, required this.repository})
       : super(key: key);
 
   @override
@@ -26,11 +26,11 @@ class _EndpointNavigatorState extends State<EndpointNavigator> {
         late Widget page;
         if(settings.name == endpointListRoute){
           print(settings.name);
-          page =  EndpointList(endpointRepository: widget.endpointRepository,);
+          page =  EndpointList(repository: widget.repository,);
+          
         }else if(settings.name!.startsWith(endpointViewRoute)){
           var endpointId = settings.name!.split("/")[2];
-
-          page = EndpointView(endpointData: widget.endpointRepository.getEndpointData(int.parse(endpointId)));
+          page = EndpointView(endpointData: widget.repository.getEndpointData(int.parse(endpointId)));
         }
 
         return MaterialPageRoute<dynamic>(

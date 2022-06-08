@@ -1,16 +1,16 @@
 import 'package:flutter/cupertino.dart';
 
 
-import '../../Models/EndpointData.dart';
+import '../Models/EndpointData.dart';
 import 'DataChart.dart';
 
-class TitledLinedChart extends StatelessWidget {
-  const TitledLinedChart({Key? key, required this.chartName, required this.measureFnCallback,
-  required this.dataList}) : super(key: key);
+class TitledLineChart extends StatelessWidget {
+  const TitledLineChart({Key? key, required this.chartName, required this.measureFnCallback,
+  required this.data}) : super(key: key);
 
   final String chartName;
-  final num? Function(Map<dynamic, dynamic>, int?) measureFnCallback ;
-  final List<Map<dynamic, dynamic>> dataList;
+  final num? Function(Map<dynamic,dynamic>, int?) measureFnCallback ;
+  final EndpointData data;
 
 
   @override
@@ -28,7 +28,7 @@ class TitledLinedChart extends StatelessWidget {
         ),
       ),
       DataChart(
-        endpointDataList: dataList,
+        endpointData: data,
         measureFnCallback: measureFnCallback,
       ),
     ],);

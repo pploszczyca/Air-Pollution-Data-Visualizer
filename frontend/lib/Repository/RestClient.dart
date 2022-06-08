@@ -6,6 +6,8 @@ import 'package:adpv_frontend/Repository/AbstractEndpointRepository.dart';
 import 'package:adpv_frontend/Repository/URLs.dart';
 import 'package:dio/dio.dart';
 
+import '../Models/EndpointData.dart';
+
 class RestClient implements AbstractEndpointRepository{
   final Dio client;
 
@@ -34,7 +36,7 @@ class RestClient implements AbstractEndpointRepository{
   }
 
   @override
-  Future<List<Map<dynamic, dynamic>>> getEndpointData(int id) async{
+  Future<EndpointData> getEndpointData(int id) async{
     try {
       Response response = await client.get(backendURL + getEndpointDataURL, queryParameters: {
         'sensorId': id
@@ -43,7 +45,7 @@ class RestClient implements AbstractEndpointRepository{
       if (response.statusCode == 200) {
         BackendResponse backendResponse = BackendResponse.fromJson(response.data);
         if (backendResponse.error == "") {
-         return Future.value(backendResponse.data.map<Map<dynamic, dynamic>>((e) => Map.from(e)).toList());
+         return Future.value(EndpointData(backendResponse.data.map<Map<dynamic, dynamic>>((e) => Map.from(e)).toList()));
         }
         print(backendResponse.error);
       }
@@ -51,6 +53,7 @@ class RestClient implements AbstractEndpointRepository{
       print(error);
     }
 
-    return Future.value([]);
+    return Future.value(EndpointData.empty());
   }
+
 }

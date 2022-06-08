@@ -1,10 +1,12 @@
 import 'package:adpv_frontend/Repository/AbstractEndpointRepository.dart';
 import 'package:adpv_frontend/Repository/MockRepository.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'CompareEndpoints/CompareEndpointsView.dart';
 import 'EndpointList/EndpointNavigator.dart';
 import 'Profile/ProfileView.dart';
+import 'Providers/CompareEndpointsModel.dart';
 
 const String endpointList = "Endpoint List";
 const String compareEnpoints = "Compare";
@@ -25,10 +27,10 @@ class _AppState extends State<App> {
 
   int _selectedIndex = 0;
   late final List<Widget> _navigationOptions = <Widget>[
-    EndpointNavigator(endpointRepository: widget.repository),
-    CompareChartsView(
-      endpointRepository: widget.endpointRepository,
-    ),
+    EndpointNavigator(repository: widget.repository),
+     CompareChartsView(
+        repository: widget.repository,
+      ),
     const ProfileView(),
   ];
 

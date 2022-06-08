@@ -20,7 +20,7 @@ class CompareChartsView extends StatefulWidget {
 
 class _CompareChartsViewState extends State<CompareChartsView> {
   //Map<String, bool> selectedChips = {};
-   Widget chart = Container();
+  Widget chart = Container();
 
   @override
   Widget build(BuildContext context) {
@@ -43,50 +43,44 @@ class _CompareChartsViewState extends State<CompareChartsView> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
-                        Container(
-                          width: MediaQuery
-                              .of(context)
-                              .size
-                              .width * 0.8,
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.8,
                           child: Consumer<EndpointModel>(
                               builder: (context, endpointModel, _) {
-                                endpointModel.makeEndpointSummaryMap(snapshot.data!);
-                                return DropDownMultiSelect(
-                                  options: endpointModel.endpointSummaryMap.keys
-                                      .map((e) => e.toString())
-                                      .toList(),
-                                  selectedValues: endpointModel
-                                      .selectedEndpoints,
-                                  onChanged: (List<String> selected) {
-                                    setState(
-                                          () {
-                                        endpointModel
-                                            .updateEndpointSelectedList(
-                                            selected);
-                                      },
-                                    );
+                            endpointModel
+                                .makeEndpointSummaryMap(snapshot.data!);
+                            return DropDownMultiSelect(
+                              options: endpointModel.endpointSummaryMap.keys
+                                  .map((e) => e.toString())
+                                  .toList(),
+                              selectedValues: endpointModel.selectedEndpoints,
+                              onChanged: (List<String> selected) {
+                                setState(
+                                  () {
+                                    endpointModel
+                                        .updateEndpointSelectedList(selected);
                                   },
-                                  whenEmpty: "Select Endpoint",
                                 );
-                              }),
+                              },
+                              whenEmpty: emptyField,
+                            );
+                          }),
                         ),
                       ],
                     ),
                     const SizedBox(height: 10),
                     Consumer<EndpointModel>(
                         builder: (context, endpointModel, child) {
-                          return Wrap(
-                            children: _createChips(endpointModel),
-                          );
-                        }
-                    ),
-
+                      return Wrap(
+                        children: _createChips(endpointModel),
+                      );
+                    }),
                     const SizedBox(height: 10),
                     Consumer<EndpointModel>(
-                        builder: (context, endpointModel, child) {
-                          chart = _createChart(endpointModel);
-                          return chart;
-                        },
+                      builder: (context, endpointModel, child) {
+                        chart = _createChart(endpointModel);
+                        return chart;
+                      },
                     ),
                   ],
                 ),
@@ -99,35 +93,32 @@ class _CompareChartsViewState extends State<CompareChartsView> {
   }
 
   List<Widget> _createChips(EndpointModel endpointModel) {
-      return endpointModel.commonFields.map((e) {
-        endpointModel.selectedChips.putIfAbsent(e, () => false);
-        return Container(
-          margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-          child: InputChip(
-            label: Text(e),
-            selected: endpointModel.selectedChips[e]!,
-            onSelected: (bool value) {
-              setState(() {
-                endpointModel.selectChips(e, value);
-              });
-            },
-          ),
-        );
+    return endpointModel.commonFields.map((e) {
+      endpointModel.selectedChips.putIfAbsent(e, () => false);
+      return Container(
+        margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+        child: InputChip(
+          label: Text(e),
+          selected: endpointModel.selectedChips[e]!,
+          onSelected: (bool value) {
+            setState(() {
+              endpointModel.selectChips(e, value);
+            });
+          },
+        ),
+      );
     }).toList();
-
-    return List.of([]);
   }
 
   Widget _createChart(EndpointModel endpointModel) {
-    if(endpointModel.selectedEndpoints.isEmpty){
+    if (endpointModel.selectedEndpoints.isEmpty) {
       return Column();
     }
     List<Endpoint> endpoints = endpointModel.getEndpointsForDrawing();
     List<String> fields = endpointModel.getFieldsForDrawing();
-
     List<Widget> charts = [];
 
-    for(String field in fields){
+    for (String field in fields) {
       charts.add(MultiDataChart(field: field, endpoints: endpoints));
     }
 

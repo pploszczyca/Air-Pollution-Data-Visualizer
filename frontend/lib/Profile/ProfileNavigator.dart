@@ -1,12 +1,11 @@
 import 'package:adpv_frontend/Profile/ProfileView.dart';
 import 'package:adpv_frontend/Repository/MockRepository.dart';
-import 'package:adpv_frontend/Routing.dart';
 import 'package:flutter/material.dart';
 
 class ProfileNavigator extends StatefulWidget {
-  EndpointRepository endpointRepository;
+  final EndpointRepository endpointRepository;
 
-  ProfileNavigator({Key? key, required this.endpointRepository})
+  const ProfileNavigator({Key? key, required this.endpointRepository})
       : super(key: key);
 
   @override

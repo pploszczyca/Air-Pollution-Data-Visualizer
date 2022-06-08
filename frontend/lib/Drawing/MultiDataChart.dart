@@ -1,13 +1,14 @@
+import 'package:adpv_frontend/Common/Common.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import '../Models/Endpoint.dart';
 
 
 class MultiDataChart extends StatefulWidget {
-  MultiDataChart({Key? key, required this.field, required this.endpoints})
+  const MultiDataChart({Key? key, required this.field, required this.endpoints})
       : super(key: key);
-  String field;
-  List<Endpoint> endpoints;
+  final String field;
+  final List<Endpoint> endpoints;
 
   @override
   State<MultiDataChart> createState() => _MultiDataChartState();
@@ -41,7 +42,7 @@ class _MultiDataChartState extends State<MultiDataChart> {
               ),
             animate: true,
             behaviors: [
-              //TODO make this MF responsive
+              //TODO make this MotherFu.. responsive
               charts.SeriesLegend(desiredMaxColumns: 2),
             ],
           )),
@@ -55,10 +56,9 @@ class _MultiDataChartState extends State<MultiDataChart> {
       id: e.label,
       data: e.data.dataList,
       domainFn: (Map<dynamic,dynamic> endpointData, _) =>
-          DateTime.parse(endpointData['timestamp']),
+          DateTime.parse(endpointData[ignoreField]),
       measureFn: (Map<dynamic,dynamic> endpointData, _) =>
          endpointData[widget.field],
     )).toList();
   }
-  
 }

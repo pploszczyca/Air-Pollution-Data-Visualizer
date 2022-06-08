@@ -1,6 +1,5 @@
 import 'package:adpv_frontend/Common/Common.dart';
 import 'package:adpv_frontend/Models/EndpointData.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../Common/TitledLineChart.dart';
@@ -21,16 +20,16 @@ class _EndpointViewState extends State<EndpointView> {
           if (snapshot.connectionState == ConnectionState.none ||
               snapshot.data == null) {
             return Scaffold(
-              appBar: AppBar(title: const Text("Endpoint Details")),
+              appBar: AppBar(title: const Text(endpointViewAppBar)),
               body: LoadingInCenter(),
             );
           }
           return Scaffold(
-            appBar: AppBar(title: Text("")),
+            appBar: AppBar(title: const Text(endpointViewAppBar)),
             body: SingleChildScrollView(
                   child: Column(
                       children: snapshot.data!.dataList[0].keys
-                          .where((element) => element != "timestamp")
+                          .where((element) => element != ignoreField)
                           .map((dataKey) => TitledLineChart(
                                 chartName: dataKey,
                                 measureFnCallback:
@@ -39,21 +38,6 @@ class _EndpointViewState extends State<EndpointView> {
                                 data: snapshot.data!,
                               ))
                           .toList()
-                      // TitledLinedChart(
-                      //     chartName: "Temperature",
-                      //     measureFnCallback: (EndpointData endpointData, _) => endpointData.temperature,
-                      //     dataList: snapshot.data!.dataList),
-                      // const SizedBox(height: 25),
-                      // TitledLinedChart(
-                      //     chartName: "Pressure",
-                      //     measureFnCallback: (EndpointData endpointData, _) => endpointData.pressure,
-                      //     dataList: snapshot.data!.dataList),
-                      // const SizedBox(height: 25),
-                      // TitledLinedChart(
-                      //     chartName: "Humidity",
-                      //     measureFnCallback: (EndpointData endpointData, _) => endpointData.humidity,
-                      //     dataList: snapshot.data!.dataList),
-
                       ),
                 ),
           );

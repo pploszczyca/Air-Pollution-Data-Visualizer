@@ -1,17 +1,14 @@
 import 'package:adpv_frontend/EndpointList/EndpointView/EndpointView.dart';
 import 'package:adpv_frontend/EndpointList/EnpointList.dart';
-import 'package:adpv_frontend/Repository/MockRepository.dart';
 import 'package:adpv_frontend/Routing.dart';
 import 'package:flutter/material.dart';
 
 import '../Repository/AbstractEndpointRepository.dart';
 
-
-
 class EndpointNavigator extends StatefulWidget {
-  AbstractEndpointRepository repository;
+  final AbstractEndpointRepository repository;
 
-  EndpointNavigator({Key? key, required this.repository})
+  const EndpointNavigator({Key? key, required this.repository})
       : super(key: key);
 
   @override

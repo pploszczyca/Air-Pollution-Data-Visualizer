@@ -26,10 +26,10 @@ class RestClient implements AbstractEndpointRepository{
               .map<EndpointSummary>((e) => EndpointSummary.fromJson(e))
               .toList());
         }
-        print(backendResponse.error);
+        //print(backendResponse.error);
       }
     } catch (error) {
-      print(error);
+      //print(error);
     }
 
     return Future.value([]);
@@ -47,7 +47,7 @@ class RestClient implements AbstractEndpointRepository{
         if (backendResponse.error == "") {
          return Future.value(EndpointData(backendResponse.data.map<Map<dynamic, dynamic>>((e) => Map.from(e)).toList()));
         }
-        print(backendResponse.error);
+        //print(backendResponse.error);
       }
     } catch (error) {
       print(error);

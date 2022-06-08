@@ -1,4 +1,3 @@
-import 'package:adpv_frontend/CompareEndpoints/TwoChartsDateTime.dart';
 import 'package:adpv_frontend/Repository/RestClient.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:dio/dio.dart';
@@ -31,20 +30,12 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   Widget build(BuildContext context) {
     var repository = RestClient(Dio());
-
-    const axisSetting = charts.NumericAxisSpec(
-      tickProviderSpec:
-      charts.BasicNumericTickProviderSpec(zeroBound: false),
-    );
-
     return FutureBuilder<EndpointData>(
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.none ||
             snapshot.data == null) {
           return LoadingInCenter();
         }
-        print("#############" + snapshot.data!.dataList[0].toString());
-
         return SizedBox(
           width: MediaQuery.of(context).size.width * 1 ,
           height:  MediaQuery.of(context).size.height *0.3,
@@ -69,15 +60,8 @@ class _ProfileViewState extends State<ProfileView> {
             ],
           ),
         );
-
       },
       future: repository.getEndpointData(3),
     );
-    // return Column(children: <Widget>[
-    //   AppBar(
-    //     title: const Text("Your profile"),
-    //   ),
-    //   const Text("Some profile info here"),
-    // ]);
   }
 }

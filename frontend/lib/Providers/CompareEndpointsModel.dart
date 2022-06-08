@@ -27,7 +27,7 @@ class EndpointModel extends ChangeNotifier {
   }
 
   void updateCommonFields() {
-    if (selectedEndpoints.length > 0){
+    if (selectedEndpoints.isNotEmpty){
       Map<String, int> counter = {};
       List fields = endpointsMap[selectedEndpoints[0]]!.data.dataList[0].keys.toList();
       for(String s in fields){
@@ -77,9 +77,9 @@ class EndpointModel extends ChangeNotifier {
   }
 
   void makeEndpointSummaryMap(List<EndpointSummary> list) {
-    list.forEach((element) {
+    for (var element in list) {
       endpointSummaryMap[element.label] = element;
-    });
+    }
     //notifyListeners();
   }
 

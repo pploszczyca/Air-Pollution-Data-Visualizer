@@ -24,7 +24,6 @@ class _CompareEndpointsNavigatorState extends State<CompareEndpointsNavigator> {
         if(settings.name == compareEndpointsRoute){
           page =  EndpointList(repository: widget.repository,);
         }
-
         return MaterialPageRoute<dynamic>(
             builder: (context){
               return page;

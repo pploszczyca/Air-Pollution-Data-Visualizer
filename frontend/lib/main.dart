@@ -16,15 +16,8 @@ class MyApp extends StatelessWidget {
   final EndpointRepository endpointRepository = EndpointRepository.mock();
   final RestClient restClient = RestClient(Dio());
 
-  void testRest() {
-    restClient.getEndpointSummary().then((value) => print(value));
-
-    //restClient.getEndpointData(1).then((value) => print(value));
-  }
-
   @override
   Widget build(BuildContext context) {
-    testRest();
     return MaterialApp(
         title: 'APDV Demo',
         theme: ThemeData(

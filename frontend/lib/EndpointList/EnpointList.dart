@@ -1,7 +1,6 @@
 import 'package:adpv_frontend/Common/Common.dart';
 import 'package:adpv_frontend/Models/EndpointSummary.dart';
 import 'package:adpv_frontend/Repository/AbstractEndpointRepository.dart';
-import 'package:adpv_frontend/Repository/MockRepository.dart';
 import 'package:adpv_frontend/Routing.dart';
 import 'package:flutter/material.dart';
 

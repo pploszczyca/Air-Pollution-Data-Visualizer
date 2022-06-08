@@ -1,7 +1,4 @@
 import 'dart:collection';
-
-import 'package:adpv_frontend/Models/EndpointData.dart';
-
 import '../Models/Endpoint.dart';
 
 class EndpointRepository{

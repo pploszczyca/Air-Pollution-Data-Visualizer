@@ -108,7 +108,7 @@ class _AppState extends State<App> {
     );
   }
 
-  NavigationRailDestination _buildRailNavigationItem(String stringLabel, int codePoint) {
+  NavigationRailDestination _buildRailNavigationItem(String stringLabel, int codePoint) { //because of not const icons needed flag  --no-tree-shake-icons
     return NavigationRailDestination(
       icon: Icon(IconData(codePoint, fontFamily: 'MaterialIcons'), size: 30,),
       selectedIcon:

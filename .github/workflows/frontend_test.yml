@@ -39,4 +39,4 @@ jobs:
       with:
           channel: 'dev'
     - run: flutter pub get
-    - run: flutter build appbundle
+    - run: flutter build appbundle --no-tree-shake-icons

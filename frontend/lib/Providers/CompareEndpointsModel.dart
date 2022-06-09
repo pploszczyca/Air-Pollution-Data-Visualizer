@@ -20,11 +20,6 @@ class EndpointModel extends ChangeNotifier {
 
   void selectChips(String label, bool value) {
     selectedChips[label] = value;
-    if (value) {
-      selectedChips[label] = true;
-    } else {
-      selectedChips[label] = false;
-    }
     notifyListeners();
   }
 

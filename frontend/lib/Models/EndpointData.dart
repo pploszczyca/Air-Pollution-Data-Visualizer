@@ -6,9 +6,7 @@ class EndpointData{
   EndpointData.empty(): dataList = List.of([]);
 
   List<dynamic> getCertainField(String field){
-    return dataList.map((e) {
-      return e[field];
-    }).toList();
+    return dataList.map((e) => e[field]).toList();
   }
 
   @override

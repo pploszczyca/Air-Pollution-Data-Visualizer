@@ -23,10 +23,7 @@ class Endpoint{
   }
 
   bool hasField(String field){
-    if(data.dataList[0][field] != null){
-      return true;
-    }
-    return false;
+    return data.dataList[0].containsKey(field);
   }
 
   @override

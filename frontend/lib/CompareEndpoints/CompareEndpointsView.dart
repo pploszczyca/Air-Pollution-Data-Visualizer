@@ -1,163 +1,123 @@
-import 'package:adpv_frontend/CompareEndpoints/TwoChartsDateTime.dart';
-import 'package:adpv_frontend/Repository/EndpointRepository.dart';
+import 'package:adpv_frontend/Drawing/MultiDataChart.dart';
+import 'package:adpv_frontend/Models/EndpointSummary.dart';
+import 'package:adpv_frontend/Repository/AbstractEndpointRepository.dart';
 import 'package:flutter/material.dart';
+import 'package:multiselect/multiselect.dart';
+import 'package:provider/provider.dart';
 
 import '../Common/Common.dart';
-import '../Models/ChartData.dart';
+import '../Models/Endpoint.dart';
+import '../Providers/CompareEndpointsModel.dart';
 
 class CompareChartsView extends StatefulWidget {
-  const CompareChartsView({Key? key, required this.endpointRepository})
+  const CompareChartsView({Key? key, required this.repository})
       : super(key: key);
-  final EndpointRepository endpointRepository;
+  final AbstractEndpointRepository repository;
 
   @override
   State<CompareChartsView> createState() => _CompareChartsViewState();
 }
 
 class _CompareChartsViewState extends State<CompareChartsView> {
-  String? _firstEndpoint;
-  String? _secondEndpoint;
-  Map<ChartData, bool> isChipsSelected = {};
-  List<ChartData> chartDataSelected = [];
   Widget chart = Container();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Compare charts"),
-      ),
-      body: FutureBuilder<List<String>>(
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.none ||
-              snapshot.data == null) {
-            return LoadingInCenter();
-          } else {
-            return SingleChildScrollView(
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      DropdownButton(
-                        hint: const Text("SelectEndpoint"),
-                        value: _firstEndpoint,
-                        items: buildDropDownMenuItems(snapshot).toList(),
-                        underline: Container(
-                          height: 2,
-                          color: Colors.blue,
-                        ),
-                        onChanged: (value) {
-                          setState(() {
-                            _firstEndpoint = value as String?;
-                          });
-                        },
-                      ),
-                      DropdownButton(
-                        hint: const Text("SelectEndpoint"),
-                        value: _secondEndpoint,
-                        items: buildDropDownMenuItems(snapshot).toList(),
-                        underline: Container(
-                          height: 2,
-                          color: Colors.red,
-                        ),
-                        onChanged: (value) {
-                          setState(() {
-                            _secondEndpoint = value as String?;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  Wrap(
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.only(left: 12, right: 12),
-                        child: _makeInputChips(
-                            widget.endpointRepository.getAvailableFields()),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  Container(
-                    margin: const EdgeInsets.all(10.0),
-                    child: ElevatedButton(
-                        onPressed: () {
-                          var firstEndpointData = widget.endpointRepository
-                              .getEndpoint(_firstEndpoint!);
-                          var secondEndpointData = widget.endpointRepository
-                              .getEndpoint(_secondEndpoint!);
-                          var endpoints = [
-                            firstEndpointData,
-                            secondEndpointData
-                          ];
-
-                          chart = Column(
-                            children: chartDataSelected
-                                .map((chartData) => TwoChartsDateTime(
-                                    endpoints: endpoints,
-                                    measureFnCallback:
-                                        chartData.measureFnCallback,
-                                    chartTitle: chartData.name,
-                                    yLabel: chartData.unit))
-                                .toList(),
-                          );
-                        },
-                        child: const Text("Generate charts")),
-                  ),
-                  chart
-                ],
-              ),
-            );
-          }
-        },
-        future: widget.endpointRepository.getEndpointSummary(),
-      ),
-    );
-  }
-
-  Widget _makeInputChips(Future<List<ChartData>> chartDataFuture) {
-    return FutureBuilder<List<ChartData>>(
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.none ||
-              snapshot.data == null) {
-            return LoadingInCenter();
-          } else {
-        return Wrap(
-                children: snapshot.data!.map(mapChartDataToInputChip).toList());
-          }
-        },
-        future: chartDataFuture);
-  }
-
-  Widget mapChartDataToInputChip(ChartData chartData) {
-    isChipsSelected.putIfAbsent(chartData, () => false);
-
-    return Container(
-      margin:const EdgeInsets.symmetric(horizontal: 12),
-      child: InputChip(
-        label: Text(chartData.name),
-        selected: isChipsSelected[chartData]!,
-        onSelected: (bool value) {
-          setState(() {
-            isChipsSelected[chartData] = value;
-            if (value) {
-              chartDataSelected.add(chartData);
+    return ChangeNotifierProvider(
+      create: (context) => EndpointModel(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text("Compare charts"),
+        ),
+        body: FutureBuilder<List<EndpointSummary>>(
+          future: widget.repository.getEndpointSummary(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.none ||
+                snapshot.data == null) {
+              return LoadingInCenter();
             } else {
-              chartDataSelected.remove(chartData);
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.8,
+                          child: Consumer<EndpointModel>(
+                              builder: (context, endpointModel, _) {
+                            endpointModel
+                                .makeEndpointSummaryMap(snapshot.data!);
+                            return DropDownMultiSelect(
+                              options: endpointModel.endpointSummaryMap.keys
+                                  .map((e) => e.toString())
+                                  .toList(),
+                              selectedValues: endpointModel.selectedEndpoints,
+                              onChanged: (List<String> selected) {
+                                setState(
+                                  () {
+                                    endpointModel
+                                        .updateEndpointSelectedList(selected);
+                                  },
+                                );
+                              },
+                              whenEmpty: emptyField,
+                            );
+                          }),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    Consumer<EndpointModel>(
+                        builder: (context, endpointModel, child) {
+                      return Wrap(
+                        children: _createChips(endpointModel),
+                      );
+                    }),
+                    const SizedBox(height: 10),
+                    Consumer<EndpointModel>(
+                      builder: (context, endpointModel, child) {
+                        chart = _createChart(endpointModel);
+                        return chart;
+                      },
+                    ),
+                  ],
+                ),
+              );
             }
-          });
-        },
+          },
+        ),
       ),
     );
   }
 
-  Iterable<DropdownMenuItem<String>> buildDropDownMenuItems(
-      AsyncSnapshot<List<String>> snapshot) {
-    return snapshot.data!.map((item) => DropdownMenuItem<String>(
-          child: Text(item),
-          value: item,
-        ));
+  List<Widget> _createChips(EndpointModel endpointModel) {
+    return endpointModel.commonFields.map((e) {
+      endpointModel.selectedChips.putIfAbsent(e, () => false);
+      return Container(
+        margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+        child: InputChip(
+          label: Text(e),
+          selected: endpointModel.selectedChips[e]!,
+          onSelected: (bool value) {
+            setState(() {
+              endpointModel.selectChips(e, value);
+            });
+          },
+        ),
+      );
+    }).toList();
+  }
+
+  Widget _createChart(EndpointModel endpointModel) {
+    if (endpointModel.selectedEndpoints.isEmpty) {
+      return Column();
+    }
+    List<Endpoint> endpoints = endpointModel.getEndpointsForDrawing();
+    List<String> fields = endpointModel.getFieldsForDrawing();
+
+    return Column(
+      children: fields.map((field) => MultiDataChart(field: field, endpoints: endpoints)).toList(),
+    );
   }
 }

@@ -1,11 +1,33 @@
 import 'package:adpv_frontend/Models/EndpointData.dart';
+import 'package:adpv_frontend/Models/EndpointSummary.dart';
 
 class Endpoint{
   late int id;
-  late String endpointName;
-  late List<EndpointData> dataList = <EndpointData>[];
+  late String label;
+  late EndpointData data;
 
-  Endpoint.name(this.id, this.endpointName, this.dataList);
+  Endpoint.fromSummary(EndpointSummary summary, this.data):
+        id = summary.id, label = summary.label;
 
-  Endpoint.noList(this.id, this.dataList);
+  Endpoint(this.id, this.label, this.data);
+
+
+
+  @override
+  bool operator ==(Object other) {
+      return label == other;
+  }
+
+  bool isLabelEqual(String name){
+    return label == name;
+  }
+
+  bool hasField(String field){
+    return data.dataList[0].containsKey(field);
+  }
+
+  @override
+  String toString() {
+    return 'Endpoint{id: $id, label: $label, data: $data}';
+  }
 }

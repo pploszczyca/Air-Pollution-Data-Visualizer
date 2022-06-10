@@ -26,6 +26,7 @@ public class WebClientConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
+                // TODO: Properly set up CORS policy, now allows everything
                 registry.addMapping("/**").allowedOrigins("*");
             }
         };

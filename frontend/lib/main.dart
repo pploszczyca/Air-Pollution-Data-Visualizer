@@ -2,12 +2,11 @@ import 'package:adpv_frontend/Repository/MockRepository.dart';
 import 'package:adpv_frontend/Repository/RestClient.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'App.dart';
-import 'Providers/CompareEndpointsModel.dart';
 
-void main() {
+Future main() async {
+  await loadEnvFile();
   runApp(MyApp());
 }
 
@@ -29,4 +28,8 @@ class MyApp extends StatelessWidget {
         ),
     );
   }
+}
+
+Future loadEnvFile() async {
+  await dotenv.load(fileName: ".env");
 }

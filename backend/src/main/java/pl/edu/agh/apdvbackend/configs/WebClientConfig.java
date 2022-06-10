@@ -26,7 +26,8 @@ public class WebClientConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("http://localhost:41519");
+                // TODO: Properly set up CORS policy, now allows everything
+                registry.addMapping("/**").allowedOrigins("*");
             }
         };
     }

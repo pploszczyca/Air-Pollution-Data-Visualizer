@@ -19,7 +19,8 @@ jobs:
           channel: 'dev'
     - run: flutter pub get
     - run: flutter config --enable-web
-    - run: flutter build web
+    - run: touch .env
+    - run: flutter build web  
 
   build_apk:
     name: Build Flutter (Android)
@@ -39,4 +40,5 @@ jobs:
       with:
           channel: 'dev'
     - run: flutter pub get
+    - run: touch .env
     - run: flutter build appbundle

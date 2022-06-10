@@ -20,6 +20,8 @@ class _EndpointListState extends State<EndpointList> {
 
   @override
   Widget build(BuildContext context) {
+    int? _activeMeterIndex;
+    //provider
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 127, 166, 168),
       appBar: PreferredSize(
@@ -44,7 +46,11 @@ class _EndpointListState extends State<EndpointList> {
               snapshot.data == null) {
             return LoadingInCenter();
           }
-          return ListView.builder(
+          return Container(
+            height: 600,
+              margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.03 , right: MediaQuery.of(context).size.width * 0.03, top: 50.9),
+
+            child: ListView.builder(
             itemCount: snapshot.data!.length,
             itemBuilder: (context, i) {
               final endpointName = snapshot.data![i];
@@ -53,18 +59,44 @@ class _EndpointListState extends State<EndpointList> {
                 onTapHandler(endpointName, widget.endpointRepository);
               }
 
-              return Container(
-                height: 100,
-                  decoration: const BoxDecoration(color: Colors.white),
-                  child: ListTile(
-                title: Text(endpointName),
-                onTap: onTap,
-                trailing: IconButton(
-                  icon: const Icon(Icons.arrow_forward_ios),
-                  onPressed: onTap,
-                ),
-              ));
+              return Card(
+                margin: const EdgeInsets.only( top: 50.0, bottom: 10.0),
+                  // decoration: const BoxDecoration(color: Colors.white),
+                  child: ExpansionPanelList(
+                      expansionCallback: (int index, bool status) {
+                        setState(() {
+                          _activeMeterIndex = _activeMeterIndex == i ? null : i;
+                          print(_activeMeterIndex);
+                        });
+                      },
+                      children: [
+                        //consumer
+                      ExpansionPanel(
+                      isExpanded: true,
+                      headerBuilder: (BuildContext context, bool isExpanded) =>
+                      Container(
+                          padding:
+                          const EdgeInsets.only(left: 15.0),
+                          alignment: Alignment.centerLeft,
+                          child: const Text(
+                            'lololololo',
+                          )),
+                  body: Container(
+                    child: ListTile(
+                      title: Text(endpointName),
+                      onTap: onTap,
+                      trailing: IconButton(
+                        icon: const Icon(Icons.arrow_forward_ios),
+                        onPressed: onTap,
+                      ),
+                    ),
+                  )
+                  )
+                  ]
+                  )
+              );
             },
+          )
           );
         },
         future: widget.endpointRepository.getEndpointSummary(),

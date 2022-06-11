@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.edu.agh.apdvbackend.controllers.endpoint.body_models.AddEndpointRequestBody;
+import pl.edu.agh.apdvbackend.controllers.endpoint.body_models.EndpointData;
 import pl.edu.agh.apdvbackend.controllers.endpoint.body_models.EndpointSummaryResponseBody;
 import pl.edu.agh.apdvbackend.controllers.endpoint.body_models.UserEndpointResponseBody;
 import pl.edu.agh.apdvbackend.models.Endpoint;
@@ -37,6 +38,13 @@ public class EndpointController {
         return endpointService.getData(USER_ID, sensorId);
     }
 
+    @Operation(summary = "Get list of data from sensor that belongs to user with enable fields")
+    @GetMapping("/data")
+    public Response<EndpointData> getDataWithFields(
+            @RequestParam Long sensorId) {
+        return endpointService.getDataWithFields(USER_ID, sensorId);
+    }
+
     @Operation(summary = "Get user's endpoints list")
     @GetMapping("/list")
     public Response<List<UserEndpointResponseBody>> getUserEndpointsList() {
@@ -51,7 +59,7 @@ public class EndpointController {
 
     @Operation(summary = "Add new endpoint")
     @PostMapping
-    public Endpoint addEndpoint(
+    public Response<Endpoint> addEndpoint(
             @RequestBody AddEndpointRequestBody addEndpointRequestBody) {
         return endpointService.addEndpoint(addEndpointRequestBody);
     }

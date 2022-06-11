@@ -13,15 +13,18 @@ public abstract class FieldMapper {
 
     private static final String UNIT = "unit";
 
-    private static final String UNIT_MAPPING_EXPRESSION = "java(saveUnitByNameIfNotExist.execute(addFieldBodyRequest.unitName()))";
+    private static final String UNIT_MAPPING_EXPRESSION =
+            "java(saveUnitByNameIfNotExist.execute(addFieldBodyRequest.unitName()))";
 
     @Autowired
     protected SaveUnitByNameIfNotExist saveUnitByNameIfNotExist;
 
     @Mapping(target = UNIT, expression = UNIT_MAPPING_EXPRESSION)
-    public abstract Field addRequestBodyToField(AddFieldBodyRequest addFieldBodyRequest);
+    public abstract Field addRequestBodyToField(
+            AddFieldBodyRequest addFieldBodyRequest);
 
     @Mapping(target = UNIT, expression = UNIT_MAPPING_EXPRESSION)
-    public abstract void updateFieldFromAddRequestBody(AddFieldBodyRequest addFieldBodyRequest,
-                                       @MappingTarget Field field);
+    public abstract void updateFieldFromAddRequestBody(
+            AddFieldBodyRequest addFieldBodyRequest,
+            @MappingTarget Field field);
 }

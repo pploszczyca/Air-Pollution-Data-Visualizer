@@ -7,6 +7,6 @@ import pl.edu.agh.apdvbackend.models.Unit;
 public record FieldWithoutId(
         @Schema(required = true) String label,
         @Schema(required = true) FieldType fieldType,
-        Unit unit
+        @Schema(required = true) Unit unit
 ) {
 }

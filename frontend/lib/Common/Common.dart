@@ -9,3 +9,8 @@ Center LoadingInCenter() {
     ),
   );
 }
+const ignoreField = 'timestamp';
+const emptyField = 'Select Endpoint';
+
+const endpointViewAppBar = 'Endpoint Details';
+

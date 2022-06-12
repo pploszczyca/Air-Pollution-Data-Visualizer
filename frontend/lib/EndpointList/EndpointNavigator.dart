@@ -1,15 +1,14 @@
 import 'package:adpv_frontend/EndpointList/EndpointView/EndpointView.dart';
 import 'package:adpv_frontend/EndpointList/EnpointList.dart';
-import 'package:adpv_frontend/Repository/EndpointRepository.dart';
 import 'package:adpv_frontend/Routing.dart';
 import 'package:flutter/material.dart';
 
-
+import '../Repository/AbstractEndpointRepository.dart';
 
 class EndpointNavigator extends StatefulWidget {
-  EndpointRepository endpointRepository;
+  final AbstractEndpointRepository repository;
 
-  EndpointNavigator({Key? key, required this.endpointRepository})
+  const EndpointNavigator({Key? key, required this.repository})
       : super(key: key);
 
   @override
@@ -24,11 +23,11 @@ class _EndpointNavigatorState extends State<EndpointNavigator> {
         late Widget page;
         if(settings.name == endpointListRoute){
           print(settings.name);
-          page =  EndpointList(endpointRepository: widget.endpointRepository,);
+          page =  EndpointList(repository: widget.repository,);
+          
         }else if(settings.name!.startsWith(endpointViewRoute)){
-          var endpointName = settings.name!.split("/")[2];
-
-          page = EndpointView(endpoint: widget.endpointRepository.getEndpoint(endpointName));
+          var endpointId = settings.name!.split("/")[2];
+          page = EndpointView(endpointData: widget.repository.getEndpointData(int.parse(endpointId)));
         }
 
         return MaterialPageRoute<dynamic>(

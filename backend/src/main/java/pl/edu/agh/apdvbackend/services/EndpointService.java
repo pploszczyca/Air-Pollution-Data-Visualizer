@@ -5,6 +5,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.edu.agh.apdvbackend.controllers.endpoint.body_models.AddEndpointRequestBody;
+import pl.edu.agh.apdvbackend.controllers.endpoint.body_models.EndpointData;
 import pl.edu.agh.apdvbackend.controllers.endpoint.body_models.EndpointSummaryResponseBody;
 import pl.edu.agh.apdvbackend.controllers.endpoint.body_models.UserEndpointResponseBody;
 import pl.edu.agh.apdvbackend.models.Endpoint;
@@ -12,6 +13,7 @@ import pl.edu.agh.apdvbackend.models.body_models.Response;
 import pl.edu.agh.apdvbackend.use_cases.endpoint.GetAllEndpointSummaries;
 import pl.edu.agh.apdvbackend.use_cases.endpoint.GetAllUserEndpoints;
 import pl.edu.agh.apdvbackend.use_cases.endpoint.GetUserEndpointData;
+import pl.edu.agh.apdvbackend.use_cases.endpoint.GetUserEndpointDataWithFields;
 import pl.edu.agh.apdvbackend.use_cases.endpoint.RemoveEndpointById;
 import pl.edu.agh.apdvbackend.use_cases.endpoint.SaveNewEndpoint;
 import pl.edu.agh.apdvbackend.use_cases.endpoint.UpdateEndpoint;
@@ -20,6 +22,8 @@ import pl.edu.agh.apdvbackend.use_cases.endpoint.UpdateEndpoint;
 @RequiredArgsConstructor
 public class EndpointService {
     private final GetUserEndpointData getUserEndpointData;
+
+    private final GetUserEndpointDataWithFields getUserEndpointDataWithFields;
 
     private final SaveNewEndpoint saveNewEndpoint;
 
@@ -37,13 +41,20 @@ public class EndpointService {
                 getUserEndpointData.execute(userId, sensorId));
     }
 
+    public Response<EndpointData> getDataWithFields(Long userId,
+                                                    Long sensorId) {
+        return Response.withOkStatus(
+                getUserEndpointDataWithFields.execute(userId, sensorId));
+    }
+
     public Response<List<EndpointSummaryResponseBody>> getEndpointsList() {
         return Response.withOkStatus(getAllEndpointSummaries.execute());
     }
 
-    public Endpoint addEndpoint(
+    public Response<Endpoint> addEndpoint(
             AddEndpointRequestBody addEndpointRequestBody) {
-        return saveNewEndpoint.execute(addEndpointRequestBody);
+        return Response.withOkStatus(
+                saveNewEndpoint.execute(addEndpointRequestBody));
     }
 
     public void removeEndpoint(Long endpointId) {

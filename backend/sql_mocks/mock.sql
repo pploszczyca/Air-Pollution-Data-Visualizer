@@ -4,15 +4,20 @@ INSERT INTO public.endpoint (endpoint_number, label, sensor_url) VALUES (59, 'AG
 INSERT INTO public.endpoint (endpoint_number, label, sensor_url) VALUES (75, 'Ochotnica Konopnickiej', '/pl/datasets/stacje-ochotnica-21/endpoints/75/data/?limit=25');
 INSERT INTO public.endpoint (endpoint_number, label, sensor_url) VALUES (74, 'Ochotnica Twardowskiego', '/pl/datasets/stacje-ochotnica-21/endpoints/74/data/?limit=25');
 
-INSERT INTO public.field (label) VALUES ('temperature');
-INSERT INTO public.field (label) VALUES ('pressure');
-INSERT INTO public.field (label) VALUES ('humidity');
-INSERT INTO public.field (label) VALUES ('pm1_0');
-INSERT INTO public.field (label) VALUES ('pm2_5');
-INSERT INTO public.field (label) VALUES ('pm10');
-INSERT INTO public.field (label) VALUES ('label');
-INSERT INTO public.field (label) VALUES ('id');
-INSERT INTO public.field (label) VALUES ('timestamp');
+INSERT INTO public.unit (name) VALUES ('°C');
+INSERT INTO public.unit (name) VALUES ('Pa');
+INSERT INTO public.unit (name) VALUES ('%');
+INSERT INTO public.unit (name) VALUES ('µg/m3');
+
+INSERT INTO public.field (label, field_type, unit_id) VALUES ('temperature', 0, 1);
+INSERT INTO public.field (label, field_type, unit_id) VALUES ('pressure', 0, 2);
+INSERT INTO public.field (label, field_type, unit_id) VALUES ('humidity', 0, 3);
+INSERT INTO public.field (label, field_type, unit_id) VALUES ('pm1_0', 0, 4);
+INSERT INTO public.field (label, field_type, unit_id) VALUES ('pm2_5', 0, 4);
+INSERT INTO public.field (label, field_type, unit_id) VALUES ('pm10', 0, 4);
+INSERT INTO public.field (label, field_type) VALUES ('label', 2);
+INSERT INTO public.field (label, field_type) VALUES ('id', 2);
+INSERT INTO public.field (label, field_type) VALUES ('timestamp', 2);
 
 INSERT INTO public.field_parser (path) VALUES ('/data/envSensor/temperature');
 INSERT INTO public.field_parser (path) VALUES ('/data/envSensor/pressure');

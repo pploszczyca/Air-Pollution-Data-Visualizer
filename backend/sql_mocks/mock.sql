@@ -8,6 +8,10 @@ INSERT INTO public.unit (name) VALUES ('°C');
 INSERT INTO public.unit (name) VALUES ('Pa');
 INSERT INTO public.unit (name) VALUES ('%');
 INSERT INTO public.unit (name) VALUES ('µg/m3');
+INSERT INTO public.unit (name) VALUES ('F');
+
+INSERT INTO public.unit_converter (calculation_step, math_operation, value, from_unit_id, to_unit_id) VALUES (1, 1, 1.8, 1, 5);
+INSERT INTO public.unit_converter (calculation_step, math_operation, value, from_unit_id, to_unit_id) VALUES (2, 0, 32, 1, 5);
 
 INSERT INTO public.field (label, field_type, unit_id) VALUES ('temperature', 0, 1);
 INSERT INTO public.field (label, field_type, unit_id) VALUES ('pressure', 0, 2);

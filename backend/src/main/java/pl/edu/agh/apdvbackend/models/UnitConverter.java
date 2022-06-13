@@ -2,6 +2,8 @@ package pl.edu.agh.apdvbackend.models;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -37,6 +39,7 @@ public class UnitConverter {
     private int calculationStep;
 
     @Schema(required = true)
+    @Enumerated(EnumType.ORDINAL)
     private MathOperation mathOperation;
 
     @Schema(required = true)

@@ -14,14 +14,14 @@ import pl.edu.agh.apdvbackend.repositories.UnitRepository;
 @Mapper(componentModel = "spring")
 public abstract class UnitConverterMapper {
 
-    public static final String FROM_UNIT = "fromUnit";
+    private static final String FROM_UNIT = "fromUnit";
 
-    public static final String TO_UNIT = "toUnit";
+    private static final String TO_UNIT = "toUnit";
 
-    public static final String FROM_UNIT_EXPRESSION =
+    private static final String FROM_UNIT_EXPRESSION =
             "java(getUnit(addUnitConverterRequestBody.fromUnitId()))";
 
-    public static final String TO_UNIT_EXPRESSION =
+    private static final String TO_UNIT_EXPRESSION =
             "java(getUnit(addUnitConverterRequestBody.toUnitId()))";
 
     @Autowired

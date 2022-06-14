@@ -21,7 +21,9 @@ public class GetAllUnitConverterResponseBodiesImpl
 
     @Override
     public List<UnitConverterResponseBody> execute() {
-        final var unitConverterList = listUtilities.iterableToList(converterRepository.findAll());
-        return unitConverterMapper.unitConverterListToResponseBodyList(unitConverterList);
+        final var unitConverterList =
+                listUtilities.iterableToList(converterRepository.findAll());
+        return unitConverterMapper.unitConverterListToResponseBodyList(
+                unitConverterList);
     }
 }

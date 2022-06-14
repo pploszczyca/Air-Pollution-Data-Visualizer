@@ -22,8 +22,12 @@ public class GetAllRelatedUnitConvertersResponseBodiesImpl
 
     @Override
     public List<UnitConverterResponseBody> execute(Long unitId) {
-        final var unitConverterIterable = converterRepository.findAllByFromUnitIdOrToUnitId(unitId, unitId);
-        final var unitConverterList = listUtilities.iterableToList(unitConverterIterable);
-        return unitConverterMapper.unitConverterListToResponseBodyList(unitConverterList);
+        final var unitConverterIterable =
+                converterRepository.findAllByFromUnitIdOrToUnitId(unitId,
+                        unitId);
+        final var unitConverterList =
+                listUtilities.iterableToList(unitConverterIterable);
+        return unitConverterMapper.unitConverterListToResponseBodyList(
+                unitConverterList);
     }
 }

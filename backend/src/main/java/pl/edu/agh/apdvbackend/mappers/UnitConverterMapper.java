@@ -29,9 +29,11 @@ public abstract class UnitConverterMapper {
 
     @Mapping(target = "fromUnitId", source = "unitConverter.fromUnit.id")
     @Mapping(target = "toUnitId", source = "unitConverter.toUnit.id")
-    public abstract UnitConverterResponseBody unitConverterToResponseBody(UnitConverter unitConverter);
+    public abstract UnitConverterResponseBody unitConverterToResponseBody(
+            UnitConverter unitConverter);
 
-    public abstract List<UnitConverterResponseBody> unitConverterListToResponseBodyList(List<UnitConverter> unitConverterList);
+    public abstract List<UnitConverterResponseBody> unitConverterListToResponseBodyList(
+            List<UnitConverter> unitConverterList);
 
     @Mapping(target = FROM_UNIT, expression = FROM_UNIT_EXPRESSION)
     @Mapping(target = TO_UNIT, expression = TO_UNIT_EXPRESSION)
@@ -40,7 +42,9 @@ public abstract class UnitConverterMapper {
 
     @Mapping(target = FROM_UNIT, expression = FROM_UNIT_EXPRESSION)
     @Mapping(target = TO_UNIT, expression = TO_UNIT_EXPRESSION)
-    public abstract UnitConverter updateAddRequestBodyToUnitConverter(AddUnitConverterRequestBody addUnitConverterRequestBody, @MappingTarget UnitConverter unitConverter);
+    public abstract UnitConverter updateAddRequestBodyToUnitConverter(
+            AddUnitConverterRequestBody addUnitConverterRequestBody,
+            @MappingTarget UnitConverter unitConverter);
 
     protected Unit getUnit(Long unitId) {
         return unitRepository.findById(unitId).orElseThrow();

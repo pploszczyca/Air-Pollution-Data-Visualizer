@@ -19,9 +19,13 @@ public class UpdateUnitConverterImpl
     @Override
     public UnitConverterResponseBody execute(Long unitConverterId,
                                              AddUnitConverterRequestBody addUnitConverterRequestBody) {
-        final var unitConverter = unitConverterRepository.findById(unitConverterId).orElseThrow();
-        final var updatedUnitConverter = unitConverterMapper.updateAddRequestBodyToUnitConverter(addUnitConverterRequestBody, unitConverter);
+        final var unitConverter =
+                unitConverterRepository.findById(unitConverterId).orElseThrow();
+        final var updatedUnitConverter =
+                unitConverterMapper.updateAddRequestBodyToUnitConverter(
+                        addUnitConverterRequestBody, unitConverter);
 
-        return unitConverterMapper.unitConverterToResponseBody(unitConverterRepository.save(updatedUnitConverter));
+        return unitConverterMapper.unitConverterToResponseBody(
+                unitConverterRepository.save(updatedUnitConverter));
     }
 }

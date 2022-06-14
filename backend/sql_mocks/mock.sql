@@ -9,9 +9,14 @@ INSERT INTO public.unit (name) VALUES ('Pa');
 INSERT INTO public.unit (name) VALUES ('%');
 INSERT INTO public.unit (name) VALUES ('µg/m3');
 INSERT INTO public.unit (name) VALUES ('F');
+INSERT INTO public.unit (name) VALUES ('hPa');
 
 INSERT INTO public.unit_converter (calculation_step, math_operation, value, from_unit_id, to_unit_id) VALUES (1, 1, 1.8, 1, 5);
 INSERT INTO public.unit_converter (calculation_step, math_operation, value, from_unit_id, to_unit_id) VALUES (2, 0, 32, 1, 5);
+INSERT INTO public.unit_converter (calculation_step, math_operation, value, from_unit_id, to_unit_id) VALUES (2, 3, 1.8, 5, 1);
+INSERT INTO public.unit_converter (calculation_step, math_operation, value, from_unit_id, to_unit_id) VALUES (1, 2, 32, 5, 1);
+INSERT INTO public.unit_converter (calculation_step, math_operation, value, from_unit_id, to_unit_id) VALUES (1, 1, 100, 2, 6);
+INSERT INTO public.unit_converter (calculation_step, math_operation, value, from_unit_id, to_unit_id) VALUES (1, 3, 100, 6, 2);
 
 INSERT INTO public.field (label, field_type, unit_id) VALUES ('temperature', 0, 1);
 INSERT INTO public.field (label, field_type, unit_id) VALUES ('pressure', 0, 2);

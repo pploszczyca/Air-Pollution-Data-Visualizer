@@ -35,7 +35,8 @@ public class UnitConverter {
     @JoinColumn(name = "to_unit_id")
     private Unit toUnit;
 
-    @Schema(required = true)
+    @Schema(required = true, description = "Some operations need more than one math operation " +
+            "(like conversion from Celsius to Fahrenheit), so this variable specify step number.")
     private int calculationStep;
 
     @Schema(required = true)

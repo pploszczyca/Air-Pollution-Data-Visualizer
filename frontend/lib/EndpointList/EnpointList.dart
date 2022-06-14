@@ -1,4 +1,5 @@
 import 'package:adpv_frontend/Common/Common.dart';
+import 'package:adpv_frontend/Models/EndpointData.dart';
 import 'package:adpv_frontend/Models/EndpointSummary.dart';
 import 'package:adpv_frontend/Providers/EndpointListModel.dart';
 import 'package:adpv_frontend/Repository/AbstractEndpointRepository.dart';
@@ -21,7 +22,6 @@ class _EndpointListState extends State<EndpointList> {
     Navigator.pushNamed(context, endpointViewRoute + "/" + id.toString());
   }
 
-
   PreferredSize _buildAppBar() {
     return PreferredSize(
       preferredSize: const Size.fromHeight(100.0),
@@ -42,40 +42,9 @@ class _EndpointListState extends State<EndpointList> {
     );
   }
 
-  ExpansionPanel _buildExpansionPanel(ExpansionPanelEndpoint item) {
-    return ExpansionPanel(
-        isExpanded: item.isExpanded,
-        canTapOnHeader: true,
-        headerBuilder: (ctx, bool) {
-
-          return ListTile(
-            title: Text(item.headerValue),
-
-          );
-        },
-        body: ListTile(
-          title: Text(item.expandedValue),
-        ));
-  }
-
-  ExpansionPanelList _buildExpansionPanelList(
-      EndpointListProvider endpointListProvider, snapshot) {
-    return ExpansionPanelList(
-        animationDuration: const Duration(milliseconds: 200),
-        expansionCallback: (int index, bool isExpanded) {
-          setState(() {
-            endpointListProvider.updateState(snapshot.data![index].label);
-          });
-        },
-        children: endpointListProvider.endpointsList
-            .map<ExpansionPanel>((ExpansionPanelEndpoint item) {
-          return _buildExpansionPanel(item);
-        }).toList());
-  }
-
   Container _buildBody() {
     return Container(
-        height: 600,
+        color: Colors.transparent,
         margin: EdgeInsets.only(
             left: MediaQuery.of(context).size.width * 0.03,
             right: MediaQuery.of(context).size.width * 0.03,
@@ -92,8 +61,37 @@ class _EndpointListState extends State<EndpointList> {
                     create: (context) => EndpointListProvider(snapshot.data!),
                     child: Consumer<EndpointListProvider>(
                         builder: (context, endpointListProvider, _) {
-                      return _buildExpansionPanelList(
-                          endpointListProvider, snapshot);
+                      return Container(
+                          margin: EdgeInsets.all(32),
+                          child: ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: snapshot.data!.length,
+                              itemBuilder: (context, i) {
+                                return FutureBuilder<EndpointData>(
+                                    future: widget.repository.getEndpointData(
+                                        endpointListProvider
+                                            .endpointsList[i]!.id),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.connectionState ==
+                                              ConnectionState.none ||
+                                          snapshot.data == null) {
+                                        return LoadingInCenter();
+                                      } else {
+                                        endpointListProvider.endpointsList[i]
+                                            .setRecentData(snapshot.data!);
+                                      }
+                                      return Card(
+                                          child: ExpansionTile(
+                                        title: Text(endpointListProvider
+                                            .endpointsList[i]!.label),
+                                        children: <Widget>[
+                                          ListTile(
+                                              title: Text(
+                                                  snapshot.data.toString())),
+                                        ],
+                                      ));
+                                    });
+                              }));
                     }));
               })
         ]));

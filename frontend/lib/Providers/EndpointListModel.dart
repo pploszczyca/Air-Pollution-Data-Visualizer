@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:adpv_frontend/EndpointList/EnpointList.dart';
+import 'package:adpv_frontend/Models/EndpointData.dart';
 import 'package:adpv_frontend/Repository/AbstractEndpointRepository.dart';
 import 'package:adpv_frontend/Repository/RestClient.dart';
 import 'package:dio/dio.dart';
@@ -12,14 +13,22 @@ import '../Models/EndpointSummary.dart';
 
 class ExpansionPanelEndpoint{
   ExpansionPanelEndpoint({
-    required this.expandedValue,
-    required this.headerValue,
-    this.isExpanded = false,
+    required this.recentData,
+    required this.label,
+    required this.id,
+    required this.fields,
   });
 
-  String expandedValue;
-  String headerValue;
-  bool isExpanded;
+  Map<String, dynamic> recentData;
+  String label;
+  int id;
+  List<String> fields;
+
+  void setRecentData(EndpointData data) {
+    fields = data.getAllRecentFields();
+    print(fields);
+
+  }
 }
 
 
@@ -34,10 +43,12 @@ class EndpointListProvider with ChangeNotifier {
 
   void setEndpoint(EndpointSummary es) {
     endpointsList.add(ExpansionPanelEndpoint(
-          headerValue: es.label,
-          expandedValue: es.id.toString()
+          label: es.label,
+          id: es.id,
+          recentData: {},
+      fields: []
         ));
-}
+        }
 
   void makeEndpointsList(List<EndpointSummary> endpointSummary){
     for(var element in endpointSummary){
@@ -45,12 +56,6 @@ class EndpointListProvider with ChangeNotifier {
     }
   }
 
-
-
-  void updateState(String label){
-    ExpansionPanelEndpoint e = this.endpointsList.firstWhere((element) => element.headerValue == label);
-    e.isExpanded = !e.isExpanded;
-  }
 
 
 }

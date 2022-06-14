@@ -20,79 +20,91 @@ class _EndpointListState extends State<EndpointList> {
   void onTapHandler(int id, AbstractEndpointRepository endpointRepository) {
     Navigator.pushNamed(context, endpointViewRoute + "/" + id.toString());
   }
-  void _generateItems(snapshot, endpointListProvider){
-    endpointListProvider.makeEndpointsList(snapshot.data!);
-  }
 
-  PreferredSize _buildAppBar(){
+
+  PreferredSize _buildAppBar() {
     return PreferredSize(
-        preferredSize: const Size.fromHeight(100.0),
-        child: AppBar(
-          toolbarHeight: 120.0,
-          automaticallyImplyLeading: false,
-          flexibleSpace: Container(),
-          centerTitle: false,
-          title: const Text("Recent datasets"),
-          backgroundColor: Colors.white,
-          titleTextStyle: const TextStyle(
-              color: Colors.pink,
-              fontFamily: 'Ubuntu Condensed',
-              fontSize: 50,
-              fontWeight: FontWeight.w500),
-          titleSpacing: 20,
-        ),);
+      preferredSize: const Size.fromHeight(100.0),
+      child: AppBar(
+        toolbarHeight: 120.0,
+        automaticallyImplyLeading: false,
+        flexibleSpace: Container(),
+        centerTitle: false,
+        title: const Text("Recent datasets"),
+        backgroundColor: Colors.white,
+        titleTextStyle: const TextStyle(
+            color: Colors.pink,
+            fontFamily: 'Ubuntu Condensed',
+            fontSize: 50,
+            fontWeight: FontWeight.w500),
+        titleSpacing: 20,
+      ),
+    );
   }
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   child: Scaffold(
-  //       appBar: _buildAppBar(),
-  //       body:
-  // }
+  ExpansionPanel _buildExpansionPanel(ExpansionPanelEndpoint item) {
+    return ExpansionPanel(
+        isExpanded: item.isExpanded,
+        canTapOnHeader: true,
+        headerBuilder: (ctx, bool) {
+
+          return ListTile(
+            title: Text(item.headerValue),
+
+          );
+        },
+        body: ListTile(
+          title: Text(item.expandedValue),
+        ));
+  }
+
+  ExpansionPanelList _buildExpansionPanelList(
+      EndpointListProvider endpointListProvider, snapshot) {
+    return ExpansionPanelList(
+        animationDuration: const Duration(milliseconds: 200),
+        expansionCallback: (int index, bool isExpanded) {
+          setState(() {
+            endpointListProvider.updateState(snapshot.data![index].label);
+          });
+        },
+        children: endpointListProvider.endpointsList
+            .map<ExpansionPanel>((ExpansionPanelEndpoint item) {
+          return _buildExpansionPanel(item);
+        }).toList());
+  }
+
+  Container _buildBody() {
+    return Container(
+        height: 600,
+        margin: EdgeInsets.only(
+            left: MediaQuery.of(context).size.width * 0.03,
+            right: MediaQuery.of(context).size.width * 0.03,
+            top: 50.9),
+        child: Wrap(children: [
+          FutureBuilder<List<EndpointSummary>>(
+              future: widget.repository.getEndpointSummary(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.none ||
+                    snapshot.data == null) {
+                  return LoadingInCenter();
+                }
+                return ChangeNotifierProvider(
+                    create: (context) => EndpointListProvider(snapshot.data!),
+                    child: Consumer<EndpointListProvider>(
+                        builder: (context, endpointListProvider, _) {
+                      return _buildExpansionPanelList(
+                          endpointListProvider, snapshot);
+                    }));
+              })
+        ]));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            appBar: AppBar(title: const Text("Data Visualizer")),
-            body:
-            Wrap(
-              children: [ FutureBuilder<List<EndpointSummary>>(
-                  future: widget.repository.getEndpointSummary(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.none ||
-                        snapshot.data == null) {
-                      return LoadingInCenter();
-                    }
-                    return ChangeNotifierProvider(
-                        create: (context) => EndpointListProvider(snapshot.data!),
-                    child:
-                     Consumer<EndpointListProvider>(
-                        builder: (context, endpointListProvider, _) {
-                      return ExpansionPanelList(
-                          animationDuration: const Duration(milliseconds: 500),
-                          expansionCallback: (int index, bool isExpanded) {
-                            setState((){
-                              endpointListProvider
-                                  .updateState(snapshot.data![index].label);
-                            });
-
-
-                          },
-                          children: endpointListProvider.endpointsList
-                              .map<ExpansionPanel>((ExpansionPanelEndpoint item) {
-                            return ExpansionPanel(
-                              isExpanded: item.isExpanded,
-                                canTapOnHeader: true,
-                                headerBuilder: (ctx, bool) {
-                                  return ListTile(
-                                    title: Text(item.headerValue),
-                                  );
-                                },
-                                body: ListTile(
-                                  title: Text(item.expandedValue),
-                                ));
-                          }).toList());
-                    }));
-                  })],
-            ));
+      backgroundColor: const Color.fromARGB(255, 127, 166, 168),
+      appBar: _buildAppBar(),
+      body: _buildBody(),
+    );
   }
 }

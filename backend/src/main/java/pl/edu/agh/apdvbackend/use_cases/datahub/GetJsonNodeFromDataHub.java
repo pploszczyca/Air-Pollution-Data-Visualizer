@@ -4,7 +4,5 @@ import com.fasterxml.jackson.databind.JsonNode;
 import java.util.Iterator;
 
 public interface GetJsonNodeFromDataHub {
-    Iterator<JsonNode> execute(String uri);
-
-    Iterator<JsonNode> execute(String uri, int limit, int offset);
+    Iterator<JsonNode> execute(String uri, Long limit, Long offset);
 }

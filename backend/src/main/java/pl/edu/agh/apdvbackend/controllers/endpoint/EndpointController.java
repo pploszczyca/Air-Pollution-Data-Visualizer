@@ -35,8 +35,8 @@ public class EndpointController {
     @GetMapping
     public Response<List<ObjectNode>> getData(
             @RequestParam Long sensorId,
-            @RequestParam(required = false, defaultValue = "25") int limit,
-            @RequestParam(required = false, defaultValue = "0") int offset) {
+            @RequestParam(required = false, defaultValue = "25") Long limit,
+            @RequestParam(required = false, defaultValue = "0") Long offset) {
         return endpointService.getData(USER_ID, sensorId, limit, offset);
     }
 
@@ -44,9 +44,10 @@ public class EndpointController {
     @GetMapping("/data")
     public Response<EndpointData> getDataWithFields(
             @RequestParam Long sensorId,
-            @RequestParam(required = false, defaultValue = "25") int limit,
-            @RequestParam(required = false, defaultValue = "0") int offset) {
-        return endpointService.getDataWithFields(USER_ID, sensorId, limit, offset);
+            @RequestParam(required = false, defaultValue = "25") Long limit,
+            @RequestParam(required = false, defaultValue = "0") Long offset) {
+        return endpointService.getDataWithFields(USER_ID, sensorId, limit,
+                offset);
     }
 
     @Operation(summary = "Get user's endpoints list")

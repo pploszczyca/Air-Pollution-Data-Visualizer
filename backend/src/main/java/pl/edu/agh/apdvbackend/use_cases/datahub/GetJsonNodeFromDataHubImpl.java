@@ -18,26 +18,17 @@ public class GetJsonNodeFromDataHubImpl
 
     private static final String RESULTS = "results";
 
-    private static final int STANDARD_LIMIT = 25;
-
-    private static final int STANDARD_OFFSET = 0;
-
     private final WebClient webClient;
 
     @Override
-    public Iterator<JsonNode> execute(String uri) {
-        return execute(uri, STANDARD_LIMIT, STANDARD_OFFSET);
-    }
-
-    @Override
-    public Iterator<JsonNode> execute(String uri, int limit, int offset) {
+    public Iterator<JsonNode> execute(String uri, Long limit, Long offset) {
         return makeRequest(uri, limit, offset)
                 .get(RESULTS)
                 .iterator();
     }
 
 
-    private ObjectNode makeRequest(String uri, int limit, int offset) {
+    private ObjectNode makeRequest(String uri, Long limit, Long offset) {
         return webClient
                 .get()
                 .uri(uriBuilder -> uriBuilder

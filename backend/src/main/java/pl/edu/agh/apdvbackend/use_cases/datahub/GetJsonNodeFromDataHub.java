@@ -5,4 +5,6 @@ import java.util.Iterator;
 
 public interface GetJsonNodeFromDataHub {
     Iterator<JsonNode> execute(String uri);
+
+    Iterator<JsonNode> execute(String uri, int limit, int offset);
 }

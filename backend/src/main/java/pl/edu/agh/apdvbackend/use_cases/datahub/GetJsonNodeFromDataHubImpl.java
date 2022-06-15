@@ -12,21 +12,39 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class GetJsonNodeFromDataHubImpl
         implements GetJsonNodeFromDataHub {
 
+    private static final String LIMIT = "limit";
+
+    private static final String OFFSET = "offset";
+
     private static final String RESULTS = "results";
+
+    private static final int STANDARD_LIMIT = 25;
+
+    private static final int STANDARD_OFFSET = 0;
 
     private final WebClient webClient;
 
     @Override
     public Iterator<JsonNode> execute(String uri) {
-        return makeRequest(uri)
+        return execute(uri, STANDARD_LIMIT, STANDARD_OFFSET);
+    }
+
+    @Override
+    public Iterator<JsonNode> execute(String uri, int limit, int offset) {
+        return makeRequest(uri, limit, offset)
                 .get(RESULTS)
                 .iterator();
     }
 
-    private ObjectNode makeRequest(String uri) {
+
+    private ObjectNode makeRequest(String uri, int limit, int offset) {
         return webClient
                 .get()
-                .uri(uri)
+                .uri(uriBuilder -> uriBuilder
+                        .path(uri)
+                        .queryParam(LIMIT, limit)
+                        .queryParam(OFFSET, offset)
+                        .build())
                 .retrieve()
                 .bodyToMono(ObjectNode.class)
                 .block();

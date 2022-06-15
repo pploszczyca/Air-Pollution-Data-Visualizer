@@ -18,13 +18,13 @@ public class GetUserEndpointDataWithFieldsImpl
     private final FieldMapper fieldMapper;
 
     @Override
-    public EndpointData execute(Long userId, Long endpointId) {
+    public EndpointData execute(Long userId, Long endpointId, int limit, int offset) {
         final var fields = getEnableFields
                 .execute(userId, endpointId);
         final var fieldsWithoutId =
                 fieldMapper.fieldListToWithoutIdList(fields);
         final var endpointData =
-                getUserEndpointData.execute(userId, endpointId);
+                getUserEndpointData.execute(userId, endpointId, limit, offset);
 
         return new EndpointData(fieldsWithoutId, endpointData);
     }

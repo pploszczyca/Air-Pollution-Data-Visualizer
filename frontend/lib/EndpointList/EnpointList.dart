@@ -50,11 +50,26 @@ class _EndpointListState extends State<EndpointList> {
         ),
         color: Colors.white,
         child: ExpansionTile(
-          title: Text(expansionPanelEndpoint.label,
-              style: const TextStyle(
-                fontFamily: 'SofiaSans',
-                fontSize: 26,
-              )),
+          title: TextButton(
+
+
+            style: ButtonStyle(
+              foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+            ),
+            onPressed: () {
+              onTapHandler(expansionPanelEndpoint.id, widget.repository);
+            },
+            child:
+              Container(
+                width: ,
+                alignment: Alignment.centerLeft,
+                child: Text(expansionPanelEndpoint.label,
+                    style: const TextStyle(
+                      fontFamily: 'SofiaSans',
+                      fontSize: 26,
+                    )),
+              )
+          ),
           tilePadding: const EdgeInsets.all(20),
           collapsedTextColor: Colors.black,
           textColor: Colors.pink,

@@ -36,15 +36,20 @@ public class EndpointService {
     private final UpdateEndpoint updateEndpoint;
 
     public Response<List<ObjectNode>> getData(Long userId,
-                                              Long sensorId) {
+                                              Long sensorId,
+                                              Long limit,
+                                              Long offset) {
         return Response.withOkStatus(
-                getUserEndpointData.execute(userId, sensorId));
+                getUserEndpointData.execute(userId, sensorId, limit, offset));
     }
 
     public Response<EndpointData> getDataWithFields(Long userId,
-                                                    Long sensorId) {
+                                                    Long sensorId,
+                                                    Long limit,
+                                                    Long offset) {
         return Response.withOkStatus(
-                getUserEndpointDataWithFields.execute(userId, sensorId));
+                getUserEndpointDataWithFields.execute(userId, sensorId, limit,
+                        offset));
     }
 
     public Response<List<EndpointSummaryResponseBody>> getEndpointsList() {

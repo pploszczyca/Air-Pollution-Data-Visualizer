@@ -26,14 +26,11 @@ class ExpansionPanelEndpoint{
 
   void setRecentData(EndpointData data) {
     fields = data.getAllRecentFields();
-    print(fields);
-
   }
 }
 
 
 class EndpointListProvider with ChangeNotifier {
-  Map<String, ExpansionPanelEndpoint> endpoints = {};
   List<ExpansionPanelEndpoint> endpointsList = [];
   AbstractEndpointRepository repository = RestClient(Dio());
 
@@ -55,9 +52,6 @@ class EndpointListProvider with ChangeNotifier {
       setEndpoint(element);
     }
   }
-
-
-
 }
 
 

@@ -42,59 +42,108 @@ class _EndpointListState extends State<EndpointList> {
     );
   }
 
-  Container _buildBody() {
-    return Container(
-        color: Colors.transparent,
-        margin: EdgeInsets.only(
-            left: MediaQuery.of(context).size.width * 0.03,
-            right: MediaQuery.of(context).size.width * 0.03,
-            top: 50.9),
-        child: Wrap(children: [
-          FutureBuilder<List<EndpointSummary>>(
-              future: widget.repository.getEndpointSummary(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.none ||
-                    snapshot.data == null) {
-                  return LoadingInCenter();
-                }
-                return ChangeNotifierProvider(
-                    create: (context) => EndpointListProvider(snapshot.data!),
-                    child: Consumer<EndpointListProvider>(
-                        builder: (context, endpointListProvider, _) {
+  Card _buildEndpointCard(ExpansionPanelEndpoint expansionPanelEndpoint) {
+    return Card(
+        margin: const EdgeInsets.only(top: 10, bottom: 10),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        color: Colors.white,
+        child: ExpansionTile(
+          title: Text(expansionPanelEndpoint.label,
+              style: const TextStyle(
+                fontFamily: 'SofiaSans',
+                fontSize: 26,
+              )),
+          tilePadding: const EdgeInsets.all(20),
+          collapsedTextColor: Colors.black,
+          textColor: Colors.pink,
+          collapsedIconColor: Colors.black,
+          iconColor: Colors.pink,
+          childrenPadding: const EdgeInsets.all(0),
+          collapsedBackgroundColor: Colors.white,
+          children: <Widget>[
+            Container(
+                decoration: const BoxDecoration(
+                  color: Color.fromARGB(255, 127, 166, 168),
+                ),
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: expansionPanelEndpoint.fields.length,
+                    itemBuilder: (context, i) {
                       return Container(
-                          margin: EdgeInsets.all(32),
-                          child: ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: snapshot.data!.length,
-                              itemBuilder: (context, i) {
-                                return FutureBuilder<EndpointData>(
-                                    future: widget.repository.getEndpointData(
-                                        endpointListProvider
-                                            .endpointsList[i]!.id),
-                                    builder: (context, snapshot) {
-                                      if (snapshot.connectionState ==
-                                              ConnectionState.none ||
-                                          snapshot.data == null) {
-                                        return LoadingInCenter();
-                                      } else {
-                                        endpointListProvider.endpointsList[i]
-                                            .setRecentData(snapshot.data!);
-                                      }
-                                      return Card(
-                                          child: ExpansionTile(
-                                        title: Text(endpointListProvider
-                                            .endpointsList[i]!.label),
-                                        children: <Widget>[
-                                          ListTile(
-                                              title: Text(
-                                                  snapshot.data.toString())),
-                                        ],
-                                      ));
-                                    });
-                              }));
-                    }));
-              })
-        ]));
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.white,
+                        ),
+                        height: 70,
+                        alignment: Alignment.centerLeft,
+                        margin: const EdgeInsets.only(
+                            left: 0, top: 10, right: 0, bottom: 10),
+                        padding: const EdgeInsets.all(17),
+                        child: Text(expansionPanelEndpoint.fields[i].toString(),
+                            style: const TextStyle(
+                              color: Colors.grey,
+                              fontFamily: 'SofiaSans',
+                              fontSize: 20,
+                            )),
+                      );
+                    }))
+          ],
+        ));
+  }
+
+  Container _buildExpansionList(
+      EndpointListProvider endpointListProvider, int itemCount) {
+    return Container(
+        margin: EdgeInsets.all(32),
+        child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: itemCount,
+            itemBuilder: (context, i) {
+              return FutureBuilder<EndpointData>(
+                  future: widget.repository.getEndpointData(
+                      endpointListProvider.endpointsList[i]!.id),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.none ||
+                        snapshot.data == null) {
+                      return LoadingInCenter();
+                    } else {
+                      endpointListProvider.endpointsList[i]
+                          .setRecentData(snapshot.data!);
+                    }
+                    return _buildEndpointCard(
+                        endpointListProvider.endpointsList[i]);
+                  });
+            }));
+  }
+
+  SingleChildScrollView _buildBody() {
+    return SingleChildScrollView(
+        child: Container(
+            color: Colors.transparent,
+            margin: EdgeInsets.only(
+                left: MediaQuery.of(context).size.width * 0.03,
+                right: MediaQuery.of(context).size.width * 0.03,
+                top: 50.9),
+            child: Wrap(children: [
+              FutureBuilder<List<EndpointSummary>>(
+                  future: widget.repository.getEndpointSummary(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.none ||
+                        snapshot.data == null) {
+                      return LoadingInCenter();
+                    }
+                    return ChangeNotifierProvider(
+                        create: (context) =>
+                            EndpointListProvider(snapshot.data!),
+                        child: Consumer<EndpointListProvider>(
+                            builder: (context, endpointListProvider, _) {
+                          return _buildExpansionList(
+                              endpointListProvider, snapshot.data!.length);
+                        }));
+                  })
+            ])));
   }
 
   @override

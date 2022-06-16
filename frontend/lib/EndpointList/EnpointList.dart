@@ -8,6 +8,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'dart:developer' as developer;
 
+BorderRadius basicBorderRadius = BorderRadius.circular(8);
+TextStyle endpointDataTextStyle = const TextStyle(
+    color: Color.fromARGB(255, 100, 100, 100),
+    fontFamily: 'SofiaSans',
+    fontSize: 20);
+
 class EndpointList extends StatefulWidget {
   const EndpointList({Key? key, required this.repository}) : super(key: key);
 
@@ -42,68 +48,101 @@ class _EndpointListState extends State<EndpointList> {
     );
   }
 
+  _buildLabelButton(ExpansionPanelEndpoint expansionPanelEndpoint) {
+    return Container(
+        width: 200,
+        alignment: Alignment.centerLeft,
+        child: OutlinedButton(
+          style: ButtonStyle(
+            side: MaterialStateProperty.all(
+                BorderSide(width: 2.0, color: Colors.pink)),
+            padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
+            backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                (Set<MaterialState> states) {
+              if (states.contains(MaterialState.hovered)) return Colors.pink;
+              return Colors.white; // null throus error in flutter 2.2+.
+            }),
+            shape: MaterialStateProperty.all(
+              RoundedRectangleBorder(borderRadius: basicBorderRadius),
+            ),
+            alignment: Alignment.centerLeft,
+          ),
+          onPressed: () {
+            onTapHandler(expansionPanelEndpoint.id, widget.repository);
+          },
+          onHover: (hc) {
+            setState(() {
+              expansionPanelEndpoint.buttonColor =
+                  hc ? Colors.white : Colors.pink;
+            });
+          },
+          child: Text(expansionPanelEndpoint.label,
+              style: TextStyle(
+                  fontFamily: 'SofiaSans',
+                  fontSize: 26,
+                  color: expansionPanelEndpoint.buttonColor)),
+        ));
+  }
+
   Card _buildEndpointCard(ExpansionPanelEndpoint expansionPanelEndpoint) {
     return Card(
         margin: const EdgeInsets.only(top: 10, bottom: 10),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-        color: Colors.white,
+        shadowColor: Colors.transparent,
         child: ExpansionTile(
-          title: TextButton(
-
-
-            style: ButtonStyle(
-              foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-            ),
-            onPressed: () {
-              onTapHandler(expansionPanelEndpoint.id, widget.repository);
-            },
-            child:
-              Container(
-                width: ,
-                alignment: Alignment.centerLeft,
-                child: Text(expansionPanelEndpoint.label,
-                    style: const TextStyle(
-                      fontFamily: 'SofiaSans',
-                      fontSize: 26,
-                    )),
-              )
-          ),
+          title: _buildLabelButton(expansionPanelEndpoint),
           tilePadding: const EdgeInsets.all(20),
-          collapsedTextColor: Colors.black,
-          textColor: Colors.pink,
-          collapsedIconColor: Colors.black,
-          iconColor: Colors.pink,
           childrenPadding: const EdgeInsets.all(0),
-          collapsedBackgroundColor: Colors.white,
           children: <Widget>[
             Container(
                 decoration: const BoxDecoration(
                   color: Color.fromARGB(255, 127, 166, 168),
                 ),
-                child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: expansionPanelEndpoint.fields.length,
-                    itemBuilder: (context, i) {
-                      return Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.white,
-                        ),
-                        height: 70,
-                        alignment: Alignment.centerLeft,
-                        margin: const EdgeInsets.only(
-                            left: 0, top: 10, right: 0, bottom: 10),
-                        padding: const EdgeInsets.all(17),
-                        child: Text(expansionPanelEndpoint.fields[i].toString(),
-                            style: const TextStyle(
-                              color: Colors.grey,
-                              fontFamily: 'SofiaSans',
-                              fontSize: 20,
-                            )),
-                      );
-                    }))
+                child: FutureBuilder<EndpointData>(
+                  future: widget.repository
+                      .getRecentData(expansionPanelEndpoint.id, 1, 0),
+                  builder: (context, recentDataSnapshot) {
+                    if (recentDataSnapshot.connectionState ==
+                            ConnectionState.none ||
+                        recentDataSnapshot.data == null) {
+                      return LoadingInCenter();
+                    } else {
+                      expansionPanelEndpoint
+                          .setRecentData(recentDataSnapshot.data!);
+                      return ListView.builder(
+                          padding: const EdgeInsets.only(top: 10.0),
+                          shrinkWrap: true,
+                          itemCount: expansionPanelEndpoint.fields.length,
+                          itemBuilder: (context, i) {
+                            return Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: basicBorderRadius,
+                                  color: Colors.white,
+                                ),
+                                height: 70,
+                                margin: const EdgeInsets.only(
+                                    left: 0, top: 10, right: 0, bottom: 10),
+                                padding: const EdgeInsets.all(17),
+                                child: Row(children: <Widget>[
+                                  Expanded(
+                                      child: Text(
+                                          expansionPanelEndpoint.fields[i]
+                                              .toString(),
+                                          textAlign: TextAlign.left,
+                                          style: endpointDataTextStyle)),
+                                  Expanded(
+                                      child: Text(
+                                          expansionPanelEndpoint.recentData[
+                                                  expansionPanelEndpoint
+                                                      .fields[i]
+                                                      .toString()]
+                                              .toStringAsFixed(2),
+                                          textAlign: TextAlign.right,
+                                          style: endpointDataTextStyle)),
+                                ]));
+                          });
+                    }
+                  },
+                ))
           ],
         ));
   }
@@ -116,20 +155,7 @@ class _EndpointListState extends State<EndpointList> {
             shrinkWrap: true,
             itemCount: itemCount,
             itemBuilder: (context, i) {
-              return FutureBuilder<EndpointData>(
-                  future: widget.repository.getEndpointData(
-                      endpointListProvider.endpointsList[i]!.id),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.none ||
-                        snapshot.data == null) {
-                      return LoadingInCenter();
-                    } else {
-                      endpointListProvider.endpointsList[i]
-                          .setRecentData(snapshot.data!);
-                    }
-                    return _buildEndpointCard(
-                        endpointListProvider.endpointsList[i]);
-                  });
+              return _buildEndpointCard(endpointListProvider.endpointsList[i]);
             }));
   }
 

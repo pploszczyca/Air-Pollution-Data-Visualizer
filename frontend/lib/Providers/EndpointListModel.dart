@@ -11,49 +11,51 @@ import 'dart:developer' as developer;
 import '../Models/Endpoint.dart';
 import '../Models/EndpointSummary.dart';
 
-class ExpansionPanelEndpoint{
+class ExpansionPanelEndpoint {
   ExpansionPanelEndpoint({
     required this.recentData,
     required this.label,
     required this.id,
     required this.fields,
+    required this.buttonColor,
   });
 
   Map<String, dynamic> recentData;
   String label;
   int id;
   List<String> fields;
+  Color buttonColor;
 
   void setRecentData(EndpointData data) {
     fields = data.getAllRecentFields();
+    recentData =
+        data.dataList[0].map((key, value) => MapEntry(key.toString(), value));
+    if (recentData != null) {
+      recentData.removeWhere((key, value) => key.toString() == 'timestamp');
+    }
   }
 }
-
 
 class EndpointListProvider with ChangeNotifier {
   List<ExpansionPanelEndpoint> endpointsList = [];
   AbstractEndpointRepository repository = RestClient(Dio());
 
-  EndpointListProvider(List<EndpointSummary> list){
+  EndpointListProvider(List<EndpointSummary> list) {
     this.makeEndpointsList(list);
-}
+  }
 
   void setEndpoint(EndpointSummary es) {
     endpointsList.add(ExpansionPanelEndpoint(
-          label: es.label,
-          id: es.id,
-          recentData: {},
-      fields: []
-        ));
-        }
+        label: es.label,
+        id: es.id,
+        recentData: {},
+        fields: [],
+        buttonColor: Colors.pink));
+  }
 
-  void makeEndpointsList(List<EndpointSummary> endpointSummary){
-    for(var element in endpointSummary){
+  void makeEndpointsList(List<EndpointSummary> endpointSummary) {
+    for (var element in endpointSummary) {
       setEndpoint(element);
     }
   }
 }
-
-
-
-

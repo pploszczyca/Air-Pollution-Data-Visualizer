@@ -12,7 +12,6 @@ class EndpointData{
     return dataList[0].keys.where((element) => element != "timestamp").map((e) => e.toString()).toList();
   }
 
-
   @override
   String toString() {
     return 'EndpointData{dataList: $dataList}';

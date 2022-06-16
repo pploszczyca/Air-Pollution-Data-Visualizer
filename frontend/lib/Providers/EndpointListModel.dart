@@ -1,14 +1,9 @@
-import 'dart:math';
-
-import 'package:adpv_frontend/EndpointList/EnpointList.dart';
 import 'package:adpv_frontend/Models/EndpointData.dart';
 import 'package:adpv_frontend/Repository/AbstractEndpointRepository.dart';
 import 'package:adpv_frontend/Repository/RestClient.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'dart:developer' as developer;
-import '../Models/Endpoint.dart';
 import '../Models/EndpointSummary.dart';
 
 class ExpansionPanelEndpoint {
@@ -30,9 +25,7 @@ class ExpansionPanelEndpoint {
     fields = data.getAllRecentFields();
     recentData =
         data.dataList[0].map((key, value) => MapEntry(key.toString(), value));
-    if (recentData != null) {
-      recentData.removeWhere((key, value) => key.toString() == 'timestamp');
-    }
+    recentData.removeWhere((key, value) => key.toString() == 'timestamp');
   }
 }
 
@@ -41,7 +34,7 @@ class EndpointListProvider with ChangeNotifier {
   AbstractEndpointRepository repository = RestClient(Dio());
 
   EndpointListProvider(List<EndpointSummary> list) {
-    this.makeEndpointsList(list);
+    makeEndpointsList(list);
   }
 
   void setEndpoint(EndpointSummary es) {

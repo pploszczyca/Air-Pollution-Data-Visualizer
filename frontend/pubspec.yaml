@@ -87,12 +87,12 @@ flutter:
   fonts:
      - family: SofiaSans
        fonts:
-         - asset: lib/style/fonts/SofiaSans-Regular.otf
+         - asset: style/fonts/SofiaSans-Regular.otf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
      - family: Ubuntu Condensed
        fonts:
-         - asset: lib/style/fonts/UbuntuCondensed-Regular.ttf
+         - asset: style/fonts/UbuntuCondensed-Regular.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #

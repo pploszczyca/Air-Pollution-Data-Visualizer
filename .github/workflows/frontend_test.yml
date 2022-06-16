@@ -41,4 +41,4 @@ jobs:
           channel: 'dev'
       - run: flutter pub get
       - run: touch .env
-      - run: flutter build appbundle
+      - run: flutter build appbundle --no-tree-shake-icons

@@ -7,4 +7,6 @@ abstract class AbstractEndpointRepository {
 
   Future<EndpointData> getEndpointData(int id);
 
+  Future<EndpointData> getRecentData(int id, int limit, int offset);
+
 }

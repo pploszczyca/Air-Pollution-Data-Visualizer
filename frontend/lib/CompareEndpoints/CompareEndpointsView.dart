@@ -46,34 +46,34 @@ class _CompareChartsViewState extends State<CompareChartsView> {
                           width: MediaQuery.of(context).size.width * 0.8,
                           child: Consumer<EndpointModel>(
                               builder: (context, endpointModel, _) {
-                            endpointModel
-                                .makeEndpointSummaryMap(snapshot.data!);
-                            return DropDownMultiSelect(
-                              options: endpointModel.endpointSummaryMap.keys
-                                  .map((e) => e.toString())
-                                  .toList(),
-                              selectedValues: endpointModel.selectedEndpoints,
-                              onChanged: (List<String> selected) {
-                                setState(
-                                  () {
-                                    endpointModel
-                                        .updateEndpointSelectedList(selected);
+                                endpointModel
+                                    .makeEndpointSummaryMap(snapshot.data!);
+                                return DropDownMultiSelect(
+                                  options: endpointModel.endpointSummaryMap.keys
+                                      .map((e) => e.toString())
+                                      .toList(),
+                                  selectedValues: endpointModel.selectedEndpoints,
+                                  onChanged: (List<String> selected) {
+                                    setState(
+                                          () {
+                                        endpointModel
+                                            .updateEndpointSelectedList(selected);
+                                      },
+                                    );
                                   },
+                                  whenEmpty: emptyField,
                                 );
-                              },
-                              whenEmpty: emptyField,
-                            );
-                          }),
+                              }),
                         ),
                       ],
                     ),
                     const SizedBox(height: 10),
                     Consumer<EndpointModel>(
                         builder: (context, endpointModel, child) {
-                      return Wrap(
-                        children: _createChips(endpointModel),
-                      );
-                    }),
+                          return Wrap(
+                            children: _createChips(endpointModel),
+                          );
+                        }),
                     const SizedBox(height: 10),
                     Consumer<EndpointModel>(
                       builder: (context, endpointModel, child) {

@@ -8,7 +8,7 @@ import 'package:dio/dio.dart';
 
 import '../Models/EndpointData.dart';
 
-class RestClient implements AbstractEndpointRepository{
+class RestClient implements AbstractEndpointRepository {
   final Dio client;
 
   RestClient(this.client);
@@ -36,16 +36,18 @@ class RestClient implements AbstractEndpointRepository{
   }
 
   @override
-  Future<EndpointData> getEndpointData(int id) async{
+  Future<EndpointData> getEndpointData(int id) async {
     try {
-      Response response = await client.get(backendURL + getEndpointDataURL, queryParameters: {
-        'sensorId': id
-      });
+      Response response = await client.get(backendURL + getEndpointDataURL,
+          queryParameters: {'sensorId': id});
 
       if (response.statusCode == 200) {
-        BackendResponse backendResponse = BackendResponse.fromJson(response.data);
+        BackendResponse backendResponse =
+            BackendResponse.fromJson(response.data);
         if (backendResponse.error == "") {
-         return Future.value(EndpointData(backendResponse.data.map<Map<dynamic, dynamic>>((e) => Map.from(e)).toList()));
+          return Future.value(EndpointData(backendResponse.data
+              .map<Map<dynamic, dynamic>>((e) => Map.from(e))
+              .toList()));
         }
         //print(backendResponse.error);
       }
@@ -56,4 +58,29 @@ class RestClient implements AbstractEndpointRepository{
     return Future.value(EndpointData.empty());
   }
 
+  @override
+  Future<EndpointData> getRecentData(int id, int limit, int offset) async {
+    try {
+      Response response =
+          await client.get(backendURL + getEndpointDataURL, queryParameters: {
+        'sensorId': id,
+        'limit': limit,
+        'offset': offset,
+      });
+      if (response.statusCode == 200) {
+        BackendResponse backendResponse =
+            BackendResponse.fromJson(response.data);
+        if (backendResponse.error == "") {
+          return Future.value(EndpointData(backendResponse.data
+              .map<Map<dynamic, dynamic>>((e) => Map.from(e))
+              .toList()));
+        }
+        //print(backendResponse.error);
+      }
+    } catch (error) {
+      print(error);
+    }
+
+    return Future.value(EndpointData.empty());
+  }
 }

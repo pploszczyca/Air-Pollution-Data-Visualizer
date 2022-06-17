@@ -7,7 +7,7 @@ import 'package:flutter/cupertino.dart';
 import '../Models/Endpoint.dart';
 import '../Models/EndpointSummary.dart';
 
-class EndpointModel extends ChangeNotifier {
+class CompareEndpointsModel extends ChangeNotifier {
   Map<String, EndpointSummary> endpointSummaryMap = {};
   Map<String, Endpoint> endpointsMap = {};
   Map<String, bool> selectedChips = {};
@@ -15,7 +15,7 @@ class EndpointModel extends ChangeNotifier {
   List<String> selectedEndpoints = [];
   AbstractEndpointRepository repository = RestClient(Dio());
 
-  EndpointModel();
+  CompareEndpointsModel();
 
   void selectChips(String label, bool value) {
     selectedChips[label] = value;

@@ -25,7 +25,9 @@ class ExpansionPanelEndpoint {
     fields = data.getAllRecentFields();
     recentData =
         data.dataList[0].map((key, value) => MapEntry(key.toString(), value));
-    recentData.removeWhere((key, value) => key.toString() == 'timestamp');
+    if (recentData != null) {
+      recentData.removeWhere((key, value) => key.toString() == 'timestamp');
+    }
   }
 }
 
@@ -34,7 +36,7 @@ class EndpointListProvider with ChangeNotifier {
   AbstractEndpointRepository repository = RestClient(Dio());
 
   EndpointListProvider(List<EndpointSummary> list) {
-    makeEndpointsList(list);
+    this.makeEndpointsList(list);
   }
 
   void setEndpoint(EndpointSummary es) {

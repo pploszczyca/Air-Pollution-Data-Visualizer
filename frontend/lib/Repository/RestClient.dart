@@ -1,6 +1,5 @@
-import 'dart:convert';
-
 import 'package:adpv_frontend/Models/BackendResponse.dart';
+import 'package:adpv_frontend/Models/EnableField.dart';
 import 'package:adpv_frontend/Models/EndpointSummary.dart';
 import 'package:adpv_frontend/Repository/AbstractEndpointRepository.dart';
 import 'package:adpv_frontend/Repository/URLs.dart';
@@ -41,15 +40,26 @@ class RestClient implements AbstractEndpointRepository {
       Response response = await client.get(backendURL + getEndpointDataURL,
           queryParameters: {'sensorId': id});
 
-      if (response.statusCode == 200) {
+      Response fields = await client.get(backendURL + getFieldEnable,
+          queryParameters: {'endpointId': id});
+
+      if (response.statusCode == 200 && fields.statusCode == 200) {
         BackendResponse backendResponse =
             BackendResponse.fromJson(response.data);
-        if (backendResponse.error == "") {
-          return Future.value(EndpointData(backendResponse.data
-              .map<Map<dynamic, dynamic>>((e) => Map.from(e))
-              .toList()));
+
+        BackendResponse fieldResponse = BackendResponse.fromJson(fields.data);
+
+        if (backendResponse.error == "" && fieldResponse.error == "") {
+          List<EnableField> enableFields = fieldResponse.data
+              .map<EnableField>((e) => EnableField.fromJson(Map.from(e)))
+              .toList();
+
+          return Future.value(EndpointData(
+              backendResponse.data
+                  .map<Map<dynamic, dynamic>>((e) => Map.from(e))
+                  .toList(),
+              enableFields));
         }
-        //print(backendResponse.error);
       }
     } catch (error) {
       print(error);
@@ -71,11 +81,10 @@ class RestClient implements AbstractEndpointRepository {
         BackendResponse backendResponse =
             BackendResponse.fromJson(response.data);
         if (backendResponse.error == "") {
-          return Future.value(EndpointData(backendResponse.data
+          return Future.value(EndpointData.onlyData(backendResponse.data
               .map<Map<dynamic, dynamic>>((e) => Map.from(e))
               .toList()));
         }
-        //print(backendResponse.error);
       }
     } catch (error) {
       print(error);

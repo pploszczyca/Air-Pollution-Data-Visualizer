@@ -5,8 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'App.dart';
 
+
+void testRest(){
+  RestClient client = RestClient(Dio());
+  print(client.getEndpointData(1));
+}
+
 Future main() async {
   await loadEnvFile();
+  testRest();
   runApp(MyApp());
 }
 

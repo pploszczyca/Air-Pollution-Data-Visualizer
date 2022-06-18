@@ -9,4 +9,5 @@ abstract class AbstractEndpointRepository {
 
   Future<EndpointData> getRecentData(int id, int limit, int offset);
 
+
 }

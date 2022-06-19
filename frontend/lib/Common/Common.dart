@@ -9,8 +9,19 @@ Center LoadingInCenter() {
     ),
   );
 }
+
+AppBar buildAppBar(String title) {
+  return AppBar(
+    title: Text(title,
+        style: const TextStyle(
+          color: Colors.pink,
+        )),
+    backgroundColor: Colors.white,
+    iconTheme: const IconThemeData(color: Colors.pink),
+  );
+}
 const ignoreField = 'timestamp';
 const emptyField = 'Select Endpoint';
-
+const compareEndpointsViewAppBar =  'Compare charts';
 const endpointViewAppBar = 'Endpoint Details';
 

@@ -5,6 +5,7 @@ import 'package:adpv_frontend/Repository/AbstractEndpointRepository.dart';
 import 'package:adpv_frontend/Repository/URLs.dart';
 import 'package:dio/dio.dart';
 
+import '../Common/Common.dart';
 import '../Models/EndpointData.dart';
 
 class RestClient implements AbstractEndpointRepository {
@@ -25,7 +26,6 @@ class RestClient implements AbstractEndpointRepository {
               .map<EndpointSummary>((e) => EndpointSummary.fromJson(e))
               .toList());
         }
-        //print(backendResponse.error);
       }
     } catch (error) {
       //print(error);
@@ -34,11 +34,23 @@ class RestClient implements AbstractEndpointRepository {
     return Future.value([]);
   }
 
+  bool isChartData(String field, List<EnableField> enableFieldsList) {
+    return !enableFieldsList
+        .firstWhere((element) => element.label == field)
+        .isForChart();
+  }
+
   @override
-  Future<EndpointData> getEndpointData(int id) async {
+  Future<EndpointData> getEndpointData(int id, int? limit, int? offset) async {
+    limit = limit ?? 25;
+    offset = offset ?? 0;
     try {
-      Response response = await client.get(backendURL + getEndpointDataURL,
-          queryParameters: {'sensorId': id});
+      Response response =
+          await client.get(backendURL + getEndpointDataURL, queryParameters: {
+        'sensorId': id,
+        'limit': limit,
+        'offset': offset,
+      });
 
       Response fields = await client.get(backendURL + getFieldEnable,
           queryParameters: {'endpointId': id});
@@ -55,41 +67,24 @@ class RestClient implements AbstractEndpointRepository {
               .toList();
 
           return Future.value(EndpointData(
-              backendResponse.data
-                  .map<Map<dynamic, dynamic>>((e) => Map.from(e))
-                  .toList(),
-              enableFields));
+            backendResponse.data.map<Map<dynamic, dynamic>>((e) {
+              Map map = Map.from(e);
+              map.removeWhere((key, value) =>
+                  isChartData(key, enableFields) && key != ignoreField);
+              return map;
+            }).toList(),
+            backendResponse.data.map<Map<dynamic, dynamic>>((e) {
+              Map map = Map.from(e);
+              map.removeWhere((key, value) => !isChartData(key, enableFields));
+              return map;
+            }).toList(),
+            enableFields,
+          ));
         }
       }
     } catch (error) {
       print(error);
     }
-
-    return Future.value(EndpointData.empty());
-  }
-
-  @override
-  Future<EndpointData> getRecentData(int id, int limit, int offset) async {
-    try {
-      Response response =
-          await client.get(backendURL + getEndpointDataURL, queryParameters: {
-        'sensorId': id,
-        'limit': limit,
-        'offset': offset,
-      });
-      if (response.statusCode == 200) {
-        BackendResponse backendResponse =
-            BackendResponse.fromJson(response.data);
-        if (backendResponse.error == "") {
-          return Future.value(EndpointData.onlyData(backendResponse.data
-              .map<Map<dynamic, dynamic>>((e) => Map.from(e))
-              .toList()));
-        }
-      }
-    } catch (error) {
-      print(error);
-    }
-
     return Future.value(EndpointData.empty());
   }
 }

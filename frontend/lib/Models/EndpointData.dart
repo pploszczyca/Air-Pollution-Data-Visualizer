@@ -4,17 +4,28 @@ import 'package:adpv_frontend/Models/EnableField.dart';
 class EndpointData {
   List<Map<dynamic, dynamic>> dataList;
   List<EnableField> enableFieldsList;
+  List<Map<dynamic, dynamic>> technicalInfo;
 
-  EndpointData(this.dataList, this.enableFieldsList);
+  EndpointData(this.dataList, this.technicalInfo, this.enableFieldsList);
 
-  EndpointData.onlyData(this.dataList) : enableFieldsList = [];
+  EndpointData.onlyData(this.dataList)
+      : enableFieldsList = [],
+        technicalInfo = [];
 
   EndpointData.empty()
       : dataList = List.of([]),
-        enableFieldsList = [];
+        enableFieldsList = [],
+        technicalInfo = [];
 
   List<dynamic> getCertainField(String field) {
     return dataList.map((e) => e[field]).toList();
+  }
+
+  bool isChartData(String field) {
+    return enableFieldsList
+            .firstWhere((element) => element.label == field)
+            .isForChart() ||
+        field == ignoreField;
   }
 
   List<String> getAllRecentFields() {

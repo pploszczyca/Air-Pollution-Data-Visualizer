@@ -19,11 +19,14 @@ class TitledLineChart extends StatelessWidget {
       Container(
         padding: const EdgeInsets.all(8.0),
         child: Align(
-          alignment: Alignment.centerLeft,
+          alignment: Alignment.center,
           child: Text(
             chartName,
-            textAlign: TextAlign.left,
-            style: const TextStyle(fontSize: 16),
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+                fontSize: 16,
+              fontWeight: FontWeight.bold
+            ),
           ),
         ),
       ),

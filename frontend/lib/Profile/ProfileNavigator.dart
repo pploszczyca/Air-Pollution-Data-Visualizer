@@ -1,9 +1,10 @@
 import 'package:adpv_frontend/Profile/ProfileView.dart';
-import 'package:adpv_frontend/Repository/MockRepository.dart';
 import 'package:flutter/material.dart';
 
+import '../Repository/AbstractEndpointRepository.dart';
+
 class ProfileNavigator extends StatefulWidget {
-  final EndpointRepository endpointRepository;
+  final AbstractEndpointRepository endpointRepository;
 
   const ProfileNavigator({Key? key, required this.endpointRepository})
       : super(key: key);
@@ -20,11 +21,9 @@ class _ProfileNavigatorState extends State<ProfileNavigator> {
         late Widget page;
         page = const ProfileView();
 
-        return MaterialPageRoute<dynamic>(
-            builder: (context){
-              return page;
-            }
-        );
+        return MaterialPageRoute<dynamic>(builder: (context) {
+          return page;
+        });
       },
     );
   }

@@ -36,7 +36,7 @@ class EndpointListProvider with ChangeNotifier {
   AbstractEndpointRepository repository = RestClient(Dio());
 
   EndpointListProvider(List<EndpointSummary> list) {
-    this.makeEndpointsList(list);
+    makeEndpointsList(list);
   }
 
   void setEndpoint(EndpointSummary es) {

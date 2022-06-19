@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 
 import '../../Common/TitledLineChart.dart';
 
-
 class EndpointView extends StatefulWidget {
   const EndpointView({Key? key, required this.endpointData}) : super(key: key);
   final Future<EndpointData> endpointData;
@@ -29,24 +28,23 @@ class _EndpointViewState extends State<EndpointView> {
           return Scaffold(
             appBar: AppBar(title: const Text(endpointViewAppBar)),
             body: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      EndpointInfoTable(endpointData: snapshot.data!),
-                      Column(
-                          children: snapshot.data!.dataList[0].keys
-                              .where((element) => element != ignoreField)
-                              .map((dataKey) => TitledLineChart(
-                                    chartName: dataKey,
-                                    measureFnCallback:
-                                        (Map<dynamic, dynamic> dataMap, _) =>
-                                            dataMap[dataKey],
-                                    data: snapshot.data!,
-                                  ))
-                              .toList()
-                          ),
-                    ],
-                  ),
-                ),
+              child: Column(
+                children: [
+                  EndpointInfoTable(data: snapshot.data!.technicalInfo),
+                  Column(
+                      children: snapshot.data!.dataList[0].keys
+                          .where((element) => element != ignoreField)
+                          .map((dataKey) => TitledLineChart(
+                                chartName: dataKey,
+                                measureFnCallback:
+                                    (Map<dynamic, dynamic> dataMap, _) =>
+                                        dataMap[dataKey],
+                                data: snapshot.data!,
+                              ))
+                          .toList()),
+                ],
+              ),
+            ),
           );
         },
         future: widget.endpointData);

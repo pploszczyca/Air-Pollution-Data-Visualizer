@@ -1,3 +1,5 @@
+import 'package:adpv_frontend/Common/Common.dart';
+
 class EndpointData{
   List<Map<dynamic, dynamic>> dataList;
 
@@ -9,7 +11,7 @@ class EndpointData{
     return dataList.map((e) => e[field]).toList();
   }
   List<String> getAllRecentFields(){
-    return dataList[0].keys.where((element) => element != "timestamp").map((e) => e.toString()).toList();
+    return dataList[0].keys.where((element) => element != ignoreField).map((e) => e.toString()).toList();
   }
 
   @override

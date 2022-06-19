@@ -1,14 +1,9 @@
-import 'dart:math';
-
-import 'package:adpv_frontend/EndpointList/EnpointList.dart';
 import 'package:adpv_frontend/Models/EndpointData.dart';
 import 'package:adpv_frontend/Repository/AbstractEndpointRepository.dart';
 import 'package:adpv_frontend/Repository/RestClient.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'dart:developer' as developer;
-import '../Models/Endpoint.dart';
 import '../Models/EndpointSummary.dart';
 
 class ExpansionPanelEndpoint {

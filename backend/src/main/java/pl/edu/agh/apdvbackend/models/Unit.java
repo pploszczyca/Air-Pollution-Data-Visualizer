@@ -19,7 +19,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@JsonIgnoreProperties({"fields"})
+@JsonIgnoreProperties({"fields", "fromUnitConverters", "toUnitConverters"})
 public class Unit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,4 +32,10 @@ public class Unit {
 
     @OneToMany(mappedBy = "unit")
     private List<Field> fields;
+
+    @OneToMany(mappedBy = "fromUnit")
+    private List<UnitConverter> fromUnitConverters;
+
+    @OneToMany(mappedBy = "toUnit")
+    private List<UnitConverter> toUnitConverters;
 }

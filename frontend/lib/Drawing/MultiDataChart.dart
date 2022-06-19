@@ -1,7 +1,6 @@
 import 'package:adpv_frontend/Common/Common.dart';
 import 'package:adpv_frontend/Drawing/CustomLegendBuilder.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../Models/Endpoint.dart';
 
@@ -21,9 +20,9 @@ class _MultiDataChartState extends State<MultiDataChart> {
   Widget build(BuildContext context) {
     return Column(children: [
       buildChartHeader(),
-      SizedBox(
-          height: MediaQuery.of(context).size.height * 0.8,
-          width: MediaQuery.of(context).size.width * 0.7,
+       SizedBox(
+        height: MediaQuery.of(context).size.height * 0.8,
+          width: MediaQuery.of(context).size.width * 1,
           child: buildChart(),
       ),
       buildSimpleDivider(context),
@@ -34,11 +33,6 @@ class _MultiDataChartState extends State<MultiDataChart> {
     return Container(
         margin: const EdgeInsets.symmetric(vertical: 16),
         width: MediaQuery.of(context).size.width * 0.9,
-        child: const Divider(
-          height: 3,
-          thickness: 2,
-          color: Colors.black,
-        ),
       );
   }
 
@@ -66,7 +60,9 @@ class _MultiDataChartState extends State<MultiDataChart> {
             child: Text(
               widget.field.toUpperCase(),
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 24),
+              style: const TextStyle(fontSize: 16,
+              color: Colors.pink,
+              fontWeight: FontWeight.bold),
             ),
           ),
         ),

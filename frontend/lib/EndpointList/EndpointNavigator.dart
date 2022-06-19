@@ -21,20 +21,20 @@ class _EndpointNavigatorState extends State<EndpointNavigator> {
     return Navigator(
       onGenerateRoute: (RouteSettings settings) {
         late Widget page;
-        if(settings.name == endpointListRoute){
-          print(settings.name);
-          page =  EndpointList(repository: widget.repository,);
-          
-        }else if(settings.name!.startsWith(endpointViewRoute)){
+        if (settings.name == endpointListRoute) {
+          page = EndpointList(
+            repository: widget.repository,
+          );
+        } else if (settings.name!.startsWith(endpointViewRoute)) {
           var endpointId = settings.name!.split("/")[2];
-          page = EndpointView(endpointData: widget.repository.getEndpointData(int.parse(endpointId)));
+          page = EndpointView(
+              endpointData: widget.repository
+                  .getEndpointData(int.parse(endpointId), null, null));
         }
 
-        return MaterialPageRoute<dynamic>(
-          builder: (context){
-            return page;
-          }
-        );
+        return MaterialPageRoute<dynamic>(builder: (context) {
+          return page;
+        });
       },
     );
   }

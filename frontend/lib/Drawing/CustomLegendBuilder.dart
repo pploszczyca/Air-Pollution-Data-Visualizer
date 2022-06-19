@@ -7,24 +7,27 @@ class CustomLegendBuilder extends charts.LegendContentBuilder {
   @override
   Widget build(BuildContext context, LegendState legendState, Legend legend,
       {bool? showMeasures}) {
-    return Wrap(
-      children: legendState.legendEntries
-          .map(
-            (entry) => Wrap(
-            children: [
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-                child: Chip(
-                  backgroundColor: fromChartColor(entry.color).withOpacity(0.6),
-                  label: Text(
-                    entry.label,
-                    style: const TextStyle(color: Colors.black, fontSize: 16),
-                    overflow: TextOverflow.visible,
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.9,
+      child: Wrap(
+        children: legendState.legendEntries
+            .map(
+              (entry) => Wrap(
+              children: [
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                  child: Chip(
+                    backgroundColor: fromChartColor(entry.color).withOpacity(0.6),
+                    label: Text(
+                      entry.label,
+                      style: const TextStyle(color: Colors.black, fontSize: 16),
+                      overflow: TextOverflow.visible,
+                    ),
                   ),
                 ),
-              ),
-            ]),
-      ).toList(),
+              ]),
+        ).toList(),
+      ),
     );
   }
 

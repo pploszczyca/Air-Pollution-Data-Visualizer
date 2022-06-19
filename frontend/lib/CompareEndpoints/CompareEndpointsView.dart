@@ -19,7 +19,6 @@ class CompareChartsView extends StatefulWidget {
 }
 
 class _CompareChartsViewState extends State<CompareChartsView> {
-  final String title = "Compare charts";
   Widget chart = Container();
 
   @override
@@ -27,9 +26,7 @@ class _CompareChartsViewState extends State<CompareChartsView> {
     return ChangeNotifierProvider(
       create: (context) => CompareEndpointsModel(),
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(title),
-        ),
+        appBar: buildAppBar(compareEndpointsViewAppBar),
         body: FutureBuilder<List<EndpointSummary>>(
           future: widget.repository.getEndpointSummary(),
           builder: (context, snapshot) {
@@ -72,22 +69,30 @@ class _CompareChartsViewState extends State<CompareChartsView> {
       children: <Widget>[
         SizedBox(
           width: MediaQuery.of(context).size.width * 0.8,
-          child: Consumer<CompareEndpointsModel>(builder: (context, endpointModel, _) {
+          child: Consumer<CompareEndpointsModel>(
+              builder: (context, endpointModel, _) {
             endpointModel.makeEndpointSummaryMap(snapshot.data!);
-            return DropDownMultiSelect(
-              isDense: true,
-              options: endpointModel.endpointSummaryMap.keys
-                  .map((e) => e.toString())
-                  .toList(),
-              selectedValues: endpointModel.selectedEndpoints,
-              onChanged: (List<String> selected) {
-                setState(
-                  () {
-                    endpointModel.updateEndpointSelectedList(selected);
-                  },
-                );
-              },
-              whenEmpty: emptyField,
+            return Theme(  // 200IQ move
+              data: ThemeData.from(colorScheme: ColorScheme.fromSwatch(
+                backgroundColor: Colors.white,
+                cardColor: Colors.pink,
+                primarySwatch: Colors.pink
+              )),
+              child: DropDownMultiSelect(
+                isDense: true,
+                options: endpointModel.endpointSummaryMap.keys
+                    .map((e) => e.toString())
+                    .toList(),
+                selectedValues: endpointModel.selectedEndpoints,
+                onChanged: (List<String> selected) {
+                  setState(
+                    () {
+                      endpointModel.updateEndpointSelectedList(selected);
+                    },
+                  );
+                },
+                whenEmpty: emptyField,
+              ),
             );
           }),
         ),

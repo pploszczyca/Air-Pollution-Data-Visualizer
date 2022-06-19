@@ -33,9 +33,7 @@ class CompareEndpointsModel extends ChangeNotifier {
           }
         }
       }
-
       var maxValue = counter.values.reduce(max);
-
       List<String> newCommonFields = [];
       counter.forEach((key, value) {
         if(value == maxValue){
@@ -56,7 +54,7 @@ class CompareEndpointsModel extends ChangeNotifier {
     for (var endpointLabel in selectedEndpoints) {
       if(!endpointsMap.containsKey(endpointLabel)){
         EndpointSummary es = endpointSummaryMap[endpointLabel]!;
-        repository.getEndpointData(es.id).then((value){
+        repository.getEndpointData(es.id, null, null).then((value){
           endpointsMap[es.label] = Endpoint.fromSummary(es, value);
           updateCommonFields();
         });

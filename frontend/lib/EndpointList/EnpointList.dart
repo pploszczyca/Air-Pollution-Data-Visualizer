@@ -6,13 +6,16 @@ import 'package:adpv_frontend/Repository/AbstractEndpointRepository.dart';
 import 'package:adpv_frontend/Routing.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'dart:developer' as developer;
 
 BorderRadius basicBorderRadius = BorderRadius.circular(8);
+
 TextStyle endpointDataTextStyle = const TextStyle(
     color: Color.fromARGB(255, 100, 100, 100),
     fontFamily: 'SofiaSans',
     fontSize: 20);
+
+int limit = 1;
+int offset = 0;
 
 class EndpointList extends StatefulWidget {
   const EndpointList({Key? key, required this.repository}) : super(key: key);
@@ -55,12 +58,11 @@ class _EndpointListState extends State<EndpointList> {
         child: OutlinedButton(
           style: ButtonStyle(
             side: MaterialStateProperty.all(
-                BorderSide(width: 2.0, color: Colors.pink)),
+                const BorderSide(width: 2.0, color: Colors.pink)),
             padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
             backgroundColor: MaterialStateProperty.resolveWith<Color>(
                 (Set<MaterialState> states) {
-              if (states.contains(MaterialState.hovered)) return Colors.pink;
-              return Colors.white; // null throus error in flutter 2.2+.
+                  return states.contains(MaterialState.hovered) ? Colors.pink : Colors.white; // null throus error in flutter 2.2+.
             }),
             shape: MaterialStateProperty.all(
               RoundedRectangleBorder(borderRadius: basicBorderRadius),
@@ -99,7 +101,7 @@ class _EndpointListState extends State<EndpointList> {
                 ),
                 child: FutureBuilder<EndpointData>(
                   future: widget.repository
-                      .getRecentData(expansionPanelEndpoint.id, 1, 0),
+                      .getEndpointData(expansionPanelEndpoint.id, limit, offset),
                   builder: (context, recentDataSnapshot) {
                     if (recentDataSnapshot.connectionState ==
                             ConnectionState.none ||
@@ -150,7 +152,7 @@ class _EndpointListState extends State<EndpointList> {
   Container _buildExpansionList(
       EndpointListProvider endpointListProvider, int itemCount) {
     return Container(
-        margin: EdgeInsets.all(32),
+        margin: const EdgeInsets.all(32),
         child: ListView.builder(
             shrinkWrap: true,
             itemCount: itemCount,

@@ -40,6 +40,7 @@ dependencies:
   http: ^0.13.4
   provider: ^6.0.0
   multiselect: ^0.0.4
+  multi_select_flutter: ^4.1.2
   flutter_dotenv: ^5.0.2
 
 dev_dependencies:
@@ -87,12 +88,12 @@ flutter:
   fonts:
      - family: SofiaSans
        fonts:
-         - asset: lib/style/fonts/SofiaSans-Regular.otf
+         - asset: style/fonts/SofiaSans-Regular.otf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
      - family: Ubuntu Condensed
        fonts:
-         - asset: lib/style/fonts/UbuntuCondensed-Regular.ttf
+         - asset: style/fonts/UbuntuCondensed-Regular.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #

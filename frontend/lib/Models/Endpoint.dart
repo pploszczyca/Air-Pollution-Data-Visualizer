@@ -4,6 +4,7 @@ import 'package:adpv_frontend/Models/EndpointSummary.dart';
 class Endpoint{
   late int id;
   late String label;
+  late Map<String, dynamic> staticInfo;
   late EndpointData data;
 
   Endpoint.fromSummary(EndpointSummary summary, this.data):

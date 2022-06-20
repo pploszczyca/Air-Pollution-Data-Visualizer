@@ -1,14 +1,13 @@
 import 'dart:math';
-
+import 'package:adpv_frontend/Common/Common.dart';
 import 'package:adpv_frontend/Repository/AbstractEndpointRepository.dart';
 import 'package:adpv_frontend/Repository/RestClient.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
-
 import '../Models/Endpoint.dart';
 import '../Models/EndpointSummary.dart';
 
-class EndpointModel extends ChangeNotifier {
+class CompareEndpointsModel extends ChangeNotifier {
   Map<String, EndpointSummary> endpointSummaryMap = {};
   Map<String, Endpoint> endpointsMap = {};
   Map<String, bool> selectedChips = {};
@@ -16,7 +15,7 @@ class EndpointModel extends ChangeNotifier {
   List<String> selectedEndpoints = [];
   AbstractEndpointRepository repository = RestClient(Dio());
 
-  EndpointModel();
+  CompareEndpointsModel();
 
   void selectChips(String label, bool value) {
     selectedChips[label] = value;
@@ -24,7 +23,7 @@ class EndpointModel extends ChangeNotifier {
   }
 
   void updateCommonFields() {
-    if (selectedEndpoints.isNotEmpty){
+    if (selectedEndpoints.isNotEmpty && endpointsMap.isNotEmpty){
       Map<String, int> counter = {};
       List fields = endpointsMap[selectedEndpoints[0]]!.data.dataList[0].keys.toList();
       for(String s in fields){
@@ -34,16 +33,14 @@ class EndpointModel extends ChangeNotifier {
           }
         }
       }
-
       var maxValue = counter.values.reduce(max);
-
       List<String> newCommonFields = [];
       counter.forEach((key, value) {
         if(value == maxValue){
           newCommonFields.add(key);
         }
       });
-      newCommonFields.remove("timestamp");
+      newCommonFields.remove(ignoreField);
       commonFields = newCommonFields;
     }
     else{
@@ -57,12 +54,12 @@ class EndpointModel extends ChangeNotifier {
     for (var endpointLabel in selectedEndpoints) {
       if(!endpointsMap.containsKey(endpointLabel)){
         EndpointSummary es = endpointSummaryMap[endpointLabel]!;
-        repository.getEndpointData(es.id).then((value){
+        repository.getEndpointData(es.id, null, null).then((value){
           endpointsMap[es.label] = Endpoint.fromSummary(es, value);
+          updateCommonFields();
         });
       }
     }
-    updateCommonFields();
   }
 
   void addToEndpointList(Endpoint endpoint) {
@@ -74,7 +71,6 @@ class EndpointModel extends ChangeNotifier {
     for (var element in list) {
       endpointSummaryMap[element.label] = element;
     }
-    //notifyListeners();
   }
 
   List<Endpoint> getEndpointsForDrawing(){

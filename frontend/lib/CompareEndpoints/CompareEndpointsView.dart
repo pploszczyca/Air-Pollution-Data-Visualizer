@@ -24,11 +24,9 @@ class _CompareChartsViewState extends State<CompareChartsView> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => EndpointModel(),
+      create: (context) => CompareEndpointsModel(),
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text("Compare charts"),
-        ),
+        appBar: buildAppBar(compareEndpointsViewAppBar),
         body: FutureBuilder<List<EndpointSummary>>(
           future: widget.repository.getEndpointSummary(),
           builder: (context, snapshot) {
@@ -39,43 +37,16 @@ class _CompareChartsViewState extends State<CompareChartsView> {
               return SingleChildScrollView(
                 child: Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.8,
-                          child: Consumer<EndpointModel>(
-                              builder: (context, endpointModel, _) {
-                                endpointModel
-                                    .makeEndpointSummaryMap(snapshot.data!);
-                                return DropDownMultiSelect(
-                                  options: endpointModel.endpointSummaryMap.keys
-                                      .map((e) => e.toString())
-                                      .toList(),
-                                  selectedValues: endpointModel.selectedEndpoints,
-                                  onChanged: (List<String> selected) {
-                                    setState(
-                                          () {
-                                        endpointModel
-                                            .updateEndpointSelectedList(selected);
-                                      },
-                                    );
-                                  },
-                                  whenEmpty: emptyField,
-                                );
-                              }),
-                        ),
-                      ],
-                    ),
+                    buildDropDownSelection(context, snapshot),
                     const SizedBox(height: 10),
-                    Consumer<EndpointModel>(
+                    Consumer<CompareEndpointsModel>(
                         builder: (context, endpointModel, child) {
-                          return Wrap(
-                            children: _createChips(endpointModel),
-                          );
-                        }),
+                      return Wrap(
+                        children: _createChips(endpointModel),
+                      );
+                    }),
                     const SizedBox(height: 10),
-                    Consumer<EndpointModel>(
+                    Consumer<CompareEndpointsModel>(
                       builder: (context, endpointModel, child) {
                         chart = _createChart(endpointModel);
                         return chart;
@@ -91,11 +62,49 @@ class _CompareChartsViewState extends State<CompareChartsView> {
     );
   }
 
-  List<Widget> _createChips(EndpointModel endpointModel) {
+  Row buildDropDownSelection(
+      BuildContext context, AsyncSnapshot<List<EndpointSummary>> snapshot) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: <Widget>[
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.8,
+          child: Consumer<CompareEndpointsModel>(
+              builder: (context, endpointModel, _) {
+            endpointModel.makeEndpointSummaryMap(snapshot.data!);
+            return Theme(  // 200IQ move
+              data: ThemeData.from(colorScheme: ColorScheme.fromSwatch(
+                backgroundColor: Colors.white,
+                cardColor: Colors.pink,
+                primarySwatch: Colors.pink
+              )),
+              child: DropDownMultiSelect(
+                isDense: true,
+                options: endpointModel.endpointSummaryMap.keys
+                    .map((e) => e.toString())
+                    .toList(),
+                selectedValues: endpointModel.selectedEndpoints,
+                onChanged: (List<String> selected) {
+                  setState(
+                    () {
+                      endpointModel.updateEndpointSelectedList(selected);
+                    },
+                  );
+                },
+                whenEmpty: emptyField,
+              ),
+            );
+          }),
+        ),
+      ],
+    );
+  }
+
+  List<Widget> _createChips(CompareEndpointsModel endpointModel) {
     return endpointModel.commonFields.map((e) {
       endpointModel.selectedChips.putIfAbsent(e, () => false);
       return Container(
-        margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+        margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
         child: InputChip(
           label: Text(e),
           selected: endpointModel.selectedChips[e]!,
@@ -109,7 +118,7 @@ class _CompareChartsViewState extends State<CompareChartsView> {
     }).toList();
   }
 
-  Widget _createChart(EndpointModel endpointModel) {
+  Widget _createChart(CompareEndpointsModel endpointModel) {
     if (endpointModel.selectedEndpoints.isEmpty) {
       return Column();
     }
@@ -117,7 +126,9 @@ class _CompareChartsViewState extends State<CompareChartsView> {
     List<String> fields = endpointModel.getFieldsForDrawing();
 
     return Column(
-      children: fields.map((field) => MultiDataChart(field: field, endpoints: endpoints)).toList(),
+      children: fields
+          .map((field) => MultiDataChart(field: field, endpoints: endpoints))
+          .toList(),
     );
   }
 }

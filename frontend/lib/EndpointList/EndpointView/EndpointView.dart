@@ -15,10 +15,10 @@ class EndpointView extends StatefulWidget {
   State<EndpointView> createState() => _EndpointViewState();
 }
 
-TabBar _buildTabBar(EndpointViewProvider endpointViewProvider){
+TabBar _buildTabBar(EndpointViewProvider endpointViewProvider, BuildContext context){
   return TabBar(
-      padding: const EdgeInsets.only(
-          top: 10.0, bottom: 10.0),
+      isScrollable: true,
+      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
       unselectedLabelStyle: const TextStyle(
           color: Colors.pink,
           fontFamily: "SofiaSans",
@@ -30,9 +30,31 @@ TabBar _buildTabBar(EndpointViewProvider endpointViewProvider){
           fontFamily: "SofiaSans",
           fontSize: 25),
       tabs: endpointViewProvider.tabs.map((data) {
-        return Tab(text: data.typeName);
+        return SizedBox(
+          child:  Tab(text: data.typeName),
+          width:  MediaQuery.of(context).size.width* 1/endpointViewProvider.tabs.length,
+        );
+        // return;
 
       }).toList());
+}
+
+SizedBox _buildBarView(EndpointViewProvider endpointViewProvider, BuildContext context, snapshot){
+  return SizedBox(
+    height: MediaQuery.of(context).size.height*0.5,
+    child: TabBarView(
+        children: endpointViewProvider.tabs
+            .map((dataKey) => TitledLineChart(
+          chartName: dataKey.typeName,
+          measureFnCallback:
+              (Map<dynamic, dynamic>
+          dataMap,
+              _) =>
+          dataMap[dataKey.typeName],
+          data: snapshot.data!,
+        ))
+            .toList()),
+  );
 }
 class _EndpointViewState extends State<EndpointView> {
   @override
@@ -60,22 +82,8 @@ class _EndpointViewState extends State<EndpointView> {
                               return DefaultTabController(
                                   length: endpointViewProvider.tabs.length,
                                   child: Column(children: [
-                                    _buildTabBar(endpointViewProvider),
-                                    SizedBox(
-                                      height: MediaQuery.of(context).size.height*0.5,
-                                      child: TabBarView(
-                                          children: endpointViewProvider.tabs
-                                              .map((dataKey) => TitledLineChart(
-                                                    chartName: dataKey.typeName,
-                                                    measureFnCallback:
-                                                        (Map<dynamic, dynamic>
-                                                                    dataMap,
-                                                                _) =>
-                                                            dataMap[dataKey.typeName],
-                                                    data: snapshot.data!,
-                                                  ))
-                                              .toList()),
-                                    )
+                                    _buildTabBar(endpointViewProvider, context),
+                                    _buildBarView(endpointViewProvider, context, snapshot)
                                   ]));
                             },
                           )),

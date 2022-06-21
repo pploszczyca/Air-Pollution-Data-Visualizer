@@ -5,6 +5,7 @@ import 'package:adpv_frontend/Providers/EndpointListModel.dart';
 import 'package:adpv_frontend/Repository/AbstractEndpointRepository.dart';
 import 'package:adpv_frontend/Routing.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 
 BorderRadius basicBorderRadius = BorderRadius.circular(8);
@@ -35,7 +36,7 @@ class _EndpointListState extends State<EndpointList> {
     return PreferredSize(
       preferredSize: const Size.fromHeight(100.0),
       child: AppBar(
-        toolbarHeight: 120.0,
+        toolbarHeight: 100.0,
         automaticallyImplyLeading: false,
         flexibleSpace: Container(),
         centerTitle: false,
@@ -44,7 +45,7 @@ class _EndpointListState extends State<EndpointList> {
         titleTextStyle: const TextStyle(
             color: Colors.pink,
             fontFamily: 'Ubuntu Condensed',
-            fontSize: 50,
+            fontSize: 40,
             fontWeight: FontWeight.w500),
         titleSpacing: 20,
       ),
@@ -111,6 +112,7 @@ class _EndpointListState extends State<EndpointList> {
                       expansionPanelEndpoint
                           .setRecentData(recentDataSnapshot.data!);
                       return ListView.builder(
+                        physics: const AlwaysScrollableScrollPhysics(),
                           padding: const EdgeInsets.only(top: 10.0),
                           shrinkWrap: true,
                           itemCount: expansionPanelEndpoint.fields.length,
@@ -152,8 +154,9 @@ class _EndpointListState extends State<EndpointList> {
   Container _buildExpansionList(
       EndpointListProvider endpointListProvider, int itemCount) {
     return Container(
-        margin: const EdgeInsets.all(32),
+        margin: const EdgeInsets.only(left: 10, right:10),
         child: ListView.builder(
+            physics: const AlwaysScrollableScrollPhysics(),
             shrinkWrap: true,
             itemCount: itemCount,
             itemBuilder: (context, i) {
@@ -169,7 +172,7 @@ class _EndpointListState extends State<EndpointList> {
                 left: MediaQuery.of(context).size.width * 0.03,
                 right: MediaQuery.of(context).size.width * 0.03,
                 top: 50.9),
-            child: Wrap(children: [
+            child:
               FutureBuilder<List<EndpointSummary>>(
                   future: widget.repository.getEndpointSummary(),
                   builder: (context, snapshot) {
@@ -186,7 +189,7 @@ class _EndpointListState extends State<EndpointList> {
                               endpointListProvider, snapshot.data!.length);
                         }));
                   })
-            ])));
+            ));
   }
 
   @override

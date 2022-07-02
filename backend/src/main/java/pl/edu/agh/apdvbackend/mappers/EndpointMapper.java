@@ -7,6 +7,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.springframework.beans.factory.annotation.Autowired;
+import pl.edu.agh.apdvbackend.annotations.mappers.FromAddRequestBodyToEndpointInfoAnnotation;
 import pl.edu.agh.apdvbackend.models.body_models.endpoint.AddEndpointRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.endpoint.EndpointSummaryResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.endpoint.UserEndpointResponseBody;
@@ -21,11 +22,6 @@ import pl.edu.agh.apdvbackend.use_cases.field_parser.GetFieldParser;
 @Mapper(componentModel = "spring")
 public abstract class EndpointMapper {
 
-    private static final String FIELD_PARSER_MAP_TARGET = "fieldParserMap";
-
-    private static final String FIELD_PARSER_MAP_EXPRESSION =
-            "java(fieldAndParserKeyListToMap(addEndpointRequestBody.fieldAndParserKeys()))";
-
     @Autowired
     private GetField getField;
 
@@ -35,11 +31,11 @@ public abstract class EndpointMapper {
     @Autowired
     private FieldAndParserMapper fieldAndParserMapper;
 
-    @Mapping(target = FIELD_PARSER_MAP_TARGET, expression = FIELD_PARSER_MAP_EXPRESSION)
+    @FromAddRequestBodyToEndpointInfoAnnotation
     public abstract Endpoint fromAddRequestBodyToEndpointInfo(
             AddEndpointRequestBody addEndpointRequestBody);
 
-    @Mapping(target = FIELD_PARSER_MAP_TARGET, expression = FIELD_PARSER_MAP_EXPRESSION)
+    @FromAddRequestBodyToEndpointInfoAnnotation
     public abstract void updateEndpointFromAddRequestBody(
             AddEndpointRequestBody addEndpointRequestBody,
             @MappingTarget Endpoint endpoint);

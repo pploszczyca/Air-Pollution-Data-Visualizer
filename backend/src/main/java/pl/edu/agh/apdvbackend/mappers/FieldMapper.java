@@ -5,9 +5,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.springframework.beans.factory.annotation.Autowired;
-import pl.edu.agh.apdvbackend.controllers.field.body_models.AddFieldBodyRequest;
-import pl.edu.agh.apdvbackend.controllers.field.body_models.FieldWithoutId;
-import pl.edu.agh.apdvbackend.models.Field;
+import pl.edu.agh.apdvbackend.models.body_models.field.AddFieldBodyRequest;
+import pl.edu.agh.apdvbackend.models.body_models.field.FieldWithoutId;
+import pl.edu.agh.apdvbackend.models.database.Field;
 import pl.edu.agh.apdvbackend.use_cases.unit.SaveUnitByNameIfNotExist;
 
 @Mapper(componentModel = "spring")

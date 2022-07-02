@@ -3,9 +3,10 @@ package pl.edu.agh.apdvbackend.use_cases.group;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import pl.edu.agh.apdvbackend.controllers.group.body_models.AddEnableEndpointRequestBody;
 import pl.edu.agh.apdvbackend.mappers.EnableEndpointsForGroupMapper;
-import pl.edu.agh.apdvbackend.models.Group;
+import pl.edu.agh.apdvbackend.mappers.GroupMapper;
+import pl.edu.agh.apdvbackend.models.body_models.group.AboutGroupResponseBody;
+import pl.edu.agh.apdvbackend.models.body_models.group.AddEnableEndpointRequestBody;
 import pl.edu.agh.apdvbackend.repositories.EnableEndpointsForGroupRepository;
 
 @Component
@@ -20,8 +21,10 @@ public class ChangeEnableEndpointsInGroupImpl
     private final EnableEndpointsForGroupRepository
             enableEndpointsForGroupRepository;
 
+    private final GroupMapper groupMapper;
+
     @Override
-    public Group execute(
+    public AboutGroupResponseBody execute(
             List<AddEnableEndpointRequestBody> addEnableEndpointRequestBodyList,
             Long groupId) {
         final var group = getGroup.execute(groupId);
@@ -35,6 +38,6 @@ public class ChangeEnableEndpointsInGroupImpl
         group.setEnableEndpointsForGroups(enableEndpointsList);
         enableEndpointsForGroupRepository.saveAll(enableEndpointsList);
 
-        return group;
+        return groupMapper.groupToAboutResponseBody(group);
     }
 }

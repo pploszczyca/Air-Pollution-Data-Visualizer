@@ -2,7 +2,7 @@ package pl.edu.agh.apdvbackend.use_cases.field_parser;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import pl.edu.agh.apdvbackend.models.FieldParser;
+import pl.edu.agh.apdvbackend.models.database.FieldParser;
 import pl.edu.agh.apdvbackend.repositories.FieldParserRepository;
 
 @Component

@@ -5,10 +5,10 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.springframework.beans.factory.annotation.Autowired;
-import pl.edu.agh.apdvbackend.controllers.unit_converter.body_models.AddUnitConverterRequestBody;
-import pl.edu.agh.apdvbackend.controllers.unit_converter.body_models.UnitConverterResponseBody;
-import pl.edu.agh.apdvbackend.models.Unit;
-import pl.edu.agh.apdvbackend.models.UnitConverter;
+import pl.edu.agh.apdvbackend.models.body_models.unit_converter.AddUnitConverterRequestBody;
+import pl.edu.agh.apdvbackend.models.body_models.unit_converter.UnitConverterResponseBody;
+import pl.edu.agh.apdvbackend.models.database.Unit;
+import pl.edu.agh.apdvbackend.models.database.UnitConverter;
 import pl.edu.agh.apdvbackend.repositories.UnitRepository;
 
 @Mapper(componentModel = "spring")

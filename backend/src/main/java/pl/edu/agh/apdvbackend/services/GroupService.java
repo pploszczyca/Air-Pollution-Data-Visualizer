@@ -13,6 +13,7 @@ import pl.edu.agh.apdvbackend.use_cases.group.AddUserToGroup;
 import pl.edu.agh.apdvbackend.use_cases.group.ChangeEnableEndpointsInGroup;
 import pl.edu.agh.apdvbackend.use_cases.group.GetAboutGroupInfo;
 import pl.edu.agh.apdvbackend.use_cases.group.GetAllGroupsInfo;
+import pl.edu.agh.apdvbackend.use_cases.group.RemoveGroup;
 import pl.edu.agh.apdvbackend.use_cases.group.RemoveUserFromGroup;
 
 @Service
@@ -26,6 +27,8 @@ public class GroupService {
     private final AddUserToGroup addUserToGroup;
 
     private final RemoveUserFromGroup removeUserFromGroup;
+
+    private final RemoveGroup removeGroup;
 
     private final ChangeEnableEndpointsInGroup changeEnableEndpointsInGroup;
 
@@ -48,6 +51,10 @@ public class GroupService {
                                                                 Long userId) {
         return Response.withOkStatus(
                 removeUserFromGroup.execute(groupId, userId));
+    }
+
+    public void removeGroup(Long groupId) {
+        removeGroup.execute(groupId);
     }
 
     public Response<AboutGroupResponseBody> changeEnableEndpoints(

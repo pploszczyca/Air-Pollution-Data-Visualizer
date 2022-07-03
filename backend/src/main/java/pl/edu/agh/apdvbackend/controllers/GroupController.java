@@ -54,6 +54,12 @@ public class GroupController {
         return groupService.removeUserFromGroup(groupId, userId);
     }
 
+    @Operation(summary = "Remove group")
+    @DeleteMapping
+    public void removeGroup(@RequestParam Long groupId) {
+        groupService.removeGroup(groupId);
+    }
+
     @Operation(summary = "Change enable endpoints for group")
     @PutMapping("/endpoints")
     public Response<AboutGroupResponseBody> changeEnableEndpoints(@RequestBody

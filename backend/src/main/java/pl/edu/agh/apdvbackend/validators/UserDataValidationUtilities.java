@@ -1,6 +1,8 @@
-package pl.edu.agh.apdvbackend.utilities;
+package pl.edu.agh.apdvbackend.validators;
 
 import java.util.regex.Pattern;
+import pl.edu.agh.apdvbackend.exceptions.IncorrectEmailException;
+import pl.edu.agh.apdvbackend.exceptions.IncorrectNameException;
 
 public class UserDataValidationUtilities {
     /**
@@ -23,12 +25,15 @@ public class UserDataValidationUtilities {
      *  <li>No consecutive dots.</li>
      * </ul>
      */
-    public boolean validateEmail(String email) {
+    public void validateEmail(String email) throws IncorrectEmailException {
         final String regexPattern =
                 "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
                         +
                         "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
-        return patternMatches(email, regexPattern);
+
+        if (!patternMatches(email, regexPattern)) {
+            throw new IncorrectEmailException(email);
+        }
     }
 
     /**
@@ -41,9 +46,12 @@ public class UserDataValidationUtilities {
      *  <li>rest chars can be big, or small letters, or digits or space.</li>
      * </ul>
      */
-    public boolean validateName(String username) {
+    public void validateName(String username) throws IncorrectNameException {
         final String regexPattern = "^[A-Za-z_][A-Za-z0-9_][A-Za-z0-9_ ]{2,}$";
-        return patternMatches(username, regexPattern);
+
+        if (!patternMatches(username, regexPattern)) {
+            throw new IncorrectNameException(username);
+        }
     }
 
     private boolean patternMatches(String stringToMach, String regexPattern) {

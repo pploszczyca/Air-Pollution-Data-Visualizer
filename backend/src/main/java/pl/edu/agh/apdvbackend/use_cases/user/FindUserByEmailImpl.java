@@ -21,12 +21,10 @@ public class FindUserByEmailImpl
 
     @Override
     public User execute(String email) throws UsernameNotFoundException {
-        final var databaseUser = userRepository.findByEmail(email);
+        final var databaseUser = userRepository
+                .findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND));
 
-        if(databaseUser.isEmpty()) {
-            throw new UsernameNotFoundException(USER_NOT_FOUND);
-        }
-
-        return userMapper.userToUserDetails(databaseUser.get());
+        return userMapper.userToUserDetails(databaseUser);
     }
 }

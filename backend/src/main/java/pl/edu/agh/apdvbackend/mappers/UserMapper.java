@@ -36,7 +36,7 @@ public abstract class UserMapper {
             List<User> userList);
 
     public org.springframework.security.core.userdetails.User userToUserDetails(User user) {
-        return new org.springframework.security.core.userdetails.User(user.getName(), user.getPassword(), getUserAuthorities(user));
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), getUserAuthorities(user));
     }
 
     private Collection<SimpleGrantedAuthority> getUserAuthorities(User user) {

@@ -7,6 +7,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import pl.edu.agh.apdvbackend.models.body_models.user.AboutUserResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.user.AddUserRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.user.ShortUserInfo;
@@ -18,6 +19,10 @@ public abstract class UserMapper {
     @Autowired
     protected ShortMapper shortMapper;
 
+    @Autowired
+    protected PasswordEncoder passwordEncoder;
+
+    @Mapping(target = "password", expression = "java(passwordEncoder.encode(addUserRequestBody.password()))")
     public abstract User addRequestBodyToUser(
             AddUserRequestBody addUserRequestBody);
 

@@ -13,8 +13,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import pl.edu.agh.apdvbackend.models.database.User;
 
 @RequiredArgsConstructor
 public class CustomAuthenticationFilter extends
@@ -52,14 +52,14 @@ public class CustomAuthenticationFilter extends
         final var user = (User) authentication.getPrincipal();
         final var algorithm = Algorithm.HMAC256(SECRET.getBytes());
         final String access_token = JWT.create()
-                .withSubject(user.getEmail())
+                .withSubject(user.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() +
                         ACCESS_TOKEN_EXPIRES_TIME))
                 .withIssuer(request.getRequestURL().toString())
                 .withClaim("id", user.getPassword())
                 .sign(algorithm);
         final String refresh_token = JWT.create()
-                .withSubject(user.getEmail())
+                .withSubject(user.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() +
                         REFRESH_TOKEN_EXPIRES_TIME))
                 .withIssuer(request.getRequestURL().toString())

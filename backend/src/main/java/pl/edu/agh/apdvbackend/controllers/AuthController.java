@@ -20,15 +20,13 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @PostMapping
-    @RequestMapping("/login")
+    @PostMapping("/login")
     public Response<JWTResponse> logInUser(
             @RequestBody LogInRequestBody logInRequestBody) {
         return authService.logInUser(logInRequestBody);
     }
 
-    @PostMapping
-    @RequestMapping("/register")
+    @PostMapping("/register")
     public Response<JWTResponse> registerUser(
             @RequestBody RegisterRequestBody registerRequestBody) {
         return authService.registerUser(registerRequestBody);

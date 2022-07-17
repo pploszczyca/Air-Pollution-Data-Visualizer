@@ -5,17 +5,17 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import pl.edu.agh.apdvbackend.use_cases.user.FindUserByEmail;
+import pl.edu.agh.apdvbackend.use_cases.user.FindSecurityUserByEmail;
 
 @Service
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final FindUserByEmail findUserByEmail;
+    private final FindSecurityUserByEmail findSecurityUserByEmail;
 
     @Override
     public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException {
-        return findUserByEmail.execute(username);
+        return findSecurityUserByEmail.execute(username);
     }
 }

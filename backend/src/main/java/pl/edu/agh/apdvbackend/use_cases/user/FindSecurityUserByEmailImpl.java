@@ -9,8 +9,8 @@ import pl.edu.agh.apdvbackend.repositories.UserRepository;
 
 @Component
 @RequiredArgsConstructor
-public class FindUserByEmailImpl
-        implements FindUserByEmail {
+public class FindSecurityUserByEmailImpl
+        implements FindSecurityUserByEmail {
 
     public static final String USER_NOT_FOUND =
             "User not found in the database";

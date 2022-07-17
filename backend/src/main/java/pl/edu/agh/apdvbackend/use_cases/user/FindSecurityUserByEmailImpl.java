@@ -23,7 +23,8 @@ public class FindSecurityUserByEmailImpl
     public User execute(String email) throws UsernameNotFoundException {
         final var databaseUser = userRepository
                 .findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND));
+                .orElseThrow(
+                        () -> new UsernameNotFoundException(USER_NOT_FOUND));
 
         return userMapper.userToUserDetails(databaseUser);
     }

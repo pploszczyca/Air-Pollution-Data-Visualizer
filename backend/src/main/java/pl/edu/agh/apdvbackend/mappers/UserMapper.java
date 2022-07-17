@@ -41,10 +41,13 @@ public abstract class UserMapper {
     public abstract List<ShortUserInfo> userListToShortInfoList(
             List<User> userList);
 
-    public abstract LogInRequestBody addUserToLogIn(AddUserRequestBody addUserRequestBody);
+    public abstract LogInRequestBody addUserToLogIn(
+            AddUserRequestBody addUserRequestBody);
 
-    public org.springframework.security.core.userdetails.User userToUserDetails(User user) {
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), getUserAuthorities(user));
+    public org.springframework.security.core.userdetails.User userToUserDetails(
+            User user) {
+        return new org.springframework.security.core.userdetails.User(
+                user.getEmail(), user.getPassword(), getUserAuthorities(user));
     }
 
     private Collection<SimpleGrantedAuthority> getUserAuthorities(User user) {

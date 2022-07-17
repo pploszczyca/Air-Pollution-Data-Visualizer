@@ -38,7 +38,8 @@ public class CustomAuthenticationFilter extends
             throws AuthenticationException {
         final var username = request.getParameter(USERNAME);
         final var password = request.getParameter(PASSWORD);
-        final var authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
+        final var authenticationToken =
+                new UsernamePasswordAuthenticationToken(username, password);
 
         return authenticationManager.authenticate(authenticationToken);
     }
@@ -51,14 +52,17 @@ public class CustomAuthenticationFilter extends
             throws IOException, ServletException {
         final var user = (User) authentication.getPrincipal();
         final var algorithm = Algorithm.HMAC256(SECRET.getBytes());
-        final String access_token = makeToken(ACCESS_TOKEN_EXPIRES_TIME, user, request, algorithm);
-        final String refresh_token = makeToken(REFRESH_TOKEN_EXPIRES_TIME, user, request, algorithm);
+        final String access_token =
+                makeToken(ACCESS_TOKEN_EXPIRES_TIME, user, request, algorithm);
+        final String refresh_token =
+                makeToken(REFRESH_TOKEN_EXPIRES_TIME, user, request, algorithm);
 
         response.setHeader("access_token", access_token);
         response.setHeader("refresh_roken", refresh_token);
     }
 
-    private String makeToken(int expireTime, User user, HttpServletRequest request, Algorithm algorithm) {
+    private String makeToken(int expireTime, User user,
+                             HttpServletRequest request, Algorithm algorithm) {
         return JWT.create()
                 .withSubject(user.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() +

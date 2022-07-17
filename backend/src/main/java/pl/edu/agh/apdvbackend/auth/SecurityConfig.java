@@ -8,7 +8,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -40,14 +39,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.authorizeRequests().antMatchers(HttpMethod.POST, "/auth/**").permitAll();
-        http.authorizeRequests().antMatchers("/v3/api-docs/**",
-                "/configuration/ui",
-                "/swagger-resources/**",
-                "/configuration/security",
+        http.authorizeRequests().antMatchers(
+                "/v3/api-docs/**",
                 "/swagger-ui/**",
-                "/webjars/**").permitAll();
-        http.authorizeRequests().anyRequest().authenticated();
+                "/auth/**"
+        ).permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.GET,
+                "/sensor/data",
+                "/sensor",
+                "/sensor/list",
+                "/field/enable",
+                "/unit/converter",
+                "/unit/converter/all").hasAuthority(Role.USER.name());
+        http.authorizeRequests().anyRequest().hasAuthority(Role.ADMIN.name());
         http.addFilterBefore(new CustomAuthorizationFilter(getAlgorithm()),
                 UsernamePasswordAuthenticationFilter.class);
     }

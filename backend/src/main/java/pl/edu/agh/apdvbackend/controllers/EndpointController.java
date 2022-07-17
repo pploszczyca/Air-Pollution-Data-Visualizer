@@ -33,7 +33,7 @@ public class EndpointController {
 
     private final EndpointService endpointService;
 
-    @Operation(summary = "Get list of data from sensor that belongs to user")
+    @Operation(summary = "Get list of data from sensor that belongs to user", security = @SecurityRequirement(name = JWT_AUTH))
     @GetMapping
     public Response<List<ObjectNode>> getData(
             @RequestParam Long sensorId,
@@ -42,7 +42,7 @@ public class EndpointController {
         return endpointService.getData(USER_ID, sensorId, limit, offset);
     }
 
-    @Operation(summary = "Get list of data from sensor that belongs to user with enable fields")
+    @Operation(summary = "Get list of data from sensor that belongs to user with enable fields", security = @SecurityRequirement(name = JWT_AUTH))
     @GetMapping("/data")
     public Response<EndpointData> getDataWithFields(
             @RequestParam Long sensorId,
@@ -52,32 +52,32 @@ public class EndpointController {
                 offset);
     }
 
-    @Operation(summary = "Get user's endpoints list")
+    @Operation(summary = "Get user's endpoints list", security = @SecurityRequirement(name = JWT_AUTH))
     @GetMapping("/list")
     public Response<List<UserEndpointResponseBody>> getUserEndpointsList() {
         return endpointService.getUserEndpointsList(USER_ID);
     }
 
-    @Operation(summary = "Get all endpoints list with fields information")
+    @Operation(summary = "Get all endpoints list with fields information", security = @SecurityRequirement(name = JWT_AUTH))
     @GetMapping("/list/all")
     public Response<List<EndpointSummaryResponseBody>> getEndpointsList() {
         return endpointService.getEndpointsList();
     }
 
-    @Operation(summary = "Add new endpoint")
+    @Operation(summary = "Add new endpoint", security = @SecurityRequirement(name = JWT_AUTH))
     @PostMapping
     public Response<Endpoint> addEndpoint(
             @RequestBody AddEndpointRequestBody addEndpointRequestBody) {
         return endpointService.addEndpoint(addEndpointRequestBody);
     }
 
-    @Operation(summary = "Remove endpoint")
+    @Operation(summary = "Remove endpoint", security = @SecurityRequirement(name = JWT_AUTH))
     @DeleteMapping
     public void removeEndpoint(@RequestParam Long endpointId) {
         endpointService.removeEndpoint(endpointId);
     }
 
-    @Operation(summary = "Update endpoint")
+    @Operation(summary = "Update endpoint", security = @SecurityRequirement(name = JWT_AUTH))
     @PutMapping
     public Response<Endpoint> updateEndpoint(
             @RequestBody AddEndpointRequestBody addEndpointRequestBody,

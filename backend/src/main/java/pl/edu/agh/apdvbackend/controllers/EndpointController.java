@@ -28,9 +28,6 @@ import pl.edu.agh.apdvbackend.services.EndpointService;
 @RequiredArgsConstructor
 @Tag(name = "Endpoint")
 public class EndpointController {
-    // TODO: Remove USER_ID when JWT will be implemented
-    private static final Long USER_ID = 1L;
-
     private final EndpointService endpointService;
 
     @Operation(summary = "Get list of data from sensor that belongs to user", security = @SecurityRequirement(name = JWT_AUTH))
@@ -39,7 +36,7 @@ public class EndpointController {
             @RequestParam Long sensorId,
             @RequestParam(required = false, defaultValue = "25") Long limit,
             @RequestParam(required = false, defaultValue = "0") Long offset) {
-        return endpointService.getData(USER_ID, sensorId, limit, offset);
+        return endpointService.getData(sensorId, limit, offset);
     }
 
     @Operation(summary = "Get list of data from sensor that belongs to user with enable fields", security = @SecurityRequirement(name = JWT_AUTH))
@@ -48,14 +45,13 @@ public class EndpointController {
             @RequestParam Long sensorId,
             @RequestParam(required = false, defaultValue = "25") Long limit,
             @RequestParam(required = false, defaultValue = "0") Long offset) {
-        return endpointService.getDataWithFields(USER_ID, sensorId, limit,
-                offset);
+        return endpointService.getDataWithFields(sensorId, limit, offset);
     }
 
     @Operation(summary = "Get user's endpoints list", security = @SecurityRequirement(name = JWT_AUTH))
     @GetMapping("/list")
     public Response<List<UserEndpointResponseBody>> getUserEndpointsList() {
-        return endpointService.getUserEndpointsList(USER_ID);
+        return endpointService.getUserEndpointsList();
     }
 
     @Operation(summary = "Get all endpoints list with fields information", security = @SecurityRequirement(name = JWT_AUTH))

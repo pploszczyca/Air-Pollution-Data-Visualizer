@@ -12,9 +12,9 @@ import pl.edu.agh.apdvbackend.models.database.User;
 @RequiredArgsConstructor
 public class JwtTokenUtilsImpl implements JwtTokenUtils {
 
-    private static final int ACCESS_TOKEN_EXPIRES_TIME = 10 * 60 * 1000;
+    private static final int ACCESS_TOKEN_EXPIRES_TIME = 10 * 60 * 60 * 1000;
 
-    private static final int REFRESH_TOKEN_EXPIRES_TIME = 30 * 60 * 1000;
+    private static final int REFRESH_TOKEN_EXPIRES_TIME = 72 * 60 * 60 * 1000;
 
     private final Algorithm algorithm;
 

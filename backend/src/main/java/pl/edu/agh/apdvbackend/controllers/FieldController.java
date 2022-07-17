@@ -24,8 +24,6 @@ import pl.edu.agh.apdvbackend.services.FieldService;
 @RequiredArgsConstructor
 @Tag(name = "Field")
 public class FieldController {
-    // TODO: Remove USER_ID when JWT will be implemented
-    private static final Long USER_ID = 1L;
 
     private final FieldService fieldService;
 
@@ -46,7 +44,7 @@ public class FieldController {
     @GetMapping("/enable")
     public Response<List<Field>> getAllEnableEndpoints(
             @RequestParam Long endpointId) {
-        return fieldService.getAllEnableEndpoints(USER_ID, endpointId);
+        return fieldService.getAllEnableEndpoints(endpointId);
     }
 
     @Operation(summary = "Remove field by id", security = @SecurityRequirement(name = JWT_AUTH))

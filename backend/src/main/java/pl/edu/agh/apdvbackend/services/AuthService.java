@@ -6,6 +6,7 @@ import pl.edu.agh.apdvbackend.models.body_models.Response;
 import pl.edu.agh.apdvbackend.models.body_models.auth.JWTResponse;
 import pl.edu.agh.apdvbackend.models.body_models.auth.LogInRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.auth.RegisterRequestBody;
+import pl.edu.agh.apdvbackend.models.body_models.user.AddUserRequestBody;
 import pl.edu.agh.apdvbackend.use_cases.auth.LogInUser;
 import pl.edu.agh.apdvbackend.use_cases.auth.RegisterUser;
 
@@ -21,7 +22,8 @@ public class AuthService {
         return Response.withOkStatus(logInUser.execute(logInRequestBody));
     }
 
-    public Response<JWTResponse> registerUser(RegisterRequestBody registerRequestBody) {
-        return Response.withOkStatus(registerUser.execute(registerRequestBody));
+    public Response<JWTResponse> registerUser(
+            AddUserRequestBody addUserRequestBody) {
+        return Response.withOkStatus(registerUser.execute(addUserRequestBody));
     }
 }

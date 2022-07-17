@@ -10,6 +10,7 @@ import pl.edu.agh.apdvbackend.models.body_models.Response;
 import pl.edu.agh.apdvbackend.models.body_models.auth.JWTResponse;
 import pl.edu.agh.apdvbackend.models.body_models.auth.LogInRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.auth.RegisterRequestBody;
+import pl.edu.agh.apdvbackend.models.body_models.user.AddUserRequestBody;
 import pl.edu.agh.apdvbackend.services.AuthService;
 
 @RestController
@@ -28,7 +29,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public Response<JWTResponse> registerUser(
-            @RequestBody RegisterRequestBody registerRequestBody) {
-        return authService.registerUser(registerRequestBody);
+            @RequestBody AddUserRequestBody addUserRequestBody) {
+        return authService.registerUser(addUserRequestBody);
     }
 }

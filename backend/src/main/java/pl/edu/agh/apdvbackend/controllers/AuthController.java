@@ -1,5 +1,6 @@
 package pl.edu.agh.apdvbackend.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,12 +21,14 @@ public class AuthController {
 
     private final AuthService authService;
 
+    @Operation(summary = "Log in user to backend")
     @PostMapping("/login")
     public Response<JWTResponse> logInUser(
             @RequestBody LogInRequestBody logInRequestBody) {
         return authService.logInUser(logInRequestBody);
     }
 
+    @Operation(summary = "Register new user")
     @PostMapping("/register")
     public Response<JWTResponse> registerUser(
             @RequestBody AddUserRequestBody addUserRequestBody) {

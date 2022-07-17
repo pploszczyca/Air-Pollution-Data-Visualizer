@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import java.util.Date;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import pl.edu.agh.apdvbackend.models.database.Role;
 import pl.edu.agh.apdvbackend.models.database.User;
 
 @Component
@@ -33,6 +34,7 @@ public class JwtTokenUtilsImpl implements JwtTokenUtils {
                 .withExpiresAt(new Date(System.currentTimeMillis() +
                         expireTime))
                 .withClaim("id", user.getId())
+                .withClaim("roles", user.getRoles().stream().map(Role::name).toList())
                 .sign(algorithm);
     }
 }

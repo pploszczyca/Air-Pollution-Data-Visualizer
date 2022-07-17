@@ -51,22 +51,20 @@ public class CustomAuthenticationFilter extends
             throws IOException, ServletException {
         final var user = (User) authentication.getPrincipal();
         final var algorithm = Algorithm.HMAC256(SECRET.getBytes());
-        final String access_token = JWT.create()
-                .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() +
-                        ACCESS_TOKEN_EXPIRES_TIME))
-                .withIssuer(request.getRequestURL().toString())
-                .withClaim("id", user.getPassword())
-                .sign(algorithm);
-        final String refresh_token = JWT.create()
-                .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() +
-                        REFRESH_TOKEN_EXPIRES_TIME))
-                .withIssuer(request.getRequestURL().toString())
-                .withClaim("id", user.getPassword())
-                .sign(algorithm);
+        final String access_token = makeToken(ACCESS_TOKEN_EXPIRES_TIME, user, request, algorithm);
+        final String refresh_token = makeToken(REFRESH_TOKEN_EXPIRES_TIME, user, request, algorithm);
 
         response.setHeader("access_token", access_token);
         response.setHeader("refresh_roken", refresh_token);
+    }
+
+    private String makeToken(int expireTime, User user, HttpServletRequest request, Algorithm algorithm) {
+        return JWT.create()
+                .withSubject(user.getUsername())
+                .withExpiresAt(new Date(System.currentTimeMillis() +
+                        expireTime))
+                .withIssuer(request.getRequestURL().toString())
+                .withClaim("id", user.getPassword())
+                .sign(algorithm);
     }
 }

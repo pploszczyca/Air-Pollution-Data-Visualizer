@@ -1,5 +1,6 @@
 package pl.edu.agh.apdvbackend.auth;
 
+import com.auth0.jwt.algorithms.Algorithm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +18,8 @@ import pl.edu.agh.apdvbackend.filters.CustomAuthenticationFilter;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private static final String SECRET = "secret";
 
     private final UserDetailsService userDetailsService;
 
@@ -42,5 +45,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
+    }
+
+    @Bean
+    public Algorithm getAlgorithm() {
+        return Algorithm.HMAC256(SECRET.getBytes());
     }
 }

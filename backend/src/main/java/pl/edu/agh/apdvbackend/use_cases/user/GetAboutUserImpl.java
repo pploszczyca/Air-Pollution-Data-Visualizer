@@ -2,8 +2,8 @@ package pl.edu.agh.apdvbackend.use_cases.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import pl.edu.agh.apdvbackend.controllers.user.body_models.AboutUserResponseBody;
 import pl.edu.agh.apdvbackend.mappers.UserMapper;
+import pl.edu.agh.apdvbackend.models.body_models.user.AboutUserResponseBody;
 
 @Component
 @RequiredArgsConstructor

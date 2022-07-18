@@ -4,10 +4,10 @@ import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
-import pl.edu.agh.apdvbackend.controllers.group.body_models.AboutGroupResponseBody;
-import pl.edu.agh.apdvbackend.controllers.group.body_models.AddGroupRequestBody;
-import pl.edu.agh.apdvbackend.controllers.group.body_models.ShortGroupInfoResponseBody;
-import pl.edu.agh.apdvbackend.models.Group;
+import pl.edu.agh.apdvbackend.models.body_models.group.AboutGroupResponseBody;
+import pl.edu.agh.apdvbackend.models.body_models.group.AddGroupRequestBody;
+import pl.edu.agh.apdvbackend.models.body_models.group.ShortGroupInfoResponseBody;
+import pl.edu.agh.apdvbackend.models.database.Group;
 
 @Mapper(componentModel = "spring")
 public abstract class GroupMapper {

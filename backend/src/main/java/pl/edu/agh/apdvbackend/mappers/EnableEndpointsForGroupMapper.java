@@ -4,11 +4,11 @@ import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
-import pl.edu.agh.apdvbackend.controllers.group.body_models.AddEnableEndpointRequestBody;
-import pl.edu.agh.apdvbackend.models.EnableEndpointsForGroup;
-import pl.edu.agh.apdvbackend.models.EnableEndpointsForGroupKey;
-import pl.edu.agh.apdvbackend.models.Group;
-import pl.edu.agh.apdvbackend.models.body_models.EnableEndpointInfo;
+import pl.edu.agh.apdvbackend.models.body_models.endpoint.EnableEndpointInfo;
+import pl.edu.agh.apdvbackend.models.body_models.group.AddEnableEndpointRequestBody;
+import pl.edu.agh.apdvbackend.models.database.EnableEndpointsForGroup;
+import pl.edu.agh.apdvbackend.models.database.EnableEndpointsForGroupKey;
+import pl.edu.agh.apdvbackend.models.database.Group;
 import pl.edu.agh.apdvbackend.use_cases.endpoint.GetEndpoint;
 import pl.edu.agh.apdvbackend.use_cases.field.GetField;
 

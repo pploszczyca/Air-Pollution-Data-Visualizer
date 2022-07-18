@@ -27,7 +27,6 @@ public class GetJsonNodeFromDataHubImpl
                 .iterator();
     }
 
-
     private ObjectNode makeRequest(String uri, Long limit, Long offset) {
         return webClient
                 .get()

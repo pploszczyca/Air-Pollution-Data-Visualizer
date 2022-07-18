@@ -3,18 +3,17 @@ package pl.edu.agh.apdvbackend.services;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.edu.agh.apdvbackend.controllers.group.body_models.AboutGroupResponseBody;
-import pl.edu.agh.apdvbackend.controllers.group.body_models.AddEnableEndpointRequestBody;
-import pl.edu.agh.apdvbackend.controllers.group.body_models.AddGroupRequestBody;
-import pl.edu.agh.apdvbackend.controllers.group.body_models.ShortGroupInfoResponseBody;
-import pl.edu.agh.apdvbackend.mappers.GroupMapper;
-import pl.edu.agh.apdvbackend.models.Group;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
+import pl.edu.agh.apdvbackend.models.body_models.group.AboutGroupResponseBody;
+import pl.edu.agh.apdvbackend.models.body_models.group.AddEnableEndpointRequestBody;
+import pl.edu.agh.apdvbackend.models.body_models.group.AddGroupRequestBody;
+import pl.edu.agh.apdvbackend.models.body_models.group.ShortGroupInfoResponseBody;
 import pl.edu.agh.apdvbackend.use_cases.group.AddNewGroup;
 import pl.edu.agh.apdvbackend.use_cases.group.AddUserToGroup;
 import pl.edu.agh.apdvbackend.use_cases.group.ChangeEnableEndpointsInGroup;
 import pl.edu.agh.apdvbackend.use_cases.group.GetAboutGroupInfo;
 import pl.edu.agh.apdvbackend.use_cases.group.GetAllGroupsInfo;
+import pl.edu.agh.apdvbackend.use_cases.group.RemoveGroup;
 import pl.edu.agh.apdvbackend.use_cases.group.RemoveUserFromGroup;
 
 @Service
@@ -29,11 +28,11 @@ public class GroupService {
 
     private final RemoveUserFromGroup removeUserFromGroup;
 
+    private final RemoveGroup removeGroup;
+
     private final ChangeEnableEndpointsInGroup changeEnableEndpointsInGroup;
 
     private final AddNewGroup addNewGroup;
-
-    private final GroupMapper groupMapper;
 
     public Response<List<ShortGroupInfoResponseBody>> getAllGroupsInfo() {
         return Response.withOkStatus(getAllGroupsInfo.execute());
@@ -54,23 +53,19 @@ public class GroupService {
                 removeUserFromGroup.execute(groupId, userId));
     }
 
+    public void removeGroup(Long groupId) {
+        removeGroup.execute(groupId);
+    }
+
     public Response<AboutGroupResponseBody> changeEnableEndpoints(
             List<AddEnableEndpointRequestBody> addEnableEndpointRequestBodyList,
             Long groupId) {
-        final var updatedGroup = changeEnableEndpointsInGroup.execute(
-                addEnableEndpointRequestBodyList, groupId);
-        return makeAboutGroupResponse(updatedGroup);
+        return Response.withOkStatus(changeEnableEndpointsInGroup.execute(
+                addEnableEndpointRequestBodyList, groupId));
     }
 
     public Response<AboutGroupResponseBody> addGroup(
             AddGroupRequestBody addGroupRequestBody) {
-        final var newGroup = addNewGroup.execute(addGroupRequestBody);
-        return makeAboutGroupResponse(newGroup);
-    }
-
-    private Response<AboutGroupResponseBody> makeAboutGroupResponse(
-            Group group) {
-        return Response.withOkStatus(
-                groupMapper.groupToAboutResponseBody(group));
+        return Response.withOkStatus(addNewGroup.execute(addGroupRequestBody));
     }
 }

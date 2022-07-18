@@ -3,11 +3,11 @@ package pl.edu.agh.apdvbackend.use_cases.user;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
-import pl.edu.agh.apdvbackend.controllers.user.body_models.AddUserRequestBody;
 import pl.edu.agh.apdvbackend.mappers.UserMapper;
-import pl.edu.agh.apdvbackend.models.User;
+import pl.edu.agh.apdvbackend.models.body_models.user.AddUserRequestBody;
+import pl.edu.agh.apdvbackend.models.database.User;
 import pl.edu.agh.apdvbackend.repositories.UserRepository;
-import pl.edu.agh.apdvbackend.use_cases.validation.ValidateAddUserRequestBody;
+import pl.edu.agh.apdvbackend.validators.UserDataValidationUtilities;
 
 @Component
 @RequiredArgsConstructor
@@ -18,14 +18,19 @@ public class AddUserImpl
 
     private final UserMapper userMapper;
 
-    private final ValidateAddUserRequestBody validateAddUserRequestBody;
+    private final UserDataValidationUtilities userDataValidationUtilities;
 
-    @SneakyThrows
     @Override
     public User execute(AddUserRequestBody addUserRequestBody) {
-        validateAddUserRequestBody.execute(addUserRequestBody);
+        validateRequestBody(addUserRequestBody);
 
         return userRepository.save(
                 userMapper.addRequestBodyToUser(addUserRequestBody));
+    }
+
+    @SneakyThrows
+    private void validateRequestBody(AddUserRequestBody addUserRequestBody) {
+        userDataValidationUtilities.validateName(addUserRequestBody.name());
+        userDataValidationUtilities.validateEmail(addUserRequestBody.email());
     }
 }

@@ -2,7 +2,7 @@ package pl.edu.agh.apdvbackend.use_cases.enable_endpoints;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import pl.edu.agh.apdvbackend.models.EnableEndpointsForGroup;
+import pl.edu.agh.apdvbackend.models.database.EnableEndpointsForGroup;
 import pl.edu.agh.apdvbackend.repositories.EnableEndpointsForGroupRepository;
 
 @Component

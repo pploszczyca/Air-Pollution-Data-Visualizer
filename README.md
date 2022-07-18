@@ -20,6 +20,7 @@
   - [Backend API documentation](#backend-api-documentation)
   - [Add prefix to commits](#add-prefix-to-commits)
   - [Mock Database](#mock-database)
+  - [Docs](#docs)
   
 ## Technologies
 ### Frontend
@@ -122,3 +123,6 @@ $ git config --local core.hooksPath .githooks/
 
 ## Mock Database
 For this moment, it is prepared a [mock.sql](/backend/sql_mocks/mock.sql) file, which can be used for testing. This script needs to be run in database manually.
+
+## Docs
+- [Backend description (PL)](./docs/backend_overview_pl.md)

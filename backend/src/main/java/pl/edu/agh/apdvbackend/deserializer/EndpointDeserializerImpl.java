@@ -8,8 +8,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 import pl.edu.agh.apdvbackend.exceptions.IncorrectNodeDeserialize;
-import pl.edu.agh.apdvbackend.models.Endpoint;
-import pl.edu.agh.apdvbackend.models.Field;
+import pl.edu.agh.apdvbackend.models.database.Endpoint;
+import pl.edu.agh.apdvbackend.models.database.Field;
 
 @Component
 @RequiredArgsConstructor

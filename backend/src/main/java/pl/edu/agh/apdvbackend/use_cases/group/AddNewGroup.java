@@ -1,8 +1,8 @@
 package pl.edu.agh.apdvbackend.use_cases.group;
 
-import pl.edu.agh.apdvbackend.controllers.group.body_models.AddGroupRequestBody;
-import pl.edu.agh.apdvbackend.models.Group;
+import pl.edu.agh.apdvbackend.models.body_models.group.AboutGroupResponseBody;
+import pl.edu.agh.apdvbackend.models.body_models.group.AddGroupRequestBody;
 
 public interface AddNewGroup {
-    Group execute(AddGroupRequestBody addGroupRequestBody);
+    AboutGroupResponseBody execute(AddGroupRequestBody addGroupRequestBody);
 }

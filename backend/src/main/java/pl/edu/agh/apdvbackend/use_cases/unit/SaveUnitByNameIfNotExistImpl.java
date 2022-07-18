@@ -2,7 +2,7 @@ package pl.edu.agh.apdvbackend.use_cases.unit;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import pl.edu.agh.apdvbackend.models.Unit;
+import pl.edu.agh.apdvbackend.models.database.Unit;
 import pl.edu.agh.apdvbackend.repositories.UnitRepository;
 
 @Component

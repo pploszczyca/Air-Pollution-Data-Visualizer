@@ -4,7 +4,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import pl.edu.agh.apdvbackend.models.EnableEndpointsForGroup;
+import pl.edu.agh.apdvbackend.models.database.EnableEndpointsForGroup;
 
 @Repository
 public interface EnableEndpointsForGroupRepository

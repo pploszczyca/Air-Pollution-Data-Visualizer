@@ -5,10 +5,10 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.springframework.beans.factory.annotation.Autowired;
-import pl.edu.agh.apdvbackend.controllers.user.body_models.AboutUserResponseBody;
-import pl.edu.agh.apdvbackend.controllers.user.body_models.AddUserRequestBody;
-import pl.edu.agh.apdvbackend.models.User;
-import pl.edu.agh.apdvbackend.models.body_models.ShortUserInfo;
+import pl.edu.agh.apdvbackend.models.body_models.user.AboutUserResponseBody;
+import pl.edu.agh.apdvbackend.models.body_models.user.AddUserRequestBody;
+import pl.edu.agh.apdvbackend.models.body_models.user.ShortUserInfo;
+import pl.edu.agh.apdvbackend.models.database.User;
 
 @Mapper(componentModel = "spring")
 public abstract class UserMapper {

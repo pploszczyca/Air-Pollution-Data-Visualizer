@@ -1,11 +1,11 @@
 package pl.edu.agh.apdvbackend.use_cases.group;
 
 import java.util.List;
-import pl.edu.agh.apdvbackend.controllers.group.body_models.AddEnableEndpointRequestBody;
-import pl.edu.agh.apdvbackend.models.Group;
+import pl.edu.agh.apdvbackend.models.body_models.group.AboutGroupResponseBody;
+import pl.edu.agh.apdvbackend.models.body_models.group.AddEnableEndpointRequestBody;
 
 public interface ChangeEnableEndpointsInGroup {
-    Group execute(
+    AboutGroupResponseBody execute(
             List<AddEnableEndpointRequestBody> addEnableEndpointRequestBodyList,
             Long groupId);
 }

@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import pl.edu.agh.apdvbackend.utilities.ListUtilities;
 import pl.edu.agh.apdvbackend.utilities.StreamUtilities;
-import pl.edu.agh.apdvbackend.utilities.UserDataValidationUtilities;
+import pl.edu.agh.apdvbackend.validators.UserDataValidationUtilities;
 
 @Configuration
 public class AppConfig {

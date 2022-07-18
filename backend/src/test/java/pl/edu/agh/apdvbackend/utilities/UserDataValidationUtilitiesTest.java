@@ -1,10 +1,14 @@
 package pl.edu.agh.apdvbackend.utilities;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import pl.edu.agh.apdvbackend.exceptions.IncorrectEmailException;
+import pl.edu.agh.apdvbackend.exceptions.IncorrectNameException;
+import pl.edu.agh.apdvbackend.validators.UserDataValidationUtilities;
 
 @SpringBootTest
 class UserDataValidationUtilitiesTest {
@@ -14,26 +18,31 @@ class UserDataValidationUtilitiesTest {
 
 
     @ParameterizedTest
-    @CsvSource({"Piotr2000,true",
-            "Piotr P,true",
-            "1Piotr,false",
-            "piotr.12,false",
-            "pp,false",
-            "pp ,false"})
-    void testUsername(String username, boolean expected) {
-        assertEquals(expected,
-                userDataValidationUtilities.validateName(username));
+    @ValueSource(strings = {"1Piotr", "piotr.12", "pp", "pp "})
+    void testNotCorrectUsernames(String username) {
+        assertThrows(IncorrectNameException.class,
+                () -> userDataValidationUtilities.validateName(username));
     }
 
     @ParameterizedTest
-    @CsvSource({"test1-23_it.works@test.pl,true",
-            "@test.pl,false",
-            "test1@test..pl,false",
-            "test@,false",
-            "@test.com,false",
-            "test@test-com,false"})
-    void testEmail(String email, boolean expected) {
-        assertEquals(expected,
-                userDataValidationUtilities.validateEmail(email));
+    @ValueSource(strings = {"Piotr2000", "Piotr P"})
+    void testCorrectUsernames(String username) {
+        assertDoesNotThrow(
+                () -> userDataValidationUtilities.validateName(username));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"@test.pl", "test1@test..pl", "test@", "@test.com",
+            "test@test-com"})
+    void testNotCorrectEmail(String email) {
+        assertThrows(IncorrectEmailException.class,
+                () -> userDataValidationUtilities.validateEmail(email));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"test1-23_it.works@test.pl"})
+    void testCorrectEmail(String email) {
+        assertDoesNotThrow(
+                () -> userDataValidationUtilities.validateEmail(email));
     }
 }

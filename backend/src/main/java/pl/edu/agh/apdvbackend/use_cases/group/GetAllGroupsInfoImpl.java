@@ -3,8 +3,8 @@ package pl.edu.agh.apdvbackend.use_cases.group;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import pl.edu.agh.apdvbackend.controllers.group.body_models.ShortGroupInfoResponseBody;
 import pl.edu.agh.apdvbackend.mappers.GroupMapper;
+import pl.edu.agh.apdvbackend.models.body_models.group.ShortGroupInfoResponseBody;
 import pl.edu.agh.apdvbackend.repositories.GroupRepository;
 import pl.edu.agh.apdvbackend.utilities.ListUtilities;
 

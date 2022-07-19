@@ -5,7 +5,6 @@ import 'package:adpv_frontend/Providers/EndpointListModel.dart';
 import 'package:adpv_frontend/Repository/AbstractEndpointRepository.dart';
 import 'package:adpv_frontend/Routing.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 
 BorderRadius basicBorderRadius = BorderRadius.circular(8);
@@ -19,7 +18,7 @@ int limit = 1;
 int offset = 0;
 
 class EndpointList extends StatefulWidget {
-  const EndpointList({Key? key, required this.repository}) : super(key: key);
+  const EndpointList({ required this.repository,Key? key}) : super(key: key);
 
   final AbstractEndpointRepository repository;
 
@@ -32,11 +31,10 @@ class _EndpointListState extends State<EndpointList> {
     Navigator.pushNamed(context, endpointViewRoute + "/" + id.toString());
   }
 
-  PreferredSize _buildAppBar() {
-    return PreferredSize(
-      preferredSize: const Size.fromHeight(100.0),
+  PreferredSize _buildAppBar() => PreferredSize(
+      preferredSize: const Size.fromHeight(100),
       child: AppBar(
-        toolbarHeight: 100.0,
+        toolbarHeight: 100,
         automaticallyImplyLeading: false,
         flexibleSpace: Container(),
         centerTitle: false,
@@ -50,21 +48,19 @@ class _EndpointListState extends State<EndpointList> {
         titleSpacing: 20,
       ),
     );
-  }
 
-  _buildLabelButton(ExpansionPanelEndpoint expansionPanelEndpoint) {
-    return Container(
+  Container _buildLabelButton(ExpansionPanelEndpoint expansionPanelEndpoint) => Container(
         width: 200,
         alignment: Alignment.centerLeft,
         child: OutlinedButton(
           style: ButtonStyle(
             side: MaterialStateProperty.all(
-                const BorderSide(width: 2.0, color: Colors.pink)),
+                const BorderSide(width: 2, color: Colors.pink)),
             padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
             backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                (Set<MaterialState> states) {
-                  return states.contains(MaterialState.hovered) ? Colors.pink : Colors.white; // null throus error in flutter 2.2+.
-            }),
+                (Set<MaterialState> states) => states.contains(MaterialState.hovered)
+                  ? Colors.pink
+                  : Colors.white),
             shape: MaterialStateProperty.all(
               RoundedRectangleBorder(borderRadius: basicBorderRadius),
             ),
@@ -85,10 +81,8 @@ class _EndpointListState extends State<EndpointList> {
                   fontSize: 26,
                   color: expansionPanelEndpoint.buttonColor)),
         ));
-  }
 
-  Card _buildEndpointCard(ExpansionPanelEndpoint expansionPanelEndpoint) {
-    return Card(
+  Card _buildEndpointCard(ExpansionPanelEndpoint expansionPanelEndpoint) => Card(
         margin: const EdgeInsets.only(top: 10, bottom: 10),
         shadowColor: Colors.transparent,
         child: ExpansionTile(
@@ -101,8 +95,8 @@ class _EndpointListState extends State<EndpointList> {
                   color: Color.fromARGB(255, 127, 166, 168),
                 ),
                 child: FutureBuilder<EndpointData>(
-                  future: widget.repository
-                      .getEndpointData(expansionPanelEndpoint.id, limit, offset),
+                  future: widget.repository.getEndpointData(
+                      expansionPanelEndpoint.id, limit, offset),
                   builder: (context, recentDataSnapshot) {
                     if (recentDataSnapshot.connectionState ==
                             ConnectionState.none ||
@@ -112,12 +106,11 @@ class _EndpointListState extends State<EndpointList> {
                       expansionPanelEndpoint
                           .setRecentData(recentDataSnapshot.data!);
                       return ListView.builder(
-                        physics: const AlwaysScrollableScrollPhysics(),
-                          padding: const EdgeInsets.only(top: 10.0),
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          padding: const EdgeInsets.only(top: 10),
                           shrinkWrap: true,
                           itemCount: expansionPanelEndpoint.fields.length,
-                          itemBuilder: (context, i) {
-                            return Container(
+                          itemBuilder: (context, i) => Container(
                                 decoration: BoxDecoration(
                                   borderRadius: basicBorderRadius,
                                   color: Colors.white,
@@ -129,8 +122,7 @@ class _EndpointListState extends State<EndpointList> {
                                 child: Row(children: <Widget>[
                                   Expanded(
                                       child: Text(
-                                          expansionPanelEndpoint.fields[i]
-                                              .toString(),
+                                          expansionPanelEndpoint.fields[i],
                                           textAlign: TextAlign.left,
                                           style: endpointDataTextStyle)),
                                   Expanded(
@@ -138,66 +130,51 @@ class _EndpointListState extends State<EndpointList> {
                                           expansionPanelEndpoint.recentData[
                                                   expansionPanelEndpoint
                                                       .fields[i]
-                                                      .toString()]
+                                                    ]
                                               .toStringAsFixed(2),
                                           textAlign: TextAlign.right,
                                           style: endpointDataTextStyle)),
-                                ]));
-                          });
+                                ])));
                     }
                   },
                 ))
           ],
         ));
-  }
 
   Container _buildExpansionList(
-      EndpointListProvider endpointListProvider, int itemCount) {
-    return Container(
-        margin: const EdgeInsets.only(left: 10, right:10),
+      EndpointListProvider endpointListProvider, int itemCount) => Container(
+        margin: const EdgeInsets.only(left: 10, right: 10),
         child: ListView.builder(
             physics: const AlwaysScrollableScrollPhysics(),
             shrinkWrap: true,
             itemCount: itemCount,
-            itemBuilder: (context, i) {
-              return _buildEndpointCard(endpointListProvider.endpointsList[i]);
-            }));
-  }
+            itemBuilder: (context, i) => _buildEndpointCard(endpointListProvider.endpointsList[i])));
 
-  SingleChildScrollView _buildBody() {
-    return SingleChildScrollView(
+  SingleChildScrollView _buildBody() => SingleChildScrollView(
         child: Container(
             color: Colors.transparent,
             margin: EdgeInsets.only(
                 left: MediaQuery.of(context).size.width * 0.03,
                 right: MediaQuery.of(context).size.width * 0.03,
                 top: 50.9),
-            child:
-              FutureBuilder<List<EndpointSummary>>(
-                  future: widget.repository.getEndpointSummary(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.none ||
-                        snapshot.data == null) {
-                      return LoadingInCenter();
-                    }
-                    return ChangeNotifierProvider(
-                        create: (context) =>
-                            EndpointListProvider(snapshot.data!),
-                        child: Consumer<EndpointListProvider>(
-                            builder: (context, endpointListProvider, _) {
-                          return _buildExpansionList(
-                              endpointListProvider, snapshot.data!.length);
-                        }));
-                  })
-            ));
-  }
+            child: FutureBuilder<List<EndpointSummary>>(
+                future: widget.repository.getEndpointSummary(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.none ||
+                      snapshot.data == null) {
+                    return LoadingInCenter();
+                  }
+                  return ChangeNotifierProvider(
+                      create: (context) => EndpointListProvider(snapshot.data!),
+                      child: Consumer<EndpointListProvider>(
+                          builder: (context, endpointListProvider, _) => _buildExpansionList(
+                            endpointListProvider, snapshot.data!.length)));
+                })));
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+  Widget build(BuildContext context) => Scaffold(
       backgroundColor: const Color.fromARGB(255, 127, 166, 168),
       appBar: _buildAppBar(),
       body: _buildBody(),
     );
-  }
 }

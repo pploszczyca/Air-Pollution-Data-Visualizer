@@ -6,7 +6,7 @@ import '../Repository/AbstractEndpointRepository.dart';
 class ProfileNavigator extends StatefulWidget {
   final AbstractEndpointRepository endpointRepository;
 
-  const ProfileNavigator({Key? key, required this.endpointRepository})
+  const ProfileNavigator({required this.endpointRepository, Key? key})
       : super(key: key);
 
   @override
@@ -15,16 +15,11 @@ class ProfileNavigator extends StatefulWidget {
 
 class _ProfileNavigatorState extends State<ProfileNavigator> {
   @override
-  Widget build(BuildContext context) {
-    return Navigator(
-      onGenerateRoute: (RouteSettings settings) {
-        late Widget page;
-        page = const ProfileView();
-
-        return MaterialPageRoute<dynamic>(builder: (context) {
-          return page;
-        });
-      },
-    );
-  }
+  Widget build(BuildContext context) => Navigator(
+        onGenerateRoute: (settings) {
+          late Widget page;
+          page = const ProfileView();
+          return MaterialPageRoute<dynamic>(builder: (context) => page);
+        },
+      );
 }

@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import '../Repository/AbstractEndpointRepository.dart';
 
 class CompareEndpointsNavigator extends StatefulWidget {
-  AbstractEndpointRepository repository;
+  final AbstractEndpointRepository repository;
 
-  CompareEndpointsNavigator({Key? key, required this.repository})
+  const CompareEndpointsNavigator({required this.repository, Key? key})
       : super(key: key);
 
   @override
@@ -16,19 +16,15 @@ class CompareEndpointsNavigator extends StatefulWidget {
 
 class _CompareEndpointsNavigatorState extends State<CompareEndpointsNavigator> {
   @override
-  Widget build(BuildContext context) {
-    return Navigator(
+  Widget build(BuildContext context) => Navigator(
       onGenerateRoute: (RouteSettings settings) {
         late Widget page;
         if(settings.name == compareEndpointsRoute){
           page =  EndpointList(repository: widget.repository,);
         }
         return MaterialPageRoute<dynamic>(
-            builder: (context){
-              return page;
-            }
+            builder: (context)=> page
         );
       },
     );
-  }
 }

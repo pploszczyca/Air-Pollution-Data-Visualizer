@@ -6,8 +6,7 @@ import 'package:flutter/material.dart';
 class CustomLegendBuilder extends charts.LegendContentBuilder {
   @override
   Widget build(BuildContext context, LegendState legendState, Legend legend,
-      {bool? showMeasures}) {
-    return SizedBox(
+      {bool? showMeasures}) => SizedBox(
       width: MediaQuery.of(context).size.width * 0.9,
       child: Wrap(
         children: legendState.legendEntries
@@ -29,9 +28,6 @@ class CustomLegendBuilder extends charts.LegendContentBuilder {
         ).toList(),
       ),
     );
-  }
 
-  Color fromChartColor(charts.Color? color) {
-    return Color.fromARGB(color!.a, color.r, color.g, color.b);
-  }
+  Color fromChartColor(charts.Color? color) => Color.fromARGB(color!.a, color.r, color.g, color.b);
 }

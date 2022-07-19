@@ -10,7 +10,7 @@ import '../Models/Endpoint.dart';
 import '../Providers/CompareEndpointsModel.dart';
 
 class CompareChartsView extends StatefulWidget {
-  const CompareChartsView({Key? key, required this.repository})
+  const CompareChartsView({required this.repository, Key? key})
       : super(key: key);
   final AbstractEndpointRepository repository;
 
@@ -22,8 +22,7 @@ class _CompareChartsViewState extends State<CompareChartsView> {
   Widget chart = Container();
 
   @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
+  Widget build(BuildContext context) => ChangeNotifierProvider(
       create: (context) => CompareEndpointsModel(),
       child: Scaffold(
         appBar: buildAppBar(compareEndpointsViewAppBar),
@@ -40,11 +39,9 @@ class _CompareChartsViewState extends State<CompareChartsView> {
                     buildDropDownSelection(context, snapshot),
                     const SizedBox(height: 10),
                     Consumer<CompareEndpointsModel>(
-                        builder: (context, endpointModel, child) {
-                      return Wrap(
+                        builder: (context, endpointModel, child) => Wrap(
                         children: _createChips(endpointModel),
-                      );
-                    }),
+                      )),
                     const SizedBox(height: 10),
                     Consumer<CompareEndpointsModel>(
                       builder: (context, endpointModel, child) {
@@ -60,11 +57,9 @@ class _CompareChartsViewState extends State<CompareChartsView> {
         ),
       ),
     );
-  }
 
   Row buildDropDownSelection(
-      BuildContext context, AsyncSnapshot<List<EndpointSummary>> snapshot) {
-    return Row(
+      BuildContext context, AsyncSnapshot<List<EndpointSummary>> snapshot) => Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget>[
         SizedBox(
@@ -81,7 +76,6 @@ class _CompareChartsViewState extends State<CompareChartsView> {
               child: DropDownMultiSelect(
                 isDense: true,
                 options: endpointModel.endpointSummaryMap.keys
-                    .map((e) => e.toString())
                     .toList(),
                 selectedValues: endpointModel.selectedEndpoints,
                 onChanged: (List<String> selected) {
@@ -98,10 +92,8 @@ class _CompareChartsViewState extends State<CompareChartsView> {
         ),
       ],
     );
-  }
 
-  List<Widget> _createChips(CompareEndpointsModel endpointModel) {
-    return endpointModel.commonFields.map((e) {
+  List<Widget> _createChips(CompareEndpointsModel endpointModel) => endpointModel.commonFields.map((e) {
       endpointModel.selectedChips.putIfAbsent(e, () => false);
       return Container(
         margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
@@ -116,14 +108,13 @@ class _CompareChartsViewState extends State<CompareChartsView> {
         ),
       );
     }).toList();
-  }
 
   Widget _createChart(CompareEndpointsModel endpointModel) {
     if (endpointModel.selectedEndpoints.isEmpty) {
       return Column();
     }
-    List<Endpoint> endpoints = endpointModel.getEndpointsForDrawing();
-    List<String> fields = endpointModel.getFieldsForDrawing();
+    final List<Endpoint> endpoints = endpointModel.getEndpointsForDrawing();
+    final List<String> fields = endpointModel.getFieldsForDrawing();
 
     return Column(
       children: fields

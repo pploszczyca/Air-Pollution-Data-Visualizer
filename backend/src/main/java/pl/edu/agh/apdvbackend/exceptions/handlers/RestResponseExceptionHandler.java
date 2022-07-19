@@ -4,6 +4,7 @@ import java.util.NoSuchElementException;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -62,6 +63,12 @@ public class RestResponseExceptionHandler {
     @ResponseStatus(value = HttpStatus.CONFLICT)
     @ExceptionHandler(IncorrectNodeDeserialize.class)
     public Response<?> handleIncorrectNodeDeserialize(Exception exception) {
+        return Response.withError(exception.getMessage());
+    }
+
+    @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(BadCredentialsException.class)
+    public Response<?> handleBadCredentialsException(Exception exception) {
         return Response.withError(exception.getMessage());
     }
 }

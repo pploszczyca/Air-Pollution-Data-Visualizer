@@ -19,13 +19,13 @@ import pl.edu.agh.apdvbackend.repositories.UserRepository;
 
 @SpringBootTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
-class FindUserByEmailImplTest {
+class FindSecurityUserByEmailImplTest {
 
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
-    private FindUserByEmail findUserByEmail;
+    private FindSecurityUserByEmail findSecurityUserByEmail;
 
     @BeforeEach
     void init() {
@@ -38,7 +38,7 @@ class FindUserByEmailImplTest {
         final var expectedExceptionMessage = "User not found in the database";
 
         final var exception = assertThrows(UsernameNotFoundException.class,
-                () -> findUserByEmail.execute(email));
+                () -> findSecurityUserByEmail.execute(email));
 
         assertEquals(expectedExceptionMessage, exception.getMessage());
     }
@@ -58,7 +58,7 @@ class FindUserByEmailImplTest {
         user.setRoles(roles);
         userRepository.save(user);
 
-        final var result = findUserByEmail.execute(email);
+        final var result = findSecurityUserByEmail.execute(email);
 
         assertEquals(email, result.getUsername());
         assertEquals(password, result.getPassword());

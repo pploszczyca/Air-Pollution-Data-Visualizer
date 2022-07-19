@@ -11,6 +11,7 @@ import pl.edu.agh.apdvbackend.use_cases.field.GetAllFields;
 import pl.edu.agh.apdvbackend.use_cases.field.RemoveField;
 import pl.edu.agh.apdvbackend.use_cases.field.SaveNewField;
 import pl.edu.agh.apdvbackend.use_cases.field.UpdateField;
+import pl.edu.agh.apdvbackend.use_cases.user.FindCurrentUserId;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +28,8 @@ public class FieldService {
 
     private final UpdateField updateField;
 
+    private final FindCurrentUserId findCurrentUserId;
+
     public Response<Field> addField(AddFieldBodyRequest addFieldBodyRequest) {
         return Response.withOkStatus(saveNewField.execute(addFieldBodyRequest));
     }
@@ -35,10 +38,9 @@ public class FieldService {
         return Response.withOkStatus(getAllFields.execute());
     }
 
-    public Response<List<Field>> getAllEnableEndpoints(Long userId,
-                                                       Long endpointId) {
+    public Response<List<Field>> getAllEnableEndpoints(Long endpointId) {
         return Response.withOkStatus(
-                getAllEnableFieldsForEndpointAndUser.execute(userId,
+                getAllEnableFieldsForEndpointAndUser.execute(findCurrentUserId.execute(),
                         endpointId));
     }
 

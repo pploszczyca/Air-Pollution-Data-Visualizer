@@ -1,6 +1,7 @@
 package pl.edu.agh.apdvbackend.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import static pl.edu.agh.apdvbackend.configs.SwaggerConfig.JWT_AUTH;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
 import pl.edu.agh.apdvbackend.models.body_models.group.AboutGroupResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.AddEnableEndpointRequestBody;
@@ -27,40 +29,40 @@ public class GroupController {
 
     private final GroupService groupService;
 
-    @Operation(summary = "Get id and name info about all group")
+    @Operation(summary = "Get id and name info about all group", security = @SecurityRequirement(name = JWT_AUTH))
     @GetMapping("/all/info")
     public Response<List<ShortGroupInfoResponseBody>> getAllGroupsInfo() {
         return groupService.getAllGroupsInfo();
     }
 
-    @Operation(summary = "Get information about group")
+    @Operation(summary = "Get information about group", security = @SecurityRequirement(name = JWT_AUTH))
     @GetMapping
     public Response<AboutGroupResponseBody> getGroupInfo(
             @RequestParam Long groupId) {
         return groupService.getGroupInfo(groupId);
     }
 
-    @Operation(summary = "Add user to group")
+    @Operation(summary = "Add user to group", security = @SecurityRequirement(name = JWT_AUTH))
     @PostMapping("/user/add")
     public Response<AboutGroupResponseBody> addUserToGroup(
             @RequestParam Long groupId, @RequestParam Long userId) {
         return groupService.addUserToGroup(groupId, userId);
     }
 
-    @Operation(summary = "Remove user from group")
+    @Operation(summary = "Remove user from group", security = @SecurityRequirement(name = JWT_AUTH))
     @DeleteMapping("/user/remove")
     public Response<AboutGroupResponseBody> removeUserFromGroup(
             @RequestParam Long groupId, @RequestParam Long userId) {
         return groupService.removeUserFromGroup(groupId, userId);
     }
 
-    @Operation(summary = "Remove group")
+    @Operation(summary = "Remove group", security = @SecurityRequirement(name = JWT_AUTH))
     @DeleteMapping
     public void removeGroup(@RequestParam Long groupId) {
         groupService.removeGroup(groupId);
     }
 
-    @Operation(summary = "Change enable endpoints for group")
+    @Operation(summary = "Change enable endpoints for group", security = @SecurityRequirement(name = JWT_AUTH))
     @PutMapping("/endpoints")
     public Response<AboutGroupResponseBody> changeEnableEndpoints(@RequestBody
                                                                   List<AddEnableEndpointRequestBody> addEnableEndpointRequestBodyList,
@@ -70,7 +72,7 @@ public class GroupController {
                 addEnableEndpointRequestBodyList, groupId);
     }
 
-    @Operation(summary = "Add new group")
+    @Operation(summary = "Add new group", security = @SecurityRequirement(name = JWT_AUTH))
     @PostMapping
     public Response<AboutGroupResponseBody> addGroup(
             @RequestBody AddGroupRequestBody addGroupRequestBody) {

@@ -24,9 +24,11 @@ public abstract class UserMapper {
     protected PasswordEncoder passwordEncoder;
 
     @Mapping(target = "password", expression = "java(passwordEncoder.encode(addUserRequestBody.password()))")
+
     public abstract User addRequestBodyToUser(
             AddUserRequestBody addUserRequestBody);
 
+    @Mapping(target = "password", expression = "java(passwordEncoder.encode(addUserRequestBody.password()))")
     public abstract void updateUserFromAddRequestBody(
             AddUserRequestBody addUserRequestBody, @MappingTarget User user);
 

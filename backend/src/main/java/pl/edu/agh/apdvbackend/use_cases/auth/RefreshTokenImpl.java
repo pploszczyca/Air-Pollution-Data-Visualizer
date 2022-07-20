@@ -34,7 +34,8 @@ public class RefreshTokenImpl
     @Override
     public JWTResponse execute(HttpServletRequest request) {
         final var authorizationHeader = request.getHeader(AUTHORIZATION);
-        if(!authorizationHeaderValidation.isFormatProper(authorizationHeader)) {
+        if (!authorizationHeaderValidation.isFormatProper(
+                authorizationHeader)) {
             throw new IncorrectAuthorizationHeaderException();
         }
 

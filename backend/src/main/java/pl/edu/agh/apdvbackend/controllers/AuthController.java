@@ -38,7 +38,8 @@ public class AuthController {
 
     @Operation(summary = "Refresh token, when access token is expired")
     @PostMapping("/refresh-token")
-    public Response<JWTResponse> refreshToken(HttpServletRequest httpServletRequest) {
+    public Response<JWTResponse> refreshToken(
+            HttpServletRequest httpServletRequest) {
         return authService.refreshToken(httpServletRequest);
     }
 }

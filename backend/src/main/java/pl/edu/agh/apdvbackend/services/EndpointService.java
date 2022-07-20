@@ -42,14 +42,16 @@ public class EndpointService {
                                               Long limit,
                                               Long offset) {
         return Response.withOkStatus(
-                getUserEndpointData.execute(findCurrentUserId.execute(), sensorId, limit, offset));
+                getUserEndpointData.execute(findCurrentUserId.execute(),
+                        sensorId, limit, offset));
     }
 
     public Response<EndpointData> getDataWithFields(Long sensorId,
                                                     Long limit,
                                                     Long offset) {
         return Response.withOkStatus(
-                getUserEndpointDataWithFields.execute(findCurrentUserId.execute(), sensorId, limit, offset));
+                getUserEndpointDataWithFields.execute(
+                        findCurrentUserId.execute(), sensorId, limit, offset));
     }
 
     public Response<List<EndpointSummaryResponseBody>> getEndpointsList() {

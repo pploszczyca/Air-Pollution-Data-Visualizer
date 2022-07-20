@@ -22,7 +22,8 @@ public class JwtTokenUtilsImpl implements JwtTokenUtils {
     @Override
     public String generateAccessToken(final User user) {
         return generateBasicUserData(user, ACCESS_TOKEN_EXPIRES_TIME)
-                .withClaim("roles", user.getRoles().stream().map(Role::name).toList())
+                .withClaim("roles",
+                        user.getRoles().stream().map(Role::name).toList())
                 .sign(algorithm);
     }
 
@@ -32,10 +33,12 @@ public class JwtTokenUtilsImpl implements JwtTokenUtils {
                 .sign(algorithm);
     }
 
-    private JWTCreator.Builder generateBasicUserData(final User user, final int expiresTime) {
+    private JWTCreator.Builder generateBasicUserData(final User user,
+                                                     final int expiresTime) {
         return JWT.create()
                 .withSubject(user.getEmail())
-                .withExpiresAt(new Date(System.currentTimeMillis() + expiresTime))
+                .withExpiresAt(
+                        new Date(System.currentTimeMillis() + expiresTime))
                 .withClaim("id", user.getId());
     }
 }

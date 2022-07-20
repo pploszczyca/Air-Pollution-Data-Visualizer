@@ -2,6 +2,7 @@ package pl.edu.agh.apdvbackend.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,5 +34,11 @@ public class AuthController {
     public Response<JWTResponse> registerUser(
             @RequestBody AddUserRequestBody addUserRequestBody) {
         return authService.registerUser(addUserRequestBody);
+    }
+
+    @Operation(summary = "Refresh token, when access token is expired")
+    @PostMapping("/refresh-token")
+    public Response<JWTResponse> refreshToken(HttpServletRequest httpServletRequest) {
+        return authService.refreshToken(httpServletRequest);
     }
 }

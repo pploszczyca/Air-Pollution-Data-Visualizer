@@ -19,6 +19,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import pl.edu.agh.apdvbackend.validators.AuthorizationHeaderValidation;
 
 @Component
 @RequiredArgsConstructor
@@ -30,7 +31,13 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
 
     private static final String ERROR = "error";
 
+    private static final String LOGIN_PATH = "/auth/login";
+
+    private static final String REFRESH_TOKEN_PATH = "/auth/refresh-token";
+
     private final Algorithm algorithm;
+
+    private final AuthorizationHeaderValidation authorizationHeaderValidation;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -38,7 +45,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                                     FilterChain filterChain)
             throws ServletException, IOException {
         final var authorizationHeader = request.getHeader(AUTHORIZATION);
-        if (!isAuthorizationHeaderFormatProper(authorizationHeader)) {
+        if (!isRequestAndAuthHeaderProper(request, authorizationHeader)) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -51,10 +58,13 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
         }
     }
 
-    private boolean isAuthorizationHeaderFormatProper(
-            String authorizationHeader) {
-        return authorizationHeader != null &&
-                authorizationHeader.startsWith(TOKEN_PREFIX);
+    private boolean isRequestAndAuthHeaderProper(
+            HttpServletRequest request,
+            String authorizationHeader
+    ) {
+        return authorizationHeaderValidation.isFormatProper(authorizationHeader)
+                && !request.getServletPath().equals(LOGIN_PATH)
+                && !request.getServletPath().equals(REFRESH_TOKEN_PATH);
     }
 
     private void tryToUpdateSecurityContext(HttpServletRequest request,

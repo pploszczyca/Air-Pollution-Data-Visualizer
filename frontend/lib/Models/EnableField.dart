@@ -15,13 +15,9 @@ class EnableField {
         unit = Unit.fromJson(json['unit'] ?? {}); // important "{}" :))
 
   @override
-  String toString() {
-    return 'EnableField{id: $id, label: $label, fieldType: $fieldType, unit: $unit} \n';
-  }
+  String toString() => 'EnableField{id: $id, label: $label, fieldType: $fieldType, unit: $unit} \n';
 
-  bool isForChart() {
-    return fieldType == "FOR_CHART";
-  }
+  bool isForChart() => fieldType == "FOR_CHART";
 
   @override
   bool operator ==(Object other) =>

@@ -8,17 +8,16 @@ import 'package:provider/provider.dart';
 import '../../Common/TitledLineChart.dart';
 
 class EndpointView extends StatefulWidget {
-  const EndpointView({Key? key, required this.endpointData}) : super(key: key);
+  const EndpointView({required this.endpointData, Key? key }) : super(key: key);
   final Future<EndpointData> endpointData;
 
   @override
   State<EndpointView> createState() => _EndpointViewState();
 }
 
-TabBar _buildTabBar(EndpointViewProvider endpointViewProvider, BuildContext context){
-  return TabBar(
+TabBar _buildTabBar(EndpointViewProvider endpointViewProvider, BuildContext context)=> TabBar(
       isScrollable: true,
-      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
       unselectedLabelStyle: const TextStyle(
           color: Colors.pink,
           fontFamily: "SofiaSans",
@@ -29,18 +28,12 @@ TabBar _buildTabBar(EndpointViewProvider endpointViewProvider, BuildContext cont
           color: Colors.pink,
           fontFamily: "SofiaSans",
           fontSize: 25),
-      tabs: endpointViewProvider.tabs.map((data) {
-        return SizedBox(
-          child:  Tab(text: data.typeName),
+      tabs: endpointViewProvider.tabs.map((data) => SizedBox(
           width:  MediaQuery.of(context).size.width* 1/endpointViewProvider.tabs.length,
-        );
-        // return;
+          child:  Tab(text: data.typeName),
+        )).toList());
 
-      }).toList());
-}
-
-SizedBox _buildBarView(EndpointViewProvider endpointViewProvider, BuildContext context, snapshot){
-  return SizedBox(
+SizedBox _buildBarView(EndpointViewProvider endpointViewProvider, BuildContext context, snapshot)=> SizedBox(
     height: MediaQuery.of(context).size.height*0.5,
     child: TabBarView(
         children: endpointViewProvider.tabs
@@ -55,11 +48,9 @@ SizedBox _buildBarView(EndpointViewProvider endpointViewProvider, BuildContext c
         ))
             .toList()),
   );
-}
 class _EndpointViewState extends State<EndpointView> {
   @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<EndpointData>(
+  Widget build(BuildContext context) => FutureBuilder<EndpointData>(
         future: widget.endpointData,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.none ||
@@ -78,17 +69,14 @@ class _EndpointViewState extends State<EndpointView> {
                       ChangeNotifierProvider(
                           create: (context) => EndpointViewProvider(snapshot.data!),
                           child: Consumer<EndpointViewProvider>(
-                            builder: (context, endpointViewProvider, _) {
-                              return DefaultTabController(
+                            builder: (context, endpointViewProvider, _) => DefaultTabController(
                                   length: endpointViewProvider.tabs.length,
                                   child: Column(children: [
                                     _buildTabBar(endpointViewProvider, context),
                                     _buildBarView(endpointViewProvider, context, snapshot)
-                                  ]));
-                            },
+                                  ])),
                           )),
                     ],
                   )));
         });
-  }
 }

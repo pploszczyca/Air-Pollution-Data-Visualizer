@@ -1,11 +1,4 @@
-import 'package:adpv_frontend/Repository/RestClient.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-
-import '../Common/Common.dart';
-import '../Common/DataChart.dart';
-import '../Models/EndpointData.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({Key? key}) : super(key: key);
@@ -28,7 +21,9 @@ class _ProfileViewState extends State<ProfileView> {
   // }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => Container();
+
+
     // var repository = RestClient(Dio());
     // return FutureBuilder<EndpointData>(
     //   builder: (context, snapshot) {
@@ -63,7 +58,7 @@ class _ProfileViewState extends State<ProfileView> {
     //   },
     //   future: repository.getEndpointData(3),
     // );
-    return Container();
-  }
+
+
 
 }

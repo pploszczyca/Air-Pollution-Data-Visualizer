@@ -8,3 +8,4 @@ const String profileRoute = '/';
 // Consts for routing Compare Endpoints
 const String compareEndpointsRoute = '/';
 
+const String loginRoute = '/';

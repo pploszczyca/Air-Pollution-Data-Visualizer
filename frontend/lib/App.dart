@@ -1,3 +1,4 @@
+import 'package:adpv_frontend/Logging/LoginView.dart';
 import 'package:adpv_frontend/Repository/AbstractEndpointRepository.dart';
 import 'package:adpv_frontend/Repository/MockRepository.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ import 'Providers/CompareEndpointsModel.dart';
 const String endpointList = "Endpoint List";
 const String compareEnpoints = "Compare";
 const String profile = "Profile";
+const String login = "login";
 
 const int endpointListIcon = 0xf1ae;
 const int compareEndpointsIcon = 0xf05bb;
@@ -36,6 +38,7 @@ class _AppState extends State<App> {
         repository: widget.repository,
       ),
     const ProfileView(),
+    const LoginView()
   ];
 
   @override
@@ -62,6 +65,7 @@ class _AppState extends State<App> {
           _buildRailNavigationItem(endpointList, endpointListIcon),
           _buildRailNavigationItem(compareEnpoints,  compareEndpointsIcon),
           _buildRailNavigationItem(profile,  profileIcon),
+          _buildRailNavigationItem(login, profileIcon)
         ],
       ),
     );
@@ -95,6 +99,7 @@ class _AppState extends State<App> {
         _buildNavigationItem(endpointList, const Icon(Icons.map_outlined)),
         _buildNavigationItem(compareEnpoints, const  Icon(Icons.area_chart_outlined)),
         _buildNavigationItem(profile, const Icon(Icons.person_outline)),
+        _buildNavigationItem(login, const Icon(Icons.person_outline)),
       ],
       onTap: (index) => setState(() {
         _selectedIndex = index;

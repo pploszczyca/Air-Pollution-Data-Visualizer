@@ -1,10 +1,10 @@
 import 'package:adpv_frontend/Repository/AbstractEndpointRepository.dart';
-import 'package:adpv_frontend/Repository/MockRepository.dart';
 import 'package:flutter/material.dart';
 
-import 'CompareEndpoints/CompareEndpointsView.dart';
-import 'EndpointList/EndpointNavigator.dart';
-import 'Profile/ProfileView.dart';
+import 'Routing/EndpointNavigator.dart';
+import 'Views/CompareEndpointsView.dart';
+import 'Views/ProfileView.dart';
+
 
 const String endpointList = "Endpoint List";
 const String compareEnpoints = "Compare";
@@ -15,11 +15,10 @@ const int compareEndpointsIcon = 0xf05bb;
 const int profileIcon = 0xf27a;
 
 class App extends StatefulWidget {
-  final EndpointRepository endpointRepository;
   final AbstractEndpointRepository repository;
 
   const App(
-      {required this.endpointRepository, required this.repository, Key? key})
+      {required this.repository, Key? key})
       : super(key: key);
 
   @override

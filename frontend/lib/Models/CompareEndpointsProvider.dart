@@ -1,13 +1,14 @@
 import 'dart:math';
 
-import 'package:adpv_frontend/Common/Common.dart';
 import 'package:adpv_frontend/Repository/AbstractEndpointRepository.dart';
-import 'package:adpv_frontend/Repository/RestClient.dart';
+import 'package:adpv_frontend/Repository/RestEndpointRepository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 
-import '../Models/Endpoint.dart';
-import '../Models/EndpointSummary.dart';
+
+import '../Common/Consts.dart';
+import '../DataModels/Endpoint.dart';
+import '../DataModels/EndpointSummary.dart';
 
 class CompareEndpointsModel extends ChangeNotifier {
   Map<String, EndpointSummary> endpointSummaryMap = {};
@@ -15,7 +16,7 @@ class CompareEndpointsModel extends ChangeNotifier {
   Map<String, bool> selectedChips = {};
   List<String> commonFields = [];
   List<String> selectedEndpoints = [];
-  AbstractEndpointRepository repository = RestClient(Dio());
+  AbstractEndpointRepository repository = RestEnpointRepository(Dio());
 
   CompareEndpointsModel();
 

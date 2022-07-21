@@ -1,11 +1,11 @@
-import 'package:adpv_frontend/Common/Common.dart';
-import 'package:adpv_frontend/EndpointList/EndpointView/EndpointInfoTable.dart';
-import 'package:adpv_frontend/Models/EndpointData.dart';
-import 'package:adpv_frontend/Providers/EndpointViewProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../Common/TitledLineChart.dart';
+import '../DataModels/EndpointData.dart';
+import '../Models/EndpointViewProvider.dart';
+import '../Widgets/CommonWidgets.dart';
+import '../Widgets/EndpointView/EndpointInfoTable.dart';
+import '../Widgets/EndpointView/TitledLineChart.dart';
 
 class EndpointView extends StatefulWidget {
   const EndpointView({required this.endpointData, Key? key }) : super(key: key);

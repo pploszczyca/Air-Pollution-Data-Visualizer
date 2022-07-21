@@ -1,6 +1,7 @@
-import 'package:adpv_frontend/Models/EndpointData.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
+import '../DataModels/EndpointData.dart';
 
 class DataTypeTab {
   DataTypeTab({

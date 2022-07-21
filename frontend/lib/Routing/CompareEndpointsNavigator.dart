@@ -1,8 +1,8 @@
-import 'package:adpv_frontend/EndpointList/EnpointList.dart';
-import 'package:adpv_frontend/Routing.dart';
 import 'package:flutter/material.dart';
 
+import '../Common/Routing.dart';
 import '../Repository/AbstractEndpointRepository.dart';
+import '../Views/EnpointListView.dart';
 
 class CompareEndpointsNavigator extends StatefulWidget {
   final AbstractEndpointRepository repository;
@@ -20,7 +20,7 @@ class _CompareEndpointsNavigatorState extends State<CompareEndpointsNavigator> {
       onGenerateRoute: (RouteSettings settings) {
         late Widget page;
         if(settings.name == compareEndpointsRoute){
-          page =  EndpointList(repository: widget.repository,);
+          page =  EndpointListView(repository: widget.repository,);
         }
         return MaterialPageRoute<dynamic>(
             builder: (context)=> page

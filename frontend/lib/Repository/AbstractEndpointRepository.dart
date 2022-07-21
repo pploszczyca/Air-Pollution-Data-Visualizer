@@ -1,6 +1,5 @@
-import 'package:adpv_frontend/Models/EndpointData.dart';
-
-import '../Models/EndpointSummary.dart';
+import '../DataModels/EndpointData.dart';
+import '../DataModels/EndpointSummary.dart';
 
 abstract class AbstractEndpointRepository {
   Future<List<EndpointSummary>> getEndpointSummary();

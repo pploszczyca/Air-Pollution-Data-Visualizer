@@ -1,32 +1,34 @@
-import 'package:adpv_frontend/Common/Common.dart';
-import 'package:adpv_frontend/Models/EndpointData.dart';
-import 'package:adpv_frontend/Models/EndpointSummary.dart';
-import 'package:adpv_frontend/Providers/EndpointListModel.dart';
 import 'package:adpv_frontend/Repository/AbstractEndpointRepository.dart';
-import 'package:adpv_frontend/Routing.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../Common/Routing.dart';
+import '../DataModels/EndpointData.dart';
+import '../DataModels/EndpointSummary.dart';
+import '../Models/EndpointListProvider.dart';
+import '../Widgets/CommonWidgets.dart';
+
 BorderRadius basicBorderRadius = BorderRadius.circular(8);
 
-TextStyle endpointDataTextStyle = const TextStyle(
+const TextStyle endpointDataTextStyle = TextStyle(
     color: Color.fromARGB(255, 100, 100, 100),
     fontFamily: 'SofiaSans',
     fontSize: 20);
 
-int limit = 1;
-int offset = 0;
+const int limit = 1;
+const int offset = 0;
 
-class EndpointList extends StatefulWidget {
-  const EndpointList({ required this.repository,Key? key}) : super(key: key);
+
+class EndpointListView extends StatefulWidget {
+  const EndpointListView({ required this.repository,Key? key}) : super(key: key);
 
   final AbstractEndpointRepository repository;
 
   @override
-  State<EndpointList> createState() => _EndpointListState();
+  State<EndpointListView> createState() => _EndpointListViewState();
 }
 
-class _EndpointListState extends State<EndpointList> {
+class _EndpointListViewState extends State<EndpointListView> {
   void onTapHandler(int id, AbstractEndpointRepository endpointRepository) {
     Navigator.pushNamed(context, endpointViewRoute + "/" + id.toString());
   }

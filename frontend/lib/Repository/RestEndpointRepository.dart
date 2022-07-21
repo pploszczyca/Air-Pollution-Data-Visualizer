@@ -1,17 +1,27 @@
-import 'package:adpv_frontend/Models/BackendResponse.dart';
 import 'package:adpv_frontend/Models/EnableField.dart';
 import 'package:adpv_frontend/Models/EndpointSummary.dart';
 import 'package:adpv_frontend/Repository/AbstractEndpointRepository.dart';
-import 'package:adpv_frontend/Repository/URLs.dart';
+import 'package:adpv_frontend/Utils/URLs.dart';
 import 'package:dio/dio.dart';
 
-import '../Common/Common.dart';
 import '../Models/EndpointData.dart';
+import '../Utils/Consts.dart';
 
-class RestClient implements AbstractEndpointRepository {
+class BackendResponse<T>{
+  final T data;
+  final String error;
+
+  BackendResponse(this.data, this.error);
+
+  BackendResponse.fromJson(Map json) :
+        data = json["data"],
+        error = json["error"];
+}
+
+class RestEnpointRepository implements AbstractEndpointRepository {
   final Dio client;
 
-  RestClient(this.client);
+  RestEnpointRepository(this.client);
 
   @override
   Future<List<EndpointSummary>> getEndpointSummary() async {

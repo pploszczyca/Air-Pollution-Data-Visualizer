@@ -1,9 +1,10 @@
 import 'package:adpv_frontend/Models/EndpointData.dart';
 import 'package:adpv_frontend/Repository/AbstractEndpointRepository.dart';
-import 'package:adpv_frontend/Repository/RestClient.dart';
+import 'package:adpv_frontend/Repository/RestEndpointRepository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import '../Models/EndpointSummary.dart';
 
 class ExpansionPanelEndpoint {
@@ -31,7 +32,7 @@ class ExpansionPanelEndpoint {
 
 class EndpointListProvider with ChangeNotifier {
   List<ExpansionPanelEndpoint> endpointsList = [];
-  AbstractEndpointRepository repository = RestClient(Dio());
+  AbstractEndpointRepository repository = RestEnpointRepository(Dio());
 
   EndpointListProvider(List<EndpointSummary> list) {
     makeEndpointsList(list);

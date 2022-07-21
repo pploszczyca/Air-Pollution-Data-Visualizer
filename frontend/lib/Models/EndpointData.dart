@@ -1,5 +1,7 @@
-import 'package:adpv_frontend/Common/Common.dart';
+
 import 'package:adpv_frontend/Models/EnableField.dart';
+
+import '../Utils/Consts.dart';
 
 class EndpointData {
   List<Map<dynamic, dynamic>> dataList;

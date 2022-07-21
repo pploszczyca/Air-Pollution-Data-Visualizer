@@ -1,9 +1,9 @@
-import 'package:adpv_frontend/Common/Common.dart';
-import 'package:adpv_frontend/Drawing/CustomLegendBuilder.dart';
+import 'package:charts_common/src/chart/common/behavior/legend/legend.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 
-import '../Models/Endpoint.dart';
+import '../../Models/Endpoint.dart';
+import '../../Utils/Consts.dart';
 
 class MultiDataChart extends StatefulWidget {
   const MultiDataChart({required this.field, required this.endpoints, Key? key})
@@ -68,4 +68,33 @@ class _MultiDataChartState extends State<MultiDataChart> {
                   endpointData[widget.field],
             ))
         .toList();
+}
+
+class CustomLegendBuilder extends charts.LegendContentBuilder {
+  @override
+  Widget build(BuildContext context, LegendState legendState, Legend legend,
+      {bool? showMeasures}) => SizedBox(
+    width: MediaQuery.of(context).size.width * 0.9,
+    child: Wrap(
+      children: legendState.legendEntries
+          .map(
+            (entry) => Wrap(
+            children: [
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                child: Chip(
+                  backgroundColor: fromChartColor(entry.color).withOpacity(0.6),
+                  label: Text(
+                    entry.label,
+                    style: const TextStyle(color: Colors.black, fontSize: 16),
+                    overflow: TextOverflow.visible,
+                  ),
+                ),
+              ),
+            ]),
+      ).toList(),
+    ),
+  );
+
+  Color fromChartColor(charts.Color? color) => Color.fromARGB(color!.a, color.r, color.g, color.b);
 }

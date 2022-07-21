@@ -1,5 +1,5 @@
-import 'package:adpv_frontend/Common/Common.dart';
 import 'package:flutter/material.dart';
+import '../../Utils/Consts.dart';
 
 class EndpointInfoTable extends StatelessWidget {
   const EndpointInfoTable({required this.data, Key? key}) : super(key: key);

@@ -1,6 +1,6 @@
-import 'package:adpv_frontend/Routing/Routing.dart';
 import 'package:flutter/material.dart';
 
+import '../Common/Routing.dart';
 import '../Repository/AbstractEndpointRepository.dart';
 import '../Views/EnpointListView.dart';
 

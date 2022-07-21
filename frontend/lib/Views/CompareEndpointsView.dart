@@ -1,11 +1,11 @@
-import 'package:adpv_frontend/Models/EndpointSummary.dart';
 import 'package:adpv_frontend/Repository/AbstractEndpointRepository.dart';
 import 'package:adpv_frontend/Widgets/CompareEndpoints/MultiDataChart.dart';
 import 'package:flutter/material.dart';
 import 'package:multiselect/multiselect.dart';
 import 'package:provider/provider.dart';
-import '../Models/Endpoint.dart';
-import '../Providers/CompareEndpointsProvider.dart';
+import '../DataModels/Endpoint.dart';
+import '../DataModels/EndpointSummary.dart';
+import '../Models/CompareEndpointsProvider.dart';
 import '../Widgets/CommonWidgets.dart';
 
 class CompareChartsView extends StatefulWidget {

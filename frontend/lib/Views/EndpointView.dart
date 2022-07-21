@@ -1,8 +1,8 @@
-import 'package:adpv_frontend/Models/EndpointData.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../Providers/EndpointViewProvider.dart';
 
+import '../DataModels/EndpointData.dart';
+import '../Models/EndpointViewProvider.dart';
 import '../Widgets/CommonWidgets.dart';
 import '../Widgets/EndpointView/EndpointInfoTable.dart';
 import '../Widgets/EndpointView/TitledLineChart.dart';

@@ -1,11 +1,11 @@
-import 'package:adpv_frontend/Models/EndpointData.dart';
-import 'package:adpv_frontend/Models/EndpointSummary.dart';
-import 'package:adpv_frontend/Providers/EndpointListProvider.dart';
 import 'package:adpv_frontend/Repository/AbstractEndpointRepository.dart';
-import 'package:adpv_frontend/Routing/Routing.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../Common/Routing.dart';
+import '../DataModels/EndpointData.dart';
+import '../DataModels/EndpointSummary.dart';
+import '../Models/EndpointListProvider.dart';
 import '../Widgets/CommonWidgets.dart';
 
 BorderRadius basicBorderRadius = BorderRadius.circular(8);

@@ -1,11 +1,10 @@
-import 'package:adpv_frontend/Models/EnableField.dart';
-import 'package:adpv_frontend/Models/EndpointSummary.dart';
 import 'package:adpv_frontend/Repository/AbstractEndpointRepository.dart';
-import 'package:adpv_frontend/Utils/URLs.dart';
 import 'package:dio/dio.dart';
-
-import '../Models/EndpointData.dart';
-import '../Utils/Consts.dart';
+import '../Common/Consts.dart';
+import '../Common/URLs.dart';
+import '../DataModels/EnableField.dart';
+import '../DataModels/EndpointData.dart';
+import '../DataModels/EndpointSummary.dart';
 
 class BackendResponse<T>{
   final T data;

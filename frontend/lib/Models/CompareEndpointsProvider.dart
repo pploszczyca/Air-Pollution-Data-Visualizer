@@ -5,9 +5,10 @@ import 'package:adpv_frontend/Repository/RestEndpointRepository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 
-import '../Models/Endpoint.dart';
-import '../Models/EndpointSummary.dart';
-import '../Utils/Consts.dart';
+
+import '../Common/Consts.dart';
+import '../DataModels/Endpoint.dart';
+import '../DataModels/EndpointSummary.dart';
 
 class CompareEndpointsModel extends ChangeNotifier {
   Map<String, EndpointSummary> endpointSummaryMap = {};

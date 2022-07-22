@@ -49,17 +49,15 @@ class AddRoleToUserImplTest {
     public void addNewRoleToUser() {
         final var roleName = "USER";
         final var role = Role.USER;
-        final var userId = 2L;
         final var name = "userName";
         final var email = "userEmail";
-        final var expectedResult =
-                new UserWithRoles(userId, name, email, List.of(role));
         final var user = UserFakes.getUser();
-        user.setId(userId);
         user.setName(name);
         user.setEmail(email);
         user.setRoles(new HashSet<>());
-        userRepository.save(user);
+        final var userId = userRepository.save(user).getId();
+        final var expectedResult =
+                new UserWithRoles(userId, name, email, List.of(role));
 
         final var result = addRoleToUser.execute(userId, roleName);
 

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import pl.edu.agh.apdvbackend.models.body_models.auth.LogInRequestBody;
+import pl.edu.agh.apdvbackend.models.body_models.auth.UserWithRoles;
 import pl.edu.agh.apdvbackend.models.body_models.user.AboutUserResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.user.AddUserRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.user.ShortUserInfo;
@@ -59,4 +60,6 @@ public abstract class UserMapper {
                 .map(role -> new SimpleGrantedAuthority(role.name()))
                 .toList();
     }
+
+    public abstract UserWithRoles toUserWithRoles(User user);
 }

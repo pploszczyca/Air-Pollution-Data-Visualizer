@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import pl.edu.agh.apdvbackend.models.database.Role;
+import pl.edu.agh.apdvbackend.validators.AuthorizationHeaderValidation;
 
 @Configuration
 @EnableWebSecurity
@@ -26,6 +27,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
 
     private final PasswordEncoder passwordEncoder;
+
+    private final AuthorizationHeaderValidation authorizationHeaderValidation;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth)
@@ -52,7 +55,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/unit/converter",
                 "/unit/converter/all").hasAuthority(Role.USER.name());
         http.authorizeRequests().anyRequest().hasAuthority(Role.ADMIN.name());
-        http.addFilterBefore(new CustomAuthorizationFilter(getAlgorithm()),
+        http.addFilterBefore(new CustomAuthorizationFilter(getAlgorithm(),
+                        authorizationHeaderValidation),
                 UsernamePasswordAuthenticationFilter.class);
     }
 

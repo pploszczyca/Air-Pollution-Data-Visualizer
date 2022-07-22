@@ -1,5 +1,6 @@
 package pl.edu.agh.apdvbackend.use_cases.auth;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,13 +15,12 @@ import pl.edu.agh.apdvbackend.models.body_models.auth.UserWithRoles;
 import pl.edu.agh.apdvbackend.models.database.Role;
 import pl.edu.agh.apdvbackend.repositories.UserRepository;
 
-
 @SpringBootTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
-class AddRoleToUserImplTest {
+class RemoveRoleFromUserImplTest {
 
     @Autowired
-    private AddRoleToUser addRoleToUser;
+    private RemoveRoleFromUser removeRoleFromUser;
 
     @Autowired
     private UserRepository userRepository;
@@ -38,15 +38,16 @@ class AddRoleToUserImplTest {
         final var name = "userName";
         final var email = "userEmail";
         final var expectedResult =
-                new UserWithRoles(userId, name, email, List.of(role));
+                new UserWithRoles(userId, name, email, List.of());
+        final var roles = new HashSet<>(Collections.singleton(role));
         final var user = UserFakes.getUser();
         user.setId(userId);
         user.setName(name);
         user.setEmail(email);
-        user.setRoles(new HashSet<>());
+        user.setRoles(roles);
         userRepository.save(user);
 
-        final var result = addRoleToUser.execute(userId, roleName);
+        final var result = removeRoleFromUser.execute(userId, roleName);
 
         assertEquals(expectedResult, result);
     }

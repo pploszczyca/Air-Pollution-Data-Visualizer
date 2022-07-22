@@ -3,6 +3,7 @@ package pl.edu.agh.apdvbackend.use_cases.auth;
 import java.util.HashSet;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,20 @@ class AddRoleToUserImplTest {
     @BeforeEach
     void init() {
         userRepository.deleteAll();
+    }
+
+    @Test
+    public void throwExceptionWhenRoleIsNotCorrect() {
+        final var userId = 1L;
+        final var roleName = "BadRoleName";
+        final var expectedMessage =
+                "No enum constant pl.edu.agh.apdvbackend.models.database.Role." +
+                        roleName;
+
+        final var resultException = assertThrows(IllegalArgumentException.class,
+                () -> addRoleToUser.execute(userId, roleName));
+
+        assertEquals(expectedMessage, resultException.getMessage());
     }
 
     @Test

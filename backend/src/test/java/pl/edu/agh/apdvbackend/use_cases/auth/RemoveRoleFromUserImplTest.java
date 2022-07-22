@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,21 @@ class RemoveRoleFromUserImplTest {
     }
 
     @Test
-    public void addNewRoleToUser() {
+    public void throwExceptionWhenRoleIsNotCorrect() {
+        final var userId = 1L;
+        final var roleName = "BadRoleName";
+        final var expectedMessage =
+                "No enum constant pl.edu.agh.apdvbackend.models.database.Role." +
+                        roleName;
+
+        final var resultException = assertThrows(IllegalArgumentException.class,
+                () -> removeRoleFromUser.execute(userId, roleName));
+
+        assertEquals(expectedMessage, resultException.getMessage());
+    }
+
+    @Test
+    public void removeRoleFromUser() {
         final var roleName = "USER";
         final var role = Role.USER;
         final var userId = 1L;

@@ -49,7 +49,7 @@ class AddRoleToUserImplTest {
     public void addNewRoleToUser() {
         final var roleName = "USER";
         final var role = Role.USER;
-        final var userId = 1L;
+        final var userId = 2L;
         final var name = "userName";
         final var email = "userEmail";
         final var expectedResult =

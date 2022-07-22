@@ -53,7 +53,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
         try {
             tryToUpdateSecurityContext(request, response, filterChain,
                     authorizationHeader);
-        } catch (Exception exception) {
+        } catch (IOException | ServletException exception) {
             sendErrorResponse(response, exception);
         }
     }

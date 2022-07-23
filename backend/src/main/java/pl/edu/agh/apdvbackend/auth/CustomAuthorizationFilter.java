@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
@@ -34,11 +35,13 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
 
     private static final String ROLES = "roles";
 
-    private static final String ERROR = "error";
-
     private static final String LOGIN_PATH = "/auth/login";
 
     private static final String REFRESH_TOKEN_PATH = "/auth/refresh-token";
+
+    private static final String DATA = "data";
+
+    private static final String ERROR = "error";
 
     private final Algorithm algorithm;
 
@@ -59,7 +62,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
             tryToUpdateSecurityContext(request, response, filterChain,
                     authorizationHeader);
         } catch (IOException | ServletException |
-                 JWTDecodeException exception) {
+                 JWTDecodeException | TokenExpiredException exception) {
             sendErrorResponse(response, exception);
         }
     }
@@ -103,8 +106,8 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                                    Exception exception)
             throws IOException {
         final Map<String, String> error = new HashMap<>();
-        error.put("data", "");
-        error.put("error", exception.getMessage());
+        error.put(DATA, null);
+        error.put(ERROR, exception.getMessage());
 
         response.setStatus(FORBIDDEN.value());
         response.setContentType(APPLICATION_JSON_VALUE);

@@ -1,6 +1,5 @@
 package pl.edu.agh.apdvbackend.exceptions.handlers;
 
-import com.auth0.jwt.exceptions.TokenExpiredException;
 import java.util.NoSuchElementException;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;

@@ -109,10 +109,12 @@ class _LoginViewState extends State<LoginView> {
                           ),
                         ),
                         Container(
-                            height: 50,
-                            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                            padding: const EdgeInsets.fromLTRB(30, 10, 30, 0),
                             child: ElevatedButton(
-                              style: ButtonStyle(textStyle: TextStyle(fontSize: 25, fontFamily: 'Ubuntu Condensed'))
+                              style:
+                              ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20, fontFamily: 'Ubuntu Condensed'),
+                                primary: Colors.purple,
+                                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),),
                               child: const Text('Login'),
                               onPressed: () {
                               },

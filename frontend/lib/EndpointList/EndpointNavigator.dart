@@ -8,7 +8,7 @@ import '../Repository/AbstractEndpointRepository.dart';
 class EndpointNavigator extends StatefulWidget {
   final AbstractEndpointRepository repository;
 
-  const EndpointNavigator({Key? key, required this.repository})
+  const EndpointNavigator({required this.repository, Key? key})
       : super(key: key);
 
   @override
@@ -17,25 +17,21 @@ class EndpointNavigator extends StatefulWidget {
 
 class _EndpointNavigatorState extends State<EndpointNavigator> {
   @override
-  Widget build(BuildContext context) {
-    return Navigator(
-      onGenerateRoute: (RouteSettings settings) {
-        late Widget page;
-        if (settings.name == endpointListRoute) {
-          page = EndpointList(
-            repository: widget.repository,
-          );
-        } else if (settings.name!.startsWith(endpointViewRoute)) {
-          var endpointId = settings.name!.split("/")[2];
-          page = EndpointView(
-              endpointData: widget.repository
-                  .getEndpointData(int.parse(endpointId), null, null));
-        }
+  Widget build(BuildContext context) => Navigator(
+        onGenerateRoute: (RouteSettings settings) {
+          late Widget page;
+          if (settings.name == endpointListRoute) {
+            page = EndpointList(
+              repository: widget.repository,
+            );
+          } else if (settings.name!.startsWith(endpointViewRoute)) {
+            var endpointId = settings.name!.split("/")[2];
+            page = EndpointView(
+                endpointData: widget.repository
+                    .getEndpointData(int.parse(endpointId), null, null));
+          }
 
-        return MaterialPageRoute<dynamic>(builder: (context) {
-          return page;
-        });
-      },
-    );
-  }
+          return MaterialPageRoute<dynamic>(builder: (context) => page);
+        },
+      );
 }

@@ -25,9 +25,7 @@ class ExpansionPanelEndpoint {
     fields = data.getAllRecentFields();
     recentData =
         data.dataList[0].map((key, value) => MapEntry(key.toString(), value));
-    if (recentData != null) {
-      recentData.removeWhere((key, value) => key.toString() == 'timestamp');
-    }
+    recentData.removeWhere((key, value) => key == 'timestamp');
   }
 }
 

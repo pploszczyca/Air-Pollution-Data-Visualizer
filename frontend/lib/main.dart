@@ -16,8 +16,7 @@ class MyApp extends StatelessWidget {
   final RestClient restClient = RestClient(Dio());
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+  Widget build(BuildContext context) => MaterialApp(
         title: 'APDV Demo',
         theme: ThemeData(
           primarySwatch: Colors.blue,
@@ -27,7 +26,6 @@ class MyApp extends StatelessWidget {
           repository: restClient,
         ),
     );
-  }
 }
 
 Future loadEnvFile() async {

@@ -1,13 +1,11 @@
-import 'package:adpv_frontend/Logging/LoginView.dart';
 import 'package:adpv_frontend/Repository/AbstractEndpointRepository.dart';
 import 'package:adpv_frontend/Repository/MockRepository.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import 'CompareEndpoints/CompareEndpointsView.dart';
 import 'EndpointList/EndpointNavigator.dart';
+import 'Logging/LoginView.dart';
 import 'Profile/ProfileView.dart';
-import 'Providers/CompareEndpointsModel.dart';
 
 const String endpointList = "Endpoint List";
 const String compareEnpoints = "Compare";
@@ -19,10 +17,12 @@ const int compareEndpointsIcon = 0xf05bb;
 const int profileIcon = 0xf27a;
 
 class App extends StatefulWidget {
-  EndpointRepository endpointRepository;
-  AbstractEndpointRepository repository;
+  final EndpointRepository endpointRepository;
+  final AbstractEndpointRepository repository;
 
-  App({Key? key, required this.endpointRepository, required this.repository}) : super(key: key);
+  const App(
+      {required this.endpointRepository, required this.repository, Key? key})
+      : super(key: key);
 
   @override
   State<App> createState() => _AppState();
@@ -34,16 +34,16 @@ class _AppState extends State<App> {
   int _selectedIndex = 0;
   late final List<Widget> _navigationOptions = <Widget>[
     EndpointNavigator(repository: widget.repository),
-     CompareChartsView(
-        repository: widget.repository,
-      ),
+    CompareChartsView(
+      repository: widget.repository,
+    ),
     const ProfileView(),
     const LoginView()
   ];
 
   @override
   Widget build(BuildContext context) {
-    MediaQueryData queryData = MediaQuery.of(context);
+    final MediaQueryData queryData = MediaQuery.of(context);
 
     return queryData.size.width > 560
         ? _buildRailNavigationScaffold()
@@ -51,11 +51,11 @@ class _AppState extends State<App> {
   }
 
   Scaffold _buildRailNavigationScaffold() {
-    Widget _navi = Expanded(
+    final Widget navi = Expanded(
       flex: 1,
       child: NavigationRail(
         selectedIndex: _selectedIndex,
-        onDestinationSelected: (int index) {
+        onDestinationSelected: (index) {
           setState(() {
             _selectedIndex = index;
           });
@@ -76,7 +76,7 @@ class _AppState extends State<App> {
           width: 100,
           child: Column(
             children: [
-              _navi,
+              navi,
             ],
           ),
         ),
@@ -93,11 +93,12 @@ class _AppState extends State<App> {
   }
 
   Scaffold _buildBottomNavigationScaffold() {
-    Widget _navBar = BottomNavigationBar(
+    final Widget navbar = BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
       items: <BottomNavigationBarItem>[
         _buildNavigationItem(endpointList, const Icon(Icons.map_outlined)),
-        _buildNavigationItem(compareEnpoints, const  Icon(Icons.area_chart_outlined)),
+        _buildNavigationItem(
+            compareEnpoints, const Icon(Icons.area_chart_outlined)),
         _buildNavigationItem(profile, const Icon(Icons.person_outline)),
         _buildNavigationItem(login, const Icon(Icons.person_outline)),
       ],
@@ -113,31 +114,32 @@ class _AppState extends State<App> {
         index: _selectedIndex,
         children: _navigationOptions,
       ),
-      bottomNavigationBar: _navBar,
+      bottomNavigationBar: navbar,
     );
   }
 
-  NavigationRailDestination _buildRailNavigationItem(String stringLabel, int codePoint) { //because of not const icons needed flag  --no-tree-shake-icons
-    return NavigationRailDestination(
-      icon: Icon(IconData(codePoint, fontFamily: 'MaterialIcons'), size: 30,),
-      selectedIcon:
-      Icon(
-        IconData(codePoint, fontFamily: 'MaterialIcons'),
-        color: Colors.pink,
-        size: 35,
-      ),
-      label: Text(
-        stringLabel,
-        style: const TextStyle(color: Colors.pink),
-        textAlign: TextAlign.center,
-      ),
-    );
-  }
+  NavigationRailDestination _buildRailNavigationItem(
+          String stringLabel, int codePoint) =>
+      NavigationRailDestination(
+        icon: Icon(
+          IconData(codePoint, fontFamily: 'MaterialIcons'),
+          size: 30,
+        ),
+        selectedIcon: Icon(
+          IconData(codePoint, fontFamily: 'MaterialIcons'),
+          color: Colors.pink,
+          size: 35,
+        ),
+        label: Text(
+          stringLabel,
+          style: const TextStyle(color: Colors.pink),
+          textAlign: TextAlign.center,
+        ),
+      );
 
-  BottomNavigationBarItem _buildNavigationItem(String stringLabel, Icon icon) {
-    return BottomNavigationBarItem(
-      icon: icon,
-      label: stringLabel,
-    );
-  }
+  BottomNavigationBarItem _buildNavigationItem(String stringLabel, Icon icon) =>
+      BottomNavigationBarItem(
+        icon: icon,
+        label: stringLabel,
+      );
 }

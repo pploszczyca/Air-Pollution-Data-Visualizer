@@ -15,20 +15,15 @@ class Endpoint{
 
 
   @override
-  bool operator ==(Object other) {
-      return label == other;
-  }
+  bool operator ==(Object other) => label == other;
 
-  bool isLabelEqual(String name){
-    return label == name;
-  }
+  bool isLabelEqual(String name)=> label == name;
 
-  bool hasField(String field){
-    return data.dataList[0].containsKey(field);
-  }
+  bool hasField(String field)=> data.dataList[0].containsKey(field);
 
   @override
-  String toString() {
-    return 'Endpoint{id: $id, label: $label, data: $data}';
-  }
+  String toString() => 'Endpoint{id: $id, label: $label, data: $data}';
+
+  @override
+  int get hashCode => super.hashCode + id*0x1987987;
 }

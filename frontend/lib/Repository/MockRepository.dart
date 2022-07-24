@@ -7,15 +7,11 @@ class EndpointRepository{
   EndpointRepository.mock();
 
 
-  Future<List<String>> getEndpointSummary() {
-    return Future.delayed(
+  Future<List<String>> getEndpointSummary() => Future.delayed(
         const Duration(seconds: 1), () => _endpointsMap.keys.toList());
-  }
 
-  Future<Endpoint> getEndpoint(String name) {
-    return Future.delayed(
+  Future<Endpoint> getEndpoint(String name) => Future.delayed(
         const Duration(seconds: 1), () => _endpointsMap[name]!);
-  }
 
 
 }

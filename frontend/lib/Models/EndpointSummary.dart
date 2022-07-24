@@ -12,9 +12,7 @@ class EndpointSummary{
   bool operator ==(Object other) => other is EndpointSummary && other.id == id;
 
   @override
-  String toString() {
-    return id.toString() + " " +  label;
-  }
+  String toString() => id.toString() + " " +  label;
 
   @override
   int get hashCode => id.hashCode;

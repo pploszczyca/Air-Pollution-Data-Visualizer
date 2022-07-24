@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 
 class DataChart extends StatelessWidget {
   const DataChart({
-    Key? key,
     required this.endpointData,
     required this.measureFnCallback,
+    Key? key
   }) : super(key: key);
 
   final EndpointData endpointData;
@@ -17,7 +17,7 @@ class DataChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<charts.Series<Map<dynamic,dynamic>, DateTime>> series = [
+    final List<charts.Series<Map<dynamic,dynamic>, DateTime>> series = [
       charts.Series(
         id: "my_chart",
         data: endpointData.dataList,

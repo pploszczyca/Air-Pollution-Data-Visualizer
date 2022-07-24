@@ -16,10 +16,10 @@ class RestClient implements AbstractEndpointRepository {
   @override
   Future<List<EndpointSummary>> getEndpointSummary() async {
     try {
-      Response response = await client.get(backendURL + getDataSummaryURL);
+      final Response response = await client.get(backendURL + getDataSummaryURL);
 
       if (response.statusCode == 200) {
-        BackendResponse backendResponse =
+        final BackendResponse backendResponse =
             BackendResponse.fromJson(response.data);
         if (backendResponse.error == "") {
           return Future.value(backendResponse.data
@@ -34,47 +34,45 @@ class RestClient implements AbstractEndpointRepository {
     return Future.value([]);
   }
 
-  bool isChartData(String field, List<EnableField> enableFieldsList) {
-    return !enableFieldsList
+  bool isChartData(String field, List<EnableField> enableFieldsList) => !enableFieldsList
         .firstWhere((element) => element.label == field)
         .isForChart();
-  }
 
   @override
   Future<EndpointData> getEndpointData(int id, int? limit, int? offset) async {
     limit = limit ?? 25;
     offset = offset ?? 0;
     try {
-      Response response =
+      final Response response =
           await client.get(backendURL + getEndpointDataURL, queryParameters: {
         'sensorId': id,
         'limit': limit,
         'offset': offset,
       });
 
-      Response fields = await client.get(backendURL + getFieldEnable,
+      final Response fields = await client.get(backendURL + getFieldEnable,
           queryParameters: {'endpointId': id});
 
       if (response.statusCode == 200 && fields.statusCode == 200) {
-        BackendResponse backendResponse =
+        final BackendResponse backendResponse =
             BackendResponse.fromJson(response.data);
 
-        BackendResponse fieldResponse = BackendResponse.fromJson(fields.data);
+        final BackendResponse fieldResponse = BackendResponse.fromJson(fields.data);
 
         if (backendResponse.error == "" && fieldResponse.error == "") {
-          List<EnableField> enableFields = fieldResponse.data
+          final List<EnableField> enableFields = fieldResponse.data
               .map<EnableField>((e) => EnableField.fromJson(Map.from(e)))
               .toList();
 
           return Future.value(EndpointData(
             backendResponse.data.map<Map<dynamic, dynamic>>((e) {
-              Map map = Map.from(e);
+              final Map map = Map.from(e);
               map.removeWhere((key, value) =>
                   isChartData(key, enableFields) && key != ignoreField);
               return map;
             }).toList(),
             backendResponse.data.map<Map<dynamic, dynamic>>((e) {
-              Map map = Map.from(e);
+              final Map map = Map.from(e);
               map.removeWhere((key, value) => !isChartData(key, enableFields));
               return map;
             }).toList(),
@@ -82,8 +80,8 @@ class RestClient implements AbstractEndpointRepository {
           ));
         }
       }
-    } catch (error) {
-      print(error);
+    } on Exception catch (error) {
+        print(error);
     }
     return Future.value(EndpointData.empty());
   }

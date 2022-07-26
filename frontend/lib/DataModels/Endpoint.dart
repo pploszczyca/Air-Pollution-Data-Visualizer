@@ -1,5 +1,7 @@
-import 'package:adpv_frontend/Models/EndpointData.dart';
-import 'package:adpv_frontend/Models/EndpointSummary.dart';
+
+
+import 'EndpointData.dart';
+import 'EndpointSummary.dart';
 
 class Endpoint{
   late int id;

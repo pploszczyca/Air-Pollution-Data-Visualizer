@@ -1,4 +1,4 @@
-import 'package:adpv_frontend/Profile/ProfileView.dart';
+import 'package:adpv_frontend/Views/ProfileView.dart';
 import 'package:flutter/material.dart';
 
 import '../Repository/AbstractEndpointRepository.dart';

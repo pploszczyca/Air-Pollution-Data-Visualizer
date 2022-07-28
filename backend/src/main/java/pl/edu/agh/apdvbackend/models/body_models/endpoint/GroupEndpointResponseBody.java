@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import pl.edu.agh.apdvbackend.models.database.Field;
 
-public record EnableEndpointInfo(
+public record GroupEndpointResponseBody(
         @Schema(required = true) Long id,
         @Schema(required = true) String label,
         @Schema(required = true) int endpointNumber,

@@ -4,7 +4,7 @@ import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
-import pl.edu.agh.apdvbackend.models.body_models.endpoint.EnableEndpointInfo;
+import pl.edu.agh.apdvbackend.models.body_models.endpoint.GroupEndpointResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.EndpointGroupRequestBody;
 import pl.edu.agh.apdvbackend.models.database.GroupEndpoint;
 import pl.edu.agh.apdvbackend.models.database.GroupEndpointKey;
@@ -24,10 +24,10 @@ public abstract class GroupEndpointMapper {
     @Mapping(target = "id", source = "groupEndpoint.endpoint.id")
     @Mapping(target = "label", source = "groupEndpoint.endpoint.label")
     @Mapping(target = "endpointNumber", source = "groupEndpoint.endpoint.endpointNumber")
-    public abstract EnableEndpointInfo endpointGroupToInfo(
+    public abstract GroupEndpointResponseBody endpointGroupToInfo(
             GroupEndpoint groupEndpoint);
 
-    public abstract List<EnableEndpointInfo> groupEndpointsToInfos(
+    public abstract List<GroupEndpointResponseBody> groupEndpointsToInfos(
             List<GroupEndpoint> groupEndpoints);
 
 

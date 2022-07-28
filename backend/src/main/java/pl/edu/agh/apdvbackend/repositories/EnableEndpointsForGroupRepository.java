@@ -18,4 +18,11 @@ public interface EnableEndpointsForGroupRepository
             "WHERE u.id = ?1 AND ee.endpoint.id = ?2")
     Optional<EnableEndpointsForGroup> findByUserIdAndEndpointId(Long userId,
                                                                 Long endpointId);
+
+    @Query("SELECT ee FROM EnableEndpointsForGroup ee " +
+            "INNER JOIN ee.group g " +
+            "INNER JOIN g.usersInGroup u " +
+            "WHERE u.id = ?1 AND ee.endpoint.id = ?2")
+    Iterable<EnableEndpointsForGroup> findAllUserIdAndEndpointId(Long userId,
+                                                                Long endpointId);
 }

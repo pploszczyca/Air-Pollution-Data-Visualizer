@@ -106,12 +106,15 @@ INSERT INTO public.fields_parser_mapping (endpoint_id, field_parser_id, field_id
 INSERT INTO public.fields_parser_mapping (endpoint_id, field_parser_id, field_id) VALUES (5, 12, 12);
 
 INSERT INTO public.group (name) VALUES ('Best officials');
+INSERT INTO public.group (name) VALUES ('Best of the best');
 
 INSERT INTO public.user (email, name) VALUES ('test@test.com', 'Jan');
 
 INSERT INTO public.users_in_group (group_id, user_id) VALUES (1, 1);
+INSERT INTO public.users_in_group (group_id, user_id) VALUES (2, 1);
 
 INSERT INTO public.enable_endpoints_for_group (endpoint_id, group_id, approximation_precission, detailed_measurement_days) VALUES (1, 1, 10, 10);
+INSERT INTO public.enable_endpoints_for_group (endpoint_id, group_id, approximation_precission, detailed_measurement_days) VALUES (1, 2, 10, 10);
 INSERT INTO public.enable_endpoints_for_group (endpoint_id, group_id, approximation_precission, detailed_measurement_days) VALUES (2, 1, 10, 10);
 INSERT INTO public.enable_endpoints_for_group (endpoint_id, group_id, approximation_precission, detailed_measurement_days) VALUES (3, 1, 10, 10);
 INSERT INTO public.enable_endpoints_for_group (endpoint_id, group_id, approximation_precission, detailed_measurement_days) VALUES (4, 1, 10, 10);
@@ -126,9 +129,6 @@ INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (1, 1,
 INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (1, 1, 7);
 INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (1, 1, 8);
 INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (1, 1, 9);
-INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (1, 1, 10);
-INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (1, 1, 11);
-INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (1, 1, 12);
 INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (2, 1, 1);
 INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (2, 1, 2);
 INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (2, 1, 3);
@@ -177,3 +177,9 @@ INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (5, 1,
 INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (5, 1, 10);
 INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (5, 1, 11);
 INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (5, 1, 12);
+
+INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (1, 2, 8);
+INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (1, 2, 9);
+INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (1, 2, 10);
+INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (1, 2, 11);
+INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (1, 2, 12);

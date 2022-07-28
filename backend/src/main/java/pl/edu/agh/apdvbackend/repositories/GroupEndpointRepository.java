@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import pl.edu.agh.apdvbackend.models.database.GroupEndpoint;
 
 @Repository
-public interface GroupRepositoryRepository
+public interface GroupEndpointRepository
         extends CrudRepository<GroupEndpoint, Long> {
     Optional<GroupEndpoint> findByGroupIdAndEndpointId(Long groupId,
                                                        Long endpointId);

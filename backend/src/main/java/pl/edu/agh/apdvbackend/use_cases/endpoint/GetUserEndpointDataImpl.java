@@ -30,16 +30,16 @@ public class GetUserEndpointDataImpl
     @Override
     public List<ObjectNode> execute(Long userId, Long endpointId, Long limit,
                                     Long offset) {
-        final var enableEndpoint =
+        final var groupEndpoint =
                 getEnableEndpointByUserAndEndpointId.execute(userId,
                         endpointId);
-        final var endpoint = enableEndpoint.getEndpoint();
+        final var endpoint = groupEndpoint.getEndpoint();
         final var rawEndpointData =
                 getJsonNodeFromDataHub.execute(endpoint.getSensorUrl(), limit,
                         offset);
 
         return parseWeatherData(rawEndpointData, endpoint,
-                enableEndpoint.getEnableFields());
+                groupEndpoint.getEnableFields());
     }
 
     private List<ObjectNode> parseWeatherData(

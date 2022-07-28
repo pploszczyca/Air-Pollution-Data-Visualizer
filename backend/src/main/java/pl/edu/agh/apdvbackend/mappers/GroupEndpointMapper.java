@@ -1,14 +1,16 @@
 package pl.edu.agh.apdvbackend.mappers;
 
+import java.util.Collection;
 import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import pl.edu.agh.apdvbackend.models.body_models.endpoint.GroupEndpointResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.EndpointGroupRequestBody;
+import pl.edu.agh.apdvbackend.models.database.Field;
+import pl.edu.agh.apdvbackend.models.database.Group;
 import pl.edu.agh.apdvbackend.models.database.GroupEndpoint;
 import pl.edu.agh.apdvbackend.models.database.GroupEndpointKey;
-import pl.edu.agh.apdvbackend.models.database.Group;
 import pl.edu.agh.apdvbackend.use_cases.endpoint.GetEndpoint;
 import pl.edu.agh.apdvbackend.use_cases.field.GetField;
 
@@ -51,5 +53,33 @@ public abstract class GroupEndpointMapper {
                 .map(endpointGroupRequestBody -> RequestBodyToEndpointGroup(
                         endpointGroupRequestBody, group))
                 .toList();
+    }
+
+    public GroupEndpointResponseBody mapToResponseBody(
+            List<GroupEndpoint> groupEndpoints) {
+        final var firstGroupEndpoint = groupEndpoints
+                .stream()
+                .findFirst()
+                .orElseThrow();
+        final var endpoint = firstGroupEndpoint.getEndpoint();
+
+        return new GroupEndpointResponseBody(
+                endpoint.getId(),
+                endpoint.getLabel(),
+                endpoint.getEndpointNumber(),
+                makeSumOfFields(groupEndpoints),
+                firstGroupEndpoint.getDetailedMeasurementDays(),
+                firstGroupEndpoint.getApproximationPrecission()
+        );
+    }
+
+    private List<Field> makeSumOfFields(List<GroupEndpoint> groupEndpoints) {
+        return groupEndpoints
+                .stream()
+                .map(GroupEndpoint::getEnableFields)
+                .flatMap(Collection::stream)
+                .distinct()
+                .toList();
+
     }
 }

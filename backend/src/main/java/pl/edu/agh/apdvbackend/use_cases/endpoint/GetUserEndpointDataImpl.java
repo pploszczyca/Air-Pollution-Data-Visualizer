@@ -10,7 +10,7 @@ import pl.edu.agh.apdvbackend.deserializer.EndpointDeserializer;
 import pl.edu.agh.apdvbackend.models.database.Endpoint;
 import pl.edu.agh.apdvbackend.models.database.Field;
 import pl.edu.agh.apdvbackend.use_cases.datahub.GetJsonNodeFromDataHub;
-import pl.edu.agh.apdvbackend.use_cases.enable_endpoints.GetEndpointDataForUser;
+import pl.edu.agh.apdvbackend.use_cases.group_endpoint.GetEndpointDataForUser;
 import pl.edu.agh.apdvbackend.utilities.StreamUtilities;
 
 @Component

@@ -1,4 +1,4 @@
-package pl.edu.agh.apdvbackend.use_cases.enable_endpoints;
+package pl.edu.agh.apdvbackend.use_cases.group_endpoint;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

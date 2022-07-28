@@ -4,7 +4,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import pl.edu.agh.apdvbackend.models.database.Field;
-import pl.edu.agh.apdvbackend.use_cases.enable_endpoints.GetEndpointDataForUser;
+import pl.edu.agh.apdvbackend.use_cases.group_endpoint.GetEndpointDataForUser;
 
 @Component
 @RequiredArgsConstructor

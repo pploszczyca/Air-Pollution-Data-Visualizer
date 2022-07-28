@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
 import pl.edu.agh.apdvbackend.models.body_models.group.AboutGroupResponseBody;
-import pl.edu.agh.apdvbackend.models.body_models.group.AddEnableEndpointRequestBody;
+import pl.edu.agh.apdvbackend.models.body_models.group.EndpointGroupRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.AddGroupRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.ShortGroupInfoResponseBody;
 import pl.edu.agh.apdvbackend.use_cases.group.AddNewGroup;
@@ -58,10 +58,10 @@ public class GroupService {
     }
 
     public Response<AboutGroupResponseBody> changeEnableEndpoints(
-            List<AddEnableEndpointRequestBody> addEnableEndpointRequestBodyList,
+            List<EndpointGroupRequestBody> endpointGroupRequestBodyList,
             Long groupId) {
         return Response.withOkStatus(changeEnableEndpointsInGroup.execute(
-                addEnableEndpointRequestBodyList, groupId));
+                endpointGroupRequestBodyList, groupId));
     }
 
     public Response<AboutGroupResponseBody> addGroup(

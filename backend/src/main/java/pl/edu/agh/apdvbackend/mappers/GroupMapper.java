@@ -16,7 +16,7 @@ public abstract class GroupMapper {
     protected UserMapper userMapper;
 
     @Autowired
-    protected EnableEndpointsForGroupMapper enableEndpointsForGroupMapper;
+    protected GroupEndpointMapper groupEndpointMapper;
 
     public abstract ShortGroupInfoResponseBody groupToShortGroupInfo(
             Group group);
@@ -25,7 +25,7 @@ public abstract class GroupMapper {
             List<Group> groupList);
 
     @Mapping(target = "shortUserInfos", expression = "java(userMapper.userListToShortInfoList(group.getUsersInGroup().stream().toList()))")
-    @Mapping(target = "enableEndpointInfos", expression = "java(enableEndpointsForGroupMapper.enableEndpointForGroupListToListInfo(group.getEnableEndpointsForGroups().stream().toList()))")
+    @Mapping(target = "enableEndpointInfos", expression = "java(groupEndpointMapper.groupEndpointsToInfos(group.getGroupEndpoints().stream().toList()))")
     public abstract AboutGroupResponseBody groupToAboutResponseBody(
             Group group);
 

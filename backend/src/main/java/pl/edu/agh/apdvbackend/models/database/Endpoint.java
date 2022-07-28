@@ -26,7 +26,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@JsonIgnoreProperties({"fieldParserMap", "enableEndpointsForGroups"})
+@JsonIgnoreProperties({"fieldParserMap", "groupEndpoints"})
 public class Endpoint {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,7 +52,7 @@ public class Endpoint {
     private Map<Field, FieldParser> fieldParserMap = new HashMap<>();
 
     @OneToMany(mappedBy = "endpoint")
-    private Set<EnableEndpointsForGroup> enableEndpointsForGroups =
+    private Set<GroupEndpoint> groupEndpoints =
             new HashSet<>();
 
     public String getFieldPath(Field field) {

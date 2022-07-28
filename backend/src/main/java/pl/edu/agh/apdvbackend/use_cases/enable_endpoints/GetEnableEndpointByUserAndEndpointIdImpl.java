@@ -2,20 +2,20 @@ package pl.edu.agh.apdvbackend.use_cases.enable_endpoints;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import pl.edu.agh.apdvbackend.models.database.EnableEndpointsForGroup;
-import pl.edu.agh.apdvbackend.repositories.EnableEndpointsForGroupRepository;
+import pl.edu.agh.apdvbackend.models.database.GroupEndpoint;
+import pl.edu.agh.apdvbackend.repositories.GroupRepositoryRepository;
 
 @Component
 @RequiredArgsConstructor
 public class GetEnableEndpointByUserAndEndpointIdImpl
         implements GetEnableEndpointByUserAndEndpointId {
 
-    private final EnableEndpointsForGroupRepository
-            enableEndpointsForGroupRepository;
+    private final GroupRepositoryRepository
+            groupRepositoryRepository;
 
     @Override
-    public EnableEndpointsForGroup execute(Long userId, Long endpointId) {
-        return enableEndpointsForGroupRepository
+    public GroupEndpoint execute(Long userId, Long endpointId) {
+        return groupRepositoryRepository
                 .findByUserIdAndEndpointId(userId, endpointId)
                 .orElseThrow();
     }

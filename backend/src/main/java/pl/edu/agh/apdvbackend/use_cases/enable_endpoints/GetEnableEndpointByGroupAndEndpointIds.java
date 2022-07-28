@@ -1,7 +1,7 @@
 package pl.edu.agh.apdvbackend.use_cases.enable_endpoints;
 
-import pl.edu.agh.apdvbackend.models.database.EnableEndpointsForGroup;
+import pl.edu.agh.apdvbackend.models.database.GroupEndpoint;
 
 public interface GetEnableEndpointByGroupAndEndpointIds {
-    EnableEndpointsForGroup execute(Long groupId, Long endpointId);
+    GroupEndpoint execute(Long groupId, Long endpointId);
 }

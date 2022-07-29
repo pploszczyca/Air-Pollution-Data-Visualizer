@@ -11,7 +11,7 @@ import pl.edu.agh.apdvbackend.exceptions.IncorrectNameException;
 import pl.edu.agh.apdvbackend.validators.UserDataValidationUtilities;
 
 @SpringBootTest
-class UserDataValidationUtilitiesTest {
+class ShortUserDataValidationUtilitiesTest {
 
     @Autowired
     private UserDataValidationUtilities userDataValidationUtilities;

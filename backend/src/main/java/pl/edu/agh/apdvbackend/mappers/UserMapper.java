@@ -9,6 +9,7 @@ import pl.edu.agh.apdvbackend.models.body_models.user.AboutUserResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.user.AddUserRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.user.ShortUserInfo;
 import pl.edu.agh.apdvbackend.models.database.User;
+import pl.edu.agh.apdvbackend.use_cases.group.GetNotMembersOfTheGroup;
 
 @Mapper(componentModel = "spring")
 public abstract class UserMapper {
@@ -32,4 +33,8 @@ public abstract class UserMapper {
 
     public abstract List<ShortUserInfo> userListToShortInfoList(
             List<User> userList);
+
+    public abstract GetNotMembersOfTheGroup.ShortUser toShortUser(
+            User user
+    );
 }

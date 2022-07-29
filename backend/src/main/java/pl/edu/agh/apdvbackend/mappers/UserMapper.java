@@ -7,7 +7,7 @@ import org.mapstruct.MappingTarget;
 import org.springframework.beans.factory.annotation.Autowired;
 import pl.edu.agh.apdvbackend.models.body_models.user.AboutUserResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.user.AddUserRequestBody;
-import pl.edu.agh.apdvbackend.models.body_models.user.ShortUser;
+import pl.edu.agh.apdvbackend.models.body_models.user.ShortUserResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.user.ShortUserInfo;
 import pl.edu.agh.apdvbackend.models.database.User;
 
@@ -34,7 +34,7 @@ public abstract class UserMapper {
     public abstract List<ShortUserInfo> userListToShortInfoList(
             List<User> userList);
 
-    public abstract ShortUser toShortUser(
+    public abstract ShortUserResponseBody toShortUserResponseBody(
             User user
     );
 }

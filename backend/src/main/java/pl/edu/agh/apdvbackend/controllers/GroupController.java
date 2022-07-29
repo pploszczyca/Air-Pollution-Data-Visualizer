@@ -17,7 +17,7 @@ import pl.edu.agh.apdvbackend.models.body_models.group.AboutGroupResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.AddEnableEndpointRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.AddGroupRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.ShortGroupInfoResponseBody;
-import pl.edu.agh.apdvbackend.models.body_models.user.ShortUser;
+import pl.edu.agh.apdvbackend.models.body_models.user.ShortUserResponseBody;
 import pl.edu.agh.apdvbackend.services.GroupService;
 
 @RestController
@@ -80,7 +80,7 @@ public class GroupController {
 
     @Operation(summary = "Get all users that are not in group")
     @GetMapping("/users/not/in")
-    public Response<List<ShortUser>> getNotMembersOfTheGroup(
+    public Response<List<ShortUserResponseBody>> getNotMembersOfTheGroup(
             @RequestParam Long groupId
     ) {
         return groupService.getNotMembersOfTheGroup(groupId);

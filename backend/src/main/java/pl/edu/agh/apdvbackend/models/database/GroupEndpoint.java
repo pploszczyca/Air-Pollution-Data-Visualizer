@@ -18,10 +18,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "enable_endpoints_for_group")
-public class EnableEndpointsForGroup {
+@Table(name = "group_endpoint")
+public class GroupEndpoint {
     @EmbeddedId
-    private EnableEndpointsForGroupKey id;
+    private GroupEndpointKey id;
 
     @ManyToOne
     @MapsId("groupId")

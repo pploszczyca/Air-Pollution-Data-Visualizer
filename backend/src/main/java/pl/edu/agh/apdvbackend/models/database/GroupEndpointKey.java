@@ -14,7 +14,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class EnableEndpointsForGroupKey implements Serializable {
+public class GroupEndpointKey implements Serializable {
 
     @Column(name = "group_id")
     private Long groupId;
@@ -30,7 +30,7 @@ public class EnableEndpointsForGroupKey implements Serializable {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        final EnableEndpointsForGroupKey that = (EnableEndpointsForGroupKey) o;
+        final GroupEndpointKey that = (GroupEndpointKey) o;
         return groupId.equals(that.groupId) &&
                 endpointId.equals(that.endpointId);
     }

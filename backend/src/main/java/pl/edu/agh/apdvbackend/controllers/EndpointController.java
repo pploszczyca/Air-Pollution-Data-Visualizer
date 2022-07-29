@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
 import pl.edu.agh.apdvbackend.models.body_models.endpoint.AddEndpointRequestBody;
-import pl.edu.agh.apdvbackend.models.body_models.endpoint.EndpointData;
+import pl.edu.agh.apdvbackend.models.body_models.endpoint.EndpointWithField;
 import pl.edu.agh.apdvbackend.models.body_models.endpoint.EndpointSummaryResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.endpoint.UserEndpointResponseBody;
 import pl.edu.agh.apdvbackend.models.database.Endpoint;
@@ -42,7 +42,7 @@ public class EndpointController {
 
     @Operation(summary = "Get list of data from sensor that belongs to user with enable fields")
     @GetMapping("/data")
-    public Response<EndpointData> getDataWithFields(
+    public Response<EndpointWithField> getDataWithFields(
             @RequestParam Long sensorId,
             @RequestParam(required = false, defaultValue = "25") Long limit,
             @RequestParam(required = false, defaultValue = "0") Long offset) {

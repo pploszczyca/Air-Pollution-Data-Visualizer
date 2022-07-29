@@ -4,6 +4,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import pl.edu.agh.apdvbackend.mappers.UserMapper;
+import pl.edu.agh.apdvbackend.models.body_models.user.ShortUser;
 import pl.edu.agh.apdvbackend.models.database.Group;
 import pl.edu.agh.apdvbackend.repositories.UserRepository;
 import pl.edu.agh.apdvbackend.utilities.StreamUtilities;
@@ -16,7 +17,7 @@ public class GetNotMembersOfTheGroupImpl
     private final UserRepository userRepository;
 
     private final StreamUtilities streamUtilities;
-    
+
     private final UserMapper userMapper;
 
     @Override

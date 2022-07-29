@@ -3,10 +3,15 @@ package pl.edu.agh.apdvbackend.auth;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,11 +35,13 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
 
     private static final String ROLES = "roles";
 
-    private static final String ERROR = "error";
-
     private static final String LOGIN_PATH = "/auth/login";
 
     private static final String REFRESH_TOKEN_PATH = "/auth/refresh-token";
+
+    private static final String DATA = "data";
+
+    private static final String ERROR = "error";
 
     private final Algorithm algorithm;
 
@@ -53,7 +61,8 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
         try {
             tryToUpdateSecurityContext(request, response, filterChain,
                     authorizationHeader);
-        } catch (Exception exception) {
+        } catch (IOException | ServletException |
+                 JWTDecodeException | TokenExpiredException exception) {
             sendErrorResponse(response, exception);
         }
     }
@@ -96,7 +105,16 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
     private void sendErrorResponse(HttpServletResponse response,
                                    Exception exception)
             throws IOException {
-        response.setHeader(ERROR, exception.getMessage());
-        response.sendError(FORBIDDEN.value());
+        final Map<String, String> error = new HashMap<>();
+        error.put(DATA, null);
+        error.put(ERROR, exception.getMessage());
+
+        response.setStatus(FORBIDDEN.value());
+        response.setContentType(APPLICATION_JSON_VALUE);
+
+        new ObjectMapper().writeValue(
+                response.getOutputStream(),
+                error
+        );
     }
 }

@@ -36,14 +36,6 @@ public class GroupController {
         return groupService.getAllGroupsInfo();
     }
 
-    // TODO: Split this endpoint for two separate: one for members in group and one for endpoint
-    @Operation(summary = "Get information about group")
-    @GetMapping
-    public Response<AboutGroupResponseBody> getGroupInfo(
-            @RequestParam Long groupId) {
-        return groupService.getGroupInfo(groupId);
-    }
-
     @Operation(summary = "Get information about members in the group")
     @GetMapping("/members")
     public Response<GroupMembersResponseBody> getGroupMembers(

@@ -14,7 +14,6 @@ import pl.edu.agh.apdvbackend.models.body_models.user.ShortUserResponseBody;
 import pl.edu.agh.apdvbackend.use_cases.group.AddNewGroup;
 import pl.edu.agh.apdvbackend.use_cases.group.AddUserToGroup;
 import pl.edu.agh.apdvbackend.use_cases.group.ChangeEnableEndpointsInGroup;
-import pl.edu.agh.apdvbackend.use_cases.group.GetAboutGroupInfo;
 import pl.edu.agh.apdvbackend.use_cases.group.GetAdminPanelGroup;
 import pl.edu.agh.apdvbackend.use_cases.group.GetAllGroupsInfo;
 import pl.edu.agh.apdvbackend.use_cases.group.GetGroupMembers;
@@ -27,8 +26,6 @@ import pl.edu.agh.apdvbackend.use_cases.group.RemoveUserFromGroup;
 public class GroupService {
 
     private final GetAllGroupsInfo getAllGroupsInfo;
-
-    private final GetAboutGroupInfo getAboutGroupInfo;
 
     private final AddUserToGroup addUserToGroup;
 
@@ -48,10 +45,6 @@ public class GroupService {
 
     public Response<List<ShortGroupResponseBody>> getAllGroupsInfo() {
         return Response.withOkStatus(getAllGroupsInfo.execute());
-    }
-
-    public Response<AboutGroupResponseBody> getGroupInfo(Long groupId) {
-        return Response.withOkStatus(getAboutGroupInfo.execute(groupId));
     }
 
     public Response<AboutGroupResponseBody> addUserToGroup(Long groupId,

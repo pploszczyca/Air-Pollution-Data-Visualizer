@@ -7,7 +7,7 @@ import pl.edu.agh.apdvbackend.models.body_models.Response;
 import pl.edu.agh.apdvbackend.models.body_models.group.AboutGroupResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.EndpointGroupRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.AddGroupRequestBody;
-import pl.edu.agh.apdvbackend.models.body_models.group.ShortGroupInfoResponseBody;
+import pl.edu.agh.apdvbackend.models.body_models.group.ShortGroupResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.user.ShortUserResponseBody;
 import pl.edu.agh.apdvbackend.use_cases.group.AddNewGroup;
 import pl.edu.agh.apdvbackend.use_cases.group.AddUserToGroup;
@@ -38,7 +38,7 @@ public class GroupService {
 
     private final GetNotMembersOfTheGroup getNotMembersOfTheGroup;
 
-    public Response<List<ShortGroupInfoResponseBody>> getAllGroupsInfo() {
+    public Response<List<ShortGroupResponseBody>> getAllGroupsInfo() {
         return Response.withOkStatus(getAllGroupsInfo.execute());
     }
 

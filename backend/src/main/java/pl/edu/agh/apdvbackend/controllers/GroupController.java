@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
 import pl.edu.agh.apdvbackend.models.body_models.group.AboutGroupResponseBody;
-import pl.edu.agh.apdvbackend.models.body_models.group.EndpointGroupRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.AddGroupRequestBody;
-import pl.edu.agh.apdvbackend.models.body_models.group.ShortGroupInfoResponseBody;
+import pl.edu.agh.apdvbackend.models.body_models.group.EndpointGroupRequestBody;
+import pl.edu.agh.apdvbackend.models.body_models.group.ShortGroupResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.user.ShortUserResponseBody;
 import pl.edu.agh.apdvbackend.services.GroupService;
 
@@ -30,10 +30,11 @@ public class GroupController {
 
     @Operation(summary = "Get id and name info about all group")
     @GetMapping("/all/info")
-    public Response<List<ShortGroupInfoResponseBody>> getAllGroupsInfo() {
+    public Response<List<ShortGroupResponseBody>> getAllGroupsInfo() {
         return groupService.getAllGroupsInfo();
     }
 
+    // TODO: Split this endpoint for two separate: one for members in group and one for endpoint
     @Operation(summary = "Get information about group")
     @GetMapping
     public Response<AboutGroupResponseBody> getGroupInfo(

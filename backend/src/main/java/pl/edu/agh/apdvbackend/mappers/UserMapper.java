@@ -5,7 +5,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.springframework.beans.factory.annotation.Autowired;
-import pl.edu.agh.apdvbackend.models.body_models.user.AboutUserResponseBody;
+import pl.edu.agh.apdvbackend.models.body_models.user.UserResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.user.AddUserRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.user.ShortUserResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.user.ShortUserInfo;
@@ -23,10 +23,10 @@ public abstract class UserMapper {
     public abstract void updateUserFromAddRequestBody(
             AddUserRequestBody addUserRequestBody, @MappingTarget User user);
 
-    @Mapping(target = "userGroups", expression = "java(user.getGroups().stream().map(shortMapper::groupToShortGroupInfo).toList())")
-    public abstract AboutUserResponseBody userToAboutResponseBody(User user);
+    @Mapping(target = "groups", expression = "java(user.getGroups().stream().map(shortMapper::groupToShortGroupInfo).toList())")
+    public abstract UserResponseBody userToAboutResponseBody(User user);
 
-    public abstract List<AboutUserResponseBody> userListToAboutResponseBodyList(
+    public abstract List<UserResponseBody> userListToAboutResponseBodyList(
             List<User> userList);
 
     public abstract ShortUserInfo userToShortInfo(User user);

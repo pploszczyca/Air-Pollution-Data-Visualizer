@@ -75,7 +75,6 @@
         </module>
 
         <!--Modifiers-->
-        <module name="ClassMemberImpliedModifier" />
         <module name="ModifierOrder"/>
         <module name="RedundantModifier"/>
 

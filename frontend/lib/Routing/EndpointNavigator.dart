@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../Common/Routing.dart';
-import '../Repository/AbstractEndpointRepository.dart';
+import '../Repository/EndpointRepository/AbstractEndpointRepository.dart';
 import '../Views/EndpointView.dart';
 import '../Views/EnpointListView.dart';
 

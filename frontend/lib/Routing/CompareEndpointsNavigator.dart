@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../Common/Routing.dart';
-import '../Repository/AbstractEndpointRepository.dart';
+import '../Repository/EndpointRepository/AbstractEndpointRepository.dart';
 import '../Views/EnpointListView.dart';
 
 class CompareEndpointsNavigator extends StatefulWidget {
@@ -11,20 +11,21 @@ class CompareEndpointsNavigator extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<CompareEndpointsNavigator> createState() => _CompareEndpointsNavigatorState();
+  State<CompareEndpointsNavigator> createState() =>
+      _CompareEndpointsNavigatorState();
 }
 
 class _CompareEndpointsNavigatorState extends State<CompareEndpointsNavigator> {
   @override
   Widget build(BuildContext context) => Navigator(
-      onGenerateRoute: (RouteSettings settings) {
-        late Widget page;
-        if(settings.name == compareEndpointsRoute){
-          page =  EndpointListView(repository: widget.repository,);
-        }
-        return MaterialPageRoute<dynamic>(
-            builder: (context)=> page
-        );
-      },
-    );
+        onGenerateRoute: (RouteSettings settings) {
+          late Widget page;
+          if (settings.name == compareEndpointsRoute) {
+            page = EndpointListView(
+              repository: widget.repository,
+            );
+          }
+          return MaterialPageRoute<dynamic>(builder: (context) => page);
+        },
+      );
 }

@@ -1,10 +1,9 @@
 import 'dart:math';
 
-import 'package:adpv_frontend/Repository/AbstractEndpointRepository.dart';
-import 'package:adpv_frontend/Repository/RestEndpointRepository.dart';
+import 'package:adpv_frontend/Repository/EndpointRepository/AbstractEndpointRepository.dart';
+import 'package:adpv_frontend/Repository/EndpointRepository/RestEndpointRepository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
-
 
 import '../Common/Consts.dart';
 import '../DataModels/Endpoint.dart';
@@ -20,7 +19,7 @@ class CompareEndpointsModel extends ChangeNotifier {
 
   CompareEndpointsModel();
 
-  void selectChips( String label,  bool value) {
+  void selectChips(String label, bool value) {
     selectedChips[label] = value;
     notifyListeners();
   }
@@ -39,7 +38,7 @@ class CompareEndpointsModel extends ChangeNotifier {
       }
       final maxValue = counter.values.reduce(max);
       final List<String> newCommonFields = [];
-      counter.forEach(( key,  value) {
+      counter.forEach((key, value) {
         if (value == maxValue) {
           newCommonFields.add(key);
         }
@@ -87,6 +86,6 @@ class CompareEndpointsModel extends ChangeNotifier {
   }
 
   List<String> getFieldsForDrawing() => selectedChips.keys
-        .where((field) => selectedChips[field]! == true)
-        .toList();
+      .where((field) => selectedChips[field]! == true)
+      .toList();
 }

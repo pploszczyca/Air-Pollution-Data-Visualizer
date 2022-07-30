@@ -1,4 +1,4 @@
-import 'package:adpv_frontend/Repository/RestEndpointRepository.dart';
+import 'package:adpv_frontend/Repository/EndpointRepository/RestEndpointRepository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -12,7 +12,8 @@ Future main() async {
 
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
-  final RestEndpointRepository restClient = RestEndpointRepository(Dio());
+  final RestEndpointRepository restEndpointRepository =
+      RestEndpointRepository(Dio());
 
   @override
   Widget build(BuildContext context) => MaterialApp(
@@ -21,9 +22,9 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         home: App(
-          repository: restClient,
+          repository: restEndpointRepository,
         ),
-    );
+      );
 }
 
 Future loadEnvFile() async {

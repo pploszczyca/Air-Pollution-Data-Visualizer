@@ -1,5 +1,5 @@
-import '../DataModels/EndpointData.dart';
-import '../DataModels/EndpointSummary.dart';
+import '../../DataModels/EndpointData.dart';
+import '../../DataModels/EndpointSummary.dart';
 
 abstract class AbstractEndpointRepository {
   Future<List<EndpointSummary>> getEndpointSummary();

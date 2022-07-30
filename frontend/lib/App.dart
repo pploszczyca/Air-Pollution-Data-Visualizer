@@ -1,13 +1,14 @@
-import 'package:adpv_frontend/Repository/AbstractEndpointRepository.dart';
+import 'package:adpv_frontend/DataModels/EndpointSummary.dart';
+import 'package:adpv_frontend/Widgets/CommonWidgets.dart';
 import 'package:flutter/material.dart';
 
+import 'Repository/EndpointRepository/RestEndpointRepository.dart';
 import 'Routing/EndpointNavigator.dart';
 import 'Views/CompareEndpointsView.dart';
 import 'Views/ProfileView.dart';
 
-
 const String endpointList = "Endpoint List";
-const String compareEnpoints = "Compare";
+const String compareEndpoints = "Compare";
 const String profile = "Profile";
 
 const int endpointListIcon = 0xf1ae;
@@ -15,11 +16,9 @@ const int compareEndpointsIcon = 0xf05bb;
 const int profileIcon = 0xf27a;
 
 class App extends StatefulWidget {
-  final AbstractEndpointRepository repository;
+  final RestEndpointRepository repository;
 
-  const App(
-      {required this.repository, Key? key})
-      : super(key: key);
+  const App({required this.repository, Key? key}) : super(key: key);
 
   @override
   State<App> createState() => _AppState();
@@ -41,9 +40,18 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     final MediaQueryData queryData = MediaQuery.of(context);
 
-    return queryData.size.width > 560
-        ? _buildRailNavigationScaffold()
-        : _buildBottomNavigationScaffold();
+    return FutureBuilder<List<EndpointSummary>>(
+        future: widget.repository.getEndpointSummary(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.none ||
+              snapshot.data == null) {
+            return loadingInCenter();
+          } else {
+            return queryData.size.width > 560
+                ? _buildRailNavigationScaffold()
+                : _buildBottomNavigationScaffold();
+          }
+        });
   }
 
   Scaffold _buildRailNavigationScaffold() {
@@ -59,7 +67,7 @@ class _AppState extends State<App> {
         labelType: NavigationRailLabelType.selected,
         destinations: [
           _buildRailNavigationItem(endpointList, endpointListIcon),
-          _buildRailNavigationItem(compareEnpoints, compareEndpointsIcon),
+          _buildRailNavigationItem(compareEndpoints, compareEndpointsIcon),
           _buildRailNavigationItem(profile, profileIcon),
         ],
       ),
@@ -93,7 +101,7 @@ class _AppState extends State<App> {
       items: <BottomNavigationBarItem>[
         _buildNavigationItem(endpointList, const Icon(Icons.map_outlined)),
         _buildNavigationItem(
-            compareEnpoints, const Icon(Icons.area_chart_outlined)),
+            compareEndpoints, const Icon(Icons.area_chart_outlined)),
         _buildNavigationItem(profile, const Icon(Icons.person_outline)),
       ],
       onTap: (index) => setState(() {

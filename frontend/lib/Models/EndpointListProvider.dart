@@ -1,7 +1,6 @@
-import 'package:adpv_frontend/Repository/AbstractEndpointRepository.dart';
-import 'package:adpv_frontend/Repository/RestEndpointRepository.dart';
+import 'package:adpv_frontend/Repository/EndpointRepository/AbstractEndpointRepository.dart';
+import 'package:adpv_frontend/Repository/EndpointRepository/RestEndpointRepository.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../DataModels/EndpointData.dart';

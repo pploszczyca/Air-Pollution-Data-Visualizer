@@ -16,7 +16,7 @@ class CompareEndpointsModel extends ChangeNotifier {
   Map<String, bool> selectedChips = {};
   List<String> commonFields = [];
   List<String> selectedEndpoints = [];
-  AbstractEndpointRepository repository = RestEnpointRepository(Dio());
+  AbstractEndpointRepository repository = RestEndpointRepository(Dio());
 
   CompareEndpointsModel();
 

@@ -12,7 +12,7 @@ Future main() async {
 
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
-  final RestEnpointRepository restClient = RestEnpointRepository(Dio());
+  final RestEndpointRepository restClient = RestEndpointRepository(Dio());
 
   @override
   Widget build(BuildContext context) => MaterialApp(

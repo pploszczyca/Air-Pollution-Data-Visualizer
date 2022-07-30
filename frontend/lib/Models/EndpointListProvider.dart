@@ -32,7 +32,7 @@ class ExpansionPanelEndpoint {
 
 class EndpointListProvider with ChangeNotifier {
   List<ExpansionPanelEndpoint> endpointsList = [];
-  AbstractEndpointRepository repository = RestEnpointRepository(Dio());
+  AbstractEndpointRepository repository = RestEndpointRepository(Dio());
 
   EndpointListProvider(List<EndpointSummary> list) {
     makeEndpointsList(list);

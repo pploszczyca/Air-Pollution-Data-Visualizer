@@ -18,6 +18,7 @@ public abstract class AdminPanelGroupEndpointMapper {
 
     @Mapping(target = "id", source = "endpoint.id")
     @Mapping(target = "fields", expression = "java(getFields(endpoint, groupEndpoint))")
+    @Mapping(target = "isBelongingToGroup", expression = "java(isBelongingToGroup(groupEndpoint))")
     public abstract AdminPanelGroupResponseBody.Endpoint toEndpoint(
             Endpoint endpoint, GroupEndpoint groupEndpoint);
 
@@ -35,5 +36,9 @@ public abstract class AdminPanelGroupEndpointMapper {
                 : groupEndpoint.getEnableFields();
 
         return fieldMapper.toFieldList(fields, enableFields);
+    }
+
+    protected boolean isBelongingToGroup(GroupEndpoint groupEndpoint) {
+        return groupEndpoint != null;
     }
 }

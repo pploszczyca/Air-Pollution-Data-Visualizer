@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
 import pl.edu.agh.apdvbackend.models.body_models.group.AboutGroupResponseBody;
+import pl.edu.agh.apdvbackend.models.body_models.group.AdminPanelGroupResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.EndpointGroupRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.AddGroupRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.GroupMembersResponseBody;
@@ -14,6 +15,7 @@ import pl.edu.agh.apdvbackend.use_cases.group.AddNewGroup;
 import pl.edu.agh.apdvbackend.use_cases.group.AddUserToGroup;
 import pl.edu.agh.apdvbackend.use_cases.group.ChangeEnableEndpointsInGroup;
 import pl.edu.agh.apdvbackend.use_cases.group.GetAboutGroupInfo;
+import pl.edu.agh.apdvbackend.use_cases.group.GetAdminPanelGroup;
 import pl.edu.agh.apdvbackend.use_cases.group.GetAllGroupsInfo;
 import pl.edu.agh.apdvbackend.use_cases.group.GetGroupMembers;
 import pl.edu.agh.apdvbackend.use_cases.group.GetNotMembersOfTheGroup;
@@ -41,6 +43,8 @@ public class GroupService {
     private final GetNotMembersOfTheGroup getNotMembersOfTheGroup;
 
     private final GetGroupMembers getGroupMembers;
+
+    private final GetAdminPanelGroup getAdminPanelGroup;
 
     public Response<List<ShortGroupResponseBody>> getAllGroupsInfo() {
         return Response.withOkStatus(getAllGroupsInfo.execute());
@@ -83,5 +87,9 @@ public class GroupService {
 
     public Response<GroupMembersResponseBody> getGroupMembers(Long groupId) {
         return Response.withOkStatus(getGroupMembers.execute(groupId));
+    }
+
+    public Response<AdminPanelGroupResponseBody> getAdminPanelGroup(Long groupId) {
+        return Response.withOkStatus(getAdminPanelGroup.execute(groupId));
     }
 }

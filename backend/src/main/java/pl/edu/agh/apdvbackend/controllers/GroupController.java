@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
 import pl.edu.agh.apdvbackend.models.body_models.group.AboutGroupResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.AddGroupRequestBody;
+import pl.edu.agh.apdvbackend.models.body_models.group.AdminPanelGroupResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.EndpointGroupRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.GroupMembersResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.ShortGroupResponseBody;
@@ -93,5 +94,13 @@ public class GroupController {
             @RequestParam Long groupId
     ) {
         return groupService.getNotMembersOfTheGroup(groupId);
+    }
+
+    @Operation(summary = "Get information about what endpoints and fields (non) belongs to group")
+    @GetMapping("endpoints")
+    public Response<AdminPanelGroupResponseBody> getAdminPanelGroup(
+            @RequestParam Long groupId
+    ) {
+        return groupService.getAdminPanelGroup(groupId);
     }
 }

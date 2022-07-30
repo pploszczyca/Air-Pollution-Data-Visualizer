@@ -22,7 +22,7 @@ class AdminPanelGroupFieldMapperTest {
     private AdminPanelGroupFieldMapper mapper;
 
     @Test
-    public void OnToFieldList_ShouldRunToField() {
+    public void onToFieldList_ShouldRunToField() {
         // Given
         final var id = 1L;
         final var label = "label";
@@ -59,7 +59,7 @@ class AdminPanelGroupFieldMapperTest {
     }
 
     @Test
-    public void OnToField_ShouldMapToAdminField() {
+    public void onToField_ShouldMapToAdminField() {
         // Given
         final var id = 1L;
         final var label = "label";
@@ -95,7 +95,7 @@ class AdminPanelGroupFieldMapperTest {
     @Nested
     class IsFieldBelongsToGroupTest {
         @Test
-        public void ShouldReturnFalse_IfFieldNotBelongsToEnableFields() {
+        public void shouldReturnFalse_IfFieldNotBelongsToEnableFields() {
             // Given
             final var field = FieldFakes.getField();
             final List<Field> enableFields = Collections.emptyList();
@@ -109,7 +109,7 @@ class AdminPanelGroupFieldMapperTest {
         }
 
         @Test
-        public void ShouldReturnTrue_IfFieldBelongsToEnableFields() {
+        public void shouldReturnTrue_IfFieldBelongsToEnableFields() {
             // Given
             final var field = FieldFakes.getField();
             final List<Field> enableFields = List.of(field);

@@ -29,7 +29,7 @@ class AdminPanelGroupEndpointMapperTest {
     private AdminPanelGroupEndpointMapper mapper;
 
     @Test
-    public void ShouldMapEndpoint() {
+    public void shouldMapEndpoint() {
         // Given
         final var id = 123L;
         final var label = "label";
@@ -65,7 +65,7 @@ class AdminPanelGroupEndpointMapperTest {
     @Nested
     class GetFieldsTest {
         @Test
-        public void ShouldInvokeFieldMapperToFieldList() {
+        public void shouldInvokeFieldMapperToFieldList() {
             // Given
             final var field = FieldFakes.getField();
             final var fieldParser = FieldParserFakes.getFieldParser();
@@ -85,7 +85,7 @@ class AdminPanelGroupEndpointMapperTest {
         }
 
         @Test
-        public void ShouldInvokeWithEmptyList_WhenGroupEndpointIsNull() {
+        public void shouldInvokeWithEmptyList_WhenGroupEndpointIsNull() {
             // Given
             final var endpoint = EndpointFakes.getEndpoint();
             final List<Field> enableFields = Collections.emptyList();
@@ -102,7 +102,7 @@ class AdminPanelGroupEndpointMapperTest {
     @Nested
     class IsBelongingToGroupTest {
         @Test
-        public void ReturnTrue_WhenGroupEndpointIsNotNull() {
+        public void returnTrue_WhenGroupEndpointIsNotNull() {
             // Given
             final var groupEndpoint = GroupEndpointFakes.getGroupEndpoint();
 
@@ -114,7 +114,7 @@ class AdminPanelGroupEndpointMapperTest {
         }
 
         @Test
-        public void ReturnFalse_WhenGroupEndpointIsNull() {
+        public void returnFalse_WhenGroupEndpointIsNull() {
             // Given
 
             // When

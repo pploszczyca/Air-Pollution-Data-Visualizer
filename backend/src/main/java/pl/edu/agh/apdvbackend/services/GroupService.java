@@ -7,6 +7,7 @@ import pl.edu.agh.apdvbackend.models.body_models.Response;
 import pl.edu.agh.apdvbackend.models.body_models.group.AboutGroupResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.EndpointGroupRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.AddGroupRequestBody;
+import pl.edu.agh.apdvbackend.models.body_models.group.GroupMembersResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.ShortGroupResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.user.ShortUserResponseBody;
 import pl.edu.agh.apdvbackend.use_cases.group.AddNewGroup;
@@ -14,6 +15,7 @@ import pl.edu.agh.apdvbackend.use_cases.group.AddUserToGroup;
 import pl.edu.agh.apdvbackend.use_cases.group.ChangeEnableEndpointsInGroup;
 import pl.edu.agh.apdvbackend.use_cases.group.GetAboutGroupInfo;
 import pl.edu.agh.apdvbackend.use_cases.group.GetAllGroupsInfo;
+import pl.edu.agh.apdvbackend.use_cases.group.GetGroupMembers;
 import pl.edu.agh.apdvbackend.use_cases.group.GetNotMembersOfTheGroup;
 import pl.edu.agh.apdvbackend.use_cases.group.RemoveGroup;
 import pl.edu.agh.apdvbackend.use_cases.group.RemoveUserFromGroup;
@@ -37,6 +39,8 @@ public class GroupService {
     private final AddNewGroup addNewGroup;
 
     private final GetNotMembersOfTheGroup getNotMembersOfTheGroup;
+
+    private final GetGroupMembers getGroupMembers;
 
     public Response<List<ShortGroupResponseBody>> getAllGroupsInfo() {
         return Response.withOkStatus(getAllGroupsInfo.execute());
@@ -75,5 +79,9 @@ public class GroupService {
 
     public Response<List<ShortUserResponseBody>> getNotMembersOfTheGroup(Long groupId) {
         return Response.withOkStatus(getNotMembersOfTheGroup.execute(groupId));
+    }
+
+    public Response<GroupMembersResponseBody> getGroupMembers(Long groupId) {
+        return Response.withOkStatus(getGroupMembers.execute(groupId));
     }
 }

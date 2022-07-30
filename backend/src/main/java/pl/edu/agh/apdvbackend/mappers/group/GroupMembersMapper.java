@@ -7,13 +7,13 @@ import pl.edu.agh.apdvbackend.models.body_models.group.GroupMembersResponseBody;
 import pl.edu.agh.apdvbackend.models.database.Group;
 
 @Mapper(componentModel = "spring")
-public abstract class GroupMapper {
+public abstract class GroupMembersMapper {
 
     @Autowired
-    protected GroupMemberMapper groupMemberMapper;
+    protected MemberMapper memberMapper;
 
     @Mapping(target = "groupId", source = "id")
     @Mapping(target = "groupName", source = "name")
-    @Mapping(target = "members", expression = "java(groupMemberMapper.toMemberList(group.getUsersInGroup(), group.getId()))")
-    public abstract GroupMembersResponseBody toGroupMembers(Group group);
+    @Mapping(target = "members", expression = "java(memberMapper.toMemberList(group.getUsersInGroup(), group.getId()))")
+    public abstract GroupMembersResponseBody map(Group group);
 }

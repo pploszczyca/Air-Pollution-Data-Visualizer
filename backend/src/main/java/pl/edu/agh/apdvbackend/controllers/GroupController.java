@@ -16,6 +16,7 @@ import pl.edu.agh.apdvbackend.models.body_models.Response;
 import pl.edu.agh.apdvbackend.models.body_models.group.AboutGroupResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.AddGroupRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.EndpointGroupRequestBody;
+import pl.edu.agh.apdvbackend.models.body_models.group.GroupMembersResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.ShortGroupResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.user.ShortUserResponseBody;
 import pl.edu.agh.apdvbackend.services.GroupService;
@@ -40,6 +41,13 @@ public class GroupController {
     public Response<AboutGroupResponseBody> getGroupInfo(
             @RequestParam Long groupId) {
         return groupService.getGroupInfo(groupId);
+    }
+
+    @Operation(summary = "Get information about members in the group")
+    @GetMapping("/members")
+    public Response<GroupMembersResponseBody> getGroupMembers(
+            @RequestParam Long groupId) {
+        return groupService.getGroupMembers(groupId);
     }
 
     @Operation(summary = "Add user to group")

@@ -10,7 +10,7 @@ import pl.edu.agh.apdvbackend.models.database.Group;
 import pl.edu.agh.apdvbackend.models.database.User;
 
 @Mapper(componentModel = "spring")
-public abstract class GroupMemberMapper {
+public abstract class MemberMapper {
 
     public List<GroupMembersResponseBody.Member> toMemberList(Set<User> users, Long groupId) {
         return users

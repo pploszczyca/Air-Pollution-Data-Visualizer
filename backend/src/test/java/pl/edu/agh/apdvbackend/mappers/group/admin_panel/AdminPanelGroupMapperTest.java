@@ -48,7 +48,8 @@ class AdminPanelGroupMapperTest {
                 Collections.emptyList(),
                 false
         );
-        Mockito.doReturn(adminEndpoint).when(endpointMapper).toEndpoint(Mockito.any(), Mockito.any());
+        Mockito.doReturn(adminEndpoint).when(endpointMapper)
+                .toEndpoint(Mockito.any(), Mockito.any());
 
         final var expected = new AdminPanelGroupResponseBody(
                 groupId,

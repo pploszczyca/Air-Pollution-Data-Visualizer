@@ -12,7 +12,8 @@ import pl.edu.agh.apdvbackend.models.database.User;
 @Mapper(componentModel = "spring")
 public abstract class MemberMapper {
 
-    public List<GroupMembersResponseBody.Member> toMemberList(Set<User> users, Long groupId) {
+    public List<GroupMembersResponseBody.Member> toMemberList(Set<User> users,
+                                                              Long groupId) {
         return users
                 .stream()
                 .map(user -> toMember(user, groupId))
@@ -20,9 +21,11 @@ public abstract class MemberMapper {
     }
 
     @Mapping(target = "otherGroupNames", expression = "java(mapOtherGroupNames(user.getGroups(), groupId))")
-    public abstract GroupMembersResponseBody.Member toMember(User user, Long groupId);
+    public abstract GroupMembersResponseBody.Member toMember(User user,
+                                                             Long groupId);
 
-    protected List<String> mapOtherGroupNames(Set<Group> userGroups, Long groupId) {
+    protected List<String> mapOtherGroupNames(Set<Group> userGroups,
+                                              Long groupId) {
         return userGroups
                 .stream()
                 .filter(group -> !Objects.equals(group.getId(), groupId))

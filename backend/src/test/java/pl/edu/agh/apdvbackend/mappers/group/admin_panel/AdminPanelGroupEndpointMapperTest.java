@@ -37,7 +37,8 @@ class AdminPanelGroupEndpointMapperTest {
         final var isBelongingToGroup = false;
         final var field = FieldFakes.getField();
         final var fieldParser = FieldParserFakes.getFieldParser();
-        final List<AdminPanelGroupResponseBody.Endpoint.Field> fields = Collections.emptyList();
+        final List<AdminPanelGroupResponseBody.Endpoint.Field> fields =
+                Collections.emptyList();
 
         final var endpoint = EndpointFakes.getEndpoint();
         endpoint.setId(id);
@@ -45,7 +46,8 @@ class AdminPanelGroupEndpointMapperTest {
         endpoint.setEndpointNumber(endpointNumber);
         endpoint.setFieldParserMap(Map.of(field, fieldParser));
 
-        Mockito.doReturn(fields).when(fieldMapper).toFieldList(List.of(field), Collections.emptyList());
+        Mockito.doReturn(fields).when(fieldMapper)
+                .toFieldList(List.of(field), Collections.emptyList());
 
         final var expected = new AdminPanelGroupResponseBody.Endpoint(
                 id,

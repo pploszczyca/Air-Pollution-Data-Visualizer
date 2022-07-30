@@ -16,12 +16,12 @@ public record AdminPanelGroupResponseBody(
             boolean isBelongingToGroup
     ) {
         public record Field(
-            Long id,
-            String label,
-            FieldType fieldType,
-            String unitName,
-            boolean isBelongingToGroup
-        ){
+                Long id,
+                String label,
+                FieldType fieldType,
+                String unitName,
+                boolean isBelongingToGroup
+        ) {
         }
     }
 }

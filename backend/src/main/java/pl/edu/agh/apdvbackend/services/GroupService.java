@@ -5,9 +5,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
 import pl.edu.agh.apdvbackend.models.body_models.group.AboutGroupResponseBody;
+import pl.edu.agh.apdvbackend.models.body_models.group.AddGroupRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.AdminPanelGroupResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.EndpointGroupRequestBody;
-import pl.edu.agh.apdvbackend.models.body_models.group.AddGroupRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.GroupMembersResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.ShortGroupResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.user.ShortUserResponseBody;
@@ -74,7 +74,8 @@ public class GroupService {
         return Response.withOkStatus(addNewGroup.execute(addGroupRequestBody));
     }
 
-    public Response<List<ShortUserResponseBody>> getNotMembersOfTheGroup(Long groupId) {
+    public Response<List<ShortUserResponseBody>> getNotMembersOfTheGroup(
+            Long groupId) {
         return Response.withOkStatus(getNotMembersOfTheGroup.execute(groupId));
     }
 
@@ -82,7 +83,8 @@ public class GroupService {
         return Response.withOkStatus(getGroupMembers.execute(groupId));
     }
 
-    public Response<AdminPanelGroupResponseBody> getAdminPanelGroup(Long groupId) {
+    public Response<AdminPanelGroupResponseBody> getAdminPanelGroup(
+            Long groupId) {
         return Response.withOkStatus(getAdminPanelGroup.execute(groupId));
     }
 }

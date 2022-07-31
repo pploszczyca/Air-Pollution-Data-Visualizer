@@ -16,9 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 import static pl.edu.agh.apdvbackend.configs.SwaggerConfig.JWT_AUTH;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
 import pl.edu.agh.apdvbackend.models.body_models.group.AboutGroupResponseBody;
-import pl.edu.agh.apdvbackend.models.body_models.group.AddEnableEndpointRequestBody;
+import pl.edu.agh.apdvbackend.models.body_models.group.EndpointGroupRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.AddGroupRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.ShortGroupInfoResponseBody;
+import pl.edu.agh.apdvbackend.models.body_models.user.ShortUserResponseBody;
 import pl.edu.agh.apdvbackend.services.GroupService;
 
 @RestController
@@ -65,11 +66,11 @@ public class GroupController {
     @Operation(summary = "Change enable endpoints for group", security = @SecurityRequirement(name = JWT_AUTH))
     @PutMapping("/endpoints")
     public Response<AboutGroupResponseBody> changeEnableEndpoints(@RequestBody
-                                                                  List<AddEnableEndpointRequestBody> addEnableEndpointRequestBodyList,
+                                                                  List<EndpointGroupRequestBody> endpointGroupRequestBodyList,
                                                                   @RequestParam
                                                                   Long groupId) {
         return groupService.changeEnableEndpoints(
-                addEnableEndpointRequestBodyList, groupId);
+                endpointGroupRequestBodyList, groupId);
     }
 
     @Operation(summary = "Add new group", security = @SecurityRequirement(name = JWT_AUTH))
@@ -77,5 +78,13 @@ public class GroupController {
     public Response<AboutGroupResponseBody> addGroup(
             @RequestBody AddGroupRequestBody addGroupRequestBody) {
         return groupService.addGroup(addGroupRequestBody);
+    }
+
+    @Operation(summary = "Get all users that are not in group")
+    @GetMapping("/users/not/in")
+    public Response<List<ShortUserResponseBody>> getNotMembersOfTheGroup(
+            @RequestParam Long groupId
+    ) {
+        return groupService.getNotMembersOfTheGroup(groupId);
     }
 }

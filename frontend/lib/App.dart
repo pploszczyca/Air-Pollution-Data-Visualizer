@@ -23,9 +23,7 @@ class App extends StatefulWidget {
   final UserGateway userRepository;
 
   const App(
-      {required this.endpointGateway,
-      required this.userRepository,
-      Key? key})
+      {required this.endpointGateway, required this.userRepository, Key? key})
       : super(key: key);
 
   @override
@@ -55,7 +53,6 @@ class _AppState extends State<App> {
               snapshot.data == null) {
             return loadingInCenter();
           } else {
-
             return queryData.size.width > 560
                 ? _buildRailNavigationScaffold()
                 : _buildBottomNavigationScaffold();

@@ -17,7 +17,7 @@ class CompareEndpointsModel extends ChangeNotifier {
 
   CompareEndpointsModel(this.endpointGateway);
 
-  void clear(){
+  void clear() {
     endpointSummaryMap = {};
     endpointsMap = {};
     selectedChips = {};
@@ -61,11 +61,11 @@ class CompareEndpointsModel extends ChangeNotifier {
   void updateEndpointSelectedList(List<String> selected) {
     selectedEndpoints = selected;
     for (var endpointLabel in selectedEndpoints) {
-        final EndpointSummary es = endpointSummaryMap[endpointLabel]!;
-        endpointGateway.getEndpointData(es.id, null, null, false).then((value) {
-          endpointsMap[es.label] = Endpoint.fromSummary(es, value);
-          updateCommonFields();
-        });
+      final EndpointSummary es = endpointSummaryMap[endpointLabel]!;
+      endpointGateway.getEndpointData(es.id, null, null, false).then((value) {
+        endpointsMap[es.label] = Endpoint.fromSummary(es, value);
+        updateCommonFields();
+      });
     }
   }
 

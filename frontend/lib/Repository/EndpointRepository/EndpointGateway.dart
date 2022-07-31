@@ -17,12 +17,12 @@ class EndpointGateway {
     print("RESTING ENDPOINTSUMMERY");
     final Future<List<EndpointSummary>> summary =
         restRepository.getEndpointSummaryList();
-    summary.then(
-        endpointCache.saveEndpointSummary);
+    summary.then(endpointCache.saveEndpointSummary);
     return summary;
   }
 
-  Future<EndpointData> getEndpointData(int id, int? limit, int? offset, bool needUpdate) {
+  Future<EndpointData> getEndpointData(
+      int id, int? limit, int? offset, bool needUpdate) {
     limit = limit ?? -1;
     offset = offset ?? -1;
     if (endpointCache.isEndpointInCache(id) && !needUpdate) {
@@ -37,11 +37,9 @@ class EndpointGateway {
     }
   }
 
-  void clearEndpointDataCache(){
+  void clearEndpointDataCache() {
     endpointCache.clearEndpointDataCache();
   }
 
-  void reloadSummary(){
-
-  }
+  void reloadSummary() {}
 }

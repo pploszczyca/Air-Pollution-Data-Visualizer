@@ -101,7 +101,7 @@ class _EndpointListViewState extends State<EndpointListView> {
                   ),
                   child: FutureBuilder<EndpointData>(
                     future: widget.repository.getEndpointData(
-                        expansionPanelEndpoint.id,null, null, false),
+                        expansionPanelEndpoint.id, null, null, false),
                     builder: (context, recentDataSnapshot) {
                       if (recentDataSnapshot.connectionState ==
                               ConnectionState.none ||
@@ -109,10 +109,10 @@ class _EndpointListViewState extends State<EndpointListView> {
                         return loadingInCenter();
                       } else {
                         // line below temporary fixes always loading everything problem
-                        expansionPanelEndpoint
-                            .setRecentData(EndpointData([recentDataSnapshot.data!.dataList.first],
+                        expansionPanelEndpoint.setRecentData(EndpointData(
+                            [recentDataSnapshot.data!.dataList.first],
                             [recentDataSnapshot.data!.technicalInfo.first],
-                           [recentDataSnapshot.data!.enableFieldsList.first]));
+                            [recentDataSnapshot.data!.enableFieldsList.first]));
                         return ListView.builder(
                             physics: const AlwaysScrollableScrollPhysics(),
                             padding: const EdgeInsets.only(top: 10),
@@ -174,7 +174,8 @@ class _EndpointListViewState extends State<EndpointListView> {
                   return loadingInCenter();
                 }
                 return ChangeNotifierProvider(
-                    create: (context) => EndpointListProvider(snapshot.data!, widget.repository),
+                    create: (context) =>
+                        EndpointListProvider(snapshot.data!, widget.repository),
                     child: Consumer<EndpointListProvider>(
                         builder: (context, endpointListProvider, _) =>
                             _buildExpansionList(

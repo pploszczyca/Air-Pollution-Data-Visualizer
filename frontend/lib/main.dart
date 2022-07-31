@@ -14,8 +14,6 @@ class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
   final UserGateway restUserRepository = UserGateway();
   final EndpointGateway endpointGateway = EndpointGateway();
-  
-      
 
   @override
   Widget build(BuildContext context) => MaterialApp(

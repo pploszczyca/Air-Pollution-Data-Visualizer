@@ -36,7 +36,7 @@ class EndpointCache {
     _isEndpointSummaryLoaded = true;
   }
 
-  void clearEndpointDataCache(){
+  void clearEndpointDataCache() {
     _endpointMap = {};
   }
 

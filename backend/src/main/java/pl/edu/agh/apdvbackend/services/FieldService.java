@@ -40,7 +40,8 @@ public class FieldService {
 
     public Response<List<Field>> getAllEnableEndpoints(Long endpointId) {
         return Response.withOkStatus(
-                getAllEnableFieldsForEndpointAndUser.execute(findCurrentUserId.execute(),
+                getAllEnableFieldsForEndpointAndUser.execute(
+                        findCurrentUserId.execute(),
                         endpointId));
     }
 

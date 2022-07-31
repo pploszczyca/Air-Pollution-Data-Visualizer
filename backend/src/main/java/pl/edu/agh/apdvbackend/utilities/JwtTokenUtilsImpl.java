@@ -1,6 +1,7 @@
 package pl.edu.agh.apdvbackend.utilities;
 
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.algorithms.Algorithm;
 import java.util.Date;
 import lombok.RequiredArgsConstructor;
@@ -20,21 +21,24 @@ public class JwtTokenUtilsImpl implements JwtTokenUtils {
 
     @Override
     public String generateAccessToken(final User user) {
-        return makeToken(ACCESS_TOKEN_EXPIRES_TIME, user);
+        return generateBasicUserData(user, ACCESS_TOKEN_EXPIRES_TIME)
+                .withClaim("roles",
+                        user.getRoles().stream().map(Role::name).toList())
+                .sign(algorithm);
     }
 
     @Override
     public String generateRefreshToken(final User user) {
-        return makeToken(REFRESH_TOKEN_EXPIRES_TIME, user);
+        return generateBasicUserData(user, REFRESH_TOKEN_EXPIRES_TIME)
+                .sign(algorithm);
     }
 
-    private String makeToken(int expireTime, User user) {
+    private JWTCreator.Builder generateBasicUserData(final User user,
+                                                     final int expiresTime) {
         return JWT.create()
                 .withSubject(user.getEmail())
-                .withExpiresAt(new Date(System.currentTimeMillis() +
-                        expireTime))
-                .withClaim("id", user.getId())
-                .withClaim("roles", user.getRoles().stream().map(Role::name).toList())
-                .sign(algorithm);
+                .withExpiresAt(
+                        new Date(System.currentTimeMillis() + expiresTime))
+                .withClaim("id", user.getId());
     }
 }

@@ -17,6 +17,7 @@ import pl.edu.agh.apdvbackend.use_cases.endpoint.GetUserEndpointDataWithFields;
 import pl.edu.agh.apdvbackend.use_cases.endpoint.RemoveEndpointById;
 import pl.edu.agh.apdvbackend.use_cases.endpoint.SaveNewEndpoint;
 import pl.edu.agh.apdvbackend.use_cases.endpoint.UpdateEndpoint;
+import pl.edu.agh.apdvbackend.use_cases.user.FindCurrentUserId;
 
 @Service
 @RequiredArgsConstructor
@@ -35,21 +36,22 @@ public class EndpointService {
 
     private final UpdateEndpoint updateEndpoint;
 
-    public Response<List<ObjectNode>> getData(Long userId,
-                                              Long sensorId,
+    private final FindCurrentUserId findCurrentUserId;
+
+    public Response<List<ObjectNode>> getData(Long sensorId,
                                               Long limit,
                                               Long offset) {
         return Response.withOkStatus(
-                getUserEndpointData.execute(userId, sensorId, limit, offset));
+                getUserEndpointData.execute(findCurrentUserId.execute(),
+                        sensorId, limit, offset));
     }
 
-    public Response<EndpointWithField> getDataWithFields(Long userId,
-                                                         Long sensorId,
-                                                         Long limit,
-                                                         Long offset) {
+    public Response<EndpointData> getDataWithFields(Long sensorId,
+                                                    Long limit,
+                                                    Long offset) {
         return Response.withOkStatus(
-                getUserEndpointDataWithFields.execute(userId, sensorId, limit,
-                        offset));
+                getUserEndpointDataWithFields.execute(
+                        findCurrentUserId.execute(), sensorId, limit, offset));
     }
 
     public Response<List<EndpointSummaryResponseBody>> getEndpointsList() {
@@ -66,9 +68,9 @@ public class EndpointService {
         removeEndpointById.execute(endpointId);
     }
 
-    public Response<List<UserEndpointResponseBody>> getUserEndpointsList(
-            Long userId) {
-        return Response.withOkStatus(getAllUserEndpoints.execute(userId));
+    public Response<List<UserEndpointResponseBody>> getUserEndpointsList() {
+        return Response.withOkStatus(getAllUserEndpoints.execute(
+                findCurrentUserId.execute()));
     }
 
     public Response<Endpoint> updateEndpoint(

@@ -29,6 +29,9 @@ public class RestResponseExceptionHandler {
     private static final String NO_DATAHUB_CONNECTION =
             "No connection with DataHub, check if your VPN is running.";
 
+    private static final String BAD_REQUEST_ERROR =
+            "Bad Request error. Check parameters of your request";
+
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     @ExceptionHandler(NoSuchElementException.class)
     public Response<?> handleNoSuchElement() {
@@ -70,5 +73,11 @@ public class RestResponseExceptionHandler {
     @ExceptionHandler(BadCredentialsException.class)
     public Response<?> handleBadCredentialsException(Exception exception) {
         return Response.withError(exception.getMessage());
+    }
+
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({IllegalArgumentException.class})
+    public Response<?> handleIllegalArgumentException(Exception e) {
+        return Response.withError(BAD_REQUEST_ERROR);
     }
 }

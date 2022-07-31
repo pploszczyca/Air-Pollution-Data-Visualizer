@@ -45,7 +45,6 @@ class EndpointCache {
         _endpointSummaryList.singleWhere((element) => element.id == id);
     if (isEndpointInCache(id)) {
       _endpointMap[id] = Endpoint.fromSummary(summary, data);
-      print("SAVED DATA: " + data.toString());
     } else {
       _endpointMap.putIfAbsent(id, () => Endpoint.fromSummary(summary, data));
     }

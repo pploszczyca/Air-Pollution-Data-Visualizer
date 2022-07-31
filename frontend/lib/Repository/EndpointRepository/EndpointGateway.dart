@@ -14,7 +14,6 @@ class EndpointGateway {
     if (endpointCache.isEndpointSummaryInCache()) {
       return endpointCache.getEndpointSummary();
     }
-    print("RESTING ENDPOINTSUMMERY");
     final Future<List<EndpointSummary>> summary =
         restRepository.getEndpointSummaryList();
     summary.then(endpointCache.saveEndpointSummary);
@@ -41,5 +40,4 @@ class EndpointGateway {
     endpointCache.clearEndpointDataCache();
   }
 
-  void reloadSummary() {}
 }

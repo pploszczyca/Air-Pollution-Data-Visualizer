@@ -11,18 +11,12 @@ bool checkPasswordRegex(String text) {
 
 bool checkEmailRegex(String text) {
   const String pattern =
-      r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+      r'^(?=.{1,64}@)[A-Za-z0-9_-]+(.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(.[A-Za-z0-9-]+)*(.[A-Za-z]{2,})$';
   final RegExp regex = RegExp(pattern);
   return executeRegex(regex, text);
 }
 
-bool executeRegex(RegExp regex, String text) {
-  if (regex.hasMatch(text)) {
-    return true;
-  } else {
-    return false;
-  }
-}
+bool executeRegex(RegExp regex, String text) => regex.hasMatch(text);
 
 class AuthenticateForm{
   String email;

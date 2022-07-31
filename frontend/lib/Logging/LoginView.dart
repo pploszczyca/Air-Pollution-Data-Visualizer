@@ -85,14 +85,10 @@ class _LoginViewState extends State<LoginView>
   }
 
   void onSubmitButton() {
-    late AuthenticateForm form;
-    if (_formType == FormType.signin) {
-      form = AuthenticateForm(_emailLoginController.text,
-          _passwordLoginController.text, FormType.signin);
-    } else if (_formType == FormType.signup) {
-      form = AuthenticateForm(_emailCreateController.text,
-          _passwordLoginController.text, FormType.signup);
-    }
+    AuthenticateForm form = AuthenticateForm(
+        _emailLoginController.text,
+        _passwordLoginController.text,
+        _formType);
   }
 
   Container _buildAppBar() => Container(
@@ -103,6 +99,78 @@ class _LoginViewState extends State<LoginView>
             style: TextStyle(
                 fontFamily: 'SofiaSans', fontSize: 55, color: Colors.white)),
       );
+
+  TabBar _buildTabBar() => TabBar(
+    indicatorColor: loginPagePrimaryColor,
+    indicatorWeight: 5,
+    controller: _tabController,
+    tabs: const [
+      Tab(
+        child: Text(
+          'Sign in',
+          style: TextStyle(fontFamily: 'Ubuntu Condensed', fontSize: 20),
+        ),
+      ),
+      Tab(
+        child: Text(
+          'Sign up',
+          style: TextStyle(fontFamily: 'Ubuntu Condensed', fontSize: 20),
+        ),
+      ),
+    ],
+  );
+
+  Expanded _buildExpandedTabs() => Expanded(
+      flex: 1,
+      child: TabBarView(
+        controller: _tabController,
+        children: [
+          _buildInputFormPanel('WELCOME AGAIN', 'LOG IN', _loginButtonState,
+              _emailLoginController, _passwordLoginController, FormType.signin),
+          _buildInputFormPanel('HI NEW USER', 'CREATE', _createButtonState,
+              _emailCreateController, _passwordCreateController, FormType.signup),
+        ],
+      ));
+
+  Container _buildInputFormPanel(
+      String welcomeText,
+      String buttonText,
+      ButtonState buttonState,
+      TextEditingController emailController,
+      TextEditingController passwordController,
+      FormType type) =>
+      Container(
+          decoration: const BoxDecoration(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(0),
+                  topRight: Radius.circular(0),
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10))),
+          child: ListView(
+            children: <Widget>[
+              _buildWelcomeBanner(welcomeText),
+              _buildEmailInput(emailController),
+              _buildPasswordInput(passwordController),
+              type == FormType.signup
+                  ? _buildPasswordSupportText()
+                  : const SizedBox.shrink(),
+              _buildSubmitButton(buttonText, buttonState),
+            ],
+          ));
+
+  Container _buildWelcomeBanner(String text) => Container(
+      height: 60,
+      decoration: backgroundDecor,
+      alignment: Alignment.topCenter,
+      padding: const EdgeInsets.only(top: 30, left: 20, right: 20, bottom: 0),
+      child: Text(
+        text,
+        style: const TextStyle(
+            fontSize: 25,
+            fontFamily: 'Ubuntu Condensed',
+            color: loginPagePrimaryColor,
+            letterSpacing: 4),
+      ));
 
   Container _buildEmailInput(TextEditingController controller) => Container(
       decoration: backgroundDecor,
@@ -120,11 +188,11 @@ class _LoginViewState extends State<LoginView>
             focusedBorder: OutlineInputBorder(
                 borderSide:
                     BorderSide(width: 2.5, color: loginPagePrimaryColor)),
-            labelText: 'Login',
+            labelText: 'Email',
             labelStyle: TextStyle(
               fontSize: 22,
             ),
-            suffixIcon: Icon(Icons.person),
+            suffixIcon: Icon(Icons.mail),
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(6)),
                 borderSide: BorderSide(width: 2)),
@@ -160,20 +228,6 @@ class _LoginViewState extends State<LoginView>
           ),
           autofocus: true,
         ),
-      ));
-
-  Container _buildWelcomeBanner(String text) => Container(
-      height: 60,
-      decoration: backgroundDecor,
-      alignment: Alignment.topCenter,
-      padding: const EdgeInsets.only(top: 30, left: 20, right: 20, bottom: 0),
-      child: Text(
-        text,
-        style: const TextStyle(
-            fontSize: 25,
-            fontFamily: 'Ubuntu Condensed',
-            color: loginPagePrimaryColor,
-            letterSpacing: 4),
       ));
 
   Container _buildPasswordSupportText() => Container(
@@ -231,64 +285,6 @@ class _LoginViewState extends State<LoginView>
                 color: Colors.white),
           ),
         ),
-      ));
-
-  Container _buildInputFormPanel(
-          String welcomeText,
-          String buttonText,
-          ButtonState buttonState,
-          TextEditingController emailController,
-          TextEditingController passwordController,
-          FormType type) =>
-      Container(
-          decoration: const BoxDecoration(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(0),
-                  topRight: Radius.circular(0),
-                  bottomLeft: Radius.circular(10),
-                  bottomRight: Radius.circular(10))),
-          child: ListView(
-            children: <Widget>[
-              _buildWelcomeBanner(welcomeText),
-              _buildEmailInput(emailController),
-              _buildPasswordInput(passwordController),
-              type == FormType.signup
-                  ? _buildPasswordSupportText()
-                  : const SizedBox.shrink(),
-              _buildSubmitButton(buttonText, buttonState),
-            ],
-          ));
-
-  TabBar _buildTabBar() => TabBar(
-        indicatorColor: loginPagePrimaryColor,
-        indicatorWeight: 5,
-        controller: _tabController,
-        tabs: const [
-          Tab(
-            child: Text(
-              'Sign in',
-              style: TextStyle(fontFamily: 'Ubuntu Condensed', fontSize: 20),
-            ),
-          ),
-          Tab(
-            child: Text(
-              'Sign up',
-              style: TextStyle(fontFamily: 'Ubuntu Condensed', fontSize: 20),
-            ),
-          ),
-        ],
-      );
-
-  Expanded _buildExpandedTabs() => Expanded(
-      flex: 1,
-      child: TabBarView(
-        controller: _tabController,
-        children: [
-          _buildInputFormPanel('WELCOME AGAIN', 'LOG IN', _loginButtonState,
-              _emailLoginController, _passwordLoginController, FormType.signin),
-          _buildInputFormPanel('HI NEW USER', 'CREATE', _createButtonState,
-              _emailCreateController, _passwordCreateController, FormType.signup),
-        ],
       ));
 
   @override

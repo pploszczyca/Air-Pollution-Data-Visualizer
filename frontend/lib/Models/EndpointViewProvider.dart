@@ -4,24 +4,21 @@ import 'package:flutter/material.dart';
 import '../DataModels/EndpointData.dart';
 
 class DataTypeTab {
-  DataTypeTab({
-    required this.typeName
-});
+  DataTypeTab({required this.typeName});
 
   String typeName;
-
 }
 
-class EndpointViewProvider with ChangeNotifier{
+class EndpointViewProvider with ChangeNotifier {
   List<DataTypeTab> tabs = [];
 
-  EndpointViewProvider(EndpointData data){
-    for(var dataType in data.getAllRecentFields()){
+  EndpointViewProvider(EndpointData data) {
+    for (var dataType in data.getAllRecentFields()) {
       setDataTypeTab(dataType);
     }
   }
 
-  void setDataTypeTab(dynamic name){
+  void setDataTypeTab(dynamic name) {
     tabs.add(DataTypeTab(typeName: name.toString()));
   }
 }

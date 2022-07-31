@@ -7,3 +7,6 @@ const String profileRoute = '/';
 
 // Consts for routing Compare Endpoints
 const String compareEndpointsRoute = '/';
+
+// Consts for routing Admin
+const String adminRoute = '/';

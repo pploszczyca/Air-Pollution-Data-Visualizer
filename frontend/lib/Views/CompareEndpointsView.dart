@@ -1,4 +1,4 @@
-import 'package:adpv_frontend/Repository/EndpointRepository/AbstractEndpointRepository.dart';
+import 'package:adpv_frontend/Repository/EndpointRepository/EndpointGateway.dart';
 import 'package:adpv_frontend/Widgets/CompareEndpoints/MultiDataChart.dart';
 import 'package:flutter/material.dart';
 import 'package:multiselect/multiselect.dart';
@@ -10,9 +10,9 @@ import '../Models/CompareEndpointsProvider.dart';
 import '../Widgets/CommonWidgets.dart';
 
 class CompareChartsView extends StatefulWidget {
-  const CompareChartsView({required this.repository, Key? key})
+  const CompareChartsView({required this.endpointGateway, Key? key})
       : super(key: key);
-  final AbstractEndpointRepository repository;
+  final EndpointGateway endpointGateway;
 
   @override
   State<CompareChartsView> createState() => _CompareChartsViewState();
@@ -23,11 +23,11 @@ class _CompareChartsViewState extends State<CompareChartsView> {
 
   @override
   Widget build(BuildContext context) => ChangeNotifierProvider(
-        create: (context) => CompareEndpointsModel(),
+        create: (context) => CompareEndpointsModel(widget.endpointGateway),
         child: Scaffold(
           appBar: buildAppBar(compareEndpointsViewAppBar),
           body: FutureBuilder<List<EndpointSummary>>(
-            future: widget.repository.getEndpointSummary(),
+            future: widget.endpointGateway.getEndpointSummary(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.none ||
                   snapshot.data == null) {
@@ -95,16 +95,16 @@ class _CompareChartsViewState extends State<CompareChartsView> {
       );
 
   List<Widget> _createChips(CompareEndpointsModel endpointModel) =>
-      endpointModel.commonFields.map((e) {
-        endpointModel.selectedChips.putIfAbsent(e, () => false);
+      endpointModel.commonFields.map((endpointName) {
+        endpointModel.selectedChips.putIfAbsent(endpointName, () => false);
         return Container(
           margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           child: InputChip(
-            label: Text(e),
-            selected: endpointModel.selectedChips[e]!,
+            label: Text(endpointName),
+            selected: endpointModel.selectedChips[endpointName]!,
             onSelected: (bool value) {
               setState(() {
-                endpointModel.selectChips(e, value);
+                endpointModel.selectChips(endpointName, value);
               });
             },
           ),

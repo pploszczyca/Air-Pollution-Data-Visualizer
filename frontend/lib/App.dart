@@ -1,8 +1,9 @@
 import 'package:adpv_frontend/DataModels/EndpointSummary.dart';
+import 'package:adpv_frontend/Repository/EndpointRepository/EndpointGateway.dart';
+import 'package:adpv_frontend/Repository/UserRepository/UserGateway.dart';
 import 'package:adpv_frontend/Widgets/CommonWidgets.dart';
 import 'package:flutter/material.dart';
 
-import 'Repository/EndpointRepository/RestEndpointRepository.dart';
 import 'Routing/EndpointNavigator.dart';
 import 'Views/CompareEndpointsView.dart';
 import 'Views/ProfileView.dart';
@@ -10,15 +11,22 @@ import 'Views/ProfileView.dart';
 const String endpointList = "Endpoint List";
 const String compareEndpoints = "Compare";
 const String profile = "Profile";
+const String admin = "Admin";
 
 const int endpointListIcon = 0xf1ae;
 const int compareEndpointsIcon = 0xf05bb;
 const int profileIcon = 0xf27a;
+const int adminIcon = 0xe062;
 
 class App extends StatefulWidget {
-  final RestEndpointRepository repository;
+  final EndpointGateway endpointGateway;
+  final UserGateway userRepository;
 
-  const App({required this.repository, Key? key}) : super(key: key);
+  const App(
+      {required this.endpointGateway,
+      required this.userRepository,
+      Key? key})
+      : super(key: key);
 
   @override
   State<App> createState() => _AppState();
@@ -29,9 +37,9 @@ class _AppState extends State<App> {
 
   int _selectedIndex = 0;
   late final List<Widget> _navigationOptions = <Widget>[
-    EndpointNavigator(repository: widget.repository),
+    EndpointNavigator(endpointGateway: widget.endpointGateway),
     CompareChartsView(
-      repository: widget.repository,
+      endpointGateway: widget.endpointGateway,
     ),
     const ProfileView(),
   ];
@@ -41,12 +49,13 @@ class _AppState extends State<App> {
     final MediaQueryData queryData = MediaQuery.of(context);
 
     return FutureBuilder<List<EndpointSummary>>(
-        future: widget.repository.getEndpointSummary(),
+        future: widget.endpointGateway.getEndpointSummary(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.none ||
               snapshot.data == null) {
             return loadingInCenter();
           } else {
+
             return queryData.size.width > 560
                 ? _buildRailNavigationScaffold()
                 : _buildBottomNavigationScaffold();
@@ -55,6 +64,16 @@ class _AppState extends State<App> {
   }
 
   Scaffold _buildRailNavigationScaffold() {
+    final List<NavigationRailDestination> destinations = [
+      _buildRailNavigationItem(endpointList, endpointListIcon),
+      _buildRailNavigationItem(compareEndpoints, compareEndpointsIcon),
+      _buildRailNavigationItem(profile, profileIcon),
+    ];
+
+    if (widget.userRepository.isAdmin) {
+      destinations.add(_buildRailNavigationItem(admin, adminIcon));
+    }
+
     final Widget navi = Expanded(
       flex: 1,
       child: NavigationRail(
@@ -65,11 +84,7 @@ class _AppState extends State<App> {
           });
         },
         labelType: NavigationRailLabelType.selected,
-        destinations: [
-          _buildRailNavigationItem(endpointList, endpointListIcon),
-          _buildRailNavigationItem(compareEndpoints, compareEndpointsIcon),
-          _buildRailNavigationItem(profile, profileIcon),
-        ],
+        destinations: destinations,
       ),
     );
     return Scaffold(
@@ -96,14 +111,21 @@ class _AppState extends State<App> {
   }
 
   Scaffold _buildBottomNavigationScaffold() {
+    final List<BottomNavigationBarItem> destinations = [
+      _buildNavigationItem(endpointList, const Icon(Icons.map_outlined)),
+      _buildNavigationItem(
+          compareEndpoints, const Icon(Icons.area_chart_outlined)),
+      _buildNavigationItem(profile, const Icon(Icons.person_outline)),
+    ];
+
+    if (widget.userRepository.isAdmin) {
+      destinations.add(_buildNavigationItem(
+          admin, const Icon(Icons.admin_panel_settings_outlined)));
+    }
+
     final Widget navbar = BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
-      items: <BottomNavigationBarItem>[
-        _buildNavigationItem(endpointList, const Icon(Icons.map_outlined)),
-        _buildNavigationItem(
-            compareEndpoints, const Icon(Icons.area_chart_outlined)),
-        _buildNavigationItem(profile, const Icon(Icons.person_outline)),
-      ],
+      items: destinations,
       onTap: (index) => setState(() {
         _selectedIndex = index;
         if (index == 0) {}

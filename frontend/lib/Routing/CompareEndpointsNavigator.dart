@@ -1,13 +1,13 @@
+import 'package:adpv_frontend/Repository/EndpointRepository/EndpointGateway.dart';
 import 'package:flutter/material.dart';
 
 import '../Common/Routing.dart';
-import '../Repository/EndpointRepository/AbstractEndpointRepository.dart';
 import '../Views/EnpointListView.dart';
 
 class CompareEndpointsNavigator extends StatefulWidget {
-  final AbstractEndpointRepository repository;
+  final EndpointGateway endpointGateway;
 
-  const CompareEndpointsNavigator({required this.repository, Key? key})
+  const CompareEndpointsNavigator({required this.endpointGateway, Key? key})
       : super(key: key);
 
   @override
@@ -22,7 +22,7 @@ class _CompareEndpointsNavigatorState extends State<CompareEndpointsNavigator> {
           late Widget page;
           if (settings.name == compareEndpointsRoute) {
             page = EndpointListView(
-              repository: widget.repository,
+              repository: widget.endpointGateway,
             );
           }
           return MaterialPageRoute<dynamic>(builder: (context) => page);

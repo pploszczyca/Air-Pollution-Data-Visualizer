@@ -1,4 +1,4 @@
-import 'package:adpv_frontend/Repository/EndpointRepository/AbstractEndpointRepository.dart';
+import 'package:adpv_frontend/Repository/EndpointRepository/EndpointGateway.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -22,14 +22,14 @@ class EndpointListView extends StatefulWidget {
   const EndpointListView({required this.repository, Key? key})
       : super(key: key);
 
-  final AbstractEndpointRepository repository;
+  final EndpointGateway repository;
 
   @override
   State<EndpointListView> createState() => _EndpointListViewState();
 }
 
 class _EndpointListViewState extends State<EndpointListView> {
-  void onTapHandler(int id, AbstractEndpointRepository endpointRepository) {
+  void onTapHandler(int id, EndpointGateway endpointRepository) {
     Navigator.pushNamed(context, endpointViewRoute + "/" + id.toString());
   }
 
@@ -171,7 +171,7 @@ class _EndpointListViewState extends State<EndpointListView> {
                   return loadingInCenter();
                 }
                 return ChangeNotifierProvider(
-                    create: (context) => EndpointListProvider(snapshot.data!),
+                    create: (context) => EndpointListProvider(snapshot.data!, widget.repository),
                     child: Consumer<EndpointListProvider>(
                         builder: (context, endpointListProvider, _) =>
                             _buildExpansionList(

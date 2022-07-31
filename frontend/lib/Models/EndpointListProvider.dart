@@ -1,6 +1,4 @@
-import 'package:adpv_frontend/Repository/EndpointRepository/AbstractEndpointRepository.dart';
-import 'package:adpv_frontend/Repository/EndpointRepository/RestEndpointRepository.dart';
-import 'package:dio/dio.dart';
+import 'package:adpv_frontend/Repository/EndpointRepository/EndpointGateway.dart';
 import 'package:flutter/material.dart';
 
 import '../DataModels/EndpointData.dart';
@@ -31,9 +29,9 @@ class ExpansionPanelEndpoint {
 
 class EndpointListProvider with ChangeNotifier {
   List<ExpansionPanelEndpoint> endpointsList = [];
-  AbstractEndpointRepository repository = RestEndpointRepository(Dio());
+  EndpointGateway endpointGateway;
 
-  EndpointListProvider(List<EndpointSummary> list) {
+  EndpointListProvider(List<EndpointSummary> list, this.endpointGateway) {
     makeEndpointsList(list);
   }
 

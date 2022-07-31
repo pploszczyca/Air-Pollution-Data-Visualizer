@@ -1,5 +1,5 @@
-import 'package:adpv_frontend/Repository/EndpointRepository/RestEndpointRepository.dart';
-import 'package:dio/dio.dart';
+import 'package:adpv_frontend/Repository/EndpointRepository/EndpointGateway.dart';
+import 'package:adpv_frontend/Repository/UserRepository/UserGateway.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -12,8 +12,10 @@ Future main() async {
 
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
-  final RestEndpointRepository restEndpointRepository =
-      RestEndpointRepository(Dio());
+  final UserGateway restUserRepository = UserGateway();
+  final EndpointGateway endpointGateway = EndpointGateway();
+  
+      
 
   @override
   Widget build(BuildContext context) => MaterialApp(
@@ -22,7 +24,8 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         home: App(
-          repository: restEndpointRepository,
+          endpointGateway: endpointGateway,
+          userRepository: restUserRepository,
         ),
       );
 }

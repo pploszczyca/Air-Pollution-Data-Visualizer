@@ -17,10 +17,10 @@ class BackendResponse<T> {
         error = json["error"];
 }
 
-class RestEndpointService {
+class EndpointRestRepository {
   final Dio client = Dio();
 
-  RestEndpointService();
+  EndpointRestRepository();
 
   Future<List<EndpointSummary>> getEndpointSummaryList() async {
     await Future.delayed(const Duration(seconds: 5)); //for my dear reviewer :)
@@ -43,7 +43,7 @@ class RestEndpointService {
     return Future.value([]);
   }
 
-  bool isChartData(String field, List<EnableField> enableFieldsList) =>
+  bool _isChartData(String field, List<EnableField> enableFieldsList) =>
       !enableFieldsList
           .firstWhere((element) => element.label == field)
           .isForChart();
@@ -79,12 +79,12 @@ class RestEndpointService {
             backendResponse.data.map<Map<dynamic, dynamic>>((e) {
               final Map map = Map.from(e);
               map.removeWhere((key, value) =>
-                  isChartData(key, enableFields) && key != ignoreField);
+                  _isChartData(key, enableFields) && key != ignoreField);
               return map;
             }).toList(),
             backendResponse.data.map<Map<dynamic, dynamic>>((e) {
               final Map map = Map.from(e);
-              map.removeWhere((key, value) => !isChartData(key, enableFields));
+              map.removeWhere((key, value) => !_isChartData(key, enableFields));
               return map;
             }).toList(),
             enableFields,

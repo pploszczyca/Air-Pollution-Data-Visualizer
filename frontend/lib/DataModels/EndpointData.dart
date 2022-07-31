@@ -17,18 +17,20 @@ class EndpointData {
         enableFieldsList = [],
         technicalInfo = [];
 
-  List<dynamic> getCertainField(String field) => dataList.map((e) => e[field]).toList();
+  List<dynamic> getCertainField(String field) =>
+      dataList.map((e) => e[field]).toList();
 
-  bool isChartData(String field) => enableFieldsList
-            .firstWhere((element) => element.label == field)
-            .isForChart() ||
-        field == ignoreField;
+  bool isChartData(String field) =>
+      enableFieldsList
+          .firstWhere((element) => element.label == field)
+          .isForChart() ||
+      field == ignoreField;
 
   List<String> getAllRecentFields() => dataList[0]
-        .keys
-        .where((element) => element != ignoreField)
-        .map((e) => e.toString())
-        .toList();
+      .keys
+      .where((element) => element != ignoreField)
+      .map((e) => e.toString())
+      .toList();
 
   @override
   String toString() => 'EndpointData{dataList: $dataList}';

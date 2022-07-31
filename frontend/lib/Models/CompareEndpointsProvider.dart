@@ -1,10 +1,7 @@
 import 'dart:math';
 
-import 'package:adpv_frontend/Repository/AbstractEndpointRepository.dart';
-import 'package:adpv_frontend/Repository/RestEndpointRepository.dart';
-import 'package:dio/dio.dart';
+import 'package:adpv_frontend/Repository/EndpointRepository/EndpointGateway.dart';
 import 'package:flutter/cupertino.dart';
-
 
 import '../Common/Consts.dart';
 import '../DataModels/Endpoint.dart';
@@ -16,11 +13,20 @@ class CompareEndpointsModel extends ChangeNotifier {
   Map<String, bool> selectedChips = {};
   List<String> commonFields = [];
   List<String> selectedEndpoints = [];
-  AbstractEndpointRepository repository = RestEnpointRepository(Dio());
+  EndpointGateway endpointGateway;
 
-  CompareEndpointsModel();
+  CompareEndpointsModel(this.endpointGateway);
 
-  void selectChips( String label,  bool value) {
+  void clear() {
+    endpointSummaryMap = {};
+    endpointsMap = {};
+    selectedChips = {};
+    commonFields = [];
+    selectedEndpoints = [];
+    notifyListeners();
+  }
+
+  void selectChips(String label, bool value) {
     selectedChips[label] = value;
     notifyListeners();
   }
@@ -39,7 +45,7 @@ class CompareEndpointsModel extends ChangeNotifier {
       }
       final maxValue = counter.values.reduce(max);
       final List<String> newCommonFields = [];
-      counter.forEach(( key,  value) {
+      counter.forEach((key, value) {
         if (value == maxValue) {
           newCommonFields.add(key);
         }
@@ -55,13 +61,11 @@ class CompareEndpointsModel extends ChangeNotifier {
   void updateEndpointSelectedList(List<String> selected) {
     selectedEndpoints = selected;
     for (var endpointLabel in selectedEndpoints) {
-      if (!endpointsMap.containsKey(endpointLabel)) {
-        final EndpointSummary es = endpointSummaryMap[endpointLabel]!;
-        repository.getEndpointData(es.id, null, null).then((value) {
-          endpointsMap[es.label] = Endpoint.fromSummary(es, value);
-          updateCommonFields();
-        });
-      }
+      final EndpointSummary es = endpointSummaryMap[endpointLabel]!;
+      endpointGateway.getEndpointData(es.id, null, null, false).then((value) {
+        endpointsMap[es.label] = Endpoint.fromSummary(es, value);
+        updateCommonFields();
+      });
     }
   }
 
@@ -87,6 +91,6 @@ class CompareEndpointsModel extends ChangeNotifier {
   }
 
   List<String> getFieldsForDrawing() => selectedChips.keys
-        .where((field) => selectedChips[field]! == true)
-        .toList();
+      .where((field) => selectedChips[field]! == true)
+      .toList();
 }

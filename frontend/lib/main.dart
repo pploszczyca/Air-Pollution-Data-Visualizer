@@ -1,9 +1,9 @@
 import 'package:adpv_frontend/Repository/EndpointRepository/EndpointGateway.dart';
 import 'package:adpv_frontend/Repository/UserRepository/UserGateway.dart';
+import 'package:adpv_frontend/Logging/LoginView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-import 'App.dart';
 
 Future main() async {
   await loadEnvFile();
@@ -21,11 +21,8 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: App(
-          endpointGateway: endpointGateway,
-          userGateway: userGateway,
-        ),
-      );
+        home: const LoginView()
+    );
 }
 
 Future loadEnvFile() async {

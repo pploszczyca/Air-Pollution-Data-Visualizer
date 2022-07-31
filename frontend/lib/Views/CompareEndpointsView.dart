@@ -20,40 +20,50 @@ class CompareChartsView extends StatefulWidget {
 
 class _CompareChartsViewState extends State<CompareChartsView> {
   Widget chart = Container();
+  late CompareEndpointsModel model =
+      CompareEndpointsModel(widget.endpointGateway);
+
+  _pullDownRefresh() async {
+    widget.endpointGateway.clearEndpointDataCache();
+    model.clear();
+  }
 
   @override
   Widget build(BuildContext context) => ChangeNotifierProvider(
-        create: (context) => CompareEndpointsModel(widget.endpointGateway),
-        child: Scaffold(
-          appBar: buildAppBar(compareEndpointsViewAppBar),
-          body: FutureBuilder<List<EndpointSummary>>(
-            future: widget.endpointGateway.getEndpointSummary(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.none ||
-                  snapshot.data == null) {
-                return loadingInCenter();
-              } else {
-                return SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      buildDropDownSelection(context, snapshot),
-                      const SizedBox(height: 10),
-                      Consumer<CompareEndpointsModel>(
-                          builder: (context, endpointModel, child) => Wrap(
-                                children: _createChips(endpointModel),
-                              )),
-                      const SizedBox(height: 10),
-                      Consumer<CompareEndpointsModel>(
-                        builder: (context, endpointModel, child) {
-                          chart = _createChart(endpointModel);
-                          return chart;
-                        },
-                      ),
-                    ],
-                  ),
-                );
-              }
-            },
+        create: (context) => model,
+        child: RefreshIndicator(
+          onRefresh: () => _pullDownRefresh(),
+          child: Scaffold(
+            appBar: buildAppBar(compareEndpointsViewAppBar),
+            body: FutureBuilder<List<EndpointSummary>>(
+              future: widget.endpointGateway.getEndpointSummary(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.none ||
+                    snapshot.data == null) {
+                  return loadingInCenter();
+                } else {
+                  return SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        buildDropDownSelection(context, snapshot),
+                        const SizedBox(height: 10),
+                        Consumer<CompareEndpointsModel>(
+                            builder: (context, endpointModel, child) => Wrap(
+                                  children: _createChips(endpointModel),
+                                )),
+                        const SizedBox(height: 10),
+                        Consumer<CompareEndpointsModel>(
+                          builder: (context, endpointModel, child) {
+                            chart = _createChart(endpointModel);
+                            return chart;
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                }
+              },
+            ),
           ),
         ),
       );

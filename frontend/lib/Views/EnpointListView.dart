@@ -101,7 +101,7 @@ class _EndpointListViewState extends State<EndpointListView> {
                   ),
                   child: FutureBuilder<EndpointData>(
                     future: widget.repository.getEndpointData(
-                        expansionPanelEndpoint.id,null, null),
+                        expansionPanelEndpoint.id,null, null, false),
                     builder: (context, recentDataSnapshot) {
                       if (recentDataSnapshot.connectionState ==
                               ConnectionState.none ||

@@ -4,7 +4,7 @@ import '../../DataModels/EndpointSummary.dart';
 
 class EndpointCache {
   final List<EndpointSummary> _endpointSummaryList = [];
-  final Map<int, Endpoint> _endpointMap = {};
+  late Map<int, Endpoint> _endpointMap = {};
   bool _isEndpointSummaryLoaded = false;
 
   EndpointCache();
@@ -12,8 +12,15 @@ class EndpointCache {
   Future<List<EndpointSummary>> getEndpointSummary() async =>
       Future.value(_endpointSummaryList);
 
-  Future<EndpointData> getEndpointData(int id) =>
-      Future.value(_endpointMap[id]!.data);
+  Future<EndpointData> getEndpointData(int id, int limit, int offset) {
+    if (limit != -1 && offset != -1) {
+      return Future.value(EndpointData(
+          _endpointMap[id]!.data.dataList.sublist(offset, limit),
+          _endpointMap[id]!.data.technicalInfo,
+          _endpointMap[id]!.data.enableFieldsList));
+    }
+    return Future.value(_endpointMap[id]!.data);
+  }
 
   bool isEndpointInCache(int endpointId) =>
       _endpointMap.containsKey(endpointId);
@@ -29,15 +36,18 @@ class EndpointCache {
     _isEndpointSummaryLoaded = true;
   }
 
+  void clearEndpointDataCache(){
+    _endpointMap = {};
+  }
+
   void saveEndpoint(int id, EndpointData data) {
     final EndpointSummary summary =
         _endpointSummaryList.singleWhere((element) => element.id == id);
     if (isEndpointInCache(id)) {
-      _endpointMap[id] =
-          Endpoint.fromSummary(summary, data);
+      _endpointMap[id] = Endpoint.fromSummary(summary, data);
       print("SAVED DATA: " + data.toString());
     } else {
-      _endpointMap.putIfAbsent(id,() => Endpoint.fromSummary(summary, data));
+      _endpointMap.putIfAbsent(id, () => Endpoint.fromSummary(summary, data));
     }
   }
 }

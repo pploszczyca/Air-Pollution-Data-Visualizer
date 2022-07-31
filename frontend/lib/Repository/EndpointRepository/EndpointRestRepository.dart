@@ -23,7 +23,7 @@ class EndpointRestRepository {
   EndpointRestRepository();
 
   Future<List<EndpointSummary>> getEndpointSummaryList() async {
-    await Future.delayed(const Duration(seconds: 5)); //for my dear reviewer :)
+    await Future.delayed(const Duration(seconds: 1)); //for my dear reviewer :)
     List<EndpointSummary> endpointSummaryList = [];
     try {
       final Response response =
@@ -49,7 +49,7 @@ class EndpointRestRepository {
           .isForChart();
 
   Future<EndpointData> getEndpointData(int id, int? limit, int? offset) async {
-    await Future.delayed(const Duration(seconds: 5)); //for my dear reviewer :)
+    await Future.delayed(const Duration(seconds: 1)); //for my dear reviewer :)
     limit = limit ?? 25;
     offset = offset ?? 0;
     try {

@@ -22,10 +22,11 @@ class EndpointGateway {
     return summary;
   }
 
-  Future<EndpointData> getEndpointData(int id, int? limit, int? offset) {
-    if (endpointCache.isEndpointInCache(id)) {
-      print("LOADING ENDPOINT FROM CACHE: $id");
-      return endpointCache.getEndpointData(id);
+  Future<EndpointData> getEndpointData(int id, int? limit, int? offset, bool needUpdate) {
+    limit = limit ?? -1;
+    offset = offset ?? -1;
+    if (endpointCache.isEndpointInCache(id) && !needUpdate) {
+      return endpointCache.getEndpointData(id, limit, offset);
     } else {
       final Future<EndpointData> endpointDataFuture =
           restRepository.getEndpointData(id, limit, offset);
@@ -34,6 +35,10 @@ class EndpointGateway {
       });
       return endpointDataFuture;
     }
+  }
+
+  void clearEndpointDataCache(){
+    endpointCache.clearEndpointDataCache();
   }
 
   void reloadSummary(){

@@ -10,7 +10,6 @@ import 'Profile/ProfileView.dart';
 const String endpointList = "Endpoint List";
 const String compareEnpoints = "Compare";
 const String profile = "Profile";
-const String login = "login";
 
 const int endpointListIcon = 0xf1ae;
 const int compareEndpointsIcon = 0xf05bb;
@@ -37,8 +36,7 @@ class _AppState extends State<App> {
     CompareChartsView(
       repository: widget.repository,
     ),
-    const ProfileView(),
-    const LoginView()
+    const ProfileView()
   ];
 
   @override
@@ -64,8 +62,7 @@ class _AppState extends State<App> {
         destinations: [
           _buildRailNavigationItem(endpointList, endpointListIcon),
           _buildRailNavigationItem(compareEnpoints,  compareEndpointsIcon),
-          _buildRailNavigationItem(profile,  profileIcon),
-          _buildRailNavigationItem(login, profileIcon)
+          _buildRailNavigationItem(profile,  profileIcon)
         ],
       ),
     );
@@ -99,8 +96,7 @@ class _AppState extends State<App> {
         _buildNavigationItem(endpointList, const Icon(Icons.map_outlined)),
         _buildNavigationItem(
             compareEnpoints, const Icon(Icons.area_chart_outlined)),
-        _buildNavigationItem(profile, const Icon(Icons.person_outline)),
-        _buildNavigationItem(login, const Icon(Icons.person_outline)),
+        _buildNavigationItem(profile, const Icon(Icons.person_outline))
       ],
       onTap: (index) => setState(() {
         _selectedIndex = index;

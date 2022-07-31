@@ -24,13 +24,14 @@ class EndpointGateway {
 
   Future<EndpointData> getEndpointData(int id, int? limit, int? offset) {
     if (endpointCache.isEndpointInCache(id)) {
-      print("LOADING ENDPOINT FROM CACHE:" + id.toString());
-      return endpointCache.getEndpointData(id, limit, offset);
+      print("LOADING ENDPOINT FROM CACHE: $id");
+      return endpointCache.getEndpointData(id);
     } else {
-      print("RESTING ENDPOINTDATA");
       final Future<EndpointData> endpointDataFuture =
           restRepository.getEndpointData(id, limit, offset);
-      endpointDataFuture.then((value) => endpointCache.saveEndpoint(id, value));
+      endpointDataFuture.then((value) {
+        endpointCache.saveEndpoint(id, value);
+      });
       return endpointDataFuture;
     }
   }

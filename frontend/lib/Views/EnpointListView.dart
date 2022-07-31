@@ -101,15 +101,18 @@ class _EndpointListViewState extends State<EndpointListView> {
                   ),
                   child: FutureBuilder<EndpointData>(
                     future: widget.repository.getEndpointData(
-                        expansionPanelEndpoint.id, limit, offset),
+                        expansionPanelEndpoint.id,null, null),
                     builder: (context, recentDataSnapshot) {
                       if (recentDataSnapshot.connectionState ==
                               ConnectionState.none ||
                           recentDataSnapshot.data == null) {
                         return loadingInCenter();
                       } else {
+                        // line below temporary fixes always loading everything problem
                         expansionPanelEndpoint
-                            .setRecentData(recentDataSnapshot.data!);
+                            .setRecentData(EndpointData([recentDataSnapshot.data!.dataList.first],
+                            [recentDataSnapshot.data!.technicalInfo.first],
+                           [recentDataSnapshot.data!.enableFieldsList.first]));
                         return ListView.builder(
                             physics: const AlwaysScrollableScrollPhysics(),
                             padding: const EdgeInsets.only(top: 10),

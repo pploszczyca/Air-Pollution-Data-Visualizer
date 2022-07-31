@@ -1,26 +1,30 @@
-import 'package:adpv_frontend/Repository/AbstractEndpointRepository.dart';
-import 'package:adpv_frontend/Repository/MockRepository.dart';
+import 'package:adpv_frontend/DataModels/EndpointSummary.dart';
+import 'package:adpv_frontend/Repository/EndpointRepository/EndpointGateway.dart';
+import 'package:adpv_frontend/Repository/UserRepository/UserGateway.dart';
+import 'package:adpv_frontend/Widgets/CommonWidgets.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import 'CompareEndpoints/CompareEndpointsView.dart';
-import 'EndpointList/EndpointNavigator.dart';
-import 'Profile/ProfileView.dart';
-import 'Providers/CompareEndpointsModel.dart';
+import 'Routing/EndpointNavigator.dart';
+import 'Views/CompareEndpointsView.dart';
+import 'Views/ProfileView.dart';
 
 const String endpointList = "Endpoint List";
-const String compareEnpoints = "Compare";
+const String compareEndpoints = "Compare";
 const String profile = "Profile";
+const String admin = "Admin";
 
 const int endpointListIcon = 0xf1ae;
 const int compareEndpointsIcon = 0xf05bb;
 const int profileIcon = 0xf27a;
+const int adminIcon = 0xe062;
 
 class App extends StatefulWidget {
-  EndpointRepository endpointRepository;
-  AbstractEndpointRepository repository;
+  final EndpointGateway endpointGateway;
+  final UserGateway userGateway;
 
-  App({Key? key, required this.endpointRepository, required this.repository}) : super(key: key);
+  const App(
+      {required this.endpointGateway, required this.userGateway, Key? key})
+      : super(key: key);
 
   @override
   State<App> createState() => _AppState();
@@ -31,38 +35,53 @@ class _AppState extends State<App> {
 
   int _selectedIndex = 0;
   late final List<Widget> _navigationOptions = <Widget>[
-    EndpointNavigator(repository: widget.repository),
-     CompareChartsView(
-        repository: widget.repository,
-      ),
+    EndpointNavigator(endpointGateway: widget.endpointGateway),
+    CompareChartsView(
+      endpointGateway: widget.endpointGateway,
+    ),
     const ProfileView(),
   ];
 
   @override
   Widget build(BuildContext context) {
-    MediaQueryData queryData = MediaQuery.of(context);
+    final MediaQueryData queryData = MediaQuery.of(context);
 
-    return queryData.size.width > 560
-        ? _buildRailNavigationScaffold()
-        : _buildBottomNavigationScaffold();
+    return FutureBuilder<List<EndpointSummary>>(
+        future: widget.endpointGateway.getEndpointSummary(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.none ||
+              snapshot.data == null) {
+            return loadingInCenter();
+          } else {
+            return queryData.size.width > 560
+                ? _buildRailNavigationScaffold()
+                : _buildBottomNavigationScaffold();
+          }
+        });
   }
 
   Scaffold _buildRailNavigationScaffold() {
-    Widget _navi = Expanded(
+    final List<NavigationRailDestination> destinations = [
+      _buildRailNavigationItem(endpointList, endpointListIcon),
+      _buildRailNavigationItem(compareEndpoints, compareEndpointsIcon),
+      _buildRailNavigationItem(profile, profileIcon),
+    ];
+
+    if (widget.userGateway.isAdmin) {
+      destinations.add(_buildRailNavigationItem(admin, adminIcon));
+    }
+
+    final Widget navi = Expanded(
       flex: 1,
       child: NavigationRail(
         selectedIndex: _selectedIndex,
-        onDestinationSelected: (int index) {
+        onDestinationSelected: (index) {
           setState(() {
             _selectedIndex = index;
           });
         },
         labelType: NavigationRailLabelType.selected,
-        destinations: [
-          _buildRailNavigationItem(endpointList, endpointListIcon),
-          _buildRailNavigationItem(compareEnpoints,  compareEndpointsIcon),
-          _buildRailNavigationItem(profile,  profileIcon),
-        ],
+        destinations: destinations,
       ),
     );
     return Scaffold(
@@ -72,7 +91,7 @@ class _AppState extends State<App> {
           width: 100,
           child: Column(
             children: [
-              _navi,
+              navi,
             ],
           ),
         ),
@@ -89,13 +108,21 @@ class _AppState extends State<App> {
   }
 
   Scaffold _buildBottomNavigationScaffold() {
-    Widget _navBar = BottomNavigationBar(
+    final List<BottomNavigationBarItem> destinations = [
+      _buildNavigationItem(endpointList, const Icon(Icons.map_outlined)),
+      _buildNavigationItem(
+          compareEndpoints, const Icon(Icons.area_chart_outlined)),
+      _buildNavigationItem(profile, const Icon(Icons.person_outline)),
+    ];
+
+    if (widget.userGateway.isAdmin) {
+      destinations.add(_buildNavigationItem(
+          admin, const Icon(Icons.admin_panel_settings_outlined)));
+    }
+
+    final Widget navbar = BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
-      items: <BottomNavigationBarItem>[
-        _buildNavigationItem(endpointList, const Icon(Icons.map_outlined)),
-        _buildNavigationItem(compareEnpoints, const  Icon(Icons.area_chart_outlined)),
-        _buildNavigationItem(profile, const Icon(Icons.person_outline)),
-      ],
+      items: destinations,
       onTap: (index) => setState(() {
         _selectedIndex = index;
         if (index == 0) {}
@@ -108,31 +135,32 @@ class _AppState extends State<App> {
         index: _selectedIndex,
         children: _navigationOptions,
       ),
-      bottomNavigationBar: _navBar,
+      bottomNavigationBar: navbar,
     );
   }
 
-  NavigationRailDestination _buildRailNavigationItem(String stringLabel, int codePoint) { //because of not const icons needed flag  --no-tree-shake-icons
-    return NavigationRailDestination(
-      icon: Icon(IconData(codePoint, fontFamily: 'MaterialIcons'), size: 30,),
-      selectedIcon:
-      Icon(
-        IconData(codePoint, fontFamily: 'MaterialIcons'),
-        color: Colors.pink,
-        size: 35,
-      ),
-      label: Text(
-        stringLabel,
-        style: const TextStyle(color: Colors.pink),
-        textAlign: TextAlign.center,
-      ),
-    );
-  }
+  NavigationRailDestination _buildRailNavigationItem(
+          String stringLabel, int codePoint) =>
+      NavigationRailDestination(
+        icon: Icon(
+          IconData(codePoint, fontFamily: 'MaterialIcons'),
+          size: 30,
+        ),
+        selectedIcon: Icon(
+          IconData(codePoint, fontFamily: 'MaterialIcons'),
+          color: Colors.pink,
+          size: 35,
+        ),
+        label: Text(
+          stringLabel,
+          style: const TextStyle(color: Colors.pink),
+          textAlign: TextAlign.center,
+        ),
+      );
 
-  BottomNavigationBarItem _buildNavigationItem(String stringLabel, Icon icon) {
-    return BottomNavigationBarItem(
-      icon: icon,
-      label: stringLabel,
-    );
-  }
+  BottomNavigationBarItem _buildNavigationItem(String stringLabel, Icon icon) =>
+      BottomNavigationBarItem(
+        icon: icon,
+        label: stringLabel,
+      );
 }

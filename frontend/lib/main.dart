@@ -1,8 +1,8 @@
-import 'package:adpv_frontend/Repository/MockRepository.dart';
-import 'package:adpv_frontend/Repository/RestClient.dart';
-import 'package:dio/dio.dart';
+import 'package:adpv_frontend/Repository/EndpointRepository/EndpointGateway.dart';
+import 'package:adpv_frontend/Repository/UserRepository/UserGateway.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 import 'App.dart';
 
 Future main() async {
@@ -12,22 +12,20 @@ Future main() async {
 
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
-  final EndpointRepository endpointRepository = EndpointRepository.mock();
-  final RestClient restClient = RestClient(Dio());
+  final UserGateway userGateway = UserGateway();
+  final EndpointGateway endpointGateway = EndpointGateway();
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+  Widget build(BuildContext context) => MaterialApp(
         title: 'APDV Demo',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
         home: App(
-          endpointRepository: endpointRepository,
-          repository: restClient,
+          endpointGateway: endpointGateway,
+          userGateway: userGateway,
         ),
-    );
-  }
+      );
 }
 
 Future loadEnvFile() async {

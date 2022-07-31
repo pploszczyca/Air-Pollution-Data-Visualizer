@@ -1,9 +1,9 @@
 import 'package:adpv_frontend/Logging/LoginView.dart';
-import 'package:adpv_frontend/Repository/MockRepository.dart';
-import 'package:adpv_frontend/Repository/RestClient.dart';
+import 'package:adpv_frontend/Repository/RestEndpointRepository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 import 'App.dart';
 
 Future main() async {
@@ -13,8 +13,7 @@ Future main() async {
 
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
-  final EndpointRepository endpointRepository = EndpointRepository.mock();
-  final RestClient restClient = RestClient(Dio());
+  final RestEnpointRepository restClient = RestEnpointRepository(Dio());
 
   @override
   Widget build(BuildContext context) => MaterialApp(

@@ -10,7 +10,7 @@ public interface EndpointRepository extends CrudRepository<Endpoint, Long> {
 
     @Query("SELECT e.endpoint FROM User u " +
             "INNER JOIN u.groups g " +
-            "INNER JOIN g.enableEndpointsForGroups e " +
+            "INNER JOIN g.groupEndpoints e " +
             "WHERE u.id = ?1")
     Iterable<Endpoint> findAllThatBelongToUser(Long userId);
 }

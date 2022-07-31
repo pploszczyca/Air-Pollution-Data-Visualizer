@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,7 +25,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@JsonIgnoreProperties({"enableEndpointsForGroups"})
+@JsonIgnoreProperties({"groupEndpoints"})
 public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,6 +33,7 @@ public class Group {
     private Long id;
 
     @Schema(required = true)
+    @Column(unique = true)
     private String name;
 
     @ManyToMany
@@ -43,7 +45,7 @@ public class Group {
     private Set<User> usersInGroup = new HashSet<>();
 
     @OneToMany(mappedBy = "group")
-    private List<EnableEndpointsForGroup> enableEndpointsForGroups =
+    private List<GroupEndpoint> groupEndpoints =
             new ArrayList<>();
 
     public void addUser(User user) {

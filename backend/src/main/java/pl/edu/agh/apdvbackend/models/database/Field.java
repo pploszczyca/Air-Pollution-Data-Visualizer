@@ -24,7 +24,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@JsonIgnoreProperties({"enableEndpointsForGroup"})
+@JsonIgnoreProperties({"groupEndpoint"})
 public class Field {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,6 +44,6 @@ public class Field {
     private Unit unit;
 
     @ManyToMany(mappedBy = "enableFields")
-    private List<EnableEndpointsForGroup> enableEndpointsForGroup =
+    private List<GroupEndpoint> groupEndpoint =
             new ArrayList<>();
 }

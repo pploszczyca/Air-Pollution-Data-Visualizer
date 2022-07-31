@@ -1,5 +1,3 @@
-
-
 class Unit {
   int id;
   String name;
@@ -26,7 +24,8 @@ class EnableField {
         unit = Unit.fromJson(json['unit'] ?? {}); // important "{}" :))
 
   @override
-  String toString() => 'EnableField{id: $id, label: $label, fieldType: $fieldType, unit: $unit} \n';
+  String toString() =>
+      'EnableField{id: $id, label: $label, fieldType: $fieldType, unit: $unit} \n';
 
   bool isForChart() => fieldType == "FOR_CHART";
 

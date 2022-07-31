@@ -17,60 +17,60 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView>
     with SingleTickerProviderStateMixin {
-  FormType formType = FormType.signin;
-  late TabController tabController;
+  FormType _formType = FormType.signin;
+  late TabController _tabController;
 
-  final TextEditingController emailLoginController = TextEditingController();
-  final TextEditingController passwordLoginController = TextEditingController();
-  final TextEditingController emailCreateController = TextEditingController();
-  final TextEditingController passwordCreateController =
+  final TextEditingController _emailLoginController = TextEditingController();
+  final TextEditingController _passwordLoginController = TextEditingController();
+  final TextEditingController _emailCreateController = TextEditingController();
+  final TextEditingController _passwordCreateController =
       TextEditingController();
 
-  ButtonState loginButtonState = ButtonState.disabled;
-  ButtonState createButtonState = ButtonState.disabled;
+  ButtonState _loginButtonState = ButtonState.disabled;
+  ButtonState _createButtonState = ButtonState.disabled;
 
   @override
   void initState() {
     super.initState();
-    tabController = TabController(length: 2, vsync: this);
-    tabController.addListener(() {
+    _tabController = TabController(length: 2, vsync: this);
+    _tabController.addListener(() {
       setState(() {
-        formType = FormType.values[tabController.index];
+        _formType = FormType.values[_tabController.index];
       });
     });
   }
 
   @override
   void dispose() {
-    tabController.dispose();
+    _tabController.dispose();
     super.dispose();
   }
 
   void enableSubmitButton(ButtonState buttonState) {
     setState(() {
-      if (formType == FormType.signin) {
-        loginButtonState = buttonState;
-      } else if (formType == FormType.signup) {
-        createButtonState = buttonState;
+      if (_formType == FormType.signin) {
+        _loginButtonState = buttonState;
+      } else if (_formType == FormType.signup) {
+        _createButtonState = buttonState;
       }
     });
   }
 
-  void listenForLoginInput() {
-    if (emailLoginController.text.isNotEmpty &&
-        passwordLoginController.text.isNotEmpty &&
-        checkEmailRegex(emailLoginController.text)) {
+  void _listenForLoginInput() {
+    if (_emailLoginController.text.isNotEmpty &&
+        _passwordLoginController.text.isNotEmpty &&
+        checkEmailRegex(_emailLoginController.text)) {
       enableSubmitButton(ButtonState.enabled);
     } else {
       enableSubmitButton(ButtonState.disabled);
     }
   }
 
-  void listenForCreateInput() {
-    if (emailCreateController.text.isNotEmpty &&
-        passwordCreateController.text.isNotEmpty &&
-        checkEmailRegex(emailCreateController.text) &&
-        checkPasswordRegex(passwordCreateController.text)) {
+  void _listenForCreateInput() {
+    if (_emailCreateController.text.isNotEmpty &&
+        _passwordCreateController.text.isNotEmpty &&
+        checkEmailRegex(_emailCreateController.text) &&
+        checkPasswordRegex(_passwordCreateController.text)) {
       enableSubmitButton(ButtonState.enabled);
     } else {
       enableSubmitButton(ButtonState.disabled);
@@ -78,20 +78,20 @@ class _LoginViewState extends State<LoginView>
   }
 
   _LoginViewState() {
-    emailLoginController.addListener(listenForLoginInput);
-    passwordLoginController.addListener(listenForLoginInput);
-    emailCreateController.addListener(listenForCreateInput);
-    passwordCreateController.addListener(listenForCreateInput);
+    _emailLoginController.addListener(_listenForLoginInput);
+    _passwordLoginController.addListener(_listenForLoginInput);
+    _emailCreateController.addListener(_listenForCreateInput);
+    _passwordCreateController.addListener(_listenForCreateInput);
   }
 
   void onSubmitButton() {
     late AuthenticateForm form;
-    if (formType == FormType.signin) {
-      form = AuthenticateForm(emailLoginController.text,
-          passwordLoginController.text, FormType.signin);
-    } else if (formType == FormType.signup) {
-      form = AuthenticateForm(emailCreateController.text,
-          passwordLoginController.text, FormType.signup);
+    if (_formType == FormType.signin) {
+      form = AuthenticateForm(_emailLoginController.text,
+          _passwordLoginController.text, FormType.signin);
+    } else if (_formType == FormType.signup) {
+      form = AuthenticateForm(_emailCreateController.text,
+          _passwordLoginController.text, FormType.signup);
     }
   }
 
@@ -185,7 +185,7 @@ class _LoginViewState extends State<LoginView>
         style: TextStyle(
           fontSize: 18,
           fontFamily: 'Ubuntu Condensed',
-          color: checkPasswordRegex(passwordCreateController.text)
+          color: checkPasswordRegex(_passwordCreateController.text)
               ? Colors.green
               : Colors.red,
         ),
@@ -262,7 +262,7 @@ class _LoginViewState extends State<LoginView>
   TabBar _buildTabBar() => TabBar(
         indicatorColor: loginPagePrimaryColor,
         indicatorWeight: 5,
-        controller: tabController,
+        controller: _tabController,
         tabs: const [
           Tab(
             child: Text(
@@ -282,12 +282,12 @@ class _LoginViewState extends State<LoginView>
   Expanded _buildExpandedTabs() => Expanded(
       flex: 1,
       child: TabBarView(
-        controller: tabController,
+        controller: _tabController,
         children: [
-          _buildInputFormPanel('WELCOME AGAIN', 'LOG IN', loginButtonState,
-              emailLoginController, passwordLoginController, FormType.signin),
-          _buildInputFormPanel('HI NEW USER', 'CREATE', createButtonState,
-              emailCreateController, passwordCreateController, FormType.signup),
+          _buildInputFormPanel('WELCOME AGAIN', 'LOG IN', _loginButtonState,
+              _emailLoginController, _passwordLoginController, FormType.signin),
+          _buildInputFormPanel('HI NEW USER', 'CREATE', _createButtonState,
+              _emailCreateController, _passwordCreateController, FormType.signup),
         ],
       ));
 

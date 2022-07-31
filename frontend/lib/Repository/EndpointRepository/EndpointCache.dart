@@ -14,10 +14,11 @@ class EndpointCache {
 
   Future<EndpointData> getEndpointData(int id, int limit, int offset) {
     if (limit != -1 && offset != -1) {
+      final endpointData = _endpointMap[id]!.data;
       return Future.value(EndpointData(
-          _endpointMap[id]!.data.dataList.sublist(offset, limit),
-          _endpointMap[id]!.data.technicalInfo,
-          _endpointMap[id]!.data.enableFieldsList));
+          endpointData.dataList.sublist(offset, limit),
+          endpointData.technicalInfo,
+          endpointData.enableFieldsList));
     }
     return Future.value(_endpointMap[id]!.data);
   }
@@ -43,10 +44,6 @@ class EndpointCache {
   void saveEndpoint(int id, EndpointData data) {
     final EndpointSummary summary =
         _endpointSummaryList.singleWhere((element) => element.id == id);
-    if (isEndpointInCache(id)) {
-      _endpointMap[id] = Endpoint.fromSummary(summary, data);
-    } else {
-      _endpointMap.putIfAbsent(id, () => Endpoint.fromSummary(summary, data));
-    }
+        _endpointMap[id] = Endpoint.fromSummary(summary, data);
   }
 }

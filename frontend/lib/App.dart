@@ -20,10 +20,10 @@ const int adminIcon = 0xe062;
 
 class App extends StatefulWidget {
   final EndpointGateway endpointGateway;
-  final UserGateway userRepository;
+  final UserGateway userGateway;
 
   const App(
-      {required this.endpointGateway, required this.userRepository, Key? key})
+      {required this.endpointGateway, required this.userGateway, Key? key})
       : super(key: key);
 
   @override
@@ -67,7 +67,7 @@ class _AppState extends State<App> {
       _buildRailNavigationItem(profile, profileIcon),
     ];
 
-    if (widget.userRepository.isAdmin) {
+    if (widget.userGateway.isAdmin) {
       destinations.add(_buildRailNavigationItem(admin, adminIcon));
     }
 
@@ -115,7 +115,7 @@ class _AppState extends State<App> {
       _buildNavigationItem(profile, const Icon(Icons.person_outline)),
     ];
 
-    if (widget.userRepository.isAdmin) {
+    if (widget.userGateway.isAdmin) {
       destinations.add(_buildNavigationItem(
           admin, const Icon(Icons.admin_panel_settings_outlined)));
     }

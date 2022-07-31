@@ -12,7 +12,7 @@ Future main() async {
 
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
-  final UserGateway restUserRepository = UserGateway();
+  final UserGateway userGateway = UserGateway();
   final EndpointGateway endpointGateway = EndpointGateway();
 
   @override
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
         ),
         home: App(
           endpointGateway: endpointGateway,
-          userRepository: restUserRepository,
+          userGateway: userGateway,
         ),
       );
 }

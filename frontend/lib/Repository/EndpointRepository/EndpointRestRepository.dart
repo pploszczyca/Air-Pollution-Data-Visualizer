@@ -24,7 +24,6 @@ class EndpointRestRepository {
 
   Future<List<EndpointSummary>> getEndpointSummaryList() async {
     await Future.delayed(const Duration(seconds: 1)); //for my dear reviewer :)
-    List<EndpointSummary> endpointSummaryList = [];
     try {
       final Response response =
           await client.get(backendURL + getDataSummaryURL);
@@ -32,6 +31,7 @@ class EndpointRestRepository {
         final BackendResponse backendResponse =
             BackendResponse.fromJson(response.data);
         if (backendResponse.error == "") {
+          List<EndpointSummary> endpointSummaryList = [];
           endpointSummaryList = backendResponse.data
               .map<EndpointSummary>((e) =>
                   EndpointSummary.fromJson(e)) // do not refactor! UFO MAGIC!

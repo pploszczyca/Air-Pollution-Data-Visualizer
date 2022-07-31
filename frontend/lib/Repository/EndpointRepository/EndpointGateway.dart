@@ -27,14 +27,20 @@ class EndpointGateway {
     if (endpointCache.isEndpointInCache(id) && !needUpdate) {
       return endpointCache.getEndpointData(id, limit, offset);
     } else {
-      final Future<EndpointData> endpointDataFuture =
-          restRepository.getEndpointData(id, limit, offset);
-      endpointDataFuture.then((value) {
-        endpointCache.saveEndpoint(id, value);
-      });
-      return endpointDataFuture;
+      return updateCacheAndGetEndpointData(id, limit, offset);
     }
   }
+
+  Future<EndpointData> updateCacheAndGetEndpointData(int id, int limit, int offset) {
+    final Future<EndpointData> endpointDataFuture =
+        restRepository.getEndpointData(id, limit, offset);
+    endpointDataFuture.then((value) {
+      endpointCache.saveEndpoint(id, value);
+    });
+    return endpointDataFuture;
+  }
+  
+  
 
   void clearEndpointDataCache() {
     endpointCache.clearEndpointDataCache();

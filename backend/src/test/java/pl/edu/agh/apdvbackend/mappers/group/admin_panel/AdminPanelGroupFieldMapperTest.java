@@ -93,7 +93,7 @@ class AdminPanelGroupFieldMapperTest {
     }
 
     @Nested
-    class IsFieldBelongsToGroupTest {
+    class IsFieldInGroupTest {
         @Test
         public void shouldReturnFalse_IfFieldNotBelongsToEnableFields() {
             // Given
@@ -102,7 +102,7 @@ class AdminPanelGroupFieldMapperTest {
 
             // When
             final var result =
-                    mapper.isFieldBelongsToGroup(field, enableFields);
+                    mapper.isFieldInGroup(field, enableFields);
 
             // Then
             assertFalse(result);
@@ -116,7 +116,7 @@ class AdminPanelGroupFieldMapperTest {
 
             // When
             final var result =
-                    mapper.isFieldBelongsToGroup(field, enableFields);
+                    mapper.isFieldInGroup(field, enableFields);
 
             // Then
             assertTrue(result);

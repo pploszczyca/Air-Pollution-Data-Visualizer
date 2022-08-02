@@ -19,12 +19,12 @@ public abstract class AdminPanelGroupFieldMapper {
     }
 
     @Mapping(target = "unitName", source = "field.unit.name")
-    @Mapping(target = "isBelongingToGroup", expression = "java(isFieldBelongsToGroup(field, enableFields))")
+    @Mapping(target = "isBelongingToGroup", expression = "java(isFieldInGroup(field, enableFields))")
     public abstract AdminPanelGroupResponseBody.Endpoint.Field toField(
             Field field, List<Field> enableFields);
 
-    protected boolean isFieldBelongsToGroup(Field field,
-                                            List<Field> enableFields) {
+    protected boolean isFieldInGroup(Field field,
+                                     List<Field> enableFields) {
         return enableFields.contains(field);
     }
 }

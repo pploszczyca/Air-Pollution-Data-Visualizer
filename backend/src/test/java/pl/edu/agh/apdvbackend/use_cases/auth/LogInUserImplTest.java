@@ -49,12 +49,11 @@ class LogInUserImplTest {
 
     @Test
     public void generateSuccessfulJwtResponse() {
-        final var name = "Karol";
         final var email = "test@test.com";
         final var password = "1234";
         final var logInRequestBody = new LogInRequestBody(email, password);
         final var addUserRequestBody =
-                new AddUserRequestBody(name, email, password);
+                new AddUserRequestBody(email, password);
         addUser.execute(addUserRequestBody);
 
         final var result = logInUser.execute(logInRequestBody);

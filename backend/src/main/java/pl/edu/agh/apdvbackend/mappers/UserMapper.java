@@ -41,7 +41,8 @@ public abstract class UserMapper {
 
     public abstract ShortUserResponseBody toShortResponseBody(User user);
 
-    public abstract List<ShortUserResponseBody> toShortResponseBodyList(List<User> users);
+    public abstract List<ShortUserResponseBody> toShortResponseBodyList(
+            List<User> users);
 
     public abstract LogInRequestBody addUserToLogIn(
             AddUserRequestBody addUserRequestBody);

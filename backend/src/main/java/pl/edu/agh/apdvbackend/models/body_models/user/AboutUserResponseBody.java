@@ -6,7 +6,6 @@ import pl.edu.agh.apdvbackend.models.body_models.group.ShortGroupInfoResponseBod
 
 public record AboutUserResponseBody(
         @Schema(required = true) Long id,
-        @Schema(required = true) String name,
         @Schema(required = true) String email,
         @Schema(required = true) List<ShortGroupInfoResponseBody> userGroups
 ) {

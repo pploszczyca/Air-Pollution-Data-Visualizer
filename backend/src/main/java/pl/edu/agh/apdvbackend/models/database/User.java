@@ -31,9 +31,6 @@ public class User {
     private Long id;
 
     @Schema(required = true)
-    private String name;
-
-    @Schema(required = true)
     @Column(unique = true)
     private String email;
 

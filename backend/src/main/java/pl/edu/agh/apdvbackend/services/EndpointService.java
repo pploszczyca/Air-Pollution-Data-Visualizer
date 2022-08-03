@@ -6,8 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
 import pl.edu.agh.apdvbackend.models.body_models.endpoint.AddEndpointRequestBody;
-import pl.edu.agh.apdvbackend.models.body_models.endpoint.EndpointWithField;
 import pl.edu.agh.apdvbackend.models.body_models.endpoint.EndpointSummaryResponseBody;
+import pl.edu.agh.apdvbackend.models.body_models.endpoint.EndpointWithField;
 import pl.edu.agh.apdvbackend.models.body_models.endpoint.UserEndpointResponseBody;
 import pl.edu.agh.apdvbackend.models.database.Endpoint;
 import pl.edu.agh.apdvbackend.use_cases.endpoint.GetAllEndpointSummaries;
@@ -47,8 +47,8 @@ public class EndpointService {
     }
 
     public Response<EndpointWithField> getDataWithFields(Long sensorId,
-                                                    Long limit,
-                                                    Long offset) {
+                                                         Long limit,
+                                                         Long offset) {
         return Response.withOkStatus(
                 getUserEndpointDataWithFields.execute(
                         findCurrentUserId.execute(), sensorId, limit, offset));

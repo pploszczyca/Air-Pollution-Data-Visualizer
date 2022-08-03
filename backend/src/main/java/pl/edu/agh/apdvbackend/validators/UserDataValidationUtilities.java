@@ -2,7 +2,6 @@ package pl.edu.agh.apdvbackend.validators;
 
 import java.util.regex.Pattern;
 import pl.edu.agh.apdvbackend.exceptions.IncorrectEmailException;
-import pl.edu.agh.apdvbackend.exceptions.IncorrectNameException;
 
 public class UserDataValidationUtilities {
     /**
@@ -33,24 +32,6 @@ public class UserDataValidationUtilities {
 
         if (!patternMatches(email, regexPattern)) {
             throw new IncorrectEmailException(email);
-        }
-    }
-
-    /**
-     * Function to validate username
-     * <br><br>
-     * Rules:
-     * <ul>
-     *  <li>contain at least 3 chars,</li>
-     *  <li>start with big, or small letter,</li>
-     *  <li>rest chars can be big, or small letters, or digits or space.</li>
-     * </ul>
-     */
-    public void validateName(String username) throws IncorrectNameException {
-        final String regexPattern = "^[A-Za-z_][A-Za-z0-9_][A-Za-z0-9_ ]{2,}$";
-
-        if (!patternMatches(username, regexPattern)) {
-            throw new IncorrectNameException(username);
         }
     }
 

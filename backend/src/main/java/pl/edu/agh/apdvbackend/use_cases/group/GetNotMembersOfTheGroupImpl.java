@@ -29,7 +29,7 @@ public class GetNotMembersOfTheGroupImpl
                         .stream()
                         .map(Group::getId)
                         .noneMatch(id -> id.equals(groupId)))
-                .map(userMapper::toShortUserResponseBody)
+                .map(userMapper::toShortResponseBody)
                 .toList();
     }
 }

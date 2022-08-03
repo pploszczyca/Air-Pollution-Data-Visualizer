@@ -49,16 +49,14 @@ class RemoveRoleFromUserImplTest {
     public void removeRoleFromUser() {
         final var roleName = "USER";
         final var role = Role.USER;
-        final var name = "userName";
         final var email = "userEmail";
         final var roles = new HashSet<>(Collections.singleton(role));
         final var user = UserFakes.getUser();
-        user.setName(name);
         user.setEmail(email);
         user.setRoles(roles);
         final var userId = userRepository.save(user).getId();
         final var expectedResult =
-                new UserWithRoles(userId, name, email, List.of());
+                new UserWithRoles(userId, email, List.of());
 
         final var result = removeRoleFromUser.execute(userId, roleName);
 

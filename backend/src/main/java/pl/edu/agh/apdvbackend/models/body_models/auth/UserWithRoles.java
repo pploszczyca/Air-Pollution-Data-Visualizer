@@ -6,7 +6,6 @@ import pl.edu.agh.apdvbackend.models.database.Role;
 
 public record UserWithRoles(
         @Schema(required = true) Long id,
-        @Schema(required = true) String name,
         @Schema(required = true) String email,
         @Schema(required = true) List<Role> roles
 ) {

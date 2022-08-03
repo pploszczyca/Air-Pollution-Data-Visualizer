@@ -62,6 +62,7 @@ class FindSecurityUserByEmailImplTest {
 
         assertEquals(email, result.getUsername());
         assertEquals(password, result.getPassword());
-        assertTrue(result.getAuthorities().containsAll(expectedGrantedAuthorities));
+        assertTrue(result.getAuthorities()
+                .containsAll(expectedGrantedAuthorities));
     }
 }

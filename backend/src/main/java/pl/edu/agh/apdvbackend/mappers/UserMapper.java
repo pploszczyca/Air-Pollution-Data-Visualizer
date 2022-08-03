@@ -13,7 +13,6 @@ import pl.edu.agh.apdvbackend.models.body_models.auth.UserWithRoles;
 import pl.edu.agh.apdvbackend.models.body_models.user.AboutUserResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.user.AddUserRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.user.ShortUserResponseBody;
-import pl.edu.agh.apdvbackend.models.body_models.user.ShortUserInfo;
 import pl.edu.agh.apdvbackend.models.database.User;
 
 @Mapper(componentModel = "spring")
@@ -40,14 +39,9 @@ public abstract class UserMapper {
     public abstract List<AboutUserResponseBody> userListToAboutResponseBodyList(
             List<User> userList);
 
-    public abstract ShortUserInfo userToShortInfo(User user);
+    public abstract ShortUserResponseBody toShortResponseBody(User user);
 
-    public abstract List<ShortUserInfo> userListToShortInfoList(
-            List<User> userList);
-
-    public abstract ShortUserResponseBody toShortUserResponseBody(
-            User user
-    );
+    public abstract List<ShortUserResponseBody> toShortResponseBodyList(List<User> users);
 
     public abstract LogInRequestBody addUserToLogIn(
             AddUserRequestBody addUserRequestBody);

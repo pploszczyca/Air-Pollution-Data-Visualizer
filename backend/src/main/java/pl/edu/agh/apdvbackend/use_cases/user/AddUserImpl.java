@@ -32,7 +32,6 @@ public class AddUserImpl
 
     @SneakyThrows
     private void validateRequestBody(AddUserRequestBody addUserRequestBody) {
-        userDataValidationUtilities.validateName(addUserRequestBody.name());
         userDataValidationUtilities.validateEmail(addUserRequestBody.email());
     }
 }

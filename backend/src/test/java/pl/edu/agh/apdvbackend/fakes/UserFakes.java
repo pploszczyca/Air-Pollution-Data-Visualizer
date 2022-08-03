@@ -8,7 +8,6 @@ public class UserFakes {
     public static User getUser() {
         final var user = new User();
         user.setId(USER_ID);
-        user.setName("dummy user");
         user.setEmail("dummy.user@email.com");
         user.setPassword("dummy password");
 

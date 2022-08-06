@@ -1,12 +1,15 @@
+import 'package:adpv_frontend/App.dart';
 import 'package:adpv_frontend/Logging/utils.dart';
 import 'package:flutter/material.dart';
+import '../Repository/EndpointRepository/EndpointGateway.dart';
+import '../Repository/UserRepository/AuthGetaway.dart';
+import '../Repository/UserRepository/UserGateway.dart';
 
 const Color loginPagePrimaryColor = Color.fromRGBO(176, 57, 186, 1);
 ColorScheme loginPageTheme =
     ThemeData().colorScheme.copyWith(primary: loginPagePrimaryColor);
 
 const backgroundDecor = BoxDecoration(color: Colors.white);
-
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -17,11 +20,13 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView>
     with SingleTickerProviderStateMixin {
-  FormType _formType = FormType.signin;
+  AuthFormType _formType = AuthFormType.signin;
   late TabController _tabController;
+  final AuthGetaway _authGateway = AuthGetaway();
 
   final TextEditingController _emailLoginController = TextEditingController();
-  final TextEditingController _passwordLoginController = TextEditingController();
+  final TextEditingController _passwordLoginController =
+      TextEditingController();
   final TextEditingController _emailCreateController = TextEditingController();
   final TextEditingController _passwordCreateController =
       TextEditingController();
@@ -35,7 +40,7 @@ class _LoginViewState extends State<LoginView>
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(() {
       setState(() {
-        _formType = FormType.values[_tabController.index];
+        _formType = AuthFormType.values[_tabController.index];
       });
     });
   }
@@ -45,51 +50,80 @@ class _LoginViewState extends State<LoginView>
     _tabController.dispose();
     super.dispose();
   }
-
-  void enableSubmitButton(ButtonState buttonState) {
-    setState(() {
-      if (_formType == FormType.signin) {
-        _loginButtonState = buttonState;
-      } else if (_formType == FormType.signup) {
-        _createButtonState = buttonState;
-      }
-    });
-  }
-
-  void _listenForLoginInput() {
-    if (_emailLoginController.text.isNotEmpty &&
-        _passwordLoginController.text.isNotEmpty &&
-        checkEmailRegex(_emailLoginController.text)) {
-      enableSubmitButton(ButtonState.enabled);
-    } else {
-      enableSubmitButton(ButtonState.disabled);
-    }
-  }
-
-  void _listenForCreateInput() {
-    if (_emailCreateController.text.isNotEmpty &&
-        _passwordCreateController.text.isNotEmpty &&
-        checkEmailRegex(_emailCreateController.text) &&
-        checkPasswordRegex(_passwordCreateController.text)) {
-      enableSubmitButton(ButtonState.enabled);
-    } else {
-      enableSubmitButton(ButtonState.disabled);
-    }
-  }
-
+  
   _LoginViewState() {
     _emailLoginController.addListener(_listenForLoginInput);
     _passwordLoginController.addListener(_listenForLoginInput);
     _emailCreateController.addListener(_listenForCreateInput);
     _passwordCreateController.addListener(_listenForCreateInput);
   }
-
-  void onSubmitButton() {
-    AuthenticateForm form = AuthenticateForm(
-        _emailLoginController.text,
-        _passwordLoginController.text,
-        _formType);
+  
+  void _listenForLoginInput() {
+    if (_emailLoginController.text.isNotEmpty &&
+        _passwordLoginController.text.isNotEmpty) {
+      _enableSubmitButton(ButtonState.enabled);
+    } else {
+      _enableSubmitButton(ButtonState.disabled);
+    }
   }
+
+  void _listenForCreateInput() {
+    if (checkEmailRegex(_emailCreateController.text) &&
+        checkPasswordRegex(_passwordCreateController.text)) {
+      _enableSubmitButton(ButtonState.enabled);
+    } else {
+      _enableSubmitButton(ButtonState.disabled);
+    }
+  }
+
+  void _enableSubmitButton(ButtonState buttonState) {
+    setState(() {
+      if (_formType == AuthFormType.signin) {
+        _loginButtonState = buttonState;
+      } else if (_formType == AuthFormType.signup) {
+        _createButtonState = buttonState;
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+      body: SingleChildScrollView(
+          child: Container(
+              height: MediaQuery.of(context).size.height,
+              width: double.infinity,
+              alignment: Alignment.topCenter,
+              decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topRight,
+                      end: Alignment.bottomLeft,
+                      colors: [
+                        Color.fromRGBO(21, 184, 194, 1),
+                        Color.fromRGBO(14, 14, 82, 0.9)
+                      ])),
+              child: ListView(children: [
+                _buildAppBar(),
+                Container(
+                    width: 300,
+                    height: 550,
+                    padding: EdgeInsets.only(
+                      left: MediaQuery.of(context).size.width * 0.1,
+                      top: 20,
+                      right: MediaQuery.of(context).size.width * 0.1,
+                    ),
+                    child: DefaultTabController(
+                      length: 2,
+                      child: Scaffold(
+                        backgroundColor: Colors.transparent,
+                        body: Builder(
+                          builder: (buildContext) => Column(children: <Widget>[
+                            _buildTabBar(),
+                            _buildExpandedTabs(buildContext)
+                          ]),
+                        ),
+                      ),
+                    ))
+              ]))));
 
   Container _buildAppBar() => Container(
         height: 200,
@@ -101,44 +135,57 @@ class _LoginViewState extends State<LoginView>
       );
 
   TabBar _buildTabBar() => TabBar(
-    indicatorColor: loginPagePrimaryColor,
-    indicatorWeight: 5,
-    controller: _tabController,
-    tabs: const [
-      Tab(
-        child: Text(
-          'Sign in',
-          style: TextStyle(fontFamily: 'Ubuntu Condensed', fontSize: 20),
-        ),
-      ),
-      Tab(
-        child: Text(
-          'Sign up',
-          style: TextStyle(fontFamily: 'Ubuntu Condensed', fontSize: 20),
-        ),
-      ),
-    ],
-  );
+        indicatorColor: loginPagePrimaryColor,
+        indicatorWeight: 5,
+        controller: _tabController,
+        tabs: const [
+          Tab(
+            child: Text(
+              'Sign in',
+              style: TextStyle(fontFamily: 'Ubuntu Condensed', fontSize: 20),
+            ),
+          ),
+          Tab(
+            child: Text(
+              'Sign up',
+              style: TextStyle(fontFamily: 'Ubuntu Condensed', fontSize: 20),
+            ),
+          ),
+        ],
+      );
 
-  Expanded _buildExpandedTabs() => Expanded(
+  Expanded _buildExpandedTabs(BuildContext context) => Expanded(
       flex: 1,
       child: TabBarView(
         controller: _tabController,
         children: [
-          _buildInputFormPanel('WELCOME AGAIN', 'LOG IN', _loginButtonState,
-              _emailLoginController, _passwordLoginController, FormType.signin),
-          _buildInputFormPanel('HI NEW USER', 'CREATE', _createButtonState,
-              _emailCreateController, _passwordCreateController, FormType.signup),
+          _buildInputFormPanel(
+              'WELCOME AGAIN',
+              'LOG IN',
+              _loginButtonState,
+              _emailLoginController,
+              _passwordLoginController,
+              AuthFormType.signin,
+              context),
+          _buildInputFormPanel(
+              'HI NEW USER',
+              'CREATE',
+              _createButtonState,
+              _emailCreateController,
+              _passwordCreateController,
+              AuthFormType.signup,
+              context),
         ],
       ));
 
   Container _buildInputFormPanel(
-      String welcomeText,
-      String buttonText,
-      ButtonState buttonState,
-      TextEditingController emailController,
-      TextEditingController passwordController,
-      FormType type) =>
+          String welcomeText,
+          String buttonText,
+          ButtonState buttonState,
+          TextEditingController emailController,
+          TextEditingController passwordController,
+          AuthFormType type,
+          BuildContext context) =>
       Container(
           decoration: const BoxDecoration(
               borderRadius: BorderRadius.only(
@@ -151,10 +198,10 @@ class _LoginViewState extends State<LoginView>
               _buildWelcomeBanner(welcomeText),
               _buildEmailInput(emailController),
               _buildPasswordInput(passwordController),
-              type == FormType.signup
+              type == AuthFormType.signup
                   ? _buildPasswordSupportText()
                   : const SizedBox.shrink(),
-              _buildSubmitButton(buttonText, buttonState),
+              _buildSubmitButton(buttonText, buttonState, context),
             ],
           ));
 
@@ -245,83 +292,93 @@ class _LoginViewState extends State<LoginView>
         ),
       ));
 
-  Container _buildSubmitButton(String text, ButtonState state) => Container(
-      decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(0),
-              topRight: Radius.circular(0),
-              bottomLeft: Radius.circular(10),
-              bottomRight: Radius.circular(10))),
-      height: 90,
-      padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.2, 20,
-          MediaQuery.of(context).size.width * 0.2, 30),
-      child: Container(
-        decoration: BoxDecoration(
-          gradient: state == ButtonState.enabled
-              ? const LinearGradient(colors: [
-                  Color.fromRGBO(71, 118, 230, 1),
-                  Color.fromRGBO(142, 84, 233, 1)
-                ])
-              : const LinearGradient(colors: [
-                  Color.fromRGBO(71, 118, 230, 0.2),
-                  Color.fromRGBO(142, 84, 233, 0.2)
-                ]),
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: ElevatedButton(
-          onPressed: (state == ButtonState.disabled) ? null : onSubmitButton,
-          style: ElevatedButton.styleFrom(
-            primary: Colors.transparent,
-            shadowColor: Colors.transparent,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          ),
-          child: Text(
-            text,
-            style: const TextStyle(
-                fontFamily: 'Ubuntu Condensed',
-                fontSize: 25,
-                color: Colors.white),
-          ),
-        ),
-      ));
-
-  @override
-  Widget build(BuildContext context) => Scaffold(
-      body: SingleChildScrollView(
+  Container _buildSubmitButton(
+          String text, ButtonState state, BuildContext context) =>
+      Container(
+          decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(0),
+                  topRight: Radius.circular(0),
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10))),
+          height: 90,
+          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.2,
+              20, MediaQuery.of(context).size.width * 0.2, 30),
           child: Container(
-              height: MediaQuery.of(context).size.height,
-              width: double.infinity,
-              alignment: Alignment.topCenter,
-              decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topRight,
-                      end: Alignment.bottomLeft,
-                      colors: [
-                    Color.fromRGBO(21, 184, 194, 1),
-                    Color.fromRGBO(14, 14, 82, 0.9)
-                  ])),
-              child: ListView(children: [
-                _buildAppBar(),
-                Container(
-                  width: 300,
-                  height: 550,
-                  padding: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.width * 0.1,
-                    top: 20,
-                    right: MediaQuery.of(context).size.width * 0.1,
-                  ),
-                  child: DefaultTabController(
-                    length: 2,
-                    child: Scaffold(
-                      backgroundColor: Colors.transparent,
-                      body: Column(children: <Widget>[
-                        _buildTabBar(),
-                        _buildExpandedTabs()
-                      ]),
-                    ),
-                  ),
-                )
-              ]))));
+            decoration: BoxDecoration(
+              gradient: state == ButtonState.enabled
+                  ? const LinearGradient(colors: [
+                      Color.fromRGBO(71, 118, 230, 1),
+                      Color.fromRGBO(142, 84, 233, 1)
+                    ])
+                  : const LinearGradient(colors: [
+                      Color.fromRGBO(71, 118, 230, 0.2),
+                      Color.fromRGBO(142, 84, 233, 0.2)
+                    ]),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: ElevatedButton(
+              onPressed: () => (state == ButtonState.disabled)
+                  ? null
+                  : _onSubmitButton(context),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.transparent,
+                shadowColor: Colors.transparent,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+              ),
+              child: Text(
+                text,
+                style: const TextStyle(
+                    fontFamily: 'Ubuntu Condensed',
+                    fontSize: 25,
+                    color: Colors.white),
+              ),
+            ),
+          ));
+
+
+  void _onSubmitButton(context) async {
+    AuthenticateForm form;
+    if (_formType == AuthFormType.signin) {
+      form = AuthenticateForm(_emailLoginController.text,
+          _passwordLoginController.text, AuthFormType.signin);
+    } else {
+      form = AuthenticateForm(_emailCreateController.text,
+          _passwordLoginController.text, AuthFormType.signup);
+    }
+    final AuthResponse response = await _authGateway.authenticateUser(form);
+    if (!response.success) {
+      final String message = response.errorMessage!;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Container(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+            decoration: BoxDecoration(
+                color: Colors.white, borderRadius: BorderRadius.circular(10)),
+            child: Text(message,
+                style: const TextStyle(
+                  color: Colors.red,
+                  fontFamily: 'Sofia sans',
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                )),
+          ),
+          elevation: 1,
+          duration: const Duration(seconds: 15),
+          padding: EdgeInsets.zero,
+          backgroundColor: Colors.transparent,
+        ),
+      );
+    } else {
+      await Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (BuildContext context) => App(
+                  userGateway: UserGateway(),
+                  endpointGateway: EndpointGateway())));
+    }
+    // print(response['accessToken']);
+  }
 }

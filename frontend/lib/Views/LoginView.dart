@@ -1,5 +1,5 @@
 import 'package:adpv_frontend/App.dart';
-import 'package:adpv_frontend/Logging/utils.dart';
+import 'package:adpv_frontend/Views/loginViewUtils.dart';
 import 'package:flutter/material.dart';
 import '../Repository/EndpointRepository/EndpointGateway.dart';
 import '../Repository/UserRepository/AuthGetaway.dart';

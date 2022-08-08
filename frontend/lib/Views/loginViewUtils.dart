@@ -1,6 +1,6 @@
 enum ButtonState { enabled, disabled }
 
-enum FormType { signin, signup }
+enum AuthFormType { signin, signup }
 
 bool checkPasswordRegex(String text) {
   const String pattern = r'^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{1,}$';
@@ -18,7 +18,6 @@ bool checkEmailRegex(String text) {
 class AuthenticateForm {
   String email;
   String password;
-  FormType formType;
-
+  AuthFormType formType;
   AuthenticateForm(this.email, this.password, this.formType);
 }

@@ -1,3 +1,4 @@
+import 'package:adpv_frontend/Widgets/CommonWidgets.dart';
 import 'package:charts_common/src/chart/common/behavior/legend/legend.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
@@ -16,6 +17,12 @@ class MultiDataChart extends StatefulWidget {
 }
 
 class _MultiDataChartState extends State<MultiDataChart> {
+  String getUnit(String field) => widget.endpoints[0].data.enableFieldsList
+        .where((enableField) => enableField.label == field)
+        .first
+        .unit
+        .name;
+
   @override
   Widget build(BuildContext context) => Column(children: [
         buildChartHeader(),
@@ -49,7 +56,7 @@ class _MultiDataChartState extends State<MultiDataChart> {
           child: Align(
             alignment: Alignment.center,
             child: Text(
-              widget.field.toUpperCase(),
+              widget.field.toUpperCase() + spacer + getUnit(widget.field),
               textAlign: TextAlign.center,
               style: const TextStyle(
                   fontSize: 16,

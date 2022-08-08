@@ -30,16 +30,11 @@ class AuthGetaway {
     try {
       final response = await _client.post(backendURL + URL,
           data: {'email': form.email, 'password': form.password});
-      if (response.statusCode == 200) {
-        final tokens = AuthTokenResponse(
-            accessToken: response.data['data']['accessToken'],
-            refreshToken: response.data['data']['refreshToken']);
-        //todo: save tokens in lib
-        return AuthResponse(success: true, tokens: tokens);
-      } else {
-        return AuthResponse(
-            success: false, errorMessage: response.data['error']);
-      }
+      final tokens = AuthTokenResponse(
+          accessToken: response.data['data']['accessToken'],
+          refreshToken: response.data['data']['refreshToken']);
+      //todo: save tokens in lib
+      return AuthResponse(success: true, tokens: tokens);
     } on DioError catch (error) {
       return AuthResponse(
           success: false, errorMessage: error.response?.data['error']);
@@ -50,16 +45,11 @@ class AuthGetaway {
   Future<AuthResponse> refreshToken() async {
     try {
       final response = await _client.post(backendURL + refreshTokenURL);
-      if (response.statusCode == 200) {
-        return AuthResponse(
-            success: true,
-            tokens: AuthTokenResponse(
-                accessToken: response.data['accessToken'],
-                refreshToken: response.data['refreshToken']));
-      } else {
-        return AuthResponse(
-            success: false, errorMessage: response.data['error']);
-      }
+      return AuthResponse(
+          success: true,
+          tokens: AuthTokenResponse(
+              accessToken: response.data['accessToken'],
+              refreshToken: response.data['refreshToken']));
     } on DioError catch (error) {
       return AuthResponse(
           success: false, errorMessage: error.response?.data['error']);

@@ -110,9 +110,9 @@ class _EndpointListViewState extends State<EndpointListView> {
                       } else {
                         // line below temporary fixes always loading everything problem
                         expansionPanelEndpoint.setRecentData(EndpointData(
-                            [recentDataSnapshot.data!.dataList.first],
-                            [recentDataSnapshot.data!.technicalInfo.first],
-                            [recentDataSnapshot.data!.enableFieldsList.first]));
+                            recentDataSnapshot.data!.dataList,
+                            recentDataSnapshot.data!.technicalInfo,
+                            recentDataSnapshot.data!.enableFieldsList));
                         return ListView.builder(
                             physics: const AlwaysScrollableScrollPhysics(),
                             padding: const EdgeInsets.only(top: 10),
@@ -138,7 +138,7 @@ class _EndpointListViewState extends State<EndpointListView> {
                                           expansionPanelEndpoint.recentData[
                                                   expansionPanelEndpoint
                                                       .fields[i]]
-                                              .toStringAsFixed(2),
+                                              .toStringAsFixed(2) + spacer + expansionPanelEndpoint.units[i].name,
                                           textAlign: TextAlign.right,
                                           style: endpointDataTextStyle)),
                                 ])));

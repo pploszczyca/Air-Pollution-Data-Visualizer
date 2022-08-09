@@ -48,7 +48,7 @@ SizedBox _buildBarView(EndpointViewProvider endpointViewProvider,
               .map((dataKey) => TitledLineChart(
                     chartName: dataKey.typeName +
                         spacer +
-                        endpointViewProvider.getChartUnit(
+                        endpointViewProvider.getChartUnitName(
                             dataKey.typeName, snapshot.data),
                     measureFnCallback: (Map<dynamic, dynamic> dataMap, _) =>
                         dataMap[dataKey.typeName],

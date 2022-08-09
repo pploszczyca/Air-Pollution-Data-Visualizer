@@ -18,7 +18,7 @@ class EndpointViewProvider with ChangeNotifier {
     }
   }
 
-  String getChartUnit(String name, EndpointData endpointData) => endpointData
+  String getChartUnitName(String name, EndpointData endpointData) => endpointData
         .enableFieldsList
         .firstWhere((element) => element.label == name)
         .unit

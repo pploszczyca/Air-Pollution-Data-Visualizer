@@ -17,9 +17,11 @@ class MultiDataChart extends StatefulWidget {
 }
 
 class _MultiDataChartState extends State<MultiDataChart> {
-  String getUnit(String field) => widget.endpoints[0].data.enableFieldsList
-        .where((enableField) => enableField.label == field)
-        .first
+  String getUnit(String field) => widget
+        .endpoints[0]
+        .data
+        .enableFieldsList
+        .firstWhere((enableField) => enableField.label == field)
         .unit
         .name;
 

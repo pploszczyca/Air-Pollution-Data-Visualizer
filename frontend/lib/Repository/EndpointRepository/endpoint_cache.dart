@@ -1,6 +1,6 @@
-import '../../DataModels/Endpoint.dart';
-import '../../DataModels/EndpointData.dart';
-import '../../DataModels/EndpointSummary.dart';
+import '../../DataModels/endpoint.dart';
+import '../../DataModels/endpoint_data.dart';
+import '../../DataModels/endpoint_summary.dart';
 
 class EndpointCache {
   final List<EndpointSummary> _endpointSummaryList = [];
@@ -15,10 +15,13 @@ class EndpointCache {
   Future<EndpointData> getEndpointData(int id, int limit, int offset) {
     if (limit != -1 && offset != -1) {
       final endpointData = _endpointMap[id]!.data;
-      return Future.value(EndpointData(
+      return Future.value(
+        EndpointData(
           endpointData.dataList.sublist(offset, limit),
           endpointData.technicalInfo,
-          endpointData.enableFieldsList));
+          endpointData.enableFieldsList,
+        ),
+      );
     }
     return Future.value(_endpointMap[id]!.data);
   }
@@ -44,6 +47,6 @@ class EndpointCache {
   void saveEndpoint(int id, EndpointData data) {
     final EndpointSummary summary =
         _endpointSummaryList.singleWhere((element) => element.id == id);
-        _endpointMap[id] = Endpoint.fromSummary(summary, data);
+    _endpointMap[id] = Endpoint.fromSummary(summary, data);
   }
 }

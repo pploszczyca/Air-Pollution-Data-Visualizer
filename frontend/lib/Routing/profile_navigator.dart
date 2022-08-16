@@ -1,5 +1,5 @@
-import 'package:adpv_frontend/Repository/EndpointRepository/EndpointGateway.dart';
-import 'package:adpv_frontend/Views/ProfileView.dart';
+import 'package:adpv_frontend/Repository/EndpointRepository/endpoint_gateway.dart';
+import 'package:adpv_frontend/Views/profile_view.dart';
 import 'package:flutter/material.dart';
 
 class ProfileNavigator extends StatefulWidget {

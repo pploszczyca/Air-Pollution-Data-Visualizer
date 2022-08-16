@@ -1,12 +1,12 @@
-import 'package:adpv_frontend/DataModels/EndpointSummary.dart';
-import 'package:adpv_frontend/Repository/EndpointRepository/EndpointGateway.dart';
-import 'package:adpv_frontend/Repository/UserRepository/UserGateway.dart';
-import 'package:adpv_frontend/Widgets/CommonWidgets.dart';
+import 'package:adpv_frontend/DataModels/endpoint_summary.dart';
+import 'package:adpv_frontend/Repository/EndpointRepository/endpoint_gateway.dart';
+import 'package:adpv_frontend/Repository/UserRepository/user_gateway.dart';
+import 'package:adpv_frontend/Widgets/common_widgets.dart';
 import 'package:flutter/material.dart';
 
-import 'Routing/EndpointNavigator.dart';
-import 'Views/CompareEndpointsView.dart';
-import 'Views/ProfileView.dart';
+import 'Routing/endpoint_navigator.dart';
+import 'Views/compare_endpoints_view.dart';
+import 'Views/profile_view.dart';
 
 const String endpointList = "Endpoint List";
 const String compareEndpoints = "Compare";
@@ -22,9 +22,11 @@ class App extends StatefulWidget {
   final EndpointGateway endpointGateway;
   final UserGateway userGateway;
 
-  const App(
-      {required this.endpointGateway, required this.userGateway, Key? key})
-      : super(key: key);
+  const App({
+    required this.endpointGateway,
+    required this.userGateway,
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<App> createState() => _AppState();
@@ -47,17 +49,18 @@ class _AppState extends State<App> {
     final MediaQueryData queryData = MediaQuery.of(context);
 
     return FutureBuilder<List<EndpointSummary>>(
-        future: widget.endpointGateway.getEndpointSummary(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.none ||
-              snapshot.data == null) {
-            return loadingInCenter();
-          } else {
-            return queryData.size.width > 560
-                ? _buildRailNavigationScaffold()
-                : _buildBottomNavigationScaffold();
-          }
-        });
+      future: widget.endpointGateway.getEndpointSummary(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.none ||
+            snapshot.data == null) {
+          return loadingInCenter();
+        } else {
+          return queryData.size.width > 560
+              ? _buildRailNavigationScaffold()
+              : _buildBottomNavigationScaffold();
+        }
+      },
+    );
   }
 
   Scaffold _buildRailNavigationScaffold() {
@@ -85,39 +88,46 @@ class _AppState extends State<App> {
       ),
     );
     return Scaffold(
-        body: Row(
-      children: [
-        SizedBox(
-          width: 100,
-          child: Column(
-            children: [
-              navi,
-            ],
+      body: Row(
+        children: [
+          SizedBox(
+            width: 100,
+            child: Column(
+              children: [
+                navi,
+              ],
+            ),
           ),
-        ),
-        const VerticalDivider(thickness: 1, width: 1),
-        // line splitting navbar and main content
-        Expanded(
-          child: IndexedStack(
-            index: _selectedIndex,
-            children: _navigationOptions,
+          const VerticalDivider(thickness: 1, width: 1),
+          // line splitting navbar and main content
+          Expanded(
+            child: IndexedStack(
+              index: _selectedIndex,
+              children: _navigationOptions,
+            ),
           ),
-        ),
-      ],
-    ));
+        ],
+      ),
+    );
   }
 
   Scaffold _buildBottomNavigationScaffold() {
     final List<BottomNavigationBarItem> destinations = [
       _buildNavigationItem(endpointList, const Icon(Icons.map_outlined)),
       _buildNavigationItem(
-          compareEndpoints, const Icon(Icons.area_chart_outlined)),
+        compareEndpoints,
+        const Icon(Icons.area_chart_outlined),
+      ),
       _buildNavigationItem(profile, const Icon(Icons.person_outline)),
     ];
 
     if (widget.userGateway.isAdmin) {
-      destinations.add(_buildNavigationItem(
-          admin, const Icon(Icons.admin_panel_settings_outlined)));
+      destinations.add(
+        _buildNavigationItem(
+          admin,
+          const Icon(Icons.admin_panel_settings_outlined),
+        ),
+      );
     }
 
     final Widget navbar = BottomNavigationBar(
@@ -140,7 +150,7 @@ class _AppState extends State<App> {
   }
 
   NavigationRailDestination _buildRailNavigationItem(
-          String stringLabel, int codePoint) =>
+          String stringLabel, int codePoint,) =>
       NavigationRailDestination(
         icon: Icon(
           IconData(codePoint, fontFamily: 'MaterialIcons'),

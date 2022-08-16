@@ -1,13 +1,13 @@
-import 'package:adpv_frontend/Repository/EndpointRepository/EndpointGateway.dart';
-import 'package:adpv_frontend/Widgets/CompareEndpoints/MultiDataChart.dart';
+import 'package:adpv_frontend/Repository/EndpointRepository/endpoint_gateway.dart';
+import 'package:adpv_frontend/Widgets/CompareEndpoints/multi_data_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:multiselect/multiselect.dart';
 import 'package:provider/provider.dart';
 
-import '../DataModels/Endpoint.dart';
-import '../DataModels/EndpointSummary.dart';
-import '../Models/CompareEndpointsProvider.dart';
-import '../Widgets/CommonWidgets.dart';
+import '../DataModels/endpoint.dart';
+import '../DataModels/endpoint_summary.dart';
+import '../Models/compare_endpoints_provider.dart';
+import '../Widgets/common_widgets.dart';
 
 class CompareChartsView extends StatefulWidget {
   const CompareChartsView({required this.endpointGateway, Key? key})
@@ -23,6 +23,7 @@ class _CompareChartsViewState extends State<CompareChartsView> {
   late CompareEndpointsModel model =
       CompareEndpointsModel(widget.endpointGateway);
 
+  // ignore: always_declare_return_types
   _pullDownRefresh() async {
     widget.endpointGateway.clearEndpointDataCache();
     model.clear();
@@ -48,9 +49,10 @@ class _CompareChartsViewState extends State<CompareChartsView> {
                         buildDropDownSelection(context, snapshot),
                         const SizedBox(height: 10),
                         Consumer<CompareEndpointsModel>(
-                            builder: (context, endpointModel, child) => Wrap(
-                                  children: _createChips(endpointModel),
-                                )),
+                          builder: (context, endpointModel, child) => Wrap(
+                            children: _createChips(endpointModel),
+                          ),
+                        ),
                         const SizedBox(height: 10),
                         Consumer<CompareEndpointsModel>(
                           builder: (context, endpointModel, child) {
@@ -68,38 +70,43 @@ class _CompareChartsViewState extends State<CompareChartsView> {
         ),
       );
 
-  Row buildDropDownSelection(BuildContext context,
-          AsyncSnapshot<List<EndpointSummary>> snapshot) =>
+  Row buildDropDownSelection(
+    BuildContext context,
+    AsyncSnapshot<List<EndpointSummary>> snapshot,
+  ) =>
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.8,
             child: Consumer<CompareEndpointsModel>(
-                builder: (context, endpointModel, _) {
-              endpointModel.makeEndpointSummaryMap(snapshot.data!);
-              return Theme(
-                // 200IQ move
-                data: ThemeData.from(
+              builder: (context, endpointModel, _) {
+                endpointModel.makeEndpointSummaryMap(snapshot.data!);
+                return Theme(
+                  // 200IQ move
+                  data: ThemeData.from(
                     colorScheme: ColorScheme.fromSwatch(
-                        backgroundColor: Colors.white,
-                        cardColor: Colors.pink,
-                        primarySwatch: Colors.pink)),
-                child: DropDownMultiSelect(
-                  isDense: true,
-                  options: endpointModel.endpointSummaryMap.keys.toList(),
-                  selectedValues: endpointModel.selectedEndpoints,
-                  onChanged: (List<String> selected) {
-                    setState(
-                      () {
-                        endpointModel.updateEndpointSelectedList(selected);
-                      },
-                    );
-                  },
-                  whenEmpty: emptyField,
-                ),
-              );
-            }),
+                      backgroundColor: Colors.white,
+                      cardColor: Colors.pink,
+                      primarySwatch: Colors.pink,
+                    ),
+                  ),
+                  child: DropDownMultiSelect(
+                    isDense: true,
+                    options: endpointModel.endpointSummaryMap.keys.toList(),
+                    selectedValues: endpointModel.selectedEndpoints,
+                    onChanged: (List<String> selected) {
+                      setState(
+                        () {
+                          endpointModel.updateEndpointSelectedList(selected);
+                        },
+                      );
+                    },
+                    whenEmpty: emptyField,
+                  ),
+                );
+              },
+            ),
           ),
         ],
       );

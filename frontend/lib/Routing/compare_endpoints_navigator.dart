@@ -1,8 +1,8 @@
-import 'package:adpv_frontend/Repository/EndpointRepository/EndpointGateway.dart';
+import 'package:adpv_frontend/Repository/EndpointRepository/endpoint_gateway.dart';
 import 'package:flutter/material.dart';
 
-import '../Common/Routing.dart';
-import '../Views/EnpointListView.dart';
+import '../Common/routing.dart';
+import '../Views/enpoint_list_view.dart';
 
 class CompareEndpointsNavigator extends StatefulWidget {
   final EndpointGateway endpointGateway;

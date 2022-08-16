@@ -1,5 +1,5 @@
-import '../Common/Consts.dart';
-import 'EnableField.dart';
+import '../Common/consts.dart';
+import 'enable_field.dart';
 
 class EndpointData {
   List<Map<dynamic, dynamic>> dataList;

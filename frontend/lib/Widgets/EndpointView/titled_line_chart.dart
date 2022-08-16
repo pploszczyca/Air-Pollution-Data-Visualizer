@@ -1,13 +1,15 @@
 import 'package:../../charts_flutter/flutter.dart' as charts;
 import 'package:flutter/cupertino.dart';
 
-import '../../Common/Consts.dart';
-import '../../DataModels/EndpointData.dart';
+import '../../Common/consts.dart';
+import '../../DataModels/endpoint_data.dart';
 
 class DataChart extends StatelessWidget {
-  const DataChart(
-      {required this.endpointData, required this.measureFnCallback, Key? key})
-      : super(key: key);
+  const DataChart({
+    required this.endpointData,
+    required this.measureFnCallback,
+    Key? key,
+  }) : super(key: key);
 
   final EndpointData endpointData;
   final num? Function(Map<dynamic, dynamic>, int?) measureFnCallback;
@@ -26,23 +28,26 @@ class DataChart extends StatelessWidget {
     ];
 
     return SizedBox(
-        height: MediaQuery.of(context).size.height * 0.3,
-        width: MediaQuery.of(context).size.width * 0.9,
-        child: charts.TimeSeriesChart(series,
-            primaryMeasureAxis: const charts.NumericAxisSpec(
-              tickProviderSpec:
-                  charts.BasicNumericTickProviderSpec(zeroBound: false),
-            )));
+      height: MediaQuery.of(context).size.height * 0.3,
+      width: MediaQuery.of(context).size.width * 0.9,
+      child: charts.TimeSeriesChart(
+        series,
+        primaryMeasureAxis: const charts.NumericAxisSpec(
+          tickProviderSpec:
+              charts.BasicNumericTickProviderSpec(zeroBound: false),
+        ),
+      ),
+    );
   }
 }
 
 class TitledLineChart extends StatelessWidget {
-  const TitledLineChart(
-      {required this.chartName,
-      required this.measureFnCallback,
-      required this.data,
-      Key? key})
-      : super(key: key);
+  const TitledLineChart({
+    required this.chartName,
+    required this.measureFnCallback,
+    required this.data,
+    Key? key,
+  }) : super(key: key);
 
   final String chartName;
   final num? Function(Map<dynamic, dynamic>, int?) measureFnCallback;

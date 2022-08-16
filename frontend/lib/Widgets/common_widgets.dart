@@ -12,11 +12,12 @@ AppBar buildAppBar(String title) => AppBar(
       title: Text(title,
           style: const TextStyle(
             color: Colors.pink,
-          )),
+          ),),
       backgroundColor: Colors.white,
       iconTheme: const IconThemeData(color: Colors.pink),
     );
 const emptyField = 'Select Endpoint';
 const compareEndpointsViewAppBar = 'Compare charts';
 const endpointViewAppBar = 'Endpoint Details';
+const spacer =  '    ';
 const spacer = '    ';

@@ -4,7 +4,6 @@ import 'package:adpv_frontend/Views/LoginView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-
 Future main() async {
   await loadEnvFile();
   runApp(MyApp());
@@ -17,12 +16,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-        title: 'APDV Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: const LoginView()
-    );
+      title: 'APDV Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: LoginView(
+        userGateway: userGateway,
+      ));
 }
 
 Future loadEnvFile() async {

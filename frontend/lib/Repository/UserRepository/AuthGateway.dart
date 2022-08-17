@@ -2,16 +2,7 @@ import 'package:adpv_frontend/Views/loginViewUtils.dart';
 import 'package:dio/dio.dart';
 
 import '../../Common/URLs.dart';
-
-class AuthTokenResponse {
-  String accessToken;
-  String refreshToken;
-
-  AuthTokenResponse({
-    required this.accessToken,
-    required this.refreshToken,
-  });
-}
+import '../../DataModels/User/auth_token_response.dart';
 
 class AuthResponse {
   bool success;
@@ -25,15 +16,15 @@ class AuthGetaway {
   final Dio _client = Dio();
 
   Future<AuthResponse> authenticateUser(AuthenticateForm form) async {
-    final String URL =
+    final String url =
         (form.formType == AuthFormType.signin) ? authLoginURL : authRegisterURL;
     try {
-      final response = await _client.post(backendURL + URL,
+      final response = await _client.post(backendURL + url,
           data: {'email': form.email, 'password': form.password});
       final tokens = AuthTokenResponse(
           accessToken: response.data['data']['accessToken'],
           refreshToken: response.data['data']['refreshToken']);
-      //todo: save tokens in lib
+
       return AuthResponse(success: true, tokens: tokens);
     } on DioError catch (error) {
       return AuthResponse(

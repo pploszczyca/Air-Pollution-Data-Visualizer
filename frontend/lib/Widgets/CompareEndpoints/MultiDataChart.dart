@@ -3,7 +3,7 @@ import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 
 import '../../Common/Consts.dart';
-import '../../DataModels/Endpoint.dart';
+import '../../DataModels/Endpoint/Endpoint.dart';
 
 class MultiDataChart extends StatefulWidget {
   const MultiDataChart({required this.field, required this.endpoints, Key? key})

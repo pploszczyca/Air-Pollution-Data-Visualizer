@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../Common/Routing.dart';
-import '../DataModels/EndpointData.dart';
-import '../DataModels/EndpointSummary.dart';
+import '../DataModels/Endpoint/EndpointData.dart';
+import '../DataModels/Endpoint/EndpointSummary.dart';
 import '../Models/EndpointListProvider.dart';
 import '../Widgets/CommonWidgets.dart';
 

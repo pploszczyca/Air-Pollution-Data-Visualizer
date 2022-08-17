@@ -1,4 +1,4 @@
-import '../Common/Consts.dart';
+import '../../Common/Consts.dart';
 import 'EnableField.dart';
 
 class EndpointData {

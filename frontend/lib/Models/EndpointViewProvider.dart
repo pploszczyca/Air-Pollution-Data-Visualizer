@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../DataModels/EndpointData.dart';
+import '../DataModels/Endpoint/EndpointData.dart';
 
 class DataTypeTab {
   DataTypeTab({required this.typeName});

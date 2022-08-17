@@ -19,5 +19,6 @@ class AuthenticateForm {
   String email;
   String password;
   AuthFormType formType;
+
   AuthenticateForm(this.email, this.password, this.formType);
 }

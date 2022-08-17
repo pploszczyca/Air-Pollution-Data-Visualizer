@@ -1,6 +1,6 @@
-import '../../DataModels/Endpoint.dart';
-import '../../DataModels/EndpointData.dart';
-import '../../DataModels/EndpointSummary.dart';
+import '../../DataModels/Endpoint/Endpoint.dart';
+import '../../DataModels/Endpoint/EndpointData.dart';
+import '../../DataModels/Endpoint/EndpointSummary.dart';
 
 class EndpointCache {
   final List<EndpointSummary> _endpointSummaryList = [];
@@ -44,6 +44,6 @@ class EndpointCache {
   void saveEndpoint(int id, EndpointData data) {
     final EndpointSummary summary =
         _endpointSummaryList.singleWhere((element) => element.id == id);
-        _endpointMap[id] = Endpoint.fromSummary(summary, data);
+    _endpointMap[id] = Endpoint.fromSummary(summary, data);
   }
 }

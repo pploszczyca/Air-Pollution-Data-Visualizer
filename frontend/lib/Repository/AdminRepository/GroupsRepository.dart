@@ -6,7 +6,8 @@ import '../../DataModels/BackendResponse.dart';
 
 class GroupsRepository {
   final Dio _client = Dio();
-  String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkB0ZXN0LmNvbSIsInJvbGVzIjpbIkFETUlOIiwiVVNFUiJdLCJpZCI6MSwiZXhwIjoxNjYwNjEyNjQ2fQ.3LWHWBokKSVp-7MSvnxRU-53AAdecicqAZ9nmoEG_0o";
+  String token =
+      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkB0ZXN0LmNvbSIsInJvbGVzIjpbIlVTRVIiLCJBRE1JTiJdLCJpZCI6MSwiZXhwIjoxNjYwODgzODk5fQ.1h0O3CbxQnnJIhIm6b_HHWlAnV0tAsJ8lcFh03Q0XkA";
 
   Future<List<GroupSummary>> getGroupsSummary() async {
     _client.options.headers["Authorization"] = "Bearer $token";
@@ -24,7 +25,21 @@ class GroupsRepository {
           return Future.value(groupSummaryList);
         }
       }
-    } on DioError catch (error) {}
+    } on DioError catch (error) {
+      print(error);
+    }
     return Future.value([]);
+  }
+
+  Future<bool> deleteGroup(int id) async {
+    _client.options.headers["Authorization"] = "Bearer $token";
+    try {
+      final response = await _client
+          .delete(backendURL + groupURL, queryParameters: {'groupId': id});
+      if (response.statusCode == 200) return Future.value(true);
+    } on DioError catch (error) {
+      print(error);
+    }
+    return Future.value(false);
   }
 }

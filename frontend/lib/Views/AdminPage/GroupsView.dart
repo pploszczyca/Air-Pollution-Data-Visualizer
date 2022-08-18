@@ -1,9 +1,12 @@
 import 'package:adpv_frontend/DataModels/GroupSummary.dart';
 import 'package:adpv_frontend/Repository/AdminRepository/AdminGateway.dart';
+import 'package:adpv_frontend/Views/AdminPage/confirmationDialogModal.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../Models/GroupListProvider.dart';
 import '../../Widgets/CommonWidgets.dart';
+
+const floatingButtonColor = Color.fromRGBO(36, 109, 114, 0.9);
 
 class GroupsView extends StatefulWidget {
   const GroupsView({required this.repository, Key? key}) : super(key: key);
@@ -19,6 +22,7 @@ class _GroupsViewState extends State<GroupsView> {
   Widget build(BuildContext context) => Scaffold(
         appBar: _buildAppBar(),
         body: _buildBody(),
+    floatingActionButton: _buildAddButton()
       );
 
   PreferredSize _buildAppBar() => PreferredSize(
@@ -82,11 +86,11 @@ class _GroupsViewState extends State<GroupsView> {
           onExpansionChanged: (value) {
             if (value) {
               setState(() {
-                group.titleColor = Colors.pink;
+                group.titleFontweight = FontWeight.w800;
               });
             } else {
               setState(() {
-                group.titleColor = Colors.black;
+                group.titleFontweight = FontWeight.normal;
               });
             }
           },
@@ -95,16 +99,16 @@ class _GroupsViewState extends State<GroupsView> {
             style: TextStyle(
                 fontFamily: 'SofiaSans',
                 fontSize: 25,
-                color: group.titleColor,
-                fontWeight: FontWeight.w500),
+                color: Colors.black,
+                fontWeight: group.titleFontweight),
           ),
           tilePadding: const EdgeInsets.all(20),
-          iconColor: group.titleColor,
           childrenPadding: const EdgeInsets.all(0),
           children: [
             _buildButtonContainer('Members', group, group.membersButtonColor),
             _buildButtonContainer(
                 'Endpoints and permissions', group, group.endpointsButtonColor),
+            _buildDeleteContainer(group)
           ],
         ),
       );
@@ -114,10 +118,10 @@ class _GroupsViewState extends State<GroupsView> {
       Container(
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
         child: TextButton(
-          onPressed: () {},
+          onPressed: () {print('kokokokoko');},
           onHover: (value) {
             if (value) {
-              _onHoverButton(groupCard, text, Colors.pink);
+              _onHoverButton(groupCard, text, floatingButtonColor);
             } else {
               _onHoverButton(groupCard, text, Colors.black);
             }
@@ -131,21 +135,54 @@ class _GroupsViewState extends State<GroupsView> {
                   child: Text(
                     text,
                     style: TextStyle(
-                        fontFamily: 'SofiaSans', fontSize: 20, color: color),
+                        fontFamily: 'SofiaSans', fontSize: 23, color: color),
                   ),
                 ),
               ),
               Container(
                 alignment: Alignment.centerRight,
                 child: Icon(
-                  Icons.arrow_right_alt,
+                  Icons.arrow_forward_ios_rounded ,
                   color: color,
+                  size: 25,
                 ),
               ),
             ],
           ),
         ),
       );
+
+  Container _buildDeleteContainer(GroupCard groupCard) =>
+      Container(
+        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+        child: OutlinedButton(
+          style: ButtonStyle(
+            side: MaterialStateProperty.all(
+                const BorderSide(width: 1.5, color: Colors.red)),
+            padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
+            foregroundColor: MaterialStateProperty.resolveWith<Color>(
+                    (Set<MaterialState> states) =>
+                states.contains(MaterialState.hovered)
+                    ? Colors.white
+                    : Colors.red),
+            backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                    (Set<MaterialState> states) =>
+                states.contains(MaterialState.hovered)
+                    ? Colors.red
+                    : Colors.white),
+            alignment: Alignment.centerLeft,
+          ),
+          onPressed: (){},
+          // onPressed: _onDeletePressed(groupCard),
+          child: const Icon(Icons.delete_outline_outlined, size: 30)
+        ));
+
+
+  FloatingActionButton _buildAddButton() => FloatingActionButton(
+    onPressed: (){ print('llllllllllllllllllllllllllll');},
+    backgroundColor: floatingButtonColor,
+    child: const Icon(Icons.add),
+  );
 
   void _onHoverButton(GroupCard groupCard, String text, Color color) {
     setState(() {
@@ -155,5 +192,11 @@ class _GroupsViewState extends State<GroupsView> {
         groupCard.endpointsButtonColor = color;
       }
     });
+  }
+
+  _onDeletePressed(GroupCard groupCard){
+    print(' dcdscdscsdcds');
+    // showAlertDialog(context);
+    // this.widget.repository.deleteGroup(groupCard.id);
   }
 }

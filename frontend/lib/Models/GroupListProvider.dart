@@ -8,15 +8,16 @@ import '../Repository/AdminRepository/AdminGateway.dart';
 class GroupCard {
   String name;
   int id;
-  Color titleColor;
+  FontWeight titleFontweight;
   Color membersButtonColor;
   Color endpointsButtonColor;
 
-  GroupCard({required this.name,
-    required this.id,
-    this.titleColor = Colors.black,
-    this.membersButtonColor = Colors.black,
-    this.endpointsButtonColor = Colors.black});
+  GroupCard(
+      {required this.name,
+      required this.id,
+      this.titleFontweight = FontWeight.normal,
+      this.membersButtonColor = Colors.black,
+      this.endpointsButtonColor = Colors.black});
 }
 
 class GroupListProvider with ChangeNotifier {

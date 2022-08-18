@@ -11,4 +11,11 @@ class AdminGateway {
         restRepository.getGroupsSummary();
     return summary;
   }
+
+
+
+  void deleteGroup(int id) {
+    final Future<bool> response = restRepository.deleteGroup(id);
+    print(response);
+  }
 }

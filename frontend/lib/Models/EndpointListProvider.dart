@@ -1,6 +1,7 @@
 import 'package:adpv_frontend/Repository/EndpointRepository/EndpointGateway.dart';
 import 'package:flutter/material.dart';
 
+import '../DataModels/EnableField.dart';
 import '../DataModels/EndpointData.dart';
 import '../DataModels/EndpointSummary.dart';
 
@@ -11,6 +12,7 @@ class ExpansionPanelEndpoint {
     required this.id,
     required this.fields,
     required this.buttonColor,
+    required this.units,
   });
 
   Map<String, dynamic> recentData;
@@ -18,12 +20,14 @@ class ExpansionPanelEndpoint {
   int id;
   List<String> fields;
   Color buttonColor;
+  List<Unit> units;
 
   void setRecentData(EndpointData data) {
     fields = data.getAllRecentFields();
     recentData =
         data.dataList[0].map((key, value) => MapEntry(key.toString(), value));
     recentData.removeWhere((key, value) => key == 'timestamp');
+    units = data.enableFieldsList.map((e) => e.unit).toList();
   }
 }
 
@@ -37,11 +41,13 @@ class EndpointListProvider with ChangeNotifier {
 
   void setEndpoint(EndpointSummary es) {
     endpointsList.add(ExpansionPanelEndpoint(
-        label: es.label,
-        id: es.id,
-        recentData: {},
-        fields: [],
-        buttonColor: Colors.pink));
+      label: es.label,
+      id: es.id,
+      recentData: {},
+      fields: [],
+      buttonColor: Colors.pink,
+      units: []
+    ));
   }
 
   void makeEndpointsList(List<EndpointSummary> endpointSummary) {

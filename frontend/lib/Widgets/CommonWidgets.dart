@@ -16,7 +16,7 @@ AppBar buildAppBar(String title) => AppBar(
       backgroundColor: Colors.white,
       iconTheme: const IconThemeData(color: Colors.pink),
     );
-const ignoreField = 'timestamp';
 const emptyField = 'Select Endpoint';
 const compareEndpointsViewAppBar = 'Compare charts';
 const endpointViewAppBar = 'Endpoint Details';
+const spacer = '    ';

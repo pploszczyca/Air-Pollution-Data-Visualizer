@@ -1,9 +1,9 @@
-import 'package:adpv_frontend/Repository/EndpointRepository/EndpointGateway.dart';
+import 'package:adpv_frontend/Repository/EndpointRepository/endpoint_gateway.dart';
 import 'package:flutter/material.dart';
 
-import '../Common/Routing.dart';
-import '../Views/EndpointView.dart';
-import '../Views/EnpointListView.dart';
+import '../Common/routing.dart';
+import '../Views/endpoint_view.dart';
+import '../Views/enpoint_list_view.dart';
 
 class EndpointNavigator extends StatefulWidget {
   final EndpointGateway endpointGateway;
@@ -25,10 +25,10 @@ class _EndpointNavigatorState extends State<EndpointNavigator> {
               repository: widget.endpointGateway,
             );
           } else if (settings.name!.startsWith(endpointViewRoute)) {
-            var endpointId = settings.name!.split("/")[2];
+            final endpointId = settings.name!.split("/")[2];
             page = EndpointView(
                 endpointId: int.parse(endpointId),
-                endpointGateway: widget.endpointGateway);
+                endpointGateway: widget.endpointGateway,);
           }
 
           return MaterialPageRoute<dynamic>(builder: (context) => page);

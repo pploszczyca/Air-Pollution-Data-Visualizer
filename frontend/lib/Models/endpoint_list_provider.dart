@@ -1,9 +1,9 @@
-import 'package:adpv_frontend/Repository/EndpointRepository/EndpointGateway.dart';
+import 'package:adpv_frontend/Repository/EndpointRepository/endpoint_gateway.dart';
 import 'package:flutter/material.dart';
 
-import '../DataModels/EnableField.dart';
-import '../DataModels/EndpointData.dart';
-import '../DataModels/EndpointSummary.dart';
+import '../DataModels/enable_field.dart';
+import '../DataModels/endpoint_data.dart';
+import '../DataModels/endpoint_summary.dart';
 
 class ExpansionPanelEndpoint {
   ExpansionPanelEndpoint({
@@ -47,7 +47,7 @@ class EndpointListProvider with ChangeNotifier {
       fields: [],
       buttonColor: Colors.pink,
       units: []
-    ));
+   , ),);
   }
 
   void makeEndpointsList(List<EndpointSummary> endpointSummary) {

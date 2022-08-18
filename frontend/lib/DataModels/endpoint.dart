@@ -1,5 +1,5 @@
-import 'EndpointData.dart';
-import 'EndpointSummary.dart';
+import 'endpoint_data.dart';
+import 'endpoint_summary.dart';
 
 class Endpoint {
   late int id;

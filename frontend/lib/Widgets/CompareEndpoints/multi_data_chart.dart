@@ -1,10 +1,12 @@
-import 'package:adpv_frontend/Widgets/CommonWidgets.dart';
+// ignore implementation_imports
+import 'package:adpv_frontend/Widgets/common_widgets.dart';
+// ignore: implementation_imports
 import 'package:charts_common/src/chart/common/behavior/legend/legend.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 
-import '../../Common/Consts.dart';
-import '../../DataModels/Endpoint.dart';
+import '../../Common/consts.dart';
+import '../../DataModels/endpoint.dart';
 
 class MultiDataChart extends StatefulWidget {
   const MultiDataChart({required this.field, required this.endpoints, Key? key})
@@ -17,13 +19,10 @@ class MultiDataChart extends StatefulWidget {
 }
 
 class _MultiDataChartState extends State<MultiDataChart> {
-  String getUnit(String field) => widget
-        .endpoints[0]
-        .data
-        .enableFieldsList
-        .firstWhere((enableField) => enableField.label == field)
-        .unit
-        .name;
+  String getUnit(String field) => widget.endpoints[0].data.enableFieldsList
+      .firstWhere((enableField) => enableField.label == field)
+      .unit
+      .name;
 
   @override
   Widget build(BuildContext context) => Column(children: [
@@ -34,7 +33,7 @@ class _MultiDataChartState extends State<MultiDataChart> {
           child: buildChart(),
         ),
         buildSimpleDivider(context),
-      ]);
+      ],);
 
   Container buildSimpleDivider(BuildContext context) => Container(
         margin: const EdgeInsets.symmetric(vertical: 16),
@@ -61,16 +60,17 @@ class _MultiDataChartState extends State<MultiDataChart> {
               widget.field.toUpperCase() + spacer + getUnit(widget.field),
               textAlign: TextAlign.center,
               style: const TextStyle(
-                  fontSize: 16,
-                  color: Colors.pink,
-                  fontWeight: FontWeight.bold),
+                fontSize: 16,
+                color: Colors.pink,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),
       );
 
   List<charts.Series<Map<dynamic, dynamic>, DateTime>> _createData(
-          List<Endpoint> list) =>
+          List<Endpoint> list,) =>
       list
           .map((e) => charts.Series<Map<dynamic, dynamic>, DateTime>(
                 id: e.label,
@@ -79,14 +79,14 @@ class _MultiDataChartState extends State<MultiDataChart> {
                     DateTime.parse(endpointData[ignoreField]),
                 measureFn: (Map<dynamic, dynamic> endpointData, _) =>
                     endpointData[widget.field],
-              ))
+              ),)
           .toList();
 }
 
 class CustomLegendBuilder extends charts.LegendContentBuilder {
   @override
   Widget build(BuildContext context, LegendState legendState, Legend legend,
-          {bool? showMeasures}) =>
+          {bool? showMeasures,}) =>
       SizedBox(
         width: MediaQuery.of(context).size.width * 0.9,
         child: Wrap(
@@ -107,7 +107,7 @@ class CustomLegendBuilder extends charts.LegendContentBuilder {
                       ),
                     ),
                   ),
-                ]),
+                ],),
               )
               .toList(),
         ),

@@ -1,11 +1,12 @@
 import 'dart:math';
 
-import 'package:adpv_frontend/Repository/EndpointRepository/EndpointGateway.dart';
+import 'package:adpv_frontend/Repository/EndpointRepository/endpoint_gateway.dart';
 import 'package:flutter/cupertino.dart';
 
-import '../Common/Consts.dart';
-import '../DataModels/Endpoint.dart';
-import '../DataModels/EndpointSummary.dart';
+
+import '../Common/consts.dart';
+import '../DataModels/endpoint.dart';
+import '../DataModels/endpoint_summary.dart';
 
 class CompareEndpointsModel extends ChangeNotifier {
   Map<String, EndpointSummary> endpointSummaryMap = {};

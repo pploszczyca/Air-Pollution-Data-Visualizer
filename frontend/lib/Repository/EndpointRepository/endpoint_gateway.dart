@@ -1,8 +1,8 @@
-import 'package:adpv_frontend/DataModels/EndpointData.dart';
-import 'package:adpv_frontend/DataModels/EndpointSummary.dart';
+import 'package:adpv_frontend/DataModels/endpoint_data.dart';
+import 'package:adpv_frontend/DataModels/endpoint_summary.dart';
 
-import 'EndpointCache.dart';
-import 'EndpointRestRepository.dart';
+import 'endpoint_cache.dart';
+import 'endpoint_rest_repository.dart';
 
 class EndpointGateway {
   final EndpointRestRepository restRepository = EndpointRestRepository();
@@ -21,7 +21,11 @@ class EndpointGateway {
   }
 
   Future<EndpointData> getEndpointData(
-      int id, int? limit, int? offset, bool needUpdate) {
+    int id,
+    int? limit,
+    int? offset,
+    bool needUpdate,
+  ) {
     limit = limit ?? -1;
     offset = offset ?? -1;
     if (endpointCache.isEndpointInCache(id) && !needUpdate) {
@@ -31,7 +35,8 @@ class EndpointGateway {
     }
   }
 
-  Future<EndpointData> updateCacheAndGetEndpointData(int id, int limit, int offset) {
+  Future<EndpointData> updateCacheAndGetEndpointData(
+      int id, int limit, int offset,) {
     final Future<EndpointData> endpointDataFuture =
         restRepository.getEndpointData(id, limit, offset);
     endpointDataFuture.then((value) {
@@ -39,11 +44,8 @@ class EndpointGateway {
     });
     return endpointDataFuture;
   }
-  
-  
 
   void clearEndpointDataCache() {
     endpointCache.clearEndpointDataCache();
   }
-
 }

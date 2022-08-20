@@ -126,3 +126,4 @@ For this moment, it is prepared a [mock.sql](/backend/sql_mocks/mock.sql) file, 
 
 ## Docs
 - [Backend description (PL)](./docs/backend_overview_pl.md)
+- [Run frontend in own phone](./docs/run_frontend_in_own_phone.md)

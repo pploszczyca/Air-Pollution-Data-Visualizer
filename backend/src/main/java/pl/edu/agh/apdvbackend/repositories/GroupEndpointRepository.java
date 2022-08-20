@@ -3,7 +3,6 @@ package pl.edu.agh.apdvbackend.repositories;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import pl.edu.agh.apdvbackend.models.database.GroupEndpoint;
 
 @Repository
@@ -16,7 +15,4 @@ public interface GroupEndpointRepository
             "WHERE u.id = ?1 AND ee.endpoint.id = ?2")
     Iterable<GroupEndpoint> findAllUserIdAndEndpointId(Long userId,
                                                        Long endpointId);
-
-    @Transactional
-    void deleteAllByGroupId(Long groupId);
 }

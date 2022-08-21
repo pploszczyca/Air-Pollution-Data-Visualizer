@@ -27,13 +27,9 @@ class GroupListProvider with ChangeNotifier {
     makeGroupList(list);
   }
 
-  void setGroup(GroupSummary group) {
-    groupsList.add(GroupCard(name: group.name, id: group.id));
-  }
-
   void makeGroupList(List<GroupSummary> groupSummary) {
-    for (var element in groupSummary) {
-      setGroup(element);
-    }
+    groupsList = groupSummary
+        .map((group) => GroupCard(name: group.name, id: group.id))
+        .toList();
   }
 }

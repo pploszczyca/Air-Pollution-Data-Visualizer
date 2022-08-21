@@ -27,8 +27,9 @@ class _GroupsViewState extends State<GroupsView> {
           centerTitle: true,
           toolbarHeight: 120,
           title: Container(
-              padding: const EdgeInsets.only(top: 20, bottom: 10),
-              child: const Text("Administrator panel")),
+            padding: const EdgeInsets.only(top: 20, bottom: 10),
+            child: const Text("Administrator panel"),
+          ),
           backgroundColor: Colors.white,
           titleTextStyle: const TextStyle(
               color: Colors.black,
@@ -69,26 +70,23 @@ class _GroupsViewState extends State<GroupsView> {
   ListView _buildGroupList(
           GroupListProvider groupListProvider, int itemCount) =>
       ListView.builder(
-          itemCount: itemCount,
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          itemBuilder: (context, i) =>
-              _buildGroupCard(groupListProvider.groupsList[i]));
+        itemCount: itemCount,
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        itemBuilder: (context, i) =>
+            _buildGroupCard(groupListProvider.groupsList[i]),
+      );
 
   Card _buildGroupCard(GroupCard group) => Card(
         margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         shadowColor: Colors.black,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
         child: ExpansionTile(
           onExpansionChanged: (value) {
-            if (value) {
-              setState(() {
-                group.titleColor = Colors.pink;
-              });
-            } else {
-              setState(() {
-                group.titleColor = Colors.black;
-              });
-            }
+            setState(() {
+              group.titleColor = value ? Colors.pink : Colors.black;
+            });
           },
           title: Text(
             group.name,
@@ -116,11 +114,8 @@ class _GroupsViewState extends State<GroupsView> {
         child: TextButton(
           onPressed: () {},
           onHover: (value) {
-            if (value) {
-              _onHoverButton(groupCard, text, Colors.pink);
-            } else {
-              _onHoverButton(groupCard, text, Colors.black);
-            }
+            final color = value ? Colors.pink : Colors.black;
+            _onHoverButton(groupCard, text, color);
           },
           child: Row(
             children: [

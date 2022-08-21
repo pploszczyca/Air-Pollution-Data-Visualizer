@@ -6,12 +6,13 @@ import '../../DataModels/BackendResponse.dart';
 
 class GroupsRepository {
   final Dio _client = Dio();
-  String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkB0ZXN0LmNvbSIsInJvbGVzIjpbIkFETUlOIiwiVVNFUiJdLCJpZCI6MSwiZXhwIjoxNjYwNjEyNjQ2fQ.3LWHWBokKSVp-7MSvnxRU-53AAdecicqAZ9nmoEG_0o";
+  String token = 'todo: function obtaining token';
 
   Future<List<GroupSummary>> getGroupsSummary() async {
     _client.options.headers["Authorization"] = "Bearer $token";
+
     try {
-      final response = await _client.get(backendURL + getGroupSummaryURL);
+      final response = await _client.get(backendURL + getGroupSummaryURL, );
       if (response.statusCode == 200) {
         final BackendResponse backendResponse =
             BackendResponse.fromJson(response.data);

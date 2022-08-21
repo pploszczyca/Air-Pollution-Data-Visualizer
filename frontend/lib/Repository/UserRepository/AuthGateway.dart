@@ -1,7 +1,7 @@
-import 'package:adpv_frontend/Views/loginViewUtils.dart';
 import 'package:dio/dio.dart';
 
 import '../../Common/URLs.dart';
+import '../../Views/Logging/utils.dart';
 
 class AuthTokenResponse {
   String accessToken;

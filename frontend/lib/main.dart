@@ -1,9 +1,10 @@
+import 'package:adpv_frontend/Repository/AdminRepository/AdminGateway.dart';
 import 'package:adpv_frontend/Repository/EndpointRepository/EndpointGateway.dart';
 import 'package:adpv_frontend/Repository/UserRepository/UserGateway.dart';
-import 'package:adpv_frontend/Views/LoginView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+import 'App.dart';
 
 Future main() async {
   await loadEnvFile();
@@ -14,6 +15,7 @@ class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
   final UserGateway userGateway = UserGateway();
   final EndpointGateway endpointGateway = EndpointGateway();
+  final AdminGateway adminGateway = AdminGateway();
 
   @override
   Widget build(BuildContext context) => MaterialApp(
@@ -21,8 +23,12 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const LoginView()
-    );
+        home: App(
+          endpointGateway: endpointGateway,
+          userGateway: userGateway,
+          adminGateway: adminGateway,
+        ),
+      );
 }
 
 Future loadEnvFile() async {

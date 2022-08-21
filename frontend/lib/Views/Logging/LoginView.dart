@@ -1,9 +1,10 @@
 import 'package:adpv_frontend/App.dart';
-import 'package:adpv_frontend/Views/loginViewUtils.dart';
+import 'package:adpv_frontend/Repository/AdminRepository/AdminGateway.dart';
 import 'package:flutter/material.dart';
-import '../Repository/EndpointRepository/EndpointGateway.dart';
-import '../Repository/UserRepository/AuthGateway.dart';
-import '../Repository/UserRepository/UserGateway.dart';
+import '../../Repository/EndpointRepository/EndpointGateway.dart';
+import '../../Repository/UserRepository/AuthGateway.dart';
+import '../../Repository/UserRepository/UserGateway.dart';
+import 'utils.dart';
 
 const Color loginPagePrimaryColor = Color.fromRGBO(176, 57, 186, 1);
 ColorScheme loginPageTheme =
@@ -399,6 +400,7 @@ class _LoginViewState extends State<LoginView>
           builder: (BuildContext context) => App(
             userGateway: UserGateway(),
             endpointGateway: EndpointGateway(),
+            adminGateway: AdminGateway(),
           ),
         ),
       );

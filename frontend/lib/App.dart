@@ -46,7 +46,7 @@ class _AppState extends State<App> {
       endpointGateway: widget.endpointGateway,
     ),
     const ProfileView(),
-    GroupsView(repository: widget.adminGateway)
+    GroupsView(gateway: widget.adminGateway)
     //Todo two button admin screen
   ];
 

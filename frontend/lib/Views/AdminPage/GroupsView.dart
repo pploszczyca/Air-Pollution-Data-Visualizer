@@ -6,9 +6,9 @@ import '../../Models/GroupListProvider.dart';
 import '../../Widgets/CommonWidgets.dart';
 
 class GroupsView extends StatefulWidget {
-  const GroupsView({required this.repository, Key? key}) : super(key: key);
+  const GroupsView({required this.gateway, Key? key}) : super(key: key);
 
-  final AdminGateway repository;
+  final AdminGateway gateway;
 
   @override
   State<GroupsView> createState() => _GroupsViewState();
@@ -51,7 +51,7 @@ class _GroupsViewState extends State<GroupsView> {
       );
 
   FutureBuilder _buildBody() => FutureBuilder<List<GroupSummary>>(
-      future: widget.repository.getGroupsSummary(),
+      future: widget.gateway.getGroupsSummary(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.none ||
             snapshot.data == null) {
@@ -59,7 +59,7 @@ class _GroupsViewState extends State<GroupsView> {
         }
         return ChangeNotifierProvider(
           create: (context) =>
-              GroupListProvider(snapshot.data!, widget.repository),
+              GroupListProvider(snapshot.data!, widget.gateway),
           child: Consumer<GroupListProvider>(
             builder: (context, groupListProvider, _) =>
                 _buildGroupList(groupListProvider, snapshot.data!.length),

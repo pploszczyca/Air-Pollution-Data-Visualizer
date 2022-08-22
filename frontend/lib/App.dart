@@ -1,8 +1,6 @@
-import 'package:adpv_frontend/DataModels/EndpointSummary.dart';
-import 'package:adpv_frontend/Repository/AdminRepository/AdminGateway.dart';
+import 'package:adpv_frontend/DataModels/Endpoint/EndpointSummary.dart';
 import 'package:adpv_frontend/Repository/EndpointRepository/EndpointGateway.dart';
 import 'package:adpv_frontend/Repository/UserRepository/UserGateway.dart';
-import 'package:adpv_frontend/Views/AdminPage/GroupsView.dart';
 import 'package:adpv_frontend/Widgets/CommonWidgets.dart';
 import 'package:flutter/material.dart';
 
@@ -23,13 +21,9 @@ const int adminIcon = 0xe062;
 class App extends StatefulWidget {
   final EndpointGateway endpointGateway;
   final UserGateway userGateway;
-  final AdminGateway adminGateway;
 
   const App(
-      {required this.endpointGateway,
-      required this.userGateway,
-      required this.adminGateway,
-      Key? key})
+      {required this.endpointGateway, required this.userGateway, Key? key})
       : super(key: key);
 
   @override
@@ -46,8 +40,6 @@ class _AppState extends State<App> {
       endpointGateway: widget.endpointGateway,
     ),
     const ProfileView(),
-    GroupsView(gateway: widget.adminGateway)
-    //Todo two button admin screen
   ];
 
   @override
@@ -75,7 +67,7 @@ class _AppState extends State<App> {
       _buildRailNavigationItem(profile, profileIcon),
     ];
 
-    if (widget.userGateway.isAdmin) {
+    if (widget.userGateway.isAdmin()) {
       destinations.add(_buildRailNavigationItem(admin, adminIcon));
     }
 
@@ -123,7 +115,7 @@ class _AppState extends State<App> {
       _buildNavigationItem(profile, const Icon(Icons.person_outline)),
     ];
 
-    if (widget.userGateway.isAdmin) {
+    if (widget.userGateway.isAdmin()) {
       destinations.add(_buildNavigationItem(
           admin, const Icon(Icons.admin_panel_settings_outlined)));
     }

@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:multiselect/multiselect.dart';
 import 'package:provider/provider.dart';
 
-import '../DataModels/Endpoint.dart';
-import '../DataModels/EndpointSummary.dart';
+import '../DataModels/Endpoint/Endpoint.dart';
+import '../DataModels/Endpoint/EndpointSummary.dart';
 import '../Models/CompareEndpointsProvider.dart';
 import '../Widgets/CommonWidgets.dart';
 

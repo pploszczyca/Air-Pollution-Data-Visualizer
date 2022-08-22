@@ -2,7 +2,7 @@ import 'package:adpv_frontend/Repository/EndpointRepository/EndpointGateway.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../DataModels/EndpointData.dart';
+import '../DataModels/Endpoint/EndpointData.dart';
 import '../Models/EndpointViewProvider.dart';
 import '../Widgets/CommonWidgets.dart';
 import '../Widgets/EndpointView/EndpointInfoTable.dart';

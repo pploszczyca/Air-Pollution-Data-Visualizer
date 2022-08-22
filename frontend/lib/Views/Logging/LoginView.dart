@@ -1,10 +1,11 @@
 import 'package:adpv_frontend/App.dart';
-import 'package:adpv_frontend/Repository/AdminRepository/AdminGateway.dart';
+import 'package:adpv_frontend/Views/Logging/utils.dart';
 import 'package:flutter/material.dart';
+
 import '../../Repository/EndpointRepository/EndpointGateway.dart';
 import '../../Repository/UserRepository/AuthGateway.dart';
 import '../../Repository/UserRepository/UserGateway.dart';
-import 'utils.dart';
+
 
 const Color loginPagePrimaryColor = Color.fromRGBO(176, 57, 186, 1);
 ColorScheme loginPageTheme =
@@ -31,7 +32,9 @@ const focusedInputBorder = OutlineInputBorder(
 );
 
 class LoginView extends StatefulWidget {
-  const LoginView({Key? key}) : super(key: key);
+  final UserGateway userGateway;
+
+  const LoginView({required this.userGateway, Key? key}) : super(key: key);
 
   @override
   State<LoginView> createState() => _LoginViewState();
@@ -41,7 +44,6 @@ class _LoginViewState extends State<LoginView>
     with SingleTickerProviderStateMixin {
   AuthFormType _formType = AuthFormType.signin;
   late TabController _tabController;
-  final AuthGetaway _authGateway = AuthGetaway();
 
   final TextEditingController _emailLoginController = TextEditingController();
   final TextEditingController _passwordLoginController =
@@ -366,9 +368,10 @@ class _LoginViewState extends State<LoginView>
       form = AuthenticateForm(_emailCreateController.text,
           _passwordLoginController.text, AuthFormType.signup);
     }
-    final AuthResponse response = await _authGateway.authenticateUser(form);
+    final AuthResponse response =
+        await widget.userGateway.authenticateUser(form);
     if (!response.success) {
-      final String message = response.errorMessage!;
+      final String message = response.errorMessage ?? 'LOGIN ERROR';
       Scaffold.of(context).showSnackBar(
         SnackBar(
           content: Container(
@@ -398,9 +401,8 @@ class _LoginViewState extends State<LoginView>
         context,
         MaterialPageRoute(
           builder: (BuildContext context) => App(
-            userGateway: UserGateway(),
+            userGateway: widget.userGateway,
             endpointGateway: EndpointGateway(),
-            adminGateway: AdminGateway(),
           ),
         ),
       );

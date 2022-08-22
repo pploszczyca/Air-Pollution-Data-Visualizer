@@ -2,7 +2,7 @@ import 'package:../../charts_flutter/flutter.dart' as charts;
 import 'package:flutter/cupertino.dart';
 
 import '../../Common/Consts.dart';
-import '../../DataModels/EndpointData.dart';
+import '../../DataModels/Endpoint/EndpointData.dart';
 
 class DataChart extends StatelessWidget {
   const DataChart(

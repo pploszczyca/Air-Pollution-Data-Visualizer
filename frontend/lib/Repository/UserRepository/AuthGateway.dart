@@ -1,4 +1,3 @@
-
 import 'package:dio/dio.dart';
 
 import '../../Common/URLs.dart';
@@ -25,7 +24,6 @@ class AuthGetaway {
       final tokens = AuthTokenResponse(
           accessToken: response.data['data']['accessToken'],
           refreshToken: response.data['data']['refreshToken']);
-
       return AuthResponse(success: true, tokens: tokens);
     } on DioError catch (error) {
       return AuthResponse(

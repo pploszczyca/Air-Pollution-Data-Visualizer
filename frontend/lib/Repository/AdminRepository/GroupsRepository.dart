@@ -12,7 +12,9 @@ class GroupsRepository {
     _client.options.headers["Authorization"] = "Bearer $token";
 
     try {
-      final response = await _client.get(backendURL + getGroupSummaryURL, );
+      final response = await _client.get(
+        backendURL + getGroupSummaryURL,
+      );
       if (response.statusCode == 200) {
         final BackendResponse backendResponse =
             BackendResponse.fromJson(response.data);

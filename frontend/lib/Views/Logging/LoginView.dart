@@ -6,7 +6,6 @@ import '../../Repository/EndpointRepository/EndpointGateway.dart';
 import '../../Repository/UserRepository/AuthGateway.dart';
 import '../../Repository/UserRepository/UserGateway.dart';
 
-
 const Color loginPagePrimaryColor = Color.fromRGBO(176, 57, 186, 1);
 ColorScheme loginPageTheme =
     ThemeData().colorScheme.copyWith(primary: loginPagePrimaryColor);
@@ -401,8 +400,8 @@ class _LoginViewState extends State<LoginView>
         context,
         MaterialPageRoute(
           builder: (BuildContext context) => App(
+            endpointGateway: EndpointGateway(widget.userGateway),
             userGateway: widget.userGateway,
-            endpointGateway: EndpointGateway(),
           ),
         ),
       );

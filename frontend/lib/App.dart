@@ -1,10 +1,10 @@
 import 'package:adpv_frontend/DataModels/Endpoint/EndpointSummary.dart';
 import 'package:adpv_frontend/Repository/EndpointRepository/EndpointGateway.dart';
 import 'package:adpv_frontend/Repository/UserRepository/UserGateway.dart';
+import 'package:adpv_frontend/Views/EnpointListView.dart';
 import 'package:adpv_frontend/Widgets/CommonWidgets.dart';
 import 'package:flutter/material.dart';
 
-import 'Routing/EndpointNavigator.dart';
 import 'Views/CompareEndpointsView.dart';
 import 'Views/ProfileView.dart';
 
@@ -35,7 +35,9 @@ class _AppState extends State<App> {
 
   int _selectedIndex = 0;
   late final List<Widget> _navigationOptions = <Widget>[
-    EndpointNavigator(endpointGateway: widget.endpointGateway),
+    EndpointListView(
+      repository: widget.endpointGateway,
+    ),
     CompareChartsView(
       endpointGateway: widget.endpointGateway,
     ),

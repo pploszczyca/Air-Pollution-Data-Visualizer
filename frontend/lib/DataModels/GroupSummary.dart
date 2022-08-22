@@ -1,4 +1,4 @@
-class GroupSummary{
+class GroupSummary {
   final int id;
   final String name;
 

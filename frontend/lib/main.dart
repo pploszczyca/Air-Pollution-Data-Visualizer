@@ -1,9 +1,10 @@
 import 'package:adpv_frontend/Repository/AdminRepository/AdminGateway.dart';
 import 'package:adpv_frontend/Repository/EndpointRepository/EndpointGateway.dart';
 import 'package:adpv_frontend/Repository/UserRepository/UserGateway.dart';
-import 'package:adpv_frontend/Views/LoginView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+import 'Views/Logging/LoginView.dart';
 
 Future main() async {
   await loadEnvFile();

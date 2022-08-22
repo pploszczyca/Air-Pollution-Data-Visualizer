@@ -1,8 +1,9 @@
-import 'package:adpv_frontend/Views/loginViewUtils.dart';
+
 import 'package:dio/dio.dart';
 
 import '../../Common/URLs.dart';
 import '../../DataModels/User/auth_token_response.dart';
+import '../../Views/Logging/utils.dart';
 
 class AuthResponse {
   bool success;

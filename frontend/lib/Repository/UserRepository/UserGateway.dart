@@ -5,7 +5,8 @@ import 'package:adpv_frontend/Repository/UserRepository/AuthGateway.dart';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import '../../Views/loginViewUtils.dart';
+import '../../Views/Logging/utils.dart';
+
 
 const accessKey = 'access';
 const refreshKey = 'refresh';

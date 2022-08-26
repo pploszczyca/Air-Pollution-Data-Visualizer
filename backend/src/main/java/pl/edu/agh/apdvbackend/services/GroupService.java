@@ -8,7 +8,6 @@ import pl.edu.agh.apdvbackend.models.body_models.group.AboutGroupResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.AddGroupRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.EndpointGroupRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.AdminPanelGroupResponseBody;
-import pl.edu.agh.apdvbackend.models.body_models.group.EndpointGroupRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.GroupMembersResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.ShortGroupResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.user.ShortUserResponseBody;

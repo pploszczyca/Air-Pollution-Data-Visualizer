@@ -2,8 +2,9 @@ import 'package:adpv_frontend/DataModels/GroupSummary.dart';
 import 'package:adpv_frontend/Repository/AdminRepository/AdminGateway.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../../Models/GroupListProvider.dart';
-import '../../Widgets/CommonWidgets.dart';
+import '../../Widgets/common_widgets.dart';
 
 class GroupsView extends StatefulWidget {
   const GroupsView({required this.gateway, Key? key}) : super(key: key);

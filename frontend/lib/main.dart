@@ -1,6 +1,6 @@
 import 'package:adpv_frontend/Repository/AdminRepository/AdminGateway.dart';
-import 'package:adpv_frontend/Repository/EndpointRepository/EndpointGateway.dart';
-import 'package:adpv_frontend/Repository/UserRepository/UserGateway.dart';
+import 'package:adpv_frontend/Repository/EndpointRepository/endpoint_gateway.dart';
+import 'package:adpv_frontend/Repository/UserRepository/user_gateway.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 

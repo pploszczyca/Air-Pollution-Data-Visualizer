@@ -1,11 +1,10 @@
-import 'package:adpv_frontend/App.dart';
 import 'package:adpv_frontend/Views/Logging/utils.dart';
 import 'package:flutter/material.dart';
 
-import '../../Repository/EndpointRepository/EndpointGateway.dart';
+import '../../Repository/EndpointRepository/endpoint_gateway.dart';
 import '../../Repository/UserRepository/AuthGateway.dart';
-import '../../Repository/UserRepository/UserGateway.dart';
-
+import '../../Repository/UserRepository/user_gateway.dart';
+import '../../app.dart';
 
 const Color loginPagePrimaryColor = Color.fromRGBO(176, 57, 186, 1);
 ColorScheme loginPageTheme =

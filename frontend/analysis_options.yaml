@@ -61,6 +61,7 @@ linter:
     - prefer_is_empty
     - prefer_is_not_empty
     - prefer_typing_uninitialized_variables
+    - require_trailing_commas
     - sized_box_for_whitespace
     - sort_child_properties_last
     - test_types_in_equals

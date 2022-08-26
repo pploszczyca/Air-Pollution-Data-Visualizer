@@ -1,7 +1,6 @@
-
 import 'package:dio/dio.dart';
 
-import '../../Common/URLs.dart';
+import '../../Common/urls.dart';
 import '../../DataModels/User/auth_token_response.dart';
 import '../../Views/Logging/utils.dart';
 

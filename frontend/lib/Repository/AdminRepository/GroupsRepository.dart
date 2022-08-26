@@ -21,8 +21,8 @@ class GroupsRepository {
         if (backendResponse.error == "") {
           List<GroupSummary> groupSummaryList = [];
           groupSummaryList = backendResponse.data
-              .map<GroupSummary>((e) =>
-                  GroupSummary.fromJson(e)) // do not refactor! UFO MAGIC!
+              // ignore: unnecessary_lambdas
+              .map<GroupSummary>((e) => GroupSummary.fromJson(e)) // do not refactor! UFO MAGIC!
               .toList();
           return Future.value(groupSummaryList);
         }

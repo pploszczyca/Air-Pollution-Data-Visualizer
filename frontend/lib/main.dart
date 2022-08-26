@@ -19,13 +19,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-      title: 'APDV Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: LoginView(
-        userGateway: userGateway,
-      ));
+        title: 'APDV Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: LoginView(
+          userGateway: userGateway,
+        ),
+      );
 }
 
 Future loadEnvFile() async {

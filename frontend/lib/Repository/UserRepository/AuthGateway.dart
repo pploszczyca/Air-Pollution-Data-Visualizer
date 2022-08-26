@@ -19,16 +19,21 @@ class AuthGetaway {
     final String url =
         (form.formType == AuthFormType.signin) ? authLoginURL : authRegisterURL;
     try {
-      final response = await _client.post(backendURL + url,
-          data: {'email': form.email, 'password': form.password});
+      final response = await _client.post(
+        backendURL + url,
+        data: {'email': form.email, 'password': form.password},
+      );
       final tokens = AuthTokenResponse(
-          accessToken: response.data['data']['accessToken'],
-          refreshToken: response.data['data']['refreshToken']);
+        accessToken: response.data['data']['accessToken'],
+        refreshToken: response.data['data']['refreshToken'],
+      );
 
       return AuthResponse(success: true, tokens: tokens);
     } on DioError catch (error) {
       return AuthResponse(
-          success: false, errorMessage: error.response?.data['error']);
+        success: false,
+        errorMessage: error.response?.data['error'],
+      );
     }
   }
 
@@ -37,13 +42,17 @@ class AuthGetaway {
     try {
       final response = await _client.post(backendURL + refreshTokenURL);
       return AuthResponse(
-          success: true,
-          tokens: AuthTokenResponse(
-              accessToken: response.data['accessToken'],
-              refreshToken: response.data['refreshToken']));
+        success: true,
+        tokens: AuthTokenResponse(
+          accessToken: response.data['accessToken'],
+          refreshToken: response.data['refreshToken'],
+        ),
+      );
     } on DioError catch (error) {
       return AuthResponse(
-          success: false, errorMessage: error.response?.data['error']);
+        success: false,
+        errorMessage: error.response?.data['error'],
+      );
     }
   }
 }

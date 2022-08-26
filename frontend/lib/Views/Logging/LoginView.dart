@@ -113,37 +113,42 @@ class _LoginViewState extends State<LoginView>
             alignment: Alignment.topCenter,
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                  begin: Alignment.topRight,
-                  end: Alignment.bottomLeft,
-                  colors: [
-                    Color.fromRGBO(21, 184, 194, 1),
-                    Color.fromRGBO(14, 14, 82, 0.9)
-                  ]),
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [
+                  Color.fromRGBO(21, 184, 194, 1),
+                  Color.fromRGBO(14, 14, 82, 0.9)
+                ],
+              ),
             ),
-            child: ListView(children: [
-              _buildAppBar(),
-              Container(
-                width: 300,
-                height: 550,
-                padding: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width * 0.1,
-                  top: 20,
-                  right: MediaQuery.of(context).size.width * 0.1,
-                ),
-                child: DefaultTabController(
-                  length: 2,
-                  child: Scaffold(
-                    backgroundColor: Colors.transparent,
-                    body: Builder(
-                      builder: (buildContext) => Column(children: <Widget>[
-                        _buildTabBar(),
-                        _buildExpandedTabs(buildContext)
-                      ]),
+            child: ListView(
+              children: [
+                _buildAppBar(),
+                Container(
+                  width: 300,
+                  height: 550,
+                  padding: EdgeInsets.only(
+                    left: MediaQuery.of(context).size.width * 0.1,
+                    top: 20,
+                    right: MediaQuery.of(context).size.width * 0.1,
+                  ),
+                  child: DefaultTabController(
+                    length: 2,
+                    child: Scaffold(
+                      backgroundColor: Colors.transparent,
+                      body: Builder(
+                        builder: (buildContext) => Column(
+                          children: <Widget>[
+                            _buildTabBar(),
+                            _buildExpandedTabs(buildContext)
+                          ],
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              )
-            ]),
+                )
+              ],
+            ),
           ),
         ),
       );
@@ -155,7 +160,10 @@ class _LoginViewState extends State<LoginView>
         child: const Text(
           'AIR POLLUTION APP',
           style: TextStyle(
-              fontFamily: 'SofiaSans', fontSize: 55, color: Colors.white),
+            fontFamily: 'SofiaSans',
+            fontSize: 55,
+            color: Colors.white,
+          ),
         ),
       );
 
@@ -185,33 +193,36 @@ class _LoginViewState extends State<LoginView>
           controller: _tabController,
           children: [
             _buildInputFormPanel(
-                'WELCOME AGAIN',
-                'LOG IN',
-                _loginButtonState,
-                _emailLoginController,
-                _passwordLoginController,
-                AuthFormType.signin,
-                context),
+              'WELCOME AGAIN',
+              'LOG IN',
+              _loginButtonState,
+              _emailLoginController,
+              _passwordLoginController,
+              AuthFormType.signin,
+              context,
+            ),
             _buildInputFormPanel(
-                'HI NEW USER',
-                'CREATE',
-                _createButtonState,
-                _emailCreateController,
-                _passwordCreateController,
-                AuthFormType.signup,
-                context),
+              'HI NEW USER',
+              'CREATE',
+              _createButtonState,
+              _emailCreateController,
+              _passwordCreateController,
+              AuthFormType.signup,
+              context,
+            ),
           ],
         ),
       );
 
   Container _buildInputFormPanel(
-          String welcomeText,
-          String buttonText,
-          ButtonState buttonState,
-          TextEditingController emailController,
-          TextEditingController passwordController,
-          AuthFormType type,
-          BuildContext context) =>
+    String welcomeText,
+    String buttonText,
+    ButtonState buttonState,
+    TextEditingController emailController,
+    TextEditingController passwordController,
+    AuthFormType type,
+    BuildContext context,
+  ) =>
       Container(
         decoration: const BoxDecoration(borderRadius: roundedBox),
         child: ListView(
@@ -235,10 +246,11 @@ class _LoginViewState extends State<LoginView>
         child: Text(
           text,
           style: const TextStyle(
-              fontSize: 25,
-              fontFamily: 'Ubuntu Condensed',
-              color: loginPagePrimaryColor,
-              letterSpacing: 4),
+            fontSize: 25,
+            fontFamily: 'Ubuntu Condensed',
+            color: loginPagePrimaryColor,
+            letterSpacing: 4,
+          ),
         ),
       );
 
@@ -246,10 +258,11 @@ class _LoginViewState extends State<LoginView>
         decoration: backgroundDecor,
         alignment: Alignment.center,
         padding: EdgeInsets.only(
-            left: MediaQuery.of(context).size.width * 0.1 - 10,
-            right: MediaQuery.of(context).size.width * 0.1 - 10,
-            top: 40,
-            bottom: 25),
+          left: MediaQuery.of(context).size.width * 0.1 - 10,
+          right: MediaQuery.of(context).size.width * 0.1 - 10,
+          top: 40,
+          bottom: 25,
+        ),
         child: Theme(
           data: Theme.of(context).copyWith(colorScheme: loginPageTheme),
           child: TextField(
@@ -276,10 +289,11 @@ class _LoginViewState extends State<LoginView>
   Container _buildPasswordInput(TextEditingController controller) => Container(
         decoration: backgroundDecor,
         padding: EdgeInsets.only(
-            left: MediaQuery.of(context).size.width * 0.1 - 10,
-            right: MediaQuery.of(context).size.width * 0.1 - 10,
-            top: 20,
-            bottom: 25),
+          left: MediaQuery.of(context).size.width * 0.1 - 10,
+          right: MediaQuery.of(context).size.width * 0.1 - 10,
+          top: 20,
+          bottom: 25,
+        ),
         child: Theme(
           data: Theme.of(context).copyWith(colorScheme: loginPageTheme),
           child: TextField(
@@ -316,24 +330,35 @@ class _LoginViewState extends State<LoginView>
       );
 
   Container _buildSubmitButton(
-          String text, ButtonState state, BuildContext context) =>
+    String text,
+    ButtonState state,
+    BuildContext context,
+  ) =>
       Container(
         decoration:
             const BoxDecoration(color: Colors.white, borderRadius: roundedBox),
         height: 90,
-        padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.2,
-            20, MediaQuery.of(context).size.width * 0.2, 30),
+        padding: EdgeInsets.fromLTRB(
+          MediaQuery.of(context).size.width * 0.2,
+          20,
+          MediaQuery.of(context).size.width * 0.2,
+          30,
+        ),
         child: Container(
           decoration: BoxDecoration(
             gradient: state == ButtonState.enabled
-                ? const LinearGradient(colors: [
-                    Color.fromRGBO(71, 118, 230, 1),
-                    Color.fromRGBO(142, 84, 233, 1)
-                  ])
-                : const LinearGradient(colors: [
-                    Color.fromRGBO(71, 118, 230, 0.2),
-                    Color.fromRGBO(142, 84, 233, 0.2)
-                  ]),
+                ? const LinearGradient(
+                    colors: [
+                      Color.fromRGBO(71, 118, 230, 1),
+                      Color.fromRGBO(142, 84, 233, 1)
+                    ],
+                  )
+                : const LinearGradient(
+                    colors: [
+                      Color.fromRGBO(71, 118, 230, 0.2),
+                      Color.fromRGBO(142, 84, 233, 0.2)
+                    ],
+                  ),
             borderRadius: BorderRadius.circular(20),
           ),
           child: ElevatedButton(
@@ -350,9 +375,10 @@ class _LoginViewState extends State<LoginView>
             child: Text(
               text,
               style: const TextStyle(
-                  fontFamily: 'Ubuntu Condensed',
-                  fontSize: 25,
-                  color: Colors.white),
+                fontFamily: 'Ubuntu Condensed',
+                fontSize: 25,
+                color: Colors.white,
+              ),
             ),
           ),
         ),
@@ -361,11 +387,17 @@ class _LoginViewState extends State<LoginView>
   void _onSubmitButton(context) async {
     AuthenticateForm form;
     if (_formType == AuthFormType.signin) {
-      form = AuthenticateForm(_emailLoginController.text,
-          _passwordLoginController.text, AuthFormType.signin);
+      form = AuthenticateForm(
+        _emailLoginController.text,
+        _passwordLoginController.text,
+        AuthFormType.signin,
+      );
     } else {
-      form = AuthenticateForm(_emailCreateController.text,
-          _passwordLoginController.text, AuthFormType.signup);
+      form = AuthenticateForm(
+        _emailCreateController.text,
+        _passwordLoginController.text,
+        AuthFormType.signup,
+      );
     }
     final AuthResponse response =
         await widget.userGateway.authenticateUser(form);

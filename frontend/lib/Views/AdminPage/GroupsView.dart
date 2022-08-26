@@ -33,10 +33,11 @@ class _GroupsViewState extends State<GroupsView> {
           ),
           backgroundColor: Colors.white,
           titleTextStyle: const TextStyle(
-              color: Colors.black,
-              fontFamily: 'Ubuntu Condensed',
-              fontSize: 40,
-              fontWeight: FontWeight.w500),
+            color: Colors.black,
+            fontFamily: 'Ubuntu Condensed',
+            fontSize: 40,
+            fontWeight: FontWeight.w500,
+          ),
           titleSpacing: 20,
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(20),
@@ -52,24 +53,27 @@ class _GroupsViewState extends State<GroupsView> {
       );
 
   FutureBuilder _buildBody() => FutureBuilder<List<GroupSummary>>(
-      future: widget.gateway.getGroupsSummary(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.none ||
-            snapshot.data == null) {
-          return loadingInCenter();
-        }
-        return ChangeNotifierProvider(
-          create: (context) =>
-              GroupListProvider(snapshot.data!, widget.gateway),
-          child: Consumer<GroupListProvider>(
-            builder: (context, groupListProvider, _) =>
-                _buildGroupList(groupListProvider, snapshot.data!.length),
-          ),
-        );
-      });
+        future: widget.gateway.getGroupsSummary(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.none ||
+              snapshot.data == null) {
+            return loadingInCenter();
+          }
+          return ChangeNotifierProvider(
+            create: (context) =>
+                GroupListProvider(snapshot.data!, widget.gateway),
+            child: Consumer<GroupListProvider>(
+              builder: (context, groupListProvider, _) =>
+                  _buildGroupList(groupListProvider, snapshot.data!.length),
+            ),
+          );
+        },
+      );
 
   ListView _buildGroupList(
-          GroupListProvider groupListProvider, int itemCount) =>
+    GroupListProvider groupListProvider,
+    int itemCount,
+  ) =>
       ListView.builder(
         itemCount: itemCount,
         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -92,10 +96,11 @@ class _GroupsViewState extends State<GroupsView> {
           title: Text(
             group.name,
             style: TextStyle(
-                fontFamily: 'SofiaSans',
-                fontSize: 25,
-                color: group.titleColor,
-                fontWeight: FontWeight.w500),
+              fontFamily: 'SofiaSans',
+              fontSize: 25,
+              color: group.titleColor,
+              fontWeight: FontWeight.w500,
+            ),
           ),
           tilePadding: const EdgeInsets.all(20),
           iconColor: group.titleColor,
@@ -103,13 +108,19 @@ class _GroupsViewState extends State<GroupsView> {
           children: [
             _buildButtonContainer('Members', group, group.membersButtonColor),
             _buildButtonContainer(
-                'Endpoints and permissions', group, group.endpointsButtonColor),
+              'Endpoints and permissions',
+              group,
+              group.endpointsButtonColor,
+            ),
           ],
         ),
       );
 
   Container _buildButtonContainer(
-          String text, GroupCard groupCard, Color color) =>
+    String text,
+    GroupCard groupCard,
+    Color color,
+  ) =>
       Container(
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
         child: TextButton(
@@ -127,7 +138,10 @@ class _GroupsViewState extends State<GroupsView> {
                   child: Text(
                     text,
                     style: TextStyle(
-                        fontFamily: 'SofiaSans', fontSize: 20, color: color),
+                      fontFamily: 'SofiaSans',
+                      fontSize: 20,
+                      color: color,
+                    ),
                   ),
                 ),
               ),

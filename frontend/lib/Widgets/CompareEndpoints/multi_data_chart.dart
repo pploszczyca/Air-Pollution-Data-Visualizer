@@ -1,5 +1,6 @@
 // ignore implementation_imports
 import 'package:adpv_frontend/Widgets/common_widgets.dart';
+
 // ignore: implementation_imports
 import 'package:charts_common/src/chart/common/behavior/legend/legend.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
@@ -105,14 +106,18 @@ class CustomLegendBuilder extends charts.LegendContentBuilder {
                   children: [
                     Container(
                       margin: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 0),
+                        horizontal: 8,
+                        vertical: 0,
+                      ),
                       child: Chip(
                         backgroundColor:
                             fromChartColor(entry.color).withOpacity(0.6),
                         label: Text(
                           entry.label,
                           style: const TextStyle(
-                              color: Colors.black, fontSize: 16),
+                            color: Colors.black,
+                            fontSize: 16,
+                          ),
                           overflow: TextOverflow.visible,
                         ),
                       ),

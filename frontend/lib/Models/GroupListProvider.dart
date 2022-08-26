@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:adpv_frontend/DataModels/GroupSummary.dart';
 import 'package:flutter/material.dart';
 
@@ -12,12 +10,13 @@ class GroupCard {
   Color membersButtonColor;
   Color endpointsButtonColor;
 
-  GroupCard(
-      {required this.name,
-      required this.id,
-      this.titleColor = Colors.black,
-      this.membersButtonColor = Colors.black,
-      this.endpointsButtonColor = Colors.black});
+  GroupCard({
+    required this.name,
+    required this.id,
+    this.titleColor = Colors.black,
+    this.membersButtonColor = Colors.black,
+    this.endpointsButtonColor = Colors.black,
+  });
 }
 
 class GroupListProvider with ChangeNotifier {

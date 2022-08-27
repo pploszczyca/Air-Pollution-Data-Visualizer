@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import static pl.edu.agh.apdvbackend.configs.SwaggerConfig.JWT_AUTH;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
 import pl.edu.agh.apdvbackend.models.body_models.endpoint.AddEndpointRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.endpoint.EndpointSummaryResponseBody;
@@ -22,6 +21,8 @@ import pl.edu.agh.apdvbackend.models.body_models.endpoint.EndpointWithField;
 import pl.edu.agh.apdvbackend.models.body_models.endpoint.UserEndpointResponseBody;
 import pl.edu.agh.apdvbackend.models.database.Endpoint;
 import pl.edu.agh.apdvbackend.services.EndpointService;
+
+import static pl.edu.agh.apdvbackend.configs.SwaggerConfig.JWT_AUTH;
 
 @RestController
 @RequestMapping("/sensor")

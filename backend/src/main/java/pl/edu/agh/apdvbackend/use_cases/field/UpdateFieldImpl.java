@@ -3,7 +3,7 @@ package pl.edu.agh.apdvbackend.use_cases.field;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import pl.edu.agh.apdvbackend.mappers.FieldMapper;
-import pl.edu.agh.apdvbackend.models.body_models.field.AddFieldBodyRequest;
+import pl.edu.agh.apdvbackend.models.body_models.field.AddFieldRequestBody;
 import pl.edu.agh.apdvbackend.models.database.Field;
 import pl.edu.agh.apdvbackend.repositories.FieldRepository;
 
@@ -17,13 +17,13 @@ public class UpdateFieldImpl implements UpdateField {
     @Override
     public Field execute(
             Long fieldId,
-            AddFieldBodyRequest addFieldBodyRequest
+            AddFieldRequestBody addFieldRequestBody
     ) {
         final var updatingField = fieldRepository
                 .findById(fieldId)
                 .orElseThrow();
 
-        fieldMapper.updateFieldFromAddRequestBody(addFieldBodyRequest, updatingField);
+        fieldMapper.updateFieldFromAddRequestBody(addFieldRequestBody, updatingField);
 
         return fieldRepository.save(updatingField);
     }

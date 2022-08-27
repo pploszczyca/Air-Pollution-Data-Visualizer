@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
-import pl.edu.agh.apdvbackend.models.body_models.field.AddFieldBodyRequest;
+import pl.edu.agh.apdvbackend.models.body_models.field.AddFieldRequestBody;
 import pl.edu.agh.apdvbackend.models.database.Field;
 import pl.edu.agh.apdvbackend.services.FieldService;
 
@@ -33,8 +33,8 @@ public class FieldController {
             security = @SecurityRequirement(name = JWT_AUTH)
     )
     @PostMapping
-    public Response<Field> addField(@RequestBody AddFieldBodyRequest addFieldBodyRequest) {
-        return fieldService.addField(addFieldBodyRequest);
+    public Response<Field> addField(@RequestBody AddFieldRequestBody addFieldRequestBody) {
+        return fieldService.addField(addFieldRequestBody);
     }
 
     @Operation(
@@ -71,8 +71,8 @@ public class FieldController {
     @PutMapping
     public Response<Field> updateField(
             @RequestParam Long fieldId,
-            @RequestBody AddFieldBodyRequest addFieldBodyRequest
+            @RequestBody AddFieldRequestBody addFieldRequestBody
     ) {
-        return fieldService.updateField(fieldId, addFieldBodyRequest);
+        return fieldService.updateField(fieldId, addFieldRequestBody);
     }
 }

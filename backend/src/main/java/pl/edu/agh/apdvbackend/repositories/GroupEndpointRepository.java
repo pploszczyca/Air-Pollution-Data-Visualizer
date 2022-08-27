@@ -6,8 +6,7 @@ import org.springframework.stereotype.Repository;
 import pl.edu.agh.apdvbackend.models.database.GroupEndpoint;
 
 @Repository
-public interface GroupEndpointRepository
-        extends CrudRepository<GroupEndpoint, Long> {
+public interface GroupEndpointRepository extends CrudRepository<GroupEndpoint, Long> {
 
     @Query("SELECT ee FROM GroupEndpoint ee " +
             "INNER JOIN ee.group g " +

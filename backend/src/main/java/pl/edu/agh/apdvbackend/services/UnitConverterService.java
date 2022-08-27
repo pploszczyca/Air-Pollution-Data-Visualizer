@@ -16,33 +16,24 @@ import pl.edu.agh.apdvbackend.use_cases.unit_converter.UpdateUnitConverter;
 @RequiredArgsConstructor
 public class UnitConverterService {
 
-    private final GetAllUnitConverterResponseBodies
-            getAllUnitConverterResponseBodies;
-
-    private final GetAllRelatedUnitConvertersResponseBodies
-            getAllRelatedUnitConvertersResponseBodies;
-
+    private final GetAllUnitConverterResponseBodies getAllUnitConverterResponseBodies;
+    private final GetAllRelatedUnitConvertersResponseBodies getAllRelatedUnitConvertersResponseBodies;
     private final SaveUnitConverter saveUnitConverter;
-
     private final RemoveUnitConverterById removeUnitConverterById;
-
     private final UpdateUnitConverter updateUnitConverter;
 
     public Response<List<UnitConverterResponseBody>> getAllUnitConverters() {
-        return Response.withOkStatus(
-                getAllUnitConverterResponseBodies.execute());
+        return Response.withOkStatus(getAllUnitConverterResponseBodies.execute());
     }
 
-    public Response<List<UnitConverterResponseBody>> getAllUnitConvertersRelatedWithUnit(
-            Long unitId) {
-        return Response.withOkStatus(
-                getAllRelatedUnitConvertersResponseBodies.execute(unitId));
+    public Response<List<UnitConverterResponseBody>> getAllUnitConvertersRelatedWithUnit(Long unitId) {
+        return Response.withOkStatus(getAllRelatedUnitConvertersResponseBodies.execute(unitId));
     }
 
     public Response<UnitConverterResponseBody> addUnitConverter(
-            AddUnitConverterRequestBody addUnitConverterRequestBody) {
-        return Response.withOkStatus(
-                saveUnitConverter.execute(addUnitConverterRequestBody));
+            AddUnitConverterRequestBody addUnitConverterRequestBody
+    ) {
+        return Response.withOkStatus(saveUnitConverter.execute(addUnitConverterRequestBody));
     }
 
     public void removeUnitConverter(Long unitConverterId) {
@@ -51,9 +42,8 @@ public class UnitConverterService {
 
     public Response<UnitConverterResponseBody> updateUnitConverter(
             Long unitConverterId,
-            AddUnitConverterRequestBody addUnitConverterRequestBody) {
-        return Response.withOkStatus(
-                updateUnitConverter.execute(unitConverterId,
-                        addUnitConverterRequestBody));
+            AddUnitConverterRequestBody addUnitConverterRequestBody
+    ) {
+        return Response.withOkStatus(updateUnitConverter.execute(unitConverterId, addUnitConverterRequestBody));
     }
 }

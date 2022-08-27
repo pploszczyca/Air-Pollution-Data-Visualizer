@@ -12,16 +12,19 @@ import pl.edu.agh.apdvbackend.use_cases.auth.RemoveRoleFromUser;
 public class RoleService {
 
     private final AddRoleToUser addRoleToUser;
-
     private final RemoveRoleFromUser removeRoleFromUser;
 
-    public Response<UserWithRoles> addRoleToUser(Long userId, String roleName) {
+    public Response<UserWithRoles> addRoleToUser(
+            Long userId,
+            String roleName
+    ) {
         return Response.withOkStatus(addRoleToUser.execute(userId, roleName));
     }
 
-    public Response<UserWithRoles> removeUserFromRole(Long userId,
-                                                      String roleName) {
-        return Response.withOkStatus(
-                removeRoleFromUser.execute(userId, roleName));
+    public Response<UserWithRoles> removeUserFromRole(
+            Long userId,
+            String roleName
+    ) {
+        return Response.withOkStatus(removeRoleFromUser.execute(userId, roleName));
     }
 }

@@ -5,13 +5,14 @@ import com.auth0.jwt.algorithms.Algorithm;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import org.springframework.stereotype.Component;
 import pl.edu.agh.apdvbackend.exceptions.IncorrectAuthorizationHeaderException;
 import pl.edu.agh.apdvbackend.models.body_models.auth.JWTResponse;
 import pl.edu.agh.apdvbackend.use_cases.user.GetUser;
 import pl.edu.agh.apdvbackend.utilities.JwtTokenUtils;
 import pl.edu.agh.apdvbackend.validators.AuthorizationHeaderValidation;
+
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Component
 @RequiredArgsConstructor

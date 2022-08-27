@@ -23,11 +23,8 @@ import pl.edu.agh.apdvbackend.validators.AuthorizationHeaderValidation;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String SECRET = "secret";
-
     private final UserDetailsService userDetailsService;
-
     private final PasswordEncoder passwordEncoder;
-
     private final AuthorizationHeaderValidation authorizationHeaderValidation;
 
     @Override

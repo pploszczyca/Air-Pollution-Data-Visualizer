@@ -31,54 +31,77 @@ import static pl.edu.agh.apdvbackend.configs.SwaggerConfig.JWT_AUTH;
 public class EndpointController {
     private final EndpointService endpointService;
 
-    @Operation(summary = "Get list of data from sensor that belongs to user", security = @SecurityRequirement(name = JWT_AUTH))
+    @Operation(
+            summary = "Get list of data from sensor that belongs to user",
+            security = @SecurityRequirement(name = JWT_AUTH)
+    )
     @GetMapping
     public Response<List<ObjectNode>> getData(
             @RequestParam Long sensorId,
             @RequestParam(required = false, defaultValue = "25") Long limit,
-            @RequestParam(required = false, defaultValue = "0") Long offset) {
+            @RequestParam(required = false, defaultValue = "0") Long offset
+    ) {
         return endpointService.getData(sensorId, limit, offset);
     }
 
-    @Operation(summary = "Get list of data from sensor that belongs to user with enable fields", security = @SecurityRequirement(name = JWT_AUTH))
+    @Operation(
+            summary = "Get list of data from sensor that belongs to user with enable fields",
+            security = @SecurityRequirement(name = JWT_AUTH)
+    )
     @GetMapping("/data")
     public Response<EndpointWithField> getDataWithFields(
             @RequestParam Long sensorId,
             @RequestParam(required = false, defaultValue = "25") Long limit,
-            @RequestParam(required = false, defaultValue = "0") Long offset) {
+            @RequestParam(required = false, defaultValue = "0") Long offset
+    ) {
         return endpointService.getDataWithFields(sensorId, limit, offset);
     }
 
-    @Operation(summary = "Get user's endpoints list", security = @SecurityRequirement(name = JWT_AUTH))
+    @Operation(
+            summary = "Get user's endpoints list",
+            security = @SecurityRequirement(name = JWT_AUTH)
+    )
     @GetMapping("/list")
     public Response<List<UserEndpointResponseBody>> getUserEndpointsList() {
         return endpointService.getUserEndpointsList();
     }
 
-    @Operation(summary = "Get all endpoints list with fields information", security = @SecurityRequirement(name = JWT_AUTH))
+    @Operation(
+            summary = "Get all endpoints list with fields information",
+            security = @SecurityRequirement(name = JWT_AUTH)
+    )
     @GetMapping("/list/all")
     public Response<List<EndpointSummaryResponseBody>> getEndpointsList() {
         return endpointService.getEndpointsList();
     }
 
-    @Operation(summary = "Add new endpoint", security = @SecurityRequirement(name = JWT_AUTH))
+    @Operation(
+            summary = "Add new endpoint",
+            security = @SecurityRequirement(name = JWT_AUTH)
+    )
     @PostMapping
-    public Response<Endpoint> addEndpoint(
-            @RequestBody AddEndpointRequestBody addEndpointRequestBody) {
+    public Response<Endpoint> addEndpoint(@RequestBody AddEndpointRequestBody addEndpointRequestBody) {
         return endpointService.addEndpoint(addEndpointRequestBody);
     }
 
-    @Operation(summary = "Remove endpoint", security = @SecurityRequirement(name = JWT_AUTH))
+    @Operation(
+            summary = "Remove endpoint",
+            security = @SecurityRequirement(name = JWT_AUTH)
+    )
     @DeleteMapping
     public void removeEndpoint(@RequestParam Long endpointId) {
         endpointService.removeEndpoint(endpointId);
     }
 
-    @Operation(summary = "Update endpoint", security = @SecurityRequirement(name = JWT_AUTH))
+    @Operation(
+            summary = "Update endpoint",
+            security = @SecurityRequirement(name = JWT_AUTH)
+    )
     @PutMapping
     public Response<Endpoint> updateEndpoint(
             @RequestBody AddEndpointRequestBody addEndpointRequestBody,
-            @RequestParam Long endpointId) {
+            @RequestParam Long endpointId
+    ) {
         return endpointService.updateEndpoint(addEndpointRequestBody,
                 endpointId);
     }

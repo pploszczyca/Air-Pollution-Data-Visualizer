@@ -13,11 +13,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import static pl.edu.agh.apdvbackend.configs.SwaggerConfig.JWT_AUTH;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
 import pl.edu.agh.apdvbackend.models.body_models.field_parser.AddFieldParserRequestBody;
 import pl.edu.agh.apdvbackend.models.database.FieldParser;
 import pl.edu.agh.apdvbackend.services.FieldParserService;
+
+import static pl.edu.agh.apdvbackend.configs.SwaggerConfig.JWT_AUTH;
 
 @RestController
 @RequestMapping("/field/parser")
@@ -27,30 +28,42 @@ public class FieldParserController {
 
     private final FieldParserService fieldParserService;
 
-    @Operation(summary = "Add new field parser", security = @SecurityRequirement(name = JWT_AUTH))
+    @Operation(
+            summary = "Add new field parser",
+            security = @SecurityRequirement(name = JWT_AUTH)
+    )
     @PostMapping
-    public Response<FieldParser> addField(
-            @RequestBody AddFieldParserRequestBody addFieldParserRequestBody) {
+    public Response<FieldParser> addField(@RequestBody AddFieldParserRequestBody addFieldParserRequestBody) {
         return fieldParserService.addFieldParser(addFieldParserRequestBody);
     }
 
-    @Operation(summary = "Get list of all field parsers", security = @SecurityRequirement(name = JWT_AUTH))
+    @Operation(
+            summary = "Get list of all field parsers",
+            security = @SecurityRequirement(name = JWT_AUTH)
+    )
     @GetMapping
     public Response<List<FieldParser>> getAllFields() {
         return fieldParserService.getAllFieldParsers();
     }
 
-    @Operation(summary = "Remove field parser by id", security = @SecurityRequirement(name = JWT_AUTH))
+    @Operation(
+            summary = "Remove field parser by id",
+            security = @SecurityRequirement(name = JWT_AUTH)
+    )
     @DeleteMapping
     public void removeFieldById(@RequestParam Long fieldParserId) {
         fieldParserService.removeFieldParserById(fieldParserId);
     }
 
-    @Operation(summary = "Update field parser", security = @SecurityRequirement(name = JWT_AUTH))
+    @Operation(
+            summary = "Update field parser",
+            security = @SecurityRequirement(name = JWT_AUTH)
+    )
     @PutMapping
     public Response<FieldParser> updateFieldParser(
             @RequestParam Long fieldParserId,
-            @RequestBody AddFieldParserRequestBody addFieldParserRequestBody) {
+            @RequestBody AddFieldParserRequestBody addFieldParserRequestBody
+    ) {
         return fieldParserService.updateFieldParser(fieldParserId,
                 addFieldParserRequestBody);
     }

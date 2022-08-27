@@ -1,4 +1,4 @@
-package pl.edu.agh.apdvbackend.mappers.group;
+package pl.edu.agh.apdvbackend.mappers.group.group_members;
 
 import java.util.Collections;
 import java.util.List;

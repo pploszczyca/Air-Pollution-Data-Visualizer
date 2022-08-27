@@ -2,8 +2,6 @@ package pl.edu.agh.apdvbackend.use_cases.auth;
 
 import java.util.HashSet;
 import java.util.List;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +12,9 @@ import pl.edu.agh.apdvbackend.fakes.UserFakes;
 import pl.edu.agh.apdvbackend.models.body_models.auth.UserWithRoles;
 import pl.edu.agh.apdvbackend.models.database.Role;
 import pl.edu.agh.apdvbackend.repositories.UserRepository;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 @SpringBootTest

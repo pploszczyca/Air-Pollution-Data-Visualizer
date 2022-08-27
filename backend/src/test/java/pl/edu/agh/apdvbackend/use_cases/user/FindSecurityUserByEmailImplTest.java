@@ -2,9 +2,6 @@ package pl.edu.agh.apdvbackend.use_cases.user;
 
 import java.util.List;
 import java.util.Set;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +13,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import pl.edu.agh.apdvbackend.fakes.UserFakes;
 import pl.edu.agh.apdvbackend.models.database.Role;
 import pl.edu.agh.apdvbackend.repositories.UserRepository;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)

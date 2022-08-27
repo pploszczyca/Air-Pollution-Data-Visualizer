@@ -21,6 +21,9 @@ public abstract class MemberMapper {
                 .toList();
     }
 
-    @Mapping(target = "otherGroupNames", expression = "java(groupNamesMapper.toOtherGroupNames(user.getGroups(), groupId))")
+    @Mapping(
+            target = "otherGroupNames",
+            expression = "java(groupNamesMapper.toOtherGroupNames(user.getGroups(), groupId))"
+    )
     public abstract GroupMembersResponseBody.Member toMember(User user, Long groupId);
 }

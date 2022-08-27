@@ -7,8 +7,7 @@ import pl.edu.agh.apdvbackend.repositories.UserRepository;
 
 @Component
 @RequiredArgsConstructor
-public class FindCurrentUserIdImpl
-        implements FindCurrentUserId {
+public class FindCurrentUserIdImpl implements FindCurrentUserId {
 
     private final UserRepository userRepository;
 

@@ -9,16 +9,15 @@ import pl.edu.agh.apdvbackend.repositories.FieldRepository;
 
 @Component
 @RequiredArgsConstructor
-public class SaveNewFieldImpl
-        implements SaveNewField {
+public class SaveNewFieldImpl implements SaveNewField {
 
     private final FieldRepository fieldRepository;
-
     private final FieldMapper fieldMapper;
 
     @Override
     public Field execute(AddFieldBodyRequest addFieldBodyRequest) {
         return fieldRepository.save(
-                fieldMapper.addRequestBodyToField(addFieldBodyRequest));
+                fieldMapper.addRequestBodyToField(addFieldBodyRequest)
+        );
     }
 }

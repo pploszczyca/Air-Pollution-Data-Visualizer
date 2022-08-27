@@ -9,23 +9,24 @@ import pl.edu.agh.apdvbackend.repositories.UnitConverterRepository;
 
 @Component
 @RequiredArgsConstructor
-public class UpdateUnitConverterImpl
-        implements UpdateUnitConverter {
+public class UpdateUnitConverterImpl implements UpdateUnitConverter {
 
     private final UnitConverterRepository unitConverterRepository;
-
     private final UnitConverterMapper unitConverterMapper;
 
     @Override
-    public UnitConverterResponseBody execute(Long unitConverterId,
-                                             AddUnitConverterRequestBody addUnitConverterRequestBody) {
-        final var unitConverter =
-                unitConverterRepository.findById(unitConverterId).orElseThrow();
-        final var updatedUnitConverter =
-                unitConverterMapper.updateAddRequestBodyToUnitConverter(
-                        addUnitConverterRequestBody, unitConverter);
+    public UnitConverterResponseBody execute(
+            Long unitConverterId,
+            AddUnitConverterRequestBody addUnitConverterRequestBody
+    ) {
+        final var unitConverter = unitConverterRepository
+                .findById(unitConverterId)
+                .orElseThrow();
+        final var updatedUnitConverter = unitConverterMapper
+                .updateAddRequestBodyToUnitConverter(addUnitConverterRequestBody, unitConverter);
 
         return unitConverterMapper.unitConverterToResponseBody(
-                unitConverterRepository.save(updatedUnitConverter));
+                unitConverterRepository.save(updatedUnitConverter)
+        );
     }
 }

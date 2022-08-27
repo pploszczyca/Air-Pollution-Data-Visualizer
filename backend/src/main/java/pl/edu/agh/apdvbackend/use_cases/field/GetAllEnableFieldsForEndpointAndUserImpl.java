@@ -8,8 +8,7 @@ import pl.edu.agh.apdvbackend.use_cases.group_endpoint.GetEndpointDataForUser;
 
 @Component
 @RequiredArgsConstructor
-public class GetAllEnableFieldsForEndpointAndUserImpl
-        implements GetAllEnableFieldsForEndpointAndUser {
+public class GetAllEnableFieldsForEndpointAndUserImpl implements GetAllEnableFieldsForEndpointAndUser {
 
     private final GetEndpointDataForUser getEndpointDataForUser;
 

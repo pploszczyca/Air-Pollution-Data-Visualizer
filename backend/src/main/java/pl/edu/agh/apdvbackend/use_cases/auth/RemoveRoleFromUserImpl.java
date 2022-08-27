@@ -10,12 +10,9 @@ import pl.edu.agh.apdvbackend.use_cases.user.GetUser;
 
 @Component
 @RequiredArgsConstructor
-public class RemoveRoleFromUserImpl
-        implements RemoveRoleFromUser {
+public class RemoveRoleFromUserImpl implements RemoveRoleFromUser {
     private final GetUser getUser;
-
     private final UserMapper userMapper;
-
     private final UserRepository userRepository;
 
     @Override

@@ -7,11 +7,9 @@ import pl.edu.agh.apdvbackend.models.body_models.group.GroupMembersResponseBody;
 
 @Component
 @RequiredArgsConstructor
-public class GetGroupMembersImpl
-        implements GetGroupMembers {
+public class GetGroupMembersImpl implements GetGroupMembers {
 
     private final GetGroup getGroup;
-
     private final GroupMembersMapper groupMembersMapper;
 
     @Override

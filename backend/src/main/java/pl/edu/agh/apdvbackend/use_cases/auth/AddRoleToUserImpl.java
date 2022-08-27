@@ -10,13 +10,10 @@ import pl.edu.agh.apdvbackend.use_cases.user.GetUser;
 
 @Component
 @RequiredArgsConstructor
-public class AddRoleToUserImpl
-        implements AddRoleToUser {
+public class AddRoleToUserImpl implements AddRoleToUser {
 
     private final GetUser getUser;
-
     private final UserMapper userMapper;
-
     private final UserRepository userRepository;
 
     @Override

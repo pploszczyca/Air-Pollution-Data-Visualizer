@@ -9,18 +9,15 @@ import pl.edu.agh.apdvbackend.repositories.FieldParserRepository;
 
 @Component
 @RequiredArgsConstructor
-public class SaveNewFieldParserImpl
-        implements SaveNewFieldParser {
+public class SaveNewFieldParserImpl implements SaveNewFieldParser {
 
     private final FieldParserRepository fieldParserRepository;
-
     private final FieldParserMapper fieldParserMapper;
 
     @Override
-    public FieldParser execute(
-            AddFieldParserRequestBody addFieldParserRequestBody) {
+    public FieldParser execute(AddFieldParserRequestBody addFieldParserRequestBody) {
         return fieldParserRepository.save(
-                fieldParserMapper.addRequestBodyToFieldParser(
-                        addFieldParserRequestBody));
+                fieldParserMapper.addRequestBodyToFieldParser(addFieldParserRequestBody)
+        );
     }
 }

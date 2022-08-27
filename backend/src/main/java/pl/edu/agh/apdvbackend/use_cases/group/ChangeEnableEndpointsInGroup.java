@@ -7,5 +7,6 @@ import pl.edu.agh.apdvbackend.models.body_models.group.EndpointGroupRequestBody;
 public interface ChangeEnableEndpointsInGroup {
     AboutGroupResponseBody execute(
             List<EndpointGroupRequestBody> endpointGroupRequestBodyList,
-            Long groupId);
+            Long groupId
+    );
 }

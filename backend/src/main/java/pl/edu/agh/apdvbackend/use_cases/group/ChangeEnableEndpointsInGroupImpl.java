@@ -11,16 +11,11 @@ import pl.edu.agh.apdvbackend.repositories.GroupEndpointRepository;
 
 @Component
 @RequiredArgsConstructor
-public class ChangeEnableEndpointsInGroupImpl
-        implements ChangeEnableEndpointsInGroup {
+public class ChangeEnableEndpointsInGroupImpl implements ChangeEnableEndpointsInGroup {
 
     private final GroupEndpointMapper groupEndpointMapper;
-
     private final GetGroup getGroup;
-
-    private final GroupEndpointRepository
-            groupEndpointRepository;
-
+    private final GroupEndpointRepository groupEndpointRepository;
     private final GroupMapper groupMapper;
 
     @Override
@@ -28,12 +23,10 @@ public class ChangeEnableEndpointsInGroupImpl
             List<EndpointGroupRequestBody> endpointGroupRequestBodyList,
             Long groupId) {
         final var group = getGroup.execute(groupId);
-        final var enableEndpointsList =
-                groupEndpointMapper.addRequestBodyListToEnableEndpointsList(
-                        endpointGroupRequestBodyList, group);
+        final var enableEndpointsList = groupEndpointMapper
+                .addRequestBodyListToEnableEndpointsList(endpointGroupRequestBodyList, group);
 
-        groupEndpointRepository.deleteAll(
-                group.getGroupEndpoints());
+        groupEndpointRepository.deleteAll(group.getGroupEndpoints());
 
         group.setGroupEndpoints(enableEndpointsList);
         groupEndpointRepository.saveAll(enableEndpointsList);

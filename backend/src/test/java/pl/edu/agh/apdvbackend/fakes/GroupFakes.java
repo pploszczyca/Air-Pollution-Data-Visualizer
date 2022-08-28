@@ -23,7 +23,7 @@ public class GroupFakes {
     }
 
     @Builder
-    public static Group buildNewGroup(
+    private static Group buildNewGroup(
             Long id,
             String name,
             Set<User> usersInGroup,
@@ -31,10 +31,14 @@ public class GroupFakes {
     ) {
         final var group = new Group();
         group.setId(id);
-        group.setName(name);
-        group.setUsersInGroup(usersInGroup);
-        group.setGroupEndpoints(groupEndpoints);
+        group.setName(getOrElse(name, "dummy group name"));
+        group.setUsersInGroup(getOrElse(usersInGroup, Collections.emptySet()));
+        group.setGroupEndpoints(getOrElse(groupEndpoints, Collections.emptyList()));
 
         return group;
+    }
+
+    private static <T> T getOrElse(T value, T defaultValue) {
+        return value == null ? defaultValue : value;
     }
 }

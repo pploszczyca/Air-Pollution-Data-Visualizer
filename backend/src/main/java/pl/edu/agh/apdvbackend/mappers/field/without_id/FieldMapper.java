@@ -1,4 +1,4 @@
-package pl.edu.agh.apdvbackend.mappers;
+package pl.edu.agh.apdvbackend.mappers.field.without_id;
 
 import java.util.List;
 import org.mapstruct.Mapper;

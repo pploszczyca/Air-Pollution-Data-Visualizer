@@ -2,7 +2,7 @@ package pl.edu.agh.apdvbackend.use_cases.endpoint;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import pl.edu.agh.apdvbackend.mappers.FieldMapper;
+import pl.edu.agh.apdvbackend.mappers.field.without_id.FieldMapper;
 import pl.edu.agh.apdvbackend.models.body_models.endpoint.EndpointWithField;
 import pl.edu.agh.apdvbackend.use_cases.field.GetAllEnableFieldsForEndpointAndUser;
 

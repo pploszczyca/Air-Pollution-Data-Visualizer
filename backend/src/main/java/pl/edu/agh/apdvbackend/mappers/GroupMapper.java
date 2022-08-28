@@ -4,7 +4,6 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import pl.edu.agh.apdvbackend.models.body_models.group.AboutGroupResponseBody;
-import pl.edu.agh.apdvbackend.models.body_models.group.AddGroupRequestBody;
 import pl.edu.agh.apdvbackend.models.database.Group;
 
 @Mapper(componentModel = "spring")
@@ -26,7 +25,4 @@ public abstract class GroupMapper {
     )
     public abstract AboutGroupResponseBody groupToAboutResponseBody(
             Group group);
-
-    public abstract Group addRequestBodyToGroup(
-            AddGroupRequestBody addGroupRequestBody);
 }

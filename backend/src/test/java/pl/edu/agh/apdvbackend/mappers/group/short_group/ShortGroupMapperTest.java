@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import pl.edu.agh.apdvbackend.fakes.GroupFakes;
 import pl.edu.agh.apdvbackend.models.body_models.group.ShortGroupResponseBody;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 class ShortGroupMapperTest {

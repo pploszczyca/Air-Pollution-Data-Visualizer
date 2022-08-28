@@ -6,12 +6,14 @@ import pl.edu.agh.apdvbackend.mappers.field.add_request_body.AddFieldRequestBody
 import pl.edu.agh.apdvbackend.models.body_models.field.AddFieldRequestBody;
 import pl.edu.agh.apdvbackend.models.database.Field;
 import pl.edu.agh.apdvbackend.repositories.FieldRepository;
+import pl.edu.agh.apdvbackend.use_cases.unit.SaveUnitByNameIfNotExist;
 
 @Component
 @RequiredArgsConstructor
 public class UpdateFieldImpl implements UpdateField {
 
     private final FieldRepository fieldRepository;
+    private final SaveUnitByNameIfNotExist saveUnitByNameIfNotExist;
     private final AddFieldRequestBodyMapper mapper;
 
     @Override
@@ -23,6 +25,7 @@ public class UpdateFieldImpl implements UpdateField {
                 .findById(fieldId)
                 .orElseThrow();
 
+        addFieldRequestBody.unitName().ifPresent(saveUnitByNameIfNotExist::execute);
         mapper.updateFieldBy(addFieldRequestBody, updatingField);
 
         return fieldRepository.save(updatingField);

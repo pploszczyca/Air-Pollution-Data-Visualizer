@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,6 +25,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@EqualsAndHashCode
 @JsonIgnoreProperties({"groupEndpoint"})
 public class Field {
     @Id
@@ -44,6 +46,5 @@ public class Field {
     private Unit unit;
 
     @ManyToMany(mappedBy = "enableFields")
-    private List<GroupEndpoint> groupEndpoint =
-            new ArrayList<>();
+    private List<GroupEndpoint> groupEndpoint = new ArrayList<>();
 }

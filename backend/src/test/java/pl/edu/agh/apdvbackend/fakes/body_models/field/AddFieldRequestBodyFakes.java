@@ -7,11 +7,19 @@ import pl.edu.agh.apdvbackend.models.database.FieldType;
 
 public class AddFieldRequestBodyFakes {
     @Builder
-    public static AddFieldRequestBody buildNewAddFieldRequestBody(
+    private static AddFieldRequestBody buildNewAddFieldRequestBody(
             String label,
             FieldType fieldType,
             String unitName
     ) {
-        return new AddFieldRequestBody(label, fieldType, Optional.of(unitName));
+        return new AddFieldRequestBody(
+                getOrElse(label, "dummy label"),
+                getOrElse(fieldType, FieldType.STRING),
+                getOrElse(Optional.of(unitName), Optional.of("dummy unit name"))
+        );
+    }
+
+    private static <T> T getOrElse(T value, T defaultValue) {
+        return value == null ? defaultValue : value;
     }
 }

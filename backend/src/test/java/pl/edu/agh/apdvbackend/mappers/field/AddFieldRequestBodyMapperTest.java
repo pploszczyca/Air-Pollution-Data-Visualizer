@@ -10,7 +10,6 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import pl.edu.agh.apdvbackend.fakes.FieldFakes;
 import pl.edu.agh.apdvbackend.fakes.UnitFakes;
 import pl.edu.agh.apdvbackend.fakes.body_models.field.AddFieldRequestBodyFakes;
-import pl.edu.agh.apdvbackend.mappers.field.AddFieldRequestBodyMapper;
 import pl.edu.agh.apdvbackend.mappers.unit.UnitNameMapper;
 import pl.edu.agh.apdvbackend.models.database.FieldType;
 

@@ -1,4 +1,4 @@
-package pl.edu.agh.apdvbackend.mappers.field.add_request_body;
+package pl.edu.agh.apdvbackend.mappers.field;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

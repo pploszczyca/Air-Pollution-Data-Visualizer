@@ -8,6 +8,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.springframework.beans.factory.annotation.Autowired;
 import pl.edu.agh.apdvbackend.annotations.mappers.FromAddRequestBodyToEndpointInfoAnnotation;
+import pl.edu.agh.apdvbackend.mappers.field_parser.FieldAndParserMapper;
 import pl.edu.agh.apdvbackend.models.body_models.endpoint.AddEndpointRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.endpoint.EndpointSummaryResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.endpoint.UserEndpointResponseBody;

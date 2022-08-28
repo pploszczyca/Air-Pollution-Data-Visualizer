@@ -1,4 +1,4 @@
-package pl.edu.agh.apdvbackend.mappers.field.without_id;
+package pl.edu.agh.apdvbackend.mappers.field;
 
 import java.util.List;
 import org.mapstruct.Mapper;
@@ -10,6 +10,5 @@ public abstract class FieldWithoutIdMapper {
 
     public abstract FieldWithoutId fieldToWithoutId(Field field);
 
-    public abstract List<FieldWithoutId> fieldListToWithoutIdList(
-            List<Field> fields);
+    public abstract List<FieldWithoutId> fieldsToWithoutIdList(List<Field> fields);
 }

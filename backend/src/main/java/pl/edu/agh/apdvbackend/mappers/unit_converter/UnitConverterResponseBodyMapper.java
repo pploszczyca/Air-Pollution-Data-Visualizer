@@ -1,4 +1,4 @@
-package pl.edu.agh.apdvbackend.mappers.unit;
+package pl.edu.agh.apdvbackend.mappers.unit_converter;
 
 import java.util.List;
 import org.mapstruct.Mapper;

@@ -1,4 +1,4 @@
-package pl.edu.agh.apdvbackend.mappers.unit;
+package pl.edu.agh.apdvbackend.mappers.unit_converter;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

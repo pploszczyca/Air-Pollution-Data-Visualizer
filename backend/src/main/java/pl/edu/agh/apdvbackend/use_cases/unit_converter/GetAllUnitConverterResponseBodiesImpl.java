@@ -3,7 +3,7 @@ package pl.edu.agh.apdvbackend.use_cases.unit_converter;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import pl.edu.agh.apdvbackend.mappers.unit.UnitConverterResponseBodyMapper;
+import pl.edu.agh.apdvbackend.mappers.unit_converter.UnitConverterResponseBodyMapper;
 import pl.edu.agh.apdvbackend.models.body_models.unit_converter.UnitConverterResponseBody;
 import pl.edu.agh.apdvbackend.repositories.UnitConverterRepository;
 import pl.edu.agh.apdvbackend.utilities.ListUtilities;

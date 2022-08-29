@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import pl.edu.agh.apdvbackend.fakes.UnitConverterFakes;
 import pl.edu.agh.apdvbackend.fakes.UnitFakes;
+import pl.edu.agh.apdvbackend.mappers.unit_converter.UnitConverterResponseBodyMapper;
 import pl.edu.agh.apdvbackend.models.body_models.unit_converter.UnitConverterResponseBody;
 import pl.edu.agh.apdvbackend.models.database.MathOperation;
 

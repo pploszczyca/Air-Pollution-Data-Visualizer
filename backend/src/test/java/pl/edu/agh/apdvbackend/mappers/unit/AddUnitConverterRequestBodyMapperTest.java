@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import pl.edu.agh.apdvbackend.fakes.UnitConverterFakes;
 import pl.edu.agh.apdvbackend.fakes.UnitFakes;
+import pl.edu.agh.apdvbackend.mappers.unit_converter.AddUnitConverterRequestBodyMapper;
 import pl.edu.agh.apdvbackend.models.body_models.unit_converter.AddUnitConverterRequestBody;
 import pl.edu.agh.apdvbackend.models.database.MathOperation;
 import pl.edu.agh.apdvbackend.repositories.UnitRepository;

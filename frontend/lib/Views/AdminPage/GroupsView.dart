@@ -1,6 +1,7 @@
 import 'package:adpv_frontend/DataModels/GroupSummary.dart';
 import 'package:adpv_frontend/Repository/AdminRepository/AdminGateway.dart';
-import 'package:adpv_frontend/Views/AdminPage/confirmationDialogModal.dart';
+import 'package:adpv_frontend/Views/AdminPage/ConfirmationDialogModal.dart';
+import 'package:adpv_frontend/Views/AdminPage/FormModal.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../Models/GroupListProvider.dart';
@@ -20,10 +21,9 @@ class GroupsView extends StatefulWidget {
 class _GroupsViewState extends State<GroupsView> {
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: _buildAppBar(),
-        body: _buildBody(),
-    floatingActionButton: _buildAddButton()
-      );
+      appBar: _buildAppBar(),
+      body: _buildBody(),
+      floatingActionButton: _buildAddButton());
 
   PreferredSize _buildAppBar() => PreferredSize(
         preferredSize: const Size.fromHeight(120),
@@ -118,7 +118,9 @@ class _GroupsViewState extends State<GroupsView> {
       Container(
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
         child: TextButton(
-          onPressed: () {print('kokokokoko');},
+          onPressed: () {
+            print('kokokokoko');
+          },
           onHover: (value) {
             if (value) {
               _onHoverButton(groupCard, text, floatingButtonColor);
@@ -142,7 +144,7 @@ class _GroupsViewState extends State<GroupsView> {
               Container(
                 alignment: Alignment.centerRight,
                 child: Icon(
-                  Icons.arrow_forward_ios_rounded ,
+                  Icons.arrow_forward_ios_rounded,
                   color: color,
                   size: 25,
                 ),
@@ -152,37 +154,38 @@ class _GroupsViewState extends State<GroupsView> {
         ),
       );
 
-  Container _buildDeleteContainer(GroupCard groupCard) =>
-      Container(
-        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-        child: OutlinedButton(
-          style: ButtonStyle(
-            side: MaterialStateProperty.all(
-                const BorderSide(width: 1.5, color: Colors.red)),
-            padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
-            foregroundColor: MaterialStateProperty.resolveWith<Color>(
-                    (Set<MaterialState> states) =>
-                states.contains(MaterialState.hovered)
-                    ? Colors.white
-                    : Colors.red),
-            backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                    (Set<MaterialState> states) =>
-                states.contains(MaterialState.hovered)
-                    ? Colors.red
-                    : Colors.white),
-            alignment: Alignment.centerLeft,
-          ),
-          onPressed: (){},
-          // onPressed: _onDeletePressed(groupCard),
-          child: const Icon(Icons.delete_outline_outlined, size: 30)
-        ));
-
+  Container _buildDeleteContainer(GroupCard groupCard) => Container(
+      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+      child: OutlinedButton(
+        style: ButtonStyle(
+          side: MaterialStateProperty.all(
+              const BorderSide(width: 1.5, color: Colors.red)),
+          padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
+          foregroundColor: MaterialStateProperty.resolveWith<Color>(
+              (Set<MaterialState> states) =>
+                  states.contains(MaterialState.hovered)
+                      ? Colors.white
+                      : Colors.red),
+          backgroundColor: MaterialStateProperty.resolveWith<Color>(
+              (Set<MaterialState> states) =>
+                  states.contains(MaterialState.hovered)
+                      ? Colors.red
+                      : Colors.white),
+          alignment: Alignment.centerLeft,
+        ),
+        child: const Icon(Icons.delete_outline_outlined, size: 30),
+        onPressed: () {
+          _onDeletePressed(groupCard);
+        },
+      ));
 
   FloatingActionButton _buildAddButton() => FloatingActionButton(
-    onPressed: (){ print('llllllllllllllllllllllllllll');},
-    backgroundColor: floatingButtonColor,
-    child: const Icon(Icons.add),
-  );
+        onPressed: () {
+          _onCreatePressed();
+        },
+        backgroundColor: floatingButtonColor,
+        child: const Icon(Icons.add),
+      );
 
   void _onHoverButton(GroupCard groupCard, String text, Color color) {
     setState(() {
@@ -194,9 +197,23 @@ class _GroupsViewState extends State<GroupsView> {
     });
   }
 
-  _onDeletePressed(GroupCard groupCard){
-    print(' dcdscdscsdcds');
-    // showAlertDialog(context);
-    // this.widget.repository.deleteGroup(groupCard.id);
+  _onCreatePressed() {
+    showFormModal(context, 'New Group', () => createGroup());
+  }
+
+  _onDeletePressed(GroupCard groupCard) {
+    showAlertDialog(
+        context,
+        'Delete ' + groupCard.name,
+        "You are about to delete group with all of its' saved permissions.",
+        () => deleteGroup(groupCard.id));
+  }
+
+  deleteGroup(int id) {
+    this.widget.repository.deleteGroup(id);
+  }
+
+  createGroup(String name) {
+    this.widget.repository.createGroup(name);
   }
 }

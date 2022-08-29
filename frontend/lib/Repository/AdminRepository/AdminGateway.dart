@@ -16,6 +16,9 @@ class AdminGateway {
 
   void deleteGroup(int id) {
     final Future<bool> response = restRepository.deleteGroup(id);
-    print(response);
+  }
+
+  void createGroup(String name) {
+    final Future<bool> response = restRepository.createGroup(name);
   }
 }

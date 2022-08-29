@@ -10,7 +10,7 @@ import pl.edu.agh.apdvbackend.models.body_models.group.ShortGroupResponseBody;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-class ShortGroupMapperTest {
+class ShortAboutGroupMapperTest {
 
     @Autowired
     private ShortGroupMapper mapper;

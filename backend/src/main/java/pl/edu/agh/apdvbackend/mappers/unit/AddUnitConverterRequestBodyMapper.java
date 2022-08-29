@@ -25,8 +25,8 @@ public abstract class AddUnitConverterRequestBodyMapper {
     );
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "fromUnit", expression = "java(getUnit(addUnitConverterRequestBody.fromUnitId()))")
-    @Mapping(target = "toUnit", expression = "java(getUnit(addUnitConverterRequestBody.toUnitId()))")
+    @Mapping(target = "fromUnit", expression = "java(getUnit(requestBody.fromUnitId()))")
+    @Mapping(target = "toUnit", expression = "java(getUnit(requestBody.toUnitId()))")
     private @interface UnitConverterMapping {
     }
 

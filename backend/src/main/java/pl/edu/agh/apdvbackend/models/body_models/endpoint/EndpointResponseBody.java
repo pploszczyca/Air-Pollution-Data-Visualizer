@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import pl.edu.agh.apdvbackend.models.body_models.field_and_parser.FieldAndParser;
 
-public record EndpointSummaryResponseBody(
+public record EndpointResponseBody(
         @Schema(required = true) Long id,
         @Schema(required = true) int endpointNumber,
         @Schema(required = true) String label,

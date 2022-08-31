@@ -21,8 +21,9 @@ const int adminIcon = 0xe062;
 class App extends StatefulWidget {
   final EndpointGateway endpointGateway;
   final UserGateway userGateway;
+  final AdminGateway adminGateway = AdminGateway();
 
-  const App({
+   App({
     required this.endpointGateway,
     required this.userGateway,
     Key? key,
@@ -37,11 +38,14 @@ class _AppState extends State<App> {
 
   int _selectedIndex = 0;
   late final List<Widget> _navigationOptions = <Widget>[
-    EndpointNavigator(endpointGateway: widget.endpointGateway),
+    EndpointListView(
+      repository: widget.endpointGateway,
+    ),
     CompareChartsView(
       endpointGateway: widget.endpointGateway,
     ),
     const ProfileView(),
+    GroupsView()
   ];
 
   @override

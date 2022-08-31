@@ -28,6 +28,8 @@ class AuthGetaway {
         refreshToken: response.data['data']['refreshToken'],
       );
 
+          accessToken: response.data['data']['accessToken'],
+          refreshToken: response.data['data']['refreshToken']);
       return AuthResponse(success: true, tokens: tokens);
     } on DioError catch (error) {
       return AuthResponse(

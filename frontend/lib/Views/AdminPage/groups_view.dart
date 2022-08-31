@@ -7,9 +7,9 @@ import '../../Models/group_list_provider.dart';
 import '../../Widgets/common_widgets.dart';
 
 class GroupsView extends StatefulWidget {
-  const GroupsView({required this.gateway, Key? key}) : super(key: key);
+  GroupsView({Key? key}) : super(key: key);
 
-  final AdminGateway gateway;
+  final AdminGateway gateway = AdminGateway();
 
   @override
   State<GroupsView> createState() => _GroupsViewState();
@@ -75,6 +75,7 @@ class _GroupsViewState extends State<GroupsView> {
     int itemCount,
   ) =>
       ListView.builder(
+        shrinkWrap: true,
         itemCount: itemCount,
         padding: const EdgeInsets.symmetric(horizontal: 20),
         itemBuilder: (context, i) =>

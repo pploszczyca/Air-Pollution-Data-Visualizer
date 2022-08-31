@@ -432,8 +432,8 @@ class _LoginViewState extends State<LoginView>
         context,
         MaterialPageRoute(
           builder: (BuildContext context) => App(
+            endpointGateway: EndpointGateway(widget.userGateway),
             userGateway: widget.userGateway,
-            endpointGateway: EndpointGateway(),
           ),
         ),
       );

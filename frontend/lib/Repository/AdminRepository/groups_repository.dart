@@ -6,10 +6,14 @@ import '../../DataModels/backend_response.dart';
 
 class GroupsRepository {
   final Dio _client = Dio();
-  String token = 'todo: function obtaining toker';
+  UserGateway userGateway = UserGateway();
 
   Future<List<GroupSummary>> getGroupsSummary() async {
-    _client.options.headers["Authorization"] = "Bearer $token";
+    final AuthResponse authResponse = await userGateway.getFromMemory();
+
+    if (authResponse.success) {
+      final String token = authResponse.tokens!.accessToken;
+      _client.options.headers["Authorization"] = "Bearer $token";
 
     try {
       final response = await _client.get(

@@ -4,8 +4,10 @@ import 'package:adpv_frontend/Repository/UserRepository/user_gateway.dart';
 import 'package:adpv_frontend/Widgets/common_widgets.dart';
 import 'package:flutter/material.dart';
 
-import 'Routing/endpoint_navigator.dart';
+import 'Repository/AdminRepository/admin_gateway.dart';
+import 'Views/AdminPage/groups_view.dart';
 import 'Views/compare_endpoints_view.dart';
+import 'Views/enpoint_list_view.dart';
 import 'Views/profile_view.dart';
 
 const String endpointList = "Endpoint List";
@@ -23,7 +25,7 @@ class App extends StatefulWidget {
   final UserGateway userGateway;
   final AdminGateway adminGateway = AdminGateway();
 
-   App({
+  App({
     required this.endpointGateway,
     required this.userGateway,
     Key? key,

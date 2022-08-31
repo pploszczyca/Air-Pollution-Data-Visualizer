@@ -1,5 +1,4 @@
 import 'package:adpv_frontend/Repository/AdminRepository/admin_gateway.dart';
-import 'package:adpv_frontend/Repository/EndpointRepository/endpoint_gateway.dart';
 import 'package:adpv_frontend/Repository/UserRepository/user_gateway.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';

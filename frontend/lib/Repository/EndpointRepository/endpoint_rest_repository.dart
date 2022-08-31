@@ -23,7 +23,8 @@ class EndpointRestRepository {
   EndpointRestRepository();
 
   Future<List<EndpointSummary>> getEndpointSummaryList(
-      String accessToken) async {
+    String accessToken,
+  ) async {
     client.options.headers["Authorization"] = "Bearer $accessToken";
     client.options.headers["accept"] = "*/*";
     try {
@@ -56,7 +57,11 @@ class EndpointRestRepository {
           .isForChart();
 
   Future<EndpointData> getEndpointData(
-      int id, int? limit, int? offset, String accessToken) async {
+    int id,
+    int? limit,
+    int? offset,
+    String accessToken,
+  ) async {
     limit = limit ?? 25;
     offset = offset ?? 0;
     client.options.headers["Authorization"] = "Bearer $accessToken";

@@ -5,7 +5,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../Views/Logging/utils.dart';
 
-
 const accessKey = 'access';
 const refreshKey = 'refresh';
 
@@ -33,16 +32,22 @@ class UserGateway {
       return AuthResponse(success: true, tokens: tokenResponse);
     }
     return AuthResponse(
-        success: false, errorMessage: "Cannot find tokens in secure storage");
+      success: false,
+      errorMessage: "Cannot find tokens in secure storage",
+    );
   }
 
   Future<AuthResponse> authenticateUser(AuthenticateForm form) async {
     final AuthResponse response = await authGetaway.authenticateUser(form);
     user = response.success ? User(response.tokens!) : User.empty();
     await secureStorage.write(
-        key: accessKey, value: response.tokens!.accessToken);
+      key: accessKey,
+      value: response.tokens!.accessToken,
+    );
     await secureStorage.write(
-        key: refreshKey, value: response.tokens!.refreshToken);
+      key: refreshKey,
+      value: response.tokens!.refreshToken,
+    );
     return response;
   }
 }

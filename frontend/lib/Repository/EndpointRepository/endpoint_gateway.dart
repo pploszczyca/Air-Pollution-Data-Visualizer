@@ -1,11 +1,9 @@
 import 'package:adpv_frontend/DataModels/endpoint_data.dart';
 import 'package:adpv_frontend/DataModels/endpoint_summary.dart';
 
+import '../UserRepository/user_gateway.dart';
 import 'endpoint_cache.dart';
 import 'endpoint_rest_repository.dart';
-import '../UserRepository/UserGateway.dart';
-import 'EndpointCache.dart';
-import 'EndpointRestRepository.dart';
 
 class EndpointGateway {
   final EndpointRestRepository restRepository = EndpointRestRepository();
@@ -47,7 +45,11 @@ class EndpointGateway {
   ) {
     final Future<EndpointData> endpointDataFuture =
         restRepository.getEndpointData(
-            id, limit, offset, userGateway.user.tokenResponse.accessToken);
+      id,
+      limit,
+      offset,
+      userGateway.user.tokenResponse.accessToken,
+    );
     endpointDataFuture.then((value) {
       endpointCache.saveEndpoint(id, value);
     });

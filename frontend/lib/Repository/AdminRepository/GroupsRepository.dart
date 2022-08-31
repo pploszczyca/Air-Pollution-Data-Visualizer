@@ -25,8 +25,7 @@ class GroupsRepository {
           final BackendResponse backendResponse =
               BackendResponse.fromJson(response.data);
           if (backendResponse.error == "") {
-            List<GroupSummary> groupSummaryList = [];
-            groupSummaryList = backendResponse.data
+            final List<GroupSummary> groupSummaryList = backendResponse.data
                 .map<GroupSummary>((e) =>
                     GroupSummary.fromJson(e)) // do not refactor! UFO MAGIC!
                 .toList();

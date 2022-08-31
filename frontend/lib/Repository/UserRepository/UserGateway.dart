@@ -26,9 +26,10 @@ class UserGateway {
     final String? refresh = await secureStorage.read(key: refreshKey);
 
     if (access != null && refresh != null) {
-      user =
-          User(AuthTokenResponse(accessToken: access, refreshToken: refresh));
-      return AuthResponse(success: true, tokens: user.tokenResponse);
+      final AuthTokenResponse tokenResponse =
+          AuthTokenResponse(accessToken: access, refreshToken: refresh);
+      user = User(tokenResponse);
+      return AuthResponse(success: true, tokens: tokenResponse);
     }
     return AuthResponse(
         success: false, errorMessage: "Cannot find tokens in secure storage");

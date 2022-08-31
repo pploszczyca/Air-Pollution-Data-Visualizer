@@ -21,23 +21,26 @@ class UserGateway {
         .then((value) => user = User(value.tokens!));
   }
 
-  Future<AuthResponse> authenticateUser(AuthenticateForm form) async {
-    String? access = await secureStorage.read(key: accessKey);
-    String? refresh = await secureStorage.read(key: refreshKey);
+  Future<AuthResponse> getFromMemory() async {
+    final String? access = await secureStorage.read(key: accessKey);
+    final String? refresh = await secureStorage.read(key: refreshKey);
 
     if (access != null && refresh != null) {
-      //print("FROM MEMORY"); // for reviewer
       user =
           User(AuthTokenResponse(accessToken: access, refreshToken: refresh));
       return AuthResponse(success: true, tokens: user.tokenResponse);
-    } else {
-      final AuthResponse response = await authGetaway.authenticateUser(form);
-      user = response.success ? User(response.tokens!) : User.empty();
-      await secureStorage.write(
-          key: accessKey, value: response.tokens!.accessToken);
-      await secureStorage.write(
-          key: refreshKey, value: response.tokens!.refreshToken);
-      return response;
     }
+    return AuthResponse(
+        success: false, errorMessage: "Cannot find tokens in secure storage");
+  }
+
+  Future<AuthResponse> authenticateUser(AuthenticateForm form) async {
+    final AuthResponse response = await authGetaway.authenticateUser(form);
+    user = response.success ? User(response.tokens!) : User.empty();
+    await secureStorage.write(
+        key: accessKey, value: response.tokens!.accessToken);
+    await secureStorage.write(
+        key: refreshKey, value: response.tokens!.refreshToken);
+    return response;
   }
 }

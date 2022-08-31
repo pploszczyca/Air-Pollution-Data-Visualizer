@@ -1,10 +1,12 @@
 import 'package:adpv_frontend/DataModels/Endpoint/EndpointSummary.dart';
 import 'package:adpv_frontend/Repository/EndpointRepository/EndpointGateway.dart';
 import 'package:adpv_frontend/Repository/UserRepository/UserGateway.dart';
+import 'package:adpv_frontend/Views/AdminPage/GroupsView.dart';
+import 'package:adpv_frontend/Views/EnpointListView.dart';
 import 'package:adpv_frontend/Widgets/CommonWidgets.dart';
 import 'package:flutter/material.dart';
 
-import 'Routing/EndpointNavigator.dart';
+import 'Repository/AdminRepository/AdminGateway.dart';
 import 'Views/CompareEndpointsView.dart';
 import 'Views/ProfileView.dart';
 
@@ -21,9 +23,9 @@ const int adminIcon = 0xe062;
 class App extends StatefulWidget {
   final EndpointGateway endpointGateway;
   final UserGateway userGateway;
+  final AdminGateway adminGateway = AdminGateway();
 
-  const App(
-      {required this.endpointGateway, required this.userGateway, Key? key})
+  App({required this.endpointGateway, required this.userGateway, Key? key})
       : super(key: key);
 
   @override
@@ -35,11 +37,14 @@ class _AppState extends State<App> {
 
   int _selectedIndex = 0;
   late final List<Widget> _navigationOptions = <Widget>[
-    EndpointNavigator(endpointGateway: widget.endpointGateway),
+    EndpointListView(
+      repository: widget.endpointGateway,
+    ),
     CompareChartsView(
       endpointGateway: widget.endpointGateway,
     ),
     const ProfileView(),
+    GroupsView()
   ];
 
   @override

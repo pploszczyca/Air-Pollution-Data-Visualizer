@@ -2,13 +2,14 @@ import 'package:adpv_frontend/DataModels/GroupSummary.dart';
 import 'package:adpv_frontend/Repository/AdminRepository/AdminGateway.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../../Models/GroupListProvider.dart';
 import '../../Widgets/CommonWidgets.dart';
 
 class GroupsView extends StatefulWidget {
-  const GroupsView({required this.gateway, Key? key}) : super(key: key);
+  GroupsView({Key? key}) : super(key: key);
 
-  final AdminGateway gateway;
+  final AdminGateway gateway = AdminGateway();
 
   @override
   State<GroupsView> createState() => _GroupsViewState();
@@ -70,6 +71,7 @@ class _GroupsViewState extends State<GroupsView> {
   ListView _buildGroupList(
           GroupListProvider groupListProvider, int itemCount) =>
       ListView.builder(
+        shrinkWrap: true,
         itemCount: itemCount,
         padding: const EdgeInsets.symmetric(horizontal: 20),
         itemBuilder: (context, i) =>

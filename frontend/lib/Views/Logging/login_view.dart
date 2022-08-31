@@ -2,7 +2,7 @@ import 'package:adpv_frontend/Views/Logging/utils.dart';
 import 'package:flutter/material.dart';
 
 import '../../Repository/EndpointRepository/endpoint_gateway.dart';
-import '../../Repository/UserRepository/AuthGateway.dart';
+import '../../Repository/UserRepository/auth_gateway.dart';
 import '../../Repository/UserRepository/user_gateway.dart';
 import '../../app.dart';
 
@@ -403,7 +403,7 @@ class _LoginViewState extends State<LoginView>
         await widget.userGateway.authenticateUser(form);
     if (!response.success) {
       final String message = response.errorMessage ?? 'LOGIN ERROR';
-      Scaffold.of(context).showSnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),

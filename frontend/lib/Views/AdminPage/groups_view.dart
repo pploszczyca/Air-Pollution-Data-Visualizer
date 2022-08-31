@@ -1,9 +1,9 @@
-import 'package:adpv_frontend/DataModels/GroupSummary.dart';
-import 'package:adpv_frontend/Repository/AdminRepository/AdminGateway.dart';
+import 'package:adpv_frontend/DataModels/group_summary.dart';
+import 'package:adpv_frontend/Repository/AdminRepository/admin_gateway.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../Models/GroupListProvider.dart';
+import '../../Models/group_list_provider.dart';
 import '../../Widgets/common_widgets.dart';
 
 class GroupsView extends StatefulWidget {

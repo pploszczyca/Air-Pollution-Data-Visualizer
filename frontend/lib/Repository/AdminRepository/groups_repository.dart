@@ -1,8 +1,8 @@
-import 'package:adpv_frontend/DataModels/GroupSummary.dart';
+import 'package:adpv_frontend/DataModels/group_summary.dart';
 import 'package:dio/dio.dart';
 
 import '../../Common/urls.dart';
-import '../../DataModels/BackendResponse.dart';
+import '../../DataModels/backend_response.dart';
 
 class GroupsRepository {
   final Dio _client = Dio();
@@ -27,7 +27,9 @@ class GroupsRepository {
           return Future.value(groupSummaryList);
         }
       }
-    } on DioError catch (error) {}
+    } on DioError catch (_) {
+      // ignored
+    }
     return Future.value([]);
   }
 }

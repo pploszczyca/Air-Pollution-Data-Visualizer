@@ -1,6 +1,6 @@
 import 'package:adpv_frontend/DataModels/User/auth_token_response.dart';
 import 'package:adpv_frontend/DataModels/User/user.dart';
-import 'package:adpv_frontend/Repository/UserRepository/AuthGateway.dart';
+import 'package:adpv_frontend/Repository/UserRepository/auth_gateway.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../Views/Logging/utils.dart';

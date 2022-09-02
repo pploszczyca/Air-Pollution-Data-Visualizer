@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 
 import '../Common/consts.dart';
 import '../DataModels/endpoint.dart';
+import '../DataModels/endpoint_data.dart';
 import '../DataModels/endpoint_summary.dart';
 
 class CompareEndpointsModel extends ChangeNotifier {

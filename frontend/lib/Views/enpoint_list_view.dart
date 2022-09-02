@@ -1,8 +1,11 @@
 import 'package:adpv_frontend/Repository/EndpointRepository/endpoint_gateway.dart';
+import 'package:adpv_frontend/Repository/UserRepository/user_gateway.dart';
+import 'package:adpv_frontend/Views/Logging/login_view.dart';
+import 'package:adpv_frontend/Views/endpoint_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:provider/provider.dart';
 
-import '../Common/routing.dart';
 import '../DataModels/endpoint_data.dart';
 import '../DataModels/endpoint_summary.dart';
 import '../Models/endpoint_list_provider.dart';
@@ -30,8 +33,15 @@ class EndpointListView extends StatefulWidget {
 }
 
 class _EndpointListViewState extends State<EndpointListView> {
-  void onTapHandler(int id, EndpointGateway endpointRepository) {
-    Navigator.pushNamed(context, endpointViewRoute + "/" + id.toString());
+  void onTapHandler(int id, EndpointGateway endpointGateway) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            EndpointView(endpointId: id, endpointGateway: endpointGateway),
+      ),
+    );
+
   }
 
   PreferredSize _buildAppBar() => PreferredSize(

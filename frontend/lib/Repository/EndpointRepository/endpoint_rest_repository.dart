@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:adpv_frontend/DataModels/endpoint_summary.dart';
 import 'package:dio/dio.dart';
 
@@ -111,7 +113,7 @@ class EndpointRestRepository {
           return Future.value(endpointData);
         }
       }
-    } on Exception catch (error) {
+    } catch (error) {
       return Future.error(error);
     }
     return Future(EndpointData.empty);

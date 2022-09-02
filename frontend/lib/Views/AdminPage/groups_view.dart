@@ -1,6 +1,7 @@
 import 'package:adpv_frontend/DataModels/group_summary.dart';
 import 'package:adpv_frontend/Repository/AdminRepository/admin_gateway.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:provider/provider.dart';
 
 import '../../Models/group_list_provider.dart';
@@ -59,6 +60,7 @@ class _GroupsViewState extends State<GroupsView> {
               snapshot.data == null) {
             return loadingInCenter();
           }
+
           return ChangeNotifierProvider(
             create: (context) =>
                 GroupListProvider(snapshot.data!, widget.gateway),

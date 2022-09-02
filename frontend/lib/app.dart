@@ -3,9 +3,11 @@ import 'package:adpv_frontend/Repository/EndpointRepository/endpoint_gateway.dar
 import 'package:adpv_frontend/Repository/UserRepository/user_gateway.dart';
 import 'package:adpv_frontend/Widgets/common_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 
 import 'Repository/AdminRepository/admin_gateway.dart';
 import 'Views/AdminPage/groups_view.dart';
+import 'Views/Logging/login_view.dart';
 import 'Views/compare_endpoints_view.dart';
 import 'Views/enpoint_list_view.dart';
 import 'Views/profile_view.dart';
@@ -54,19 +56,19 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     final MediaQueryData queryData = MediaQuery.of(context);
 
-    return FutureBuilder<List<EndpointSummary>>(
-      future: widget.endpointGateway.getEndpointSummary(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.none ||
-            snapshot.data == null) {
-          return loadingInCenter();
-        } else {
-          return queryData.size.width > 560
-              ? _buildRailNavigationScaffold()
-              : _buildBottomNavigationScaffold();
-        }
-      },
-    );
+      return FutureBuilder<List<EndpointSummary>>(
+        future: widget.endpointGateway.getEndpointSummary(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.none ||
+              snapshot.data == null) {
+            return loadingInCenter();
+          } else {
+            return queryData.size.width > 560
+                ? _buildRailNavigationScaffold()
+                : _buildBottomNavigationScaffold();
+          }
+        },
+      );
   }
 
   Scaffold _buildRailNavigationScaffold() {

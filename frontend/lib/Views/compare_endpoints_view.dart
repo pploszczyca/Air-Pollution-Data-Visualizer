@@ -1,6 +1,7 @@
 import 'package:adpv_frontend/Repository/EndpointRepository/endpoint_gateway.dart';
 import 'package:adpv_frontend/Widgets/CompareEndpoints/multi_data_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:multiselect/multiselect.dart';
 import 'package:provider/provider.dart';
 

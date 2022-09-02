@@ -2,6 +2,7 @@ import 'package:adpv_frontend/DataModels/User/auth_token_response.dart';
 import 'package:adpv_frontend/DataModels/User/user.dart';
 import 'package:adpv_frontend/Repository/UserRepository/auth_gateway.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:jwt_decode/jwt_decode.dart';
 
 import '../../Views/Logging/utils.dart';
 
@@ -50,4 +51,14 @@ class UserGateway {
     );
     return response;
   }
+
+  Future<bool> isMemoryTokenValid() async {
+    final AuthResponse tokenResponse = await getFromMemory();
+    if(tokenResponse.success){
+      return !Jwt.isExpired(tokenResponse.tokens!.accessToken);
+    }
+    return false;
+  }
+
+
 }

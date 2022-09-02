@@ -1,5 +1,6 @@
 import 'package:adpv_frontend/Repository/EndpointRepository/endpoint_gateway.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:provider/provider.dart';
 
 import '../DataModels/endpoint_data.dart';
@@ -93,6 +94,7 @@ class _EndpointViewState extends State<EndpointView> {
               body: loadingInCenter(),
             );
           }
+
           return Scaffold(
             appBar: buildAppBar(endpointViewAppBar),
             body: RefreshIndicator(

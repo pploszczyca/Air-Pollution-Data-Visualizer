@@ -1,4 +1,4 @@
-package pl.edu.agh.apdvbackend.mappers;
+package pl.edu.agh.apdvbackend.mappers.endpoint;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import pl.edu.agh.apdvbackend.fakes.GroupFakes;
 import pl.edu.agh.apdvbackend.models.body_models.group.AddGroupRequestBody;
@@ -11,6 +13,7 @@ import pl.edu.agh.apdvbackend.models.body_models.group.AddGroupRequestBody;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
+@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 class AddGroupRequestBodyMapperTest {
 
     @Autowired

@@ -3,6 +3,8 @@ package pl.edu.agh.apdvbackend.mappers.endpoint;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import pl.edu.agh.apdvbackend.fakes.EndpointFakes;
 import pl.edu.agh.apdvbackend.models.body_models.endpoint.UserEndpointResponseBody;
@@ -10,6 +12,7 @@ import pl.edu.agh.apdvbackend.models.body_models.endpoint.UserEndpointResponseBo
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
+@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 class UserEndpointResponseBodyMapperTest {
 
     @Autowired

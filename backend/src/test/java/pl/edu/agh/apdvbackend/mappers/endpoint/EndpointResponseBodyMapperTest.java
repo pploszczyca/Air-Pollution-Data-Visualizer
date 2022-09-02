@@ -6,8 +6,10 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import pl.edu.agh.apdvbackend.fakes.EndpointFakes;
 import pl.edu.agh.apdvbackend.fakes.body_models.field_and_parser.FieldAndParserFakes;
 import pl.edu.agh.apdvbackend.mappers.field_parser.FieldParserMapMapper;
@@ -18,9 +20,10 @@ import pl.edu.agh.apdvbackend.models.database.FieldParser;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
+@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 class EndpointResponseBodyMapperTest {
 
-    @SpyBean
+    @MockBean
     private FieldParserMapMapper fieldParserMapMapper;
 
     @Autowired

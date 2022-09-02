@@ -83,5 +83,4 @@ class AddEndpointRequestBodyMapperTest {
         // Then
         assertEquals(expected, endpointToUpdate);
     }
-
 }

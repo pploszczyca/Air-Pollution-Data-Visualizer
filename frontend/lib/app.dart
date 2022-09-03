@@ -47,7 +47,6 @@ class _AppState extends State<App> {
       endpointGateway: widget.endpointGateway,
     ),
     const ProfileView(),
-    GroupsView()
   ];
 
   @override
@@ -78,6 +77,7 @@ class _AppState extends State<App> {
 
     if (widget.userGateway.isAdmin()) {
       destinations.add(_buildRailNavigationItem(admin, adminIcon));
+      _navigationOptions.add(GroupsView());
     }
 
     final Widget navi = Expanded(
@@ -134,6 +134,7 @@ class _AppState extends State<App> {
           const Icon(Icons.admin_panel_settings_outlined),
         ),
       );
+      _navigationOptions.add(GroupsView());
     }
 
     final Widget navbar = BottomNavigationBar(

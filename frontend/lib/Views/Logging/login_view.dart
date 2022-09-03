@@ -395,7 +395,7 @@ class _LoginViewState extends State<LoginView>
     } else {
       form = AuthenticateForm(
         _emailCreateController.text,
-        _passwordLoginController.text,
+        _passwordCreateController.text,
         AuthFormType.signup,
       );
     }

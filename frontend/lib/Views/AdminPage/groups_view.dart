@@ -20,21 +20,17 @@ class GroupsView extends StatefulWidget {
 
 class _GroupsViewState extends State<GroupsView> {
   @override
-  Widget build(BuildContext context) =>
-     Scaffold(
-          appBar: _buildAppBar(),
-          body: _buildBody(),
+  Widget build(BuildContext context) => Scaffold(
+        appBar: _buildAppBar(),
+        body: _buildBody(),
+      );
 
-  );
-
-
-
-
-  FutureOr<List<GroupSummary>> onError<E extends Object>(E error, StackTrace stackTrace) {
+  FutureOr<List<GroupSummary>> onError<E extends Object>(
+      E error, StackTrace stackTrace) {
     UserGateway().resetMemoryToken().then(
           (value) =>
-          Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false),
-    );
+              Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false),
+        );
     return Future.error(error.toString());
   }
 
@@ -69,8 +65,8 @@ class _GroupsViewState extends State<GroupsView> {
       );
 
   Widget _buildBody() => RefreshIndicator(
-    onRefresh: () => widget.gateway.getGroupsSummary().onError(onError),
-    child: FutureBuilder<List<GroupSummary>>(
+        onRefresh: () => widget.gateway.getGroupsSummary().onError(onError),
+        child: FutureBuilder<List<GroupSummary>>(
           future: widget.gateway.getGroupsSummary().onError(onError),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.none ||
@@ -88,7 +84,7 @@ class _GroupsViewState extends State<GroupsView> {
             );
           },
         ),
-  );
+      );
 
   ListView _buildGroupList(
     GroupListProvider groupListProvider,

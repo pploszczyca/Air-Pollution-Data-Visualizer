@@ -28,7 +28,7 @@ class GroupsRepository {
             List<GroupSummary> groupSummaryList = [];
             groupSummaryList = backendResponse.data
                 .map<GroupSummary>(
-              // ignore: unnecessary_lambdas
+                  // ignore: unnecessary_lambdas
                   (e) => GroupSummary.fromJson(e),
                 ) // do not refactor! UFO MAGIC!
                 .toList();

@@ -1,9 +1,6 @@
 import 'package:adpv_frontend/Repository/EndpointRepository/endpoint_gateway.dart';
-import 'package:adpv_frontend/Repository/UserRepository/user_gateway.dart';
-import 'package:adpv_frontend/Views/Logging/login_view.dart';
 import 'package:adpv_frontend/Views/endpoint_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:provider/provider.dart';
 
 import '../DataModels/endpoint_data.dart';
@@ -206,7 +203,8 @@ class _EndpointListViewState extends State<EndpointListView> {
       );
 
   Future<void> _refresh(EndpointListProvider endpointListProvider) async {
-    endpointListProvider.makeEndpointsList(await widget.repository.getEndpointSummary());
+    endpointListProvider
+        .makeEndpointsList(await widget.repository.getEndpointSummary());
   }
 
   SingleChildScrollView _buildBody() => SingleChildScrollView(
@@ -228,8 +226,7 @@ class _EndpointListViewState extends State<EndpointListView> {
                 create: (context) =>
                     EndpointListProvider(snapshot.data!, widget.repository),
                 child: Consumer<EndpointListProvider>(
-                  builder: (context, endpointListProvider, _) =>
-                      _buildList(
+                  builder: (context, endpointListProvider, _) => _buildList(
                     endpointListProvider,
                     snapshot.data!.length,
                   ),

@@ -86,7 +86,8 @@ class _EndpointViewState extends State<EndpointView> {
       .getEndpointData(widget.endpointId, null, null, false)
       .onError(onError);
 
-  FutureOr<EndpointData> onError<E extends Object>(E error, StackTrace stackTrace) {
+  FutureOr<EndpointData> onError<E extends Object>(
+      E error, StackTrace stackTrace) {
     UserGateway().resetMemoryToken().then(
           (value) =>
               Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false),

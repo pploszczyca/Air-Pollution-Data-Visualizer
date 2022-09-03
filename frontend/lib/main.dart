@@ -20,9 +20,7 @@ class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
   final UserGateway userGateway = UserGateway();
 
-  void onError(){
-
-  }
+  void onError() {}
 
   @override
   Widget build(BuildContext context) => MaterialApp(
@@ -33,19 +31,19 @@ class MyApp extends StatelessWidget {
         home: FutureBuilder(
           future: userGateway.isMemoryTokenValid(),
           builder: (context, snapshot) {
-              if (snapshot.hasData == null) {
-                return loadingInCenter();
-              }
-              if (snapshot.data == true) {
-                return App(
-                  userGateway: userGateway,
-                  endpointGateway: EndpointGateway(userGateway),
-                );
-              } else {
-                return LoginView(
-                  userGateway: userGateway,
-                );
-              }
+            if (snapshot.hasData == null) {
+              return loadingInCenter();
+            }
+            if (snapshot.data == true) {
+              return App(
+                userGateway: userGateway,
+                endpointGateway: EndpointGateway(userGateway),
+              );
+            } else {
+              return LoginView(
+                userGateway: userGateway,
+              );
+            }
           },
         ),
       );

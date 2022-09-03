@@ -16,7 +16,8 @@ class CompareEndpointsModel extends ChangeNotifier {
   List<String> commonFields = [];
   List<String> selectedEndpoints = [];
   EndpointGateway endpointGateway;
-  FutureOr<EndpointData> Function<E extends Object>(E error, StackTrace stackTrace) onError;
+  FutureOr<EndpointData> Function<E extends Object>(
+      E error, StackTrace stackTrace) onError;
 
   CompareEndpointsModel(this.endpointGateway, this.onError);
 
@@ -65,7 +66,8 @@ class CompareEndpointsModel extends ChangeNotifier {
     selectedEndpoints = selected;
     for (var endpointLabel in selectedEndpoints) {
       final EndpointSummary es = endpointSummaryMap[endpointLabel]!;
-      endpointGateway.getEndpointData(es.id, null, null, false)
+      endpointGateway
+          .getEndpointData(es.id, null, null, false)
           .onError(onError)
           .then((value) {
         endpointsMap[es.label] = Endpoint.fromSummary(es, value);

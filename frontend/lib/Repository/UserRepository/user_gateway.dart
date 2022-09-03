@@ -63,5 +63,6 @@ class UserGateway {
   Future<void> resetMemoryToken() async {
     await secureStorage.delete(key: accessKey);
     await secureStorage.delete(key: refreshKey);
+    return Future<void>.value();
   }
 }

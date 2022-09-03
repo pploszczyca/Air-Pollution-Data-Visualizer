@@ -23,16 +23,6 @@ public abstract class GroupEndpointMapper {
     @Autowired
     protected GetField getField;
 
-    @Mapping(target = "id", source = "groupEndpoint.endpoint.id")
-    @Mapping(target = "label", source = "groupEndpoint.endpoint.label")
-    @Mapping(target = "endpointNumber", source = "groupEndpoint.endpoint.endpointNumber")
-    public abstract GroupEndpointResponseBody endpointGroupToInfo(
-            GroupEndpoint groupEndpoint);
-
-    public abstract List<GroupEndpointResponseBody> groupEndpointsToInfos(
-            List<GroupEndpoint> groupEndpoints);
-
-
     @Mapping(
             target = "id",
             expression = "java(makeGroupEndpointKey(group.getId(), endpointGroupRequestBody.endpointId()))"

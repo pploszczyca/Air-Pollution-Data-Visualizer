@@ -4,8 +4,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.springframework.beans.factory.annotation.Autowired;
-import pl.edu.agh.apdvbackend.mappers.GroupEndpointMapper;
 import pl.edu.agh.apdvbackend.mappers.UserMapper;
+import pl.edu.agh.apdvbackend.mappers.group_endpoint.GroupEndpointResponseBodyMapper;
 import pl.edu.agh.apdvbackend.models.body_models.group.AboutGroupResponseBody;
 import pl.edu.agh.apdvbackend.models.database.Group;
 
@@ -16,7 +16,7 @@ public abstract class AboutGroupMapper {
     protected UserMapper userMapper;
 
     @Autowired
-    protected GroupEndpointMapper groupEndpointMapper;
+    protected GroupEndpointResponseBodyMapper groupEndpointResponseBodyMapper;
 
     @Mapping(
             target = "shortUserInfos",
@@ -24,7 +24,8 @@ public abstract class AboutGroupMapper {
     )
     @Mapping(
             target = "groupEndpointResponseBodies",
-            expression = "java(groupEndpointMapper.groupEndpointsToInfos(group.getGroupEndpoints().stream().toList()))"
+            expression = "java(groupEndpointResponseBodyMapper.toResponseBodyList(" +
+                    "group.getGroupEndpoints().stream().toList()))"
     )
     public abstract AboutGroupResponseBody toAboutGroupResponseBody(Group group);
 }

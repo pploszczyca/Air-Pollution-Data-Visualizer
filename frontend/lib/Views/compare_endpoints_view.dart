@@ -34,7 +34,7 @@ class _CompareChartsViewState extends State<CompareChartsView> {
   }
 
   FutureOr<EndpointData> onError<E extends Object>(
-      E error, StackTrace stackTrace) {
+      E error, StackTrace stackTrace,) {
     UserGateway().resetMemoryToken().then(
           (value) =>
               Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false),

@@ -3,7 +3,6 @@ import 'package:adpv_frontend/Repository/UserRepository/user_gateway.dart';
 import 'package:adpv_frontend/Widgets/common_widgets.dart';
 import 'package:adpv_frontend/app.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/assertions.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'Views/Logging/login_view.dart';
@@ -31,7 +30,7 @@ class MyApp extends StatelessWidget {
         home: FutureBuilder(
           future: userGateway.isMemoryTokenValid(),
           builder: (context, snapshot) {
-            if (snapshot.hasData == null) {
+            if (!snapshot.hasData) {
               return loadingInCenter();
             }
             if (snapshot.data == true) {

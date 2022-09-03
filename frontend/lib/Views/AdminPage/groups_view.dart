@@ -26,7 +26,7 @@ class _GroupsViewState extends State<GroupsView> {
       );
 
   FutureOr<List<GroupSummary>> onError<E extends Object>(
-      E error, StackTrace stackTrace) {
+      E error, StackTrace stackTrace,) {
     UserGateway().resetMemoryToken().then(
           (value) =>
               Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false),

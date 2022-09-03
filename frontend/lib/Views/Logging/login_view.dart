@@ -428,7 +428,7 @@ class _LoginViewState extends State<LoginView>
         ),
       );
     } else {
-      await Navigator.push(
+      await Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (BuildContext context) => App(

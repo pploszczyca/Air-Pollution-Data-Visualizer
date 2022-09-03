@@ -401,22 +401,22 @@ class _LoginViewState extends State<LoginView>
     }
     final AuthResponse response =
         await widget.userGateway.authenticateUser(form);
+
     if (!response.success) {
       final String message = response.errorMessage ?? 'LOGIN ERROR';
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
             ),
             child: Text(
               message,
               style: const TextStyle(
                 color: Colors.red,
-                fontFamily: 'Sofia sans',
-                fontSize: 16,
+                fontFamily: 'Ubuntu Condensed',
+                fontSize: 20,
                 fontWeight: FontWeight.w500,
               ),
             ),

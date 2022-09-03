@@ -41,14 +41,16 @@ class UserGateway {
   Future<AuthResponse> authenticateUser(AuthenticateForm form) async {
     final AuthResponse response = await authGetaway.authenticateUser(form);
     user = response.success ? User(response.tokens!) : User.empty();
-    await secureStorage.write(
-      key: accessKey,
-      value: response.tokens!.accessToken,
-    );
-    await secureStorage.write(
-      key: refreshKey,
-      value: response.tokens!.refreshToken,
-    );
+    if(response.success){
+      await secureStorage.write(
+        key: accessKey,
+        value: response.tokens!.accessToken,
+      );
+      await secureStorage.write(
+        key: refreshKey,
+        value: response.tokens!.refreshToken,
+      );
+    }
     return response;
   }
 

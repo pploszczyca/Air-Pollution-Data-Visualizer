@@ -1,11 +1,10 @@
-import 'package:adpv_frontend/DataModels/GroupSummary.dart';
 import 'package:adpv_frontend/Repository/AdminRepository/AdminGateway.dart';
 import 'package:adpv_frontend/Views/AdminPage/ConfirmationDialogModal.dart';
-import 'package:adpv_frontend/Views/AdminPage/FormModal.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../Models/GroupListProvider.dart';
 import '../../Widgets/CommonWidgets.dart';
+import 'FormModal.dart';
 
 const floatingButtonColor = Color.fromRGBO(36, 109, 114, 0.9);
 
@@ -19,11 +18,22 @@ class GroupsView extends StatefulWidget {
 }
 
 class _GroupsViewState extends State<GroupsView> {
+  late GroupListProvider groupListProvider = GroupListProvider(widget.repository);
+
+  _pullDownRefresh() async {
+    groupListProvider.clear();
+  }
+
+
   @override
-  Widget build(BuildContext context) => Scaffold(
-      appBar: _buildAppBar(),
-      body: _buildBody(),
-      floatingActionButton: _buildAddButton());
+  Widget build(BuildContext context) => ChangeNotifierProvider(
+      create: (context) => groupListProvider,
+      child: RefreshIndicator(
+          onRefresh: () => _pullDownRefresh(),
+          child: Scaffold(
+              appBar: _buildAppBar(),
+              body: _buildBody(),
+              floatingActionButton: _buildAddButton())));
 
   PreferredSize _buildAppBar() => PreferredSize(
         preferredSize: const Size.fromHeight(120),
@@ -53,47 +63,39 @@ class _GroupsViewState extends State<GroupsView> {
         ),
       );
 
-  FutureBuilder _buildBody() => FutureBuilder<List<GroupSummary>>(
-      future: widget.repository.getGroupsSummary(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.none ||
-            snapshot.data == null) {
-          return loadingInCenter();
-        }
-        return ChangeNotifierProvider(
-          create: (context) =>
-              GroupListProvider(snapshot.data!, widget.repository),
-          child: Consumer<GroupListProvider>(
-            builder: (context, groupListProvider, _) =>
-                _buildGroupList(groupListProvider, snapshot.data!.length),
-          ),
-        );
-      });
+  FutureBuilder _buildBody() => FutureBuilder(
+        future: widget.repository.getGroupsSummary(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.none ||
+              snapshot.data == null) {
+            return loadingInCenter();
+          } else {
+            groupListProvider.makeGroupList(snapshot.data!);
+            return SingleChildScrollView(
+              controller: ScrollController(),
+              child: Consumer<GroupListProvider>(
+                  builder: (context, __, _) => SizedBox(
+                        height: 3400,
+                        child: _buildGroupList(
+                            groupListProvider, groupListProvider.groupsList.length))),
+            );
+          }
+        });
 
-  ListView _buildGroupList(
-          GroupListProvider groupListProvider, int itemCount) =>
-      ListView.builder(
-          itemCount: itemCount,
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          itemBuilder: (context, i) =>
-              _buildGroupCard(groupListProvider.groupsList[i]));
+  ListView _buildGroupList(GroupListProvider groupListProvider, int itemCount) {
+    return ListView.builder(
+        controller: ScrollController(),
+        itemCount: itemCount,
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        itemBuilder: (context, i) =>
+            _buildGroupCard(groupListProvider.groupsList[i]));
+  }
 
   Card _buildGroupCard(GroupCard group) => Card(
         margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         shadowColor: Colors.black,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: ExpansionTile(
-          onExpansionChanged: (value) {
-            if (value) {
-              setState(() {
-                group.titleFontweight = FontWeight.w800;
-              });
-            } else {
-              setState(() {
-                group.titleFontweight = FontWeight.normal;
-              });
-            }
-          },
           title: Text(
             group.name,
             style: TextStyle(
@@ -118,16 +120,7 @@ class _GroupsViewState extends State<GroupsView> {
       Container(
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
         child: TextButton(
-          onPressed: () {
-            print('kokokokoko');
-          },
-          onHover: (value) {
-            if (value) {
-              _onHoverButton(groupCard, text, floatingButtonColor);
-            } else {
-              _onHoverButton(groupCard, text, Colors.black);
-            }
-          },
+          onPressed: () => print('kokokokoko'),
           child: Row(
             children: [
               Expanded(
@@ -174,31 +167,17 @@ class _GroupsViewState extends State<GroupsView> {
           alignment: Alignment.centerLeft,
         ),
         child: const Icon(Icons.delete_outline_outlined, size: 30),
-        onPressed: () {
-          _onDeletePressed(groupCard);
-        },
+        onPressed: () => _onDeletePressed(groupCard),
       ));
 
   FloatingActionButton _buildAddButton() => FloatingActionButton(
-        onPressed: () {
-          _onCreatePressed();
-        },
+        onPressed: () => _onCreatePressed(),
         backgroundColor: floatingButtonColor,
         child: const Icon(Icons.add),
       );
 
-  void _onHoverButton(GroupCard groupCard, String text, Color color) {
-    setState(() {
-      if (text == 'Members') {
-        groupCard.membersButtonColor = color;
-      } else {
-        groupCard.endpointsButtonColor = color;
-      }
-    });
-  }
-
   _onCreatePressed() {
-    showFormModal(context, 'New Group', () => createGroup());
+    showCreateGroupModal(context, createGroup);
   }
 
   _onDeletePressed(GroupCard groupCard) {
@@ -210,10 +189,14 @@ class _GroupsViewState extends State<GroupsView> {
   }
 
   deleteGroup(int id) {
-    this.widget.repository.deleteGroup(id);
+    widget.repository.deleteGroup(id).then((value) => {
+      if(value) groupListProvider.notify(),
+        });
   }
 
   createGroup(String name) {
-    this.widget.repository.createGroup(name);
+    widget.repository.createGroup(name).then((value) {
+            if (value.id != -1) groupListProvider.notify();
+        });
   }
 }

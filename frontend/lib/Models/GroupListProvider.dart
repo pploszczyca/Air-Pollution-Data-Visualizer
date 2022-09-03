@@ -24,17 +24,34 @@ class GroupListProvider with ChangeNotifier {
   List<GroupCard> groupsList = [];
   AdminGateway adminGateway;
 
-  GroupListProvider(List<GroupSummary> list, this.adminGateway) {
-    makeGroupList(list);
-  }
+  GroupListProvider(this.adminGateway);
 
-  void setGroup(GroupSummary group) {
+  void addGroup(GroupSummary group) {
     groupsList.add(GroupCard(name: group.name, id: group.id));
   }
 
   void makeGroupList(List<GroupSummary> groupSummary) {
+    groupsList = [];
     for (var element in groupSummary) {
-      setGroup(element);
+      addGroup(element);
     }
+  }
+
+  void addNewGroup(GroupSummary group) {
+    addGroup(group);
+    notifyListeners();
+  }
+
+  notify() {
+    notifyListeners();
+  }
+
+  GroupCard getItem(int i) {
+    return groupsList[i];
+  }
+
+  void clear() {
+    groupsList = [];
+    notifyListeners();
   }
 }

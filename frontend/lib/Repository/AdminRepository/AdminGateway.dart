@@ -1,3 +1,4 @@
+import 'package:adpv_frontend/DataModels/GroupData.dart';
 import 'package:adpv_frontend/DataModels/GroupSummary.dart';
 import 'package:adpv_frontend/Repository/AdminRepository/GroupsRepository.dart';
 
@@ -12,13 +13,13 @@ class AdminGateway {
     return summary;
   }
 
-
-
-  void deleteGroup(int id) {
+  Future<bool> deleteGroup(int id) {
     final Future<bool> response = restRepository.deleteGroup(id);
+    return response;
   }
 
-  void createGroup(String name) {
-    final Future<bool> response = restRepository.createGroup(name);
+  Future<GroupData> createGroup(String name) {
+    final Future<GroupData> response = restRepository.createGroup(name);
+    return response;
   }
 }

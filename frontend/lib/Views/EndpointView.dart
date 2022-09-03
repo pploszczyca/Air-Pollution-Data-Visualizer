@@ -68,7 +68,10 @@ class _EndpointViewState extends State<EndpointView> {
             appBar: buildAppBar(endpointViewAppBar),
             body: loadingInCenter(),
           );
-        }
+        } /// code with me zamknij XDD
+        /// ale to jest smieszne, usunem Ci cały kod buhahaha
+        /// pewnie nie usuenisz tego przed PR i piotrek sie zdenerwuje
+        /// ale to nie moj problem, nikt mi nic nie udowodni >:)))))
         return Scaffold(
             appBar: buildAppBar(endpointViewAppBar),
             body: RefreshIndicator(

@@ -8,3 +8,4 @@ class GroupSummary{
       : id = json["id"],
         name = json["name"];
 }
+

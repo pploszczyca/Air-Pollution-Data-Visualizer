@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:adpv_frontend/Repository/EndpointRepository/endpoint_gateway.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 
 import '../Common/consts.dart';
 import '../DataModels/endpoint.dart';
+import '../DataModels/endpoint_data.dart';
 import '../DataModels/endpoint_summary.dart';
 
 class CompareEndpointsModel extends ChangeNotifier {
@@ -14,8 +16,10 @@ class CompareEndpointsModel extends ChangeNotifier {
   List<String> commonFields = [];
   List<String> selectedEndpoints = [];
   EndpointGateway endpointGateway;
+  FutureOr<EndpointData> Function<E extends Object>(
+      E error, StackTrace stackTrace,) onError;
 
-  CompareEndpointsModel(this.endpointGateway);
+  CompareEndpointsModel(this.endpointGateway, this.onError);
 
   void clear() {
     endpointSummaryMap = {};
@@ -62,7 +66,10 @@ class CompareEndpointsModel extends ChangeNotifier {
     selectedEndpoints = selected;
     for (var endpointLabel in selectedEndpoints) {
       final EndpointSummary es = endpointSummaryMap[endpointLabel]!;
-      endpointGateway.getEndpointData(es.id, null, null, false).then((value) {
+      endpointGateway
+          .getEndpointData(es.id, null, null, false)
+          .onError(onError)
+          .then((value) {
         endpointsMap[es.label] = Endpoint.fromSummary(es, value);
         updateCommonFields();
       });

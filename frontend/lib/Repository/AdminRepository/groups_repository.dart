@@ -28,15 +28,15 @@ class GroupsRepository {
             List<GroupSummary> groupSummaryList = [];
             groupSummaryList = backendResponse.data
                 .map<GroupSummary>(
-              // ignore: unnecessary_lambdas
+                  // ignore: unnecessary_lambdas
                   (e) => GroupSummary.fromJson(e),
                 ) // do not refactor! UFO MAGIC!
                 .toList();
             return Future.value(groupSummaryList);
           }
         }
-      } on DioError catch (_) {
-        // ignored
+      } on DioError catch (error) {
+        return Future.error(error);
       }
     }
     return Future.value([]);

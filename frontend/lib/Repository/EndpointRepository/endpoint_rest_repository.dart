@@ -111,7 +111,7 @@ class EndpointRestRepository {
           return Future.value(endpointData);
         }
       }
-    } on Exception catch (error) {
+    } catch (error) {
       return Future.error(error);
     }
     return Future(EndpointData.empty);

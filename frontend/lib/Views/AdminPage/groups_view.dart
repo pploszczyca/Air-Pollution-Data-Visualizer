@@ -27,10 +27,10 @@ class _GroupsViewState extends State<GroupsView> {
 
   FutureOr<List<GroupSummary>> onError<E extends Object>(
       E error, StackTrace stackTrace,) {
-   // UserGateway().resetMemoryToken().then(
-         // (value) =>
-             // Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false),
-       // );
+   UserGateway().resetMemoryToken().then(
+         (value) =>
+             Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false),
+       );
     return Future.error(error.toString());
   }
 

@@ -54,11 +54,14 @@ class UserGateway {
 
   Future<bool> isMemoryTokenValid() async {
     final AuthResponse tokenResponse = await getFromMemory();
-    if(tokenResponse.success){
+    if (tokenResponse.success) {
       return !Jwt.isExpired(tokenResponse.tokens!.accessToken);
     }
     return false;
   }
 
-
+  Future<void> resetMemoryToken() async {
+    await secureStorage.delete(key: accessKey);
+    await secureStorage.delete(key: refreshKey);
+  }
 }

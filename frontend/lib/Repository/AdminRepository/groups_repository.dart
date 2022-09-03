@@ -35,8 +35,8 @@ class GroupsRepository {
             return Future.value(groupSummaryList);
           }
         }
-      } on DioError catch (_) {
-        // ignored
+      } on DioError catch (error) {
+        return Future.error(error);
       }
     }
     return Future.value([]);

@@ -1,10 +1,12 @@
+import 'dart:async';
+
 import 'package:adpv_frontend/Repository/EndpointRepository/endpoint_gateway.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:provider/provider.dart';
 
 import '../DataModels/endpoint_data.dart';
 import '../Models/endpoint_view_provider.dart';
+import '../Repository/UserRepository/user_gateway.dart';
 import '../Widgets/EndpointView/endpoint_info_table.dart';
 import '../Widgets/EndpointView/titled_line_chart.dart';
 import '../Widgets/common_widgets.dart';
@@ -81,7 +83,16 @@ SizedBox _buildBarView(
 
 class _EndpointViewState extends State<EndpointView> {
   late Future<EndpointData> endpointData = widget.endpointGateway
-      .getEndpointData(widget.endpointId, null, null, false);
+      .getEndpointData(widget.endpointId, null, null, false)
+      .onError(onError);
+
+  FutureOr<EndpointData> onError<E extends Object>(E error, StackTrace stackTrace) {
+    UserGateway().resetMemoryToken().then(
+          (value) =>
+              Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false),
+        );
+    return Future.error(error.toString());
+  }
 
   @override
   Widget build(BuildContext context) => FutureBuilder<EndpointData>(
@@ -133,6 +144,7 @@ class _EndpointViewState extends State<EndpointView> {
   // ignore: always_declare_return_types
   _pullDownRefresh() async {
     endpointData = widget.endpointGateway
-        .getEndpointData(widget.endpointId, null, null, true);
+        .getEndpointData(widget.endpointId, null, null, true)
+        .onError(onError);
   }
 }

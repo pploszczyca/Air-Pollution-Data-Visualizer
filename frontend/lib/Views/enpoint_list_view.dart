@@ -41,7 +41,6 @@ class _EndpointListViewState extends State<EndpointListView> {
             EndpointView(endpointId: id, endpointGateway: endpointGateway),
       ),
     );
-
   }
 
   PreferredSize _buildAppBar() => PreferredSize(
@@ -188,20 +187,27 @@ class _EndpointListViewState extends State<EndpointListView> {
         ),
       );
 
-  Container _buildExpansionList(
+  Container _buildList(
     EndpointListProvider endpointListProvider,
     int itemCount,
   ) =>
       Container(
         margin: const EdgeInsets.only(left: 10, right: 10),
-        child: ListView.builder(
-          physics: const AlwaysScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: itemCount,
-          itemBuilder: (context, i) =>
-              _buildEndpointCard(endpointListProvider.endpointsList[i]),
+        child: RefreshIndicator(
+          onRefresh: () => _refresh(endpointListProvider),
+          child: ListView.builder(
+            physics: const AlwaysScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: itemCount,
+            itemBuilder: (context, i) =>
+                _buildEndpointCard(endpointListProvider.endpointsList[i]),
+          ),
         ),
       );
+
+  Future<void> _refresh(EndpointListProvider endpointListProvider) async {
+    endpointListProvider.makeEndpointsList(await widget.repository.getEndpointSummary());
+  }
 
   SingleChildScrollView _buildBody() => SingleChildScrollView(
         child: Container(
@@ -223,7 +229,7 @@ class _EndpointListViewState extends State<EndpointListView> {
                     EndpointListProvider(snapshot.data!, widget.repository),
                 child: Consumer<EndpointListProvider>(
                   builder: (context, endpointListProvider, _) =>
-                      _buildExpansionList(
+                      _buildList(
                     endpointListProvider,
                     snapshot.data!.length,
                   ),

@@ -88,10 +88,10 @@ class _EndpointViewState extends State<EndpointView> {
 
   FutureOr<EndpointData> onError<E extends Object>(
       E error, StackTrace stackTrace,) {
-    UserGateway().resetMemoryToken().then(
-          (value) =>
-              Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false),
-        );
+    // UserGateway().resetMemoryToken().then(
+    //       (value) =>
+    //           Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false),
+    //     );
     return Future.error(error.toString());
   }
 

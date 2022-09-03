@@ -428,7 +428,8 @@ class _LoginViewState extends State<LoginView>
         ),
       );
     } else {
-      await Navigator.pushReplacement(
+      if(await widget.userGateway.isMemoryTokenValid()){
+      await Navigator.push(
         context,
         MaterialPageRoute(
           builder: (BuildContext context) => App(
@@ -437,6 +438,6 @@ class _LoginViewState extends State<LoginView>
           ),
         ),
       );
-    }
+    }}
   }
 }

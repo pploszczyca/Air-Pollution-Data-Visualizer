@@ -42,14 +42,14 @@ class UserGateway {
     final AuthResponse response = await authGetaway.authenticateUser(form);
     user = response.success ? User(response.tokens!) : User.empty();
     if(response.success){
-      await secureStorage.write(
-        key: accessKey,
-        value: response.tokens!.accessToken,
-      );
-      await secureStorage.write(
-        key: refreshKey,
-        value: response.tokens!.refreshToken,
-      );
+    await secureStorage.write(
+      key: accessKey,
+      value: response.tokens!.accessToken,
+    );
+    await secureStorage.write(
+      key: refreshKey,
+      value: response.tokens!.refreshToken,
+    );
     }
     return response;
   }

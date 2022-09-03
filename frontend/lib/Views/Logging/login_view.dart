@@ -395,7 +395,7 @@ class _LoginViewState extends State<LoginView>
     } else {
       form = AuthenticateForm(
         _emailCreateController.text,
-        _passwordLoginController.text,
+        _passwordCreateController.text,
         AuthFormType.signup,
       );
     }
@@ -428,7 +428,6 @@ class _LoginViewState extends State<LoginView>
         ),
       );
     } else {
-      if(await widget.userGateway.isMemoryTokenValid()){
       await Navigator.push(
         context,
         MaterialPageRoute(
@@ -438,6 +437,6 @@ class _LoginViewState extends State<LoginView>
           ),
         ),
       );
-    }}
+    }
   }
 }

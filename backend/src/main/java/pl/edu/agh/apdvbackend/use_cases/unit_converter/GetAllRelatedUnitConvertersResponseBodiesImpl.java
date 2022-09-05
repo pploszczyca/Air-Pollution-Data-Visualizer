@@ -10,24 +10,19 @@ import pl.edu.agh.apdvbackend.utilities.ListUtilities;
 
 @Component
 @RequiredArgsConstructor
-public class GetAllRelatedUnitConvertersResponseBodiesImpl
-        implements GetAllRelatedUnitConvertersResponseBodies {
+public class GetAllRelatedUnitConvertersResponseBodiesImpl implements GetAllRelatedUnitConvertersResponseBodies {
 
     private final UnitConverterRepository converterRepository;
-
     private final UnitConverterMapper unitConverterMapper;
-
     private final ListUtilities listUtilities;
 
 
     @Override
     public List<UnitConverterResponseBody> execute(Long unitId) {
-        final var unitConverterIterable =
-                converterRepository.findAllByFromUnitIdOrToUnitId(unitId,
-                        unitId);
-        final var unitConverterList =
-                listUtilities.iterableToList(unitConverterIterable);
-        return unitConverterMapper.unitConverterListToResponseBodyList(
-                unitConverterList);
+        final var unitConverterIterable = converterRepository
+                .findAllByFromUnitIdOrToUnitId(unitId, unitId);
+        final var unitConverterList = listUtilities
+                .iterableToList(unitConverterIterable);
+        return unitConverterMapper.unitConverterListToResponseBodyList(unitConverterList);
     }
 }

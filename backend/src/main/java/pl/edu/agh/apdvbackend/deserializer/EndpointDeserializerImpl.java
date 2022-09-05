@@ -19,9 +19,11 @@ public class EndpointDeserializerImpl
     private final ObjectMapper objectMapper;
 
     @Override
-    public ObjectNode deserialize(JsonNode inputJsonNode,
-                                  Endpoint endpoint,
-                                  List<Field> requiredFields) {
+    public ObjectNode deserialize(
+            JsonNode inputJsonNode,
+            Endpoint endpoint,
+            List<Field> requiredFields
+    ) {
         final var resultObjectNode = objectMapper.createObjectNode();
 
         requiredFields.forEach(field -> {

@@ -9,11 +9,9 @@ import pl.edu.agh.apdvbackend.utilities.ListUtilities;
 
 @Component
 @RequiredArgsConstructor
-public class GetAllFieldParsersImpl
-        implements GetAllFieldParsers {
+public class GetAllFieldParsersImpl implements GetAllFieldParsers {
 
     private final FieldParserRepository fieldParserRepository;
-
     private final ListUtilities listUtilities;
 
     @Override

@@ -18,16 +18,10 @@ import pl.edu.agh.apdvbackend.use_cases.user.FindCurrentUserId;
 public class FieldService {
 
     private final SaveNewField saveNewField;
-
     private final GetAllFields getAllFields;
-
-    private final GetAllEnableFieldsForEndpointAndUser
-            getAllEnableFieldsForEndpointAndUser;
-
+    private final GetAllEnableFieldsForEndpointAndUser getAllEnableFieldsForEndpointAndUser;
     private final RemoveField removeField;
-
     private final UpdateField updateField;
-
     private final FindCurrentUserId findCurrentUserId;
 
     public Response<Field> addField(AddFieldBodyRequest addFieldBodyRequest) {
@@ -40,18 +34,18 @@ public class FieldService {
 
     public Response<List<Field>> getAllEnableEndpoints(Long endpointId) {
         return Response.withOkStatus(
-                getAllEnableFieldsForEndpointAndUser.execute(
-                        findCurrentUserId.execute(),
-                        endpointId));
+                getAllEnableFieldsForEndpointAndUser.execute(findCurrentUserId.execute(), endpointId)
+        );
     }
 
     public void removeFieldById(Long fieldId) {
         removeField.execute(fieldId);
     }
 
-    public Response<Field> updateField(Long fieldId,
-                                       AddFieldBodyRequest addFieldBodyRequest) {
-        return Response.withOkStatus(
-                updateField.execute(fieldId, addFieldBodyRequest));
+    public Response<Field> updateField(
+            Long fieldId,
+            AddFieldBodyRequest addFieldBodyRequest
+    ) {
+        return Response.withOkStatus(updateField.execute(fieldId, addFieldBodyRequest));
     }
 }

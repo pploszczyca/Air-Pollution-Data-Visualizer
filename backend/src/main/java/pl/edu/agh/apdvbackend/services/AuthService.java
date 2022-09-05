@@ -16,22 +16,18 @@ import pl.edu.agh.apdvbackend.use_cases.auth.RegisterUser;
 public class AuthService {
 
     private final LogInUser logInUser;
-
     private final RegisterUser registerUser;
-
     private final RefreshToken refreshToken;
 
     public Response<JWTResponse> logInUser(LogInRequestBody logInRequestBody) {
         return Response.withOkStatus(logInUser.execute(logInRequestBody));
     }
 
-    public Response<JWTResponse> registerUser(
-            AddUserRequestBody addUserRequestBody) {
+    public Response<JWTResponse> registerUser(AddUserRequestBody addUserRequestBody) {
         return Response.withOkStatus(registerUser.execute(addUserRequestBody));
     }
 
-    public Response<JWTResponse> refreshToken(
-            HttpServletRequest httpServletRequest) {
+    public Response<JWTResponse> refreshToken(HttpServletRequest httpServletRequest) {
         return Response.withOkStatus(refreshToken.execute(httpServletRequest));
     }
 }

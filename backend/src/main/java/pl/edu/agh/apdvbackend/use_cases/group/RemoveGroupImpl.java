@@ -6,8 +6,7 @@ import pl.edu.agh.apdvbackend.repositories.GroupRepository;
 
 @Component
 @RequiredArgsConstructor
-public class RemoveGroupImpl
-        implements RemoveGroup {
+public class RemoveGroupImpl implements RemoveGroup {
 
     private final GroupRepository groupRepository;
 

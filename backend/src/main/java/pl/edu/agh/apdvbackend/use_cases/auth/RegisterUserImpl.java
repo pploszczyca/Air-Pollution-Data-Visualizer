@@ -9,13 +9,10 @@ import pl.edu.agh.apdvbackend.use_cases.user.AddUser;
 
 @Component
 @RequiredArgsConstructor
-public class RegisterUserImpl
-        implements RegisterUser {
+public class RegisterUserImpl implements RegisterUser {
 
     private final AddUser addUser;
-
     private final LogInUser logInUser;
-
     private final UserMapper userMapper;
 
     @Override

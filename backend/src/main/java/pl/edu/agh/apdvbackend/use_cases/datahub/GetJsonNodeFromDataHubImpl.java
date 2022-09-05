@@ -9,15 +9,11 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @Component
 @RequiredArgsConstructor
-public class GetJsonNodeFromDataHubImpl
-        implements GetJsonNodeFromDataHub {
+public class GetJsonNodeFromDataHubImpl implements GetJsonNodeFromDataHub {
 
     private static final String LIMIT = "limit";
-
     private static final String OFFSET = "offset";
-
     private static final String RESULTS = "results";
-
     private final WebClient webClient;
 
     @Override

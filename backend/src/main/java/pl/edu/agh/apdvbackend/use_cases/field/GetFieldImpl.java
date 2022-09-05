@@ -7,13 +7,14 @@ import pl.edu.agh.apdvbackend.repositories.FieldRepository;
 
 @Component
 @RequiredArgsConstructor
-public class GetFieldImpl
-        implements GetField {
+public class GetFieldImpl implements GetField {
 
     private final FieldRepository fieldRepository;
 
     @Override
     public Field execute(Long fieldId) {
-        return fieldRepository.findById(fieldId).orElseThrow();
+        return fieldRepository
+                .findById(fieldId)
+                .orElseThrow();
     }
 }

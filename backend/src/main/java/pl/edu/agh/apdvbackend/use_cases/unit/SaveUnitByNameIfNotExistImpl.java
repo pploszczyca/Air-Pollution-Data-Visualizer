@@ -7,8 +7,7 @@ import pl.edu.agh.apdvbackend.repositories.UnitRepository;
 
 @Component
 @RequiredArgsConstructor
-public class SaveUnitByNameIfNotExistImpl
-        implements SaveUnitByNameIfNotExist {
+public class SaveUnitByNameIfNotExistImpl implements SaveUnitByNameIfNotExist {
 
     private final UnitRepository unitRepository;
 

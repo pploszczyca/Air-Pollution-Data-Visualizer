@@ -2,7 +2,6 @@ package pl.edu.agh.apdvbackend.mappers.group.admin_panel;
 
 import java.util.Collections;
 import java.util.List;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -13,6 +12,8 @@ import pl.edu.agh.apdvbackend.fakes.EndpointFakes;
 import pl.edu.agh.apdvbackend.fakes.GroupEndpointFakes;
 import pl.edu.agh.apdvbackend.fakes.GroupFakes;
 import pl.edu.agh.apdvbackend.models.body_models.group.AdminPanelGroupResponseBody;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 class AdminPanelGroupMapperTest {

@@ -4,6 +4,5 @@ import pl.edu.agh.apdvbackend.models.body_models.unit_converter.AddUnitConverter
 import pl.edu.agh.apdvbackend.models.body_models.unit_converter.UnitConverterResponseBody;
 
 public interface SaveUnitConverter {
-    UnitConverterResponseBody execute(
-            AddUnitConverterRequestBody addUnitConverterRequestBody);
+    UnitConverterResponseBody execute(AddUnitConverterRequestBody addUnitConverterRequestBody);
 }

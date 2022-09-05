@@ -7,13 +7,14 @@ import pl.edu.agh.apdvbackend.repositories.GroupRepository;
 
 @Component
 @RequiredArgsConstructor
-public class GetGroupImpl
-        implements GetGroup {
+public class GetGroupImpl implements GetGroup {
 
     private final GroupRepository groupRepository;
 
     @Override
     public Group execute(Long groupId) {
-        return groupRepository.findById(groupId).orElseThrow();
+        return groupRepository
+                .findById(groupId)
+                .orElseThrow();
     }
 }

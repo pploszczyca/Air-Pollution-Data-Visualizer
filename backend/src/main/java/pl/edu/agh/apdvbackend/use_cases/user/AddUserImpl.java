@@ -12,13 +12,10 @@ import pl.edu.agh.apdvbackend.validators.UserDataValidationUtilities;
 
 @Component
 @RequiredArgsConstructor
-public class AddUserImpl
-        implements AddUser {
+public class AddUserImpl implements AddUser {
 
     private final UserRepository userRepository;
-
     private final UserMapper userMapper;
-
     private final UserDataValidationUtilities userDataValidationUtilities;
 
     @Override

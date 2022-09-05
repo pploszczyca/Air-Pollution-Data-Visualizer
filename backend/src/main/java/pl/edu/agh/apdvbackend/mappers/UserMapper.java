@@ -25,7 +25,6 @@ public abstract class UserMapper {
     protected PasswordEncoder passwordEncoder;
 
     @Mapping(target = "password", expression = "java(passwordEncoder.encode(addUserRequestBody.password()))")
-
     public abstract User addRequestBodyToUser(
             AddUserRequestBody addUserRequestBody);
 
@@ -33,7 +32,10 @@ public abstract class UserMapper {
     public abstract void updateUserFromAddRequestBody(
             AddUserRequestBody addUserRequestBody, @MappingTarget User user);
 
-    @Mapping(target = "groups", expression = "java(user.getGroups().stream().map(shortMapper::groupToShortGroupInfo).toList())")
+    @Mapping(
+            target = "groups",
+            expression = "java(user.getGroups().stream().map(shortMapper::groupToShortGroupInfo).toList())"
+    )
     public abstract UserResponseBody userToAboutResponseBody(User user);
 
     public abstract List<UserResponseBody> userListToAboutResponseBodyList(

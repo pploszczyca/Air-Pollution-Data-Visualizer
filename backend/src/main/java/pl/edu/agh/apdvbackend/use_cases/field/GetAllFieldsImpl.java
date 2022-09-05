@@ -13,7 +13,6 @@ public class GetAllFieldsImpl
         implements GetAllFields {
 
     private final ListUtilities listUtilities;
-
     private final FieldRepository fieldRepository;
 
     @Override

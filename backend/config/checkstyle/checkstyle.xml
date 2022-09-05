@@ -60,7 +60,6 @@
 
         <!--Imports-->
         <module name="AvoidStarImport"/>
-        <module name="CustomImportOrder"/>
         <module name="RedundantImport"/>
         <module name="UnusedImports"/>
 
@@ -80,7 +79,9 @@
 
         <!--Whitespace-->
         <module name="EmptyForIteratorPad"/>
-        <module name="EmptyLineSeparator"/>
+        <module name="EmptyLineSeparator">
+            <property name="allowNoEmptyLineBetweenFields" value="true"/>
+        </module>
         <module name="GenericWhitespace"/>
         <module name="MethodParamPad"/>
     </module>
@@ -88,5 +89,9 @@
     <module name="NewlineAtEndOfFile"/>
     <module name="OrderedProperties"/>
     <module name="UniqueProperties"/>
+
+    <module name="LineLength">
+        <property name="max" value="120"/>
+    </module>
 
 </module>

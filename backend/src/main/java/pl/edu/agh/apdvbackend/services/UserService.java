@@ -18,13 +18,9 @@ import pl.edu.agh.apdvbackend.use_cases.user.UpdateUser;
 public class UserService {
 
     private final GetAllAboutUsers getAllAboutUsers;
-
     private final GetAboutUser getAboutUser;
-
     private final AddUser addUser;
-
     private final UpdateUser updateUser;
-
     private final DeleteUser deleteUser;
 
     public Response<List<UserResponseBody>> getAllUsers() {
@@ -39,10 +35,11 @@ public class UserService {
         return Response.withOkStatus(addUser.execute(addUserRequestBody));
     }
 
-    public Response<User> updateUser(Long userId,
-                                     AddUserRequestBody addUserRequestBody) {
-        return Response.withOkStatus(
-                updateUser.execute(userId, addUserRequestBody));
+    public Response<User> updateUser(
+            Long userId,
+            AddUserRequestBody addUserRequestBody
+    ) {
+        return Response.withOkStatus(updateUser.execute(userId, addUserRequestBody));
     }
 
     public void deleteUser(Long userId) {

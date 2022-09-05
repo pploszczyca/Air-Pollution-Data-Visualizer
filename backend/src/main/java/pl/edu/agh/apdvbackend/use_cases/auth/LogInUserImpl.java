@@ -11,13 +11,10 @@ import pl.edu.agh.apdvbackend.utilities.JwtTokenUtils;
 
 @Component
 @RequiredArgsConstructor
-public class LogInUserImpl
-        implements LogInUser {
+public class LogInUserImpl implements LogInUser {
 
     private final AuthenticationManager authenticationManager;
-
     private final UserRepository userRepository;
-
     private final JwtTokenUtils jwtTokenUtils;
 
     @Override
@@ -25,13 +22,14 @@ public class LogInUserImpl
         final var authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         logInRequestBody.email(),
-                        logInRequestBody.password()));
+                        logInRequestBody.password()
+                )
+        );
 
-        final var securityUser =
-                (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
-        final var user =
-                userRepository.findByEmail(securityUser.getUsername())
-                        .orElseThrow();
+        final var securityUser = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
+        final var user = userRepository
+                .findByEmail(securityUser.getUsername())
+                .orElseThrow();
 
         return new JWTResponse(
                 jwtTokenUtils.generateAccessToken(user),

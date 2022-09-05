@@ -10,20 +10,15 @@ import pl.edu.agh.apdvbackend.utilities.ListUtilities;
 
 @Component
 @RequiredArgsConstructor
-public class GetAllEndpointSummariesImpl
-        implements GetAllEndpointSummaries {
+public class GetAllEndpointSummariesImpl implements GetAllEndpointSummaries {
 
     private final EndpointRepository endpointRepository;
-
     private final ListUtilities listUtilities;
-
     private final EndpointMapper endpointMapper;
 
     @Override
     public List<EndpointSummaryResponseBody> execute() {
-        final var endpointList =
-                listUtilities.iterableToList(endpointRepository.findAll());
-        return endpointMapper.endpointListToSummaryResponseBodyList(
-                endpointList);
+        final var endpointList = listUtilities.iterableToList(endpointRepository.findAll());
+        return endpointMapper.endpointListToSummaryResponseBodyList(endpointList);
     }
 }

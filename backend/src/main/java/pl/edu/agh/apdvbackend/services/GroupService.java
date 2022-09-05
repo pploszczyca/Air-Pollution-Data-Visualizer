@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
 import pl.edu.agh.apdvbackend.models.body_models.group.AboutGroupResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.AddGroupRequestBody;
-import pl.edu.agh.apdvbackend.models.body_models.group.EndpointGroupRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.AdminPanelGroupResponseBody;
+import pl.edu.agh.apdvbackend.models.body_models.group.EndpointGroupRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.GroupMembersResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.ShortGroupResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.user.ShortUserResponseBody;
@@ -26,36 +26,31 @@ import pl.edu.agh.apdvbackend.use_cases.group.RemoveUserFromGroup;
 public class GroupService {
 
     private final GetAllGroupsInfo getAllGroupsInfo;
-
     private final AddUserToGroup addUserToGroup;
-
     private final RemoveUserFromGroup removeUserFromGroup;
-
     private final RemoveGroup removeGroup;
-
     private final ChangeEnableEndpointsInGroup changeEnableEndpointsInGroup;
-
     private final AddNewGroup addNewGroup;
-
     private final GetNotMembersOfTheGroup getNotMembersOfTheGroup;
-
     private final GetGroupMembers getGroupMembers;
-
     private final GetAdminPanelGroup getAdminPanelGroup;
 
     public Response<List<ShortGroupResponseBody>> getAllGroupsInfo() {
         return Response.withOkStatus(getAllGroupsInfo.execute());
     }
 
-    public Response<AboutGroupResponseBody> addUserToGroup(Long groupId,
-                                                           Long userId) {
+    public Response<AboutGroupResponseBody> addUserToGroup(
+            Long groupId,
+            Long userId
+    ) {
         return Response.withOkStatus(addUserToGroup.execute(groupId, userId));
     }
 
-    public Response<AboutGroupResponseBody> removeUserFromGroup(Long groupId,
-                                                                Long userId) {
-        return Response.withOkStatus(
-                removeUserFromGroup.execute(groupId, userId));
+    public Response<AboutGroupResponseBody> removeUserFromGroup(
+            Long groupId,
+            Long userId
+    ) {
+        return Response.withOkStatus(removeUserFromGroup.execute(groupId, userId));
     }
 
     public void removeGroup(Long groupId) {
@@ -64,18 +59,18 @@ public class GroupService {
 
     public Response<AboutGroupResponseBody> changeEnableEndpoints(
             List<EndpointGroupRequestBody> endpointGroupRequestBodyList,
-            Long groupId) {
-        return Response.withOkStatus(changeEnableEndpointsInGroup.execute(
-                endpointGroupRequestBodyList, groupId));
+            Long groupId
+    ) {
+        return Response.withOkStatus(changeEnableEndpointsInGroup.execute(endpointGroupRequestBodyList, groupId));
     }
 
     public Response<AboutGroupResponseBody> addGroup(
-            AddGroupRequestBody addGroupRequestBody) {
+            AddGroupRequestBody addGroupRequestBody
+    ) {
         return Response.withOkStatus(addNewGroup.execute(addGroupRequestBody));
     }
 
-    public Response<List<ShortUserResponseBody>> getNotMembersOfTheGroup(
-            Long groupId) {
+    public Response<List<ShortUserResponseBody>> getNotMembersOfTheGroup(Long groupId) {
         return Response.withOkStatus(getNotMembersOfTheGroup.execute(groupId));
     }
 
@@ -83,8 +78,7 @@ public class GroupService {
         return Response.withOkStatus(getGroupMembers.execute(groupId));
     }
 
-    public Response<AdminPanelGroupResponseBody> getAdminPanelGroup(
-            Long groupId) {
+    public Response<AdminPanelGroupResponseBody> getAdminPanelGroup(Long groupId) {
         return Response.withOkStatus(getAdminPanelGroup.execute(groupId));
     }
 }

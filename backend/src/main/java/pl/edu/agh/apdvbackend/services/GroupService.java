@@ -7,13 +7,16 @@ import pl.edu.agh.apdvbackend.models.body_models.Response;
 import pl.edu.agh.apdvbackend.models.body_models.group.AboutGroupResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.AddGroupRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.EndpointGroupRequestBody;
-import pl.edu.agh.apdvbackend.models.body_models.group.ShortGroupInfoResponseBody;
+import pl.edu.agh.apdvbackend.models.body_models.group.AdminPanelGroupResponseBody;
+import pl.edu.agh.apdvbackend.models.body_models.group.GroupMembersResponseBody;
+import pl.edu.agh.apdvbackend.models.body_models.group.ShortGroupResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.user.ShortUserResponseBody;
 import pl.edu.agh.apdvbackend.use_cases.group.AddNewGroup;
 import pl.edu.agh.apdvbackend.use_cases.group.AddUserToGroup;
 import pl.edu.agh.apdvbackend.use_cases.group.ChangeEnableEndpointsInGroup;
-import pl.edu.agh.apdvbackend.use_cases.group.GetAboutGroupInfo;
+import pl.edu.agh.apdvbackend.use_cases.group.GetAdminPanelGroup;
 import pl.edu.agh.apdvbackend.use_cases.group.GetAllGroupsInfo;
+import pl.edu.agh.apdvbackend.use_cases.group.GetGroupMembers;
 import pl.edu.agh.apdvbackend.use_cases.group.GetNotMembersOfTheGroup;
 import pl.edu.agh.apdvbackend.use_cases.group.RemoveGroup;
 import pl.edu.agh.apdvbackend.use_cases.group.RemoveUserFromGroup;
@@ -23,8 +26,6 @@ import pl.edu.agh.apdvbackend.use_cases.group.RemoveUserFromGroup;
 public class GroupService {
 
     private final GetAllGroupsInfo getAllGroupsInfo;
-
-    private final GetAboutGroupInfo getAboutGroupInfo;
 
     private final AddUserToGroup addUserToGroup;
 
@@ -38,12 +39,12 @@ public class GroupService {
 
     private final GetNotMembersOfTheGroup getNotMembersOfTheGroup;
 
-    public Response<List<ShortGroupInfoResponseBody>> getAllGroupsInfo() {
-        return Response.withOkStatus(getAllGroupsInfo.execute());
-    }
+    private final GetGroupMembers getGroupMembers;
 
-    public Response<AboutGroupResponseBody> getGroupInfo(Long groupId) {
-        return Response.withOkStatus(getAboutGroupInfo.execute(groupId));
+    private final GetAdminPanelGroup getAdminPanelGroup;
+
+    public Response<List<ShortGroupResponseBody>> getAllGroupsInfo() {
+        return Response.withOkStatus(getAllGroupsInfo.execute());
     }
 
     public Response<AboutGroupResponseBody> addUserToGroup(Long groupId,
@@ -76,5 +77,14 @@ public class GroupService {
     public Response<List<ShortUserResponseBody>> getNotMembersOfTheGroup(
             Long groupId) {
         return Response.withOkStatus(getNotMembersOfTheGroup.execute(groupId));
+    }
+
+    public Response<GroupMembersResponseBody> getGroupMembers(Long groupId) {
+        return Response.withOkStatus(getGroupMembers.execute(groupId));
+    }
+
+    public Response<AdminPanelGroupResponseBody> getAdminPanelGroup(
+            Long groupId) {
+        return Response.withOkStatus(getAdminPanelGroup.execute(groupId));
     }
 }

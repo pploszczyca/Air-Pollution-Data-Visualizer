@@ -5,7 +5,6 @@ linter:
     - always_declare_return_types
     - always_put_control_body_on_new_line
     - always_put_required_named_parameters_first
-    - avoid_catches_without_on_clauses
     - avoid_double_and_int_checks
     - avoid_empty_else
     - avoid_escaping_inner_quotes
@@ -61,6 +60,7 @@ linter:
     - prefer_is_empty
     - prefer_is_not_empty
     - prefer_typing_uninitialized_variables
+    - require_trailing_commas
     - sized_box_for_whitespace
     - sort_child_properties_last
     - test_types_in_equals

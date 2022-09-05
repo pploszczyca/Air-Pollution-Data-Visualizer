@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import static pl.edu.agh.apdvbackend.configs.SwaggerConfig.JWT_AUTH;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
-import pl.edu.agh.apdvbackend.models.body_models.user.AboutUserResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.user.AddUserRequestBody;
+import pl.edu.agh.apdvbackend.models.body_models.user.UserResponseBody;
 import pl.edu.agh.apdvbackend.models.database.User;
 import pl.edu.agh.apdvbackend.services.UserService;
 
@@ -30,13 +30,13 @@ public class UserController {
 
     @Operation(summary = "Get all users information", security = @SecurityRequirement(name = JWT_AUTH))
     @GetMapping("/all")
-    public Response<List<AboutUserResponseBody>> getAllUsers() {
+    public Response<List<UserResponseBody>> getAllUsers() {
         return userService.getAllUsers();
     }
 
     @Operation(summary = "Get user information", security = @SecurityRequirement(name = JWT_AUTH))
     @GetMapping
-    public Response<AboutUserResponseBody> getUser(@RequestParam Long userId) {
+    public Response<UserResponseBody> getUser(@RequestParam Long userId) {
         return userService.getUser(userId);
     }
 

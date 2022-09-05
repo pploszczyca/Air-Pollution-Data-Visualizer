@@ -1,4 +1,4 @@
-class UserSummary{
+class UserSummary {
   final int id;
   final String email;
 
@@ -8,4 +8,3 @@ class UserSummary{
       : id = json["id"],
         email = json["email"];
 }
-

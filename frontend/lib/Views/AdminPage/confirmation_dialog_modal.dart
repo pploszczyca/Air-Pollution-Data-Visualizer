@@ -1,8 +1,12 @@
 import 'package:adpv_frontend/Views/AdminPage/utils.dart';
 import 'package:flutter/material.dart';
 
-void showAlertDialog(BuildContext context, String warningTitle,
-    String warningContent, onAcceptFunction) {
+void showAlertDialog(
+  BuildContext context,
+  String warningTitle,
+  String warningContent,
+  onAcceptFunction,
+) {
   void _onProceedPressed() {
     onAcceptFunction();
     Navigator.of(context).pop();

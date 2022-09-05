@@ -60,10 +60,11 @@ class _GroupsViewState extends State<GroupsView> {
           ),
           backgroundColor: Colors.white,
           titleTextStyle: const TextStyle(
-              color: Colors.black,
-              fontFamily: 'Ubuntu Condensed',
-              fontSize: 40,
-              fontWeight: FontWeight.w500),
+            color: Colors.black,
+            fontFamily: 'Ubuntu Condensed',
+            fontSize: 40,
+            fontWeight: FontWeight.w500,
+          ),
           titleSpacing: 20,
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(20),
@@ -79,23 +80,26 @@ class _GroupsViewState extends State<GroupsView> {
       );
 
   FutureBuilder _buildBody() => FutureBuilder(
-      future: widget.gateway.getGroupsSummary(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.none ||
-            snapshot.data == null) {
-          return loadingInCenter();
-        } else {
-          groupListProvider.makeGroupList(snapshot.data!);
-          return SingleChildScrollView(
-            controller: ScrollController(),
-            child: Consumer<GroupListProvider>(
-              builder: (context, __, _) => Column(children: [
-                _buildGroupList(groupListProvider.groupsList.length)
-              ]),
-            ),
-          );
-        }
-      });
+        future: widget.gateway.getGroupsSummary(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.none ||
+              snapshot.data == null) {
+            return loadingInCenter();
+          } else {
+            groupListProvider.makeGroupList(snapshot.data!);
+            return SingleChildScrollView(
+              controller: ScrollController(),
+              child: Consumer<GroupListProvider>(
+                builder: (context, __, _) => Column(
+                  children: [
+                    _buildGroupList(groupListProvider.groupsList.length)
+                  ],
+                ),
+              ),
+            );
+          }
+        },
+      );
 
   ListView _buildGroupList(int itemCount) => ListView.builder(
         controller: ScrollController(),
@@ -116,28 +120,39 @@ class _GroupsViewState extends State<GroupsView> {
           title: Text(
             group.name,
             style: TextStyle(
-                fontFamily: 'SofiaSans',
-                fontSize: 25,
-                color: Colors.black,
-                fontWeight: group.titleFontWeight),
+              fontFamily: 'SofiaSans',
+              fontSize: 25,
+              color: Colors.black,
+              fontWeight: group.titleFontWeight,
+            ),
           ),
           tilePadding: const EdgeInsets.all(20),
           childrenPadding: const EdgeInsets.all(0),
           children: [
-            _buildButtonContainer('Members', group, group.membersButtonColor),
             _buildButtonContainer(
-                'Endpoints and permissions', group, group.endpointsButtonColor),
+              'Members',
+              group,
+              group.membersButtonColor,
+            ),
+            _buildButtonContainer(
+              'Endpoints and permissions',
+              group,
+              group.endpointsButtonColor,
+            ),
             _buildDeleteContainer(group)
           ],
         ),
       );
 
   Container _buildButtonContainer(
-          String text, GroupCard groupCard, Color color) =>
+    String text,
+    GroupCard groupCard,
+    Color color,
+  ) =>
       Container(
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
         child: TextButton(
-          onPressed: () => print('kokokokoko'),
+          onPressed: () => {},
           child: Row(
             children: [
               Expanded(
@@ -147,7 +162,10 @@ class _GroupsViewState extends State<GroupsView> {
                   child: Text(
                     text,
                     style: TextStyle(
-                        fontFamily: 'SofiaSans', fontSize: 23, color: color),
+                      fontFamily: 'SofiaSans',
+                      fontSize: 23,
+                      color: color,
+                    ),
                   ),
                 ),
               ),
@@ -175,15 +193,17 @@ class _GroupsViewState extends State<GroupsView> {
               const EdgeInsets.all(20),
             ),
             foregroundColor: MaterialStateProperty.resolveWith<Color>(
-                (Set<MaterialState> states) =>
-                    states.contains(MaterialState.hovered)
-                        ? Colors.white
-                        : Colors.red),
+              (Set<MaterialState> states) =>
+                  states.contains(MaterialState.hovered)
+                      ? Colors.white
+                      : Colors.red,
+            ),
             backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                (Set<MaterialState> states) =>
-                    states.contains(MaterialState.hovered)
-                        ? Colors.red
-                        : Colors.white),
+              (Set<MaterialState> states) =>
+                  states.contains(MaterialState.hovered)
+                      ? Colors.red
+                      : Colors.white,
+            ),
             alignment: Alignment.centerLeft,
           ),
           child: const Icon(Icons.delete_outline_outlined, size: 30),
@@ -213,12 +233,14 @@ class _GroupsViewState extends State<GroupsView> {
   void deleteGroup(int id) async {
     await widget.gateway
         .deleteGroup(id)
-        .then((value) => {
-              if (value)
-                {
-                  groupListProvider.delete(id),
-                }
-            })
+        .then(
+          (value) => {
+            if (value)
+              {
+                groupListProvider.delete(id),
+              }
+          },
+        )
         .catchError((error) {
       buildSnackbar('Cannot delete group', context);
     });
@@ -230,13 +252,15 @@ class _GroupsViewState extends State<GroupsView> {
         groupListProvider.addNewGroup(GroupSummary(value.id, name));
       } else {
         buildSnackbar(
-            'Cannot create group, probably a group with this name already exists',
-            context);
+          'Cannot create group, probably a group with this name already exists',
+          context,
+        );
       }
     }).catchError((error) {
       buildSnackbar(
-          'Cannot create group, probably a group with this name already exists',
-          context);
+        'Cannot create group, probably a group with this name already exists',
+        context,
+      );
     });
   }
 }

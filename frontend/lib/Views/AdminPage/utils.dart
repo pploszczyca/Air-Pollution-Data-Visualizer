@@ -34,6 +34,9 @@ Widget cancelButton(BuildContext context) => OutlinedButton(
       child: const Text(
         'Cancel',
         style: TextStyle(
-            fontFamily: 'SofiaSans', fontSize: 16, color: Colors.grey),
+          fontFamily: 'SofiaSans',
+          fontSize: 16,
+          color: Colors.grey,
+        ),
       ),
     );

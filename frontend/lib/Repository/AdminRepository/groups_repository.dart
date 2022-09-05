@@ -10,6 +10,7 @@ import '../UserRepository/user_gateway.dart';
 class GroupsRepository {
   final Dio _client = Dio();
   UserGateway userGateway = UserGateway();
+
   GroupsRepository();
 
   Future<List<GroupSummary>> getGroupsSummary() async {
@@ -25,14 +26,14 @@ class GroupsRepository {
         );
         if (response.statusCode == 200) {
           final BackendResponse backendResponse =
-          BackendResponse.fromJson(response.data);
+              BackendResponse.fromJson(response.data);
           if (backendResponse.error == "") {
             List<GroupSummary> groupSummaryList = [];
             groupSummaryList = backendResponse.data
                 .map<GroupSummary>(
-              // ignore: unnecessary_lambdas
+                  // ignore: unnecessary_lambdas
                   (e) => GroupSummary.fromJson(e),
-            ) // do not refactor! UFO MAGIC!
+                ) // do not refactor! UFO MAGIC!
                 .toList();
             return Future.value(groupSummaryList);
           }
@@ -47,14 +48,16 @@ class GroupsRepository {
   Future<bool> deleteGroup(int id) async {
     final AuthResponse authResponse = await userGateway.getFromMemory();
 
-  if (authResponse.success) {
-    final String token = authResponse.tokens!.accessToken;
-    _client.options.headers["Authorization"] = "Bearer $token";
-  }
+    if (authResponse.success) {
+      final String token = authResponse.tokens!.accessToken;
+      _client.options.headers["Authorization"] = "Bearer $token";
+    }
     try {
       final response = await _client
           .delete(backendURL + groupURL, queryParameters: {'groupId': id});
-      if (response.statusCode == 200) return Future.value(true);
+      if (response.statusCode == 200) {
+        return Future.value(true);
+      }
     } on DioError catch (error) {
       return Future.error(error);
     }

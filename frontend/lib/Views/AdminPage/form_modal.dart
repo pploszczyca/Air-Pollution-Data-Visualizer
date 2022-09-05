@@ -6,7 +6,9 @@ MaterialStateProperty<EdgeInsetsGeometry?> buttonPadding =
     MaterialStateProperty.all(const EdgeInsets.all(20));
 
 void showCreateGroupModal(
-    BuildContext context, Function(String name) onCreateFunction) {
+  BuildContext context,
+  Function(String name) onCreateFunction,
+) {
   showDialog(
     context: context,
     builder: (_) {
@@ -21,7 +23,10 @@ void showCreateGroupModal(
           TextButton(
             style: proceedButtonStyle,
             onPressed: () => onProceedPressed(
-                nameController.text, onCreateFunction, context),
+              nameController.text,
+              onCreateFunction,
+              context,
+            ),
             child: Text(
               'Create',
               style: proceedButtonTextStyle,

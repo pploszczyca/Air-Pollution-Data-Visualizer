@@ -12,6 +12,8 @@ import '../../Widgets/common_widgets.dart';
 import 'form_modal.dart';
 
 const floatingButtonColor = Color.fromRGBO(36, 109, 114, 0.9);
+//ignore: constant_identifier_names
+const EMPTY_GROUP_ID = -1;
 
 class GroupsView extends StatefulWidget {
   GroupsView({Key? key}) : super(key: key);
@@ -23,7 +25,7 @@ class GroupsView extends StatefulWidget {
 }
 
 class _GroupsViewState extends State<GroupsView> {
-  late GroupListProvider groupListProvider = GroupListProvider(widget.gateway);
+  late GroupListProvider groupListProvider = GroupListProvider();
 
   FutureOr<List<GroupSummary>> onError<E extends Object>(
     E error,
@@ -86,7 +88,7 @@ class _GroupsViewState extends State<GroupsView> {
               snapshot.data == null) {
             return loadingInCenter();
           } else {
-            groupListProvider.makeGroupList(snapshot.data!);
+            groupListProvider.makeGroupList(snapshot.data);
             return SingleChildScrollView(
               controller: ScrollController(),
               child: Consumer<GroupListProvider>(
@@ -248,7 +250,7 @@ class _GroupsViewState extends State<GroupsView> {
 
   void createGroup(String name) async {
     await widget.gateway.createGroup(name).then((value) {
-      if (value.id != -1) {
+      if (value.id != EMPTY_GROUP_ID) {
         groupListProvider.addNewGroup(GroupSummary(value.id, name));
       } else {
         buildSnackbar(

@@ -7,7 +7,7 @@ MaterialStateProperty<EdgeInsetsGeometry?> buttonPadding =
 
 void showCreateGroupModal(
   BuildContext context,
-  Function(String name) onCreateFunction,
+  Function(String name) onSuccess,
 ) {
   showDialog(
     context: context,
@@ -20,19 +20,19 @@ void showCreateGroupModal(
           decoration: const InputDecoration(hintText: 'Name'),
         ),
         actions: [
+          cancelButton(context),
           TextButton(
             style: proceedButtonStyle,
             onPressed: () => onProceedPressed(
               nameController.text,
-              onCreateFunction,
+              onSuccess,
               context,
             ),
             child: Text(
               'Create',
               style: proceedButtonTextStyle,
             ),
-          ),
-          cancelButton(context)
+          )
         ],
       );
     },
@@ -41,8 +41,11 @@ void showCreateGroupModal(
 
 void onProceedPressed(name, onCreateFunction, context) {
   if (name == "") {
+    Navigator.pop(context);
     buildSnackbar("Can't create group with no name", context);
   }
-  onCreateFunction(name);
-  Navigator.pop(context);
+  else{
+    onCreateFunction(name);
+    Navigator.pop(context);
+  }
 }

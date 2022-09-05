@@ -1,35 +1,43 @@
+import 'package:adpv_frontend/Views/AdminPage/utils.dart';
+import 'package:adpv_frontend/Views/snackbar.dart';
 import 'package:flutter/material.dart';
 
-void showCreateGroupModal(BuildContext context, Function(String name) onCreateFunction) {
+MaterialStateProperty<EdgeInsetsGeometry?> buttonPadding =
+    MaterialStateProperty.all(const EdgeInsets.all(20));
+
+void showCreateGroupModal(
+    BuildContext context, Function(String name) onCreateFunction) {
   showDialog(
     context: context,
     builder: (_) {
-      var _nameController = TextEditingController();
+      final _nameController = TextEditingController();
       return AlertDialog(
-        title: Text('Create new group'),
-        content: Container(
-          child:
-            TextFormField(
-              controller: _nameController,
-              decoration: InputDecoration(hintText: 'Name'),
-            ),
+        title: const Text('Create new group'),
+        content: TextFormField(
+          controller: _nameController,
+          decoration: const InputDecoration(hintText: 'Name'),
         ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text('Cancel'),
+            style: proceedButtonStyle,
+            onPressed: () => onProceedPressed(
+                _nameController.text, onCreateFunction, context),
+            child: Text(
+              'Create',
+              style: proceedButtonTextStyle,
+            ),
           ),
-          ElevatedButton(
-            onPressed: () => onProceedPressed(_nameController.text, onCreateFunction, context),
-            child: Text('Create'),
-          ),
+          cancelButton(context)
         ],
       );
     },
   );
 }
 
-onProceedPressed(name, onCreateFunction, context) {
+void onProceedPressed(name, onCreateFunction, context) {
+  if (name == "") {
+    buildSnackbar("Can't create group with no name", context);
+  }
   onCreateFunction(name);
-    Navigator.pop(context);
+  Navigator.pop(context);
 }

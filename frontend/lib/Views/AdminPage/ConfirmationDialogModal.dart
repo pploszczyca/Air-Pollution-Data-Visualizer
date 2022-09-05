@@ -1,18 +1,17 @@
 import 'package:adpv_frontend/Views/AdminPage/utils.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-showAlertDialog(BuildContext context, String warningTitle,
+void showAlertDialog(BuildContext context, String warningTitle,
     String warningContent, onAcceptFunction) {
-
-  _onProceedPressed() {
+  void _onProceedPressed() {
     onAcceptFunction();
     Navigator.of(context).pop();
   }
 
   final Widget continueButton = ElevatedButton(
     onPressed: _onProceedPressed,
-    child: const Text("Proceed"),
+    style: proceedButtonStyle,
+    child: Text("Proceed", style: proceedButtonTextStyle),
   );
 
   final AlertDialog alert = AlertDialog(

@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:adpv_frontend/DataModels/GroupSummary.dart';
 import 'package:flutter/material.dart';
@@ -8,14 +7,14 @@ import '../Repository/AdminRepository/AdminGateway.dart';
 class GroupCard {
   String name;
   int id;
-  FontWeight titleFontweight;
+  FontWeight titleFontWeight;
   Color membersButtonColor;
   Color endpointsButtonColor;
 
   GroupCard(
       {required this.name,
       required this.id,
-      this.titleFontweight = FontWeight.normal,
+      this.titleFontWeight = FontWeight.normal,
       this.membersButtonColor = Colors.black,
       this.endpointsButtonColor = Colors.black});
 }
@@ -35,6 +34,7 @@ class GroupListProvider with ChangeNotifier {
     for (var element in groupSummary) {
       addGroup(element);
     }
+    notifyListeners();
   }
 
   void addNewGroup(GroupSummary group) {
@@ -42,16 +42,13 @@ class GroupListProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  notify() {
+  void delete(int id) {
+    groupsList.removeWhere((element) => element.id == id);
     notifyListeners();
-  }
-
-  GroupCard getItem(int i) {
-    return groupsList[i];
   }
 
   void clear() {
     groupsList = [];
-    notifyListeners();
+    adminGateway.getGroupsSummary().then((value) => makeGroupList(value));
   }
 }

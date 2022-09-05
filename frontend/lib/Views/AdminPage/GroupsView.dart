@@ -1,5 +1,7 @@
+import 'package:adpv_frontend/DataModels/GroupSummary.dart';
 import 'package:adpv_frontend/Repository/AdminRepository/AdminGateway.dart';
 import 'package:adpv_frontend/Views/AdminPage/ConfirmationDialogModal.dart';
+import 'package:adpv_frontend/Views/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../Models/GroupListProvider.dart';
@@ -18,22 +20,25 @@ class GroupsView extends StatefulWidget {
 }
 
 class _GroupsViewState extends State<GroupsView> {
-  late GroupListProvider groupListProvider = GroupListProvider(widget.repository);
+  late GroupListProvider groupListProvider =
+      GroupListProvider(widget.repository);
 
   _pullDownRefresh() async {
     groupListProvider.clear();
   }
 
-
   @override
   Widget build(BuildContext context) => ChangeNotifierProvider(
-      create: (context) => groupListProvider,
-      child: RefreshIndicator(
+        create: (context) => groupListProvider,
+        child: RefreshIndicator(
           onRefresh: () => _pullDownRefresh(),
           child: Scaffold(
-              appBar: _buildAppBar(),
-              body: _buildBody(),
-              floatingActionButton: _buildAddButton())));
+            appBar: _buildAppBar(),
+            body: _buildBody(),
+            floatingActionButton: _buildAddButton(),
+          ),
+        ),
+      );
 
   PreferredSize _buildAppBar() => PreferredSize(
         preferredSize: const Size.fromHeight(120),
@@ -41,8 +46,9 @@ class _GroupsViewState extends State<GroupsView> {
           centerTitle: true,
           toolbarHeight: 120,
           title: Container(
-              padding: const EdgeInsets.only(top: 20, bottom: 10),
-              child: const Text("Administrator panel")),
+            padding: const EdgeInsets.only(top: 20, bottom: 10),
+            child: const Text("Administrator panel"),
+          ),
           backgroundColor: Colors.white,
           titleTextStyle: const TextStyle(
               color: Colors.black,
@@ -64,37 +70,39 @@ class _GroupsViewState extends State<GroupsView> {
       );
 
   FutureBuilder _buildBody() => FutureBuilder(
-        future: widget.repository.getGroupsSummary(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.none ||
-              snapshot.data == null) {
-            return loadingInCenter();
-          } else {
-            groupListProvider.makeGroupList(snapshot.data!);
-            return SingleChildScrollView(
-              controller: ScrollController(),
-              child: Consumer<GroupListProvider>(
-                  builder: (context, __, _) => SizedBox(
-                        height: 3400,
-                        child: _buildGroupList(
-                            groupListProvider, groupListProvider.groupsList.length))),
-            );
-          }
-        });
+      future: widget.repository.getGroupsSummary(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.none ||
+            snapshot.data == null) {
+          return loadingInCenter();
+        } else {
+          groupListProvider.makeGroupList(snapshot.data!);
+          return SingleChildScrollView(
+            controller: ScrollController(),
+            child: Consumer<GroupListProvider>(
+              builder: (context, __, _) => Column(children: [
+                _buildGroupList(groupListProvider.groupsList.length)
+              ]),
+            ),
+          );
+        }
+      });
 
-  ListView _buildGroupList(GroupListProvider groupListProvider, int itemCount) {
-    return ListView.builder(
+  ListView _buildGroupList(int itemCount) => ListView.builder(
         controller: ScrollController(),
         itemCount: itemCount,
+        shrinkWrap: true,
         padding: const EdgeInsets.symmetric(horizontal: 20),
         itemBuilder: (context, i) =>
-            _buildGroupCard(groupListProvider.groupsList[i]));
-  }
+            _buildGroupCard(groupListProvider.groupsList[i]),
+      );
 
   Card _buildGroupCard(GroupCard group) => Card(
         margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         shadowColor: Colors.black,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
         child: ExpansionTile(
           title: Text(
             group.name,
@@ -102,7 +110,7 @@ class _GroupsViewState extends State<GroupsView> {
                 fontFamily: 'SofiaSans',
                 fontSize: 25,
                 color: Colors.black,
-                fontWeight: group.titleFontweight),
+                fontWeight: group.titleFontWeight),
           ),
           tilePadding: const EdgeInsets.all(20),
           childrenPadding: const EdgeInsets.all(0),
@@ -148,55 +156,78 @@ class _GroupsViewState extends State<GroupsView> {
       );
 
   Container _buildDeleteContainer(GroupCard groupCard) => Container(
-      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-      child: OutlinedButton(
-        style: ButtonStyle(
-          side: MaterialStateProperty.all(
-              const BorderSide(width: 1.5, color: Colors.red)),
-          padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
-          foregroundColor: MaterialStateProperty.resolveWith<Color>(
-              (Set<MaterialState> states) =>
-                  states.contains(MaterialState.hovered)
-                      ? Colors.white
-                      : Colors.red),
-          backgroundColor: MaterialStateProperty.resolveWith<Color>(
-              (Set<MaterialState> states) =>
-                  states.contains(MaterialState.hovered)
-                      ? Colors.red
-                      : Colors.white),
-          alignment: Alignment.centerLeft,
+        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+        child: OutlinedButton(
+          style: ButtonStyle(
+            side: MaterialStateProperty.all(
+              const BorderSide(width: 1.5, color: Colors.red),
+            ),
+            padding: MaterialStateProperty.all(
+              const EdgeInsets.all(20),
+            ),
+            foregroundColor: MaterialStateProperty.resolveWith<Color>(
+                (Set<MaterialState> states) =>
+                    states.contains(MaterialState.hovered)
+                        ? Colors.white
+                        : Colors.red),
+            backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                (Set<MaterialState> states) =>
+                    states.contains(MaterialState.hovered)
+                        ? Colors.red
+                        : Colors.white),
+            alignment: Alignment.centerLeft,
+          ),
+          child: const Icon(Icons.delete_outline_outlined, size: 30),
+          onPressed: () => _onDeletePressed(groupCard),
         ),
-        child: const Icon(Icons.delete_outline_outlined, size: 30),
-        onPressed: () => _onDeletePressed(groupCard),
-      ));
+      );
 
   FloatingActionButton _buildAddButton() => FloatingActionButton(
-        onPressed: () => _onCreatePressed(),
+        onPressed: () => _onCreatePressed(groupListProvider),
         backgroundColor: floatingButtonColor,
         child: const Icon(Icons.add),
       );
 
-  _onCreatePressed() {
+  void _onCreatePressed(groupListProvider) {
     showCreateGroupModal(context, createGroup);
   }
 
-  _onDeletePressed(GroupCard groupCard) {
+  void _onDeletePressed(GroupCard groupCard) {
     showAlertDialog(
-        context,
-        'Delete ' + groupCard.name,
-        "You are about to delete group with all of its' saved permissions.",
-        () => deleteGroup(groupCard.id));
+      context,
+      'Delete ' + groupCard.name,
+      "You are about to delete group with all of its' saved permissions.",
+      () => deleteGroup(groupCard.id),
+    );
   }
 
-  deleteGroup(int id) {
-    widget.repository.deleteGroup(id).then((value) => {
-      if(value) groupListProvider.notify(),
-        });
+  void deleteGroup(int id) async {
+    await widget.repository
+        .deleteGroup(id)
+        .then((value) => {
+              if (value)
+                {
+                  groupListProvider.delete(id),
+                }
+            })
+        .catchError((error) {
+      buildSnackbar('Cannot delete group', context);
+    });
   }
 
-  createGroup(String name) {
-    widget.repository.createGroup(name).then((value) {
-            if (value.id != -1) groupListProvider.notify();
-        });
+  void createGroup(String name) async {
+    await widget.repository.createGroup(name).then((value) {
+      if (value.id != -1) {
+        groupListProvider.addNewGroup(GroupSummary(value.id, name));
+      } else {
+        buildSnackbar(
+            'Cannot create group, probably a group with this name already exists',
+            context);
+      }
+    }).catchError((error) {
+      buildSnackbar(
+          'Cannot create group, probably a group with this name already exists',
+          context);
+    });
   }
 }

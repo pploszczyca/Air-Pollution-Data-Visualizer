@@ -18,7 +18,9 @@ import pl.edu.agh.apdvbackend.models.body_models.Response;
 import pl.edu.agh.apdvbackend.models.body_models.group.AboutGroupResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.AddGroupRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.EndpointGroupRequestBody;
-import pl.edu.agh.apdvbackend.models.body_models.group.ShortGroupInfoResponseBody;
+import pl.edu.agh.apdvbackend.models.body_models.group.AdminPanelGroupResponseBody;
+import pl.edu.agh.apdvbackend.models.body_models.group.GroupMembersResponseBody;
+import pl.edu.agh.apdvbackend.models.body_models.group.ShortGroupResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.user.ShortUserResponseBody;
 import pl.edu.agh.apdvbackend.services.GroupService;
 
@@ -32,15 +34,15 @@ public class GroupController {
 
     @Operation(summary = "Get id and name info about all group", security = @SecurityRequirement(name = JWT_AUTH))
     @GetMapping("/all/info")
-    public Response<List<ShortGroupInfoResponseBody>> getAllGroupsInfo() {
+    public Response<List<ShortGroupResponseBody>> getAllGroupsInfo() {
         return groupService.getAllGroupsInfo();
     }
 
-    @Operation(summary = "Get information about group", security = @SecurityRequirement(name = JWT_AUTH))
-    @GetMapping
-    public Response<AboutGroupResponseBody> getGroupInfo(
+    @Operation(summary = "Get information about members in the group", security = @SecurityRequirement(name = JWT_AUTH))
+    @GetMapping("/members")
+    public Response<GroupMembersResponseBody> getGroupMembers(
             @RequestParam Long groupId) {
-        return groupService.getGroupInfo(groupId);
+        return groupService.getGroupMembers(groupId);
     }
 
     @Operation(summary = "Add user to group", security = @SecurityRequirement(name = JWT_AUTH))
@@ -86,5 +88,13 @@ public class GroupController {
             @RequestParam Long groupId
     ) {
         return groupService.getNotMembersOfTheGroup(groupId);
+    }
+
+    @Operation(summary = "Get information about what endpoints and fields (non) belongs to group")
+    @GetMapping("endpoints")
+    public Response<AdminPanelGroupResponseBody> getAdminPanelGroup(
+            @RequestParam Long groupId
+    ) {
+        return groupService.getAdminPanelGroup(groupId);
     }
 }

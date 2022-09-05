@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../EnpointListView.dart';
-import 'GroupsView.dart';
+import '../enpoint_list_view.dart';
+import 'groups_view.dart';
 
 MaterialStateProperty<EdgeInsetsGeometry?> buttonPadding =
     MaterialStateProperty.all(const EdgeInsets.all(20));

@@ -10,9 +10,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import pl.edu.agh.apdvbackend.models.body_models.auth.LogInRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.auth.UserWithRoles;
-import pl.edu.agh.apdvbackend.models.body_models.user.AboutUserResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.user.AddUserRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.user.ShortUserResponseBody;
+import pl.edu.agh.apdvbackend.models.body_models.user.UserResponseBody;
 import pl.edu.agh.apdvbackend.models.database.User;
 
 @Mapper(componentModel = "spring")
@@ -33,10 +33,10 @@ public abstract class UserMapper {
     public abstract void updateUserFromAddRequestBody(
             AddUserRequestBody addUserRequestBody, @MappingTarget User user);
 
-    @Mapping(target = "userGroups", expression = "java(user.getGroups().stream().map(shortMapper::groupToShortGroupInfo).toList())")
-    public abstract AboutUserResponseBody userToAboutResponseBody(User user);
+    @Mapping(target = "groups", expression = "java(user.getGroups().stream().map(shortMapper::groupToShortGroupInfo).toList())")
+    public abstract UserResponseBody userToAboutResponseBody(User user);
 
-    public abstract List<AboutUserResponseBody> userListToAboutResponseBodyList(
+    public abstract List<UserResponseBody> userListToAboutResponseBodyList(
             List<User> userList);
 
     public abstract ShortUserResponseBody toShortResponseBody(User user);

@@ -4,7 +4,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import pl.edu.agh.apdvbackend.mappers.UserMapper;
-import pl.edu.agh.apdvbackend.models.body_models.user.AboutUserResponseBody;
+import pl.edu.agh.apdvbackend.models.body_models.user.UserResponseBody;
 import pl.edu.agh.apdvbackend.repositories.UserRepository;
 import pl.edu.agh.apdvbackend.utilities.ListUtilities;
 
@@ -20,7 +20,7 @@ public class GetAllAboutUsersImpl
     private final ListUtilities listUtilities;
 
     @Override
-    public List<AboutUserResponseBody> execute() {
+    public List<UserResponseBody> execute() {
         final var userList =
                 listUtilities.iterableToList(userRepository.findAll());
         return userMapper.userListToAboutResponseBodyList(userList);

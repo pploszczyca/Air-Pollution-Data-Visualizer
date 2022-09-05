@@ -4,7 +4,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import pl.edu.agh.apdvbackend.mappers.GroupMapper;
-import pl.edu.agh.apdvbackend.models.body_models.group.ShortGroupInfoResponseBody;
+import pl.edu.agh.apdvbackend.models.body_models.group.ShortGroupResponseBody;
 import pl.edu.agh.apdvbackend.repositories.GroupRepository;
 import pl.edu.agh.apdvbackend.utilities.ListUtilities;
 
@@ -20,7 +20,7 @@ public class GetAllGroupsInfoImpl
     private final ListUtilities listUtilities;
 
     @Override
-    public List<ShortGroupInfoResponseBody> execute() {
+    public List<ShortGroupResponseBody> execute() {
         final var groupList =
                 listUtilities.iterableToList(groupRepository.findAll());
         return groupMapper.groupListToShortGroupInfoList(groupList);

@@ -10,18 +10,18 @@ void showCreateGroupModal(
   showDialog(
     context: context,
     builder: (_) {
-      final _nameController = TextEditingController();
+      final nameController = TextEditingController();
       return AlertDialog(
         title: const Text('Create new group'),
         content: TextFormField(
-          controller: _nameController,
+          controller: nameController,
           decoration: const InputDecoration(hintText: 'Name'),
         ),
         actions: [
           TextButton(
             style: proceedButtonStyle,
             onPressed: () => onProceedPressed(
-                _nameController.text, onCreateFunction, context),
+                nameController.text, onCreateFunction, context),
             child: Text(
               'Create',
               style: proceedButtonTextStyle,

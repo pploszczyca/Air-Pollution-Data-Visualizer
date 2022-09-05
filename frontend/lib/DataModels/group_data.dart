@@ -1,4 +1,4 @@
-import 'package:adpv_frontend/DataModels/Endpoint.dart';
+import 'package:adpv_frontend/DataModels/endpoint.dart';
 import 'package:adpv_frontend/DataModels/user_summary.dart';
 
 class GroupData{

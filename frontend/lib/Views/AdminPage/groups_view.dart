@@ -23,15 +23,16 @@ class GroupsView extends StatefulWidget {
 }
 
 class _GroupsViewState extends State<GroupsView> {
-  late GroupListProvider groupListProvider =
-      GroupListProvider(widget.gateway);
+  late GroupListProvider groupListProvider = GroupListProvider(widget.gateway);
 
   FutureOr<List<GroupSummary>> onError<E extends Object>(
-      E error, StackTrace stackTrace,) {
+    E error,
+    StackTrace stackTrace,
+  ) {
     UserGateway().resetMemoryToken().then(
           (value) =>
-          Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false),
-    );
+              Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false),
+        );
     return Future.error(error.toString());
   }
 

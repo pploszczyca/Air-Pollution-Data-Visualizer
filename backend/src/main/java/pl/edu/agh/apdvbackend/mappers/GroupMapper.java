@@ -24,8 +24,14 @@ public abstract class GroupMapper {
     public abstract List<ShortGroupResponseBody> groupListToShortGroupInfoList(
             List<Group> groupList);
 
-    @Mapping(target = "shortUserInfos", expression = "java(userMapper.userListToShortInfoList(group.getUsersInGroup().stream().toList()))")
-    @Mapping(target = "groupEndpointResponseBodies", expression = "java(groupEndpointMapper.groupEndpointsToInfos(group.getGroupEndpoints().stream().toList()))")
+    @Mapping(
+            target = "shortUserInfos",
+            expression = "java(userMapper.toShortResponseBodyList(group.getUsersInGroup().stream().toList()))"
+    )
+    @Mapping(
+            target = "groupEndpointResponseBodies",
+            expression = "java(groupEndpointMapper.groupEndpointsToInfos(group.getGroupEndpoints().stream().toList()))"
+    )
     public abstract AboutGroupResponseBody groupToAboutResponseBody(
             Group group);
 

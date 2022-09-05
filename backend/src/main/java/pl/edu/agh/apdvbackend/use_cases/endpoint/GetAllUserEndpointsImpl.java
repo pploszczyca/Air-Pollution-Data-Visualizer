@@ -14,17 +14,14 @@ public class GetAllUserEndpointsImpl
         implements GetAllUserEndpoints {
 
     private final EndpointRepository endpointRepository;
-
     private final ListUtilities listUtilities;
-
     private final EndpointMapper endpointMapper;
 
     @Override
     public List<UserEndpointResponseBody> execute(Long userId) {
-        final var endpoints = listUtilities.iterableToList(
-                endpointRepository.findAllThatBelongToUser(userId));
+        final var endpoints = listUtilities
+                .iterableToList(endpointRepository.findAllThatBelongToUser(userId));
 
-        return endpointMapper.endpointListToUserEndpointResponseBodyList(
-                endpoints);
+        return endpointMapper.endpointListToUserEndpointResponseBodyList(endpoints);
     }
 }

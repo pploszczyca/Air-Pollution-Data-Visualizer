@@ -7,6 +7,9 @@ import pl.edu.agh.apdvbackend.models.database.Endpoint;
 import pl.edu.agh.apdvbackend.models.database.Field;
 
 public interface EndpointDeserializer {
-    ObjectNode deserialize(JsonNode inputJsonNode, Endpoint endpoint,
-                           List<Field> requiredFields);
+    ObjectNode deserialize(
+            JsonNode inputJsonNode,
+            Endpoint endpoint,
+            List<Field> requiredFields
+    );
 }

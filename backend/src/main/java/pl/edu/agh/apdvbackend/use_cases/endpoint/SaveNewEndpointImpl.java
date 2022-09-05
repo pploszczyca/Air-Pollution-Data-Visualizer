@@ -9,17 +9,15 @@ import pl.edu.agh.apdvbackend.repositories.EndpointRepository;
 
 @Component
 @RequiredArgsConstructor
-public class SaveNewEndpointImpl
-        implements SaveNewEndpoint {
+public class SaveNewEndpointImpl implements SaveNewEndpoint {
 
     private final EndpointMapper endpointMapper;
-
     private final EndpointRepository endpointRepository;
 
     @Override
     public Endpoint execute(AddEndpointRequestBody addEndpointRequestBody) {
         return endpointRepository.save(
-                endpointMapper.fromAddRequestBodyToEndpointInfo(
-                        addEndpointRequestBody));
+                endpointMapper.fromAddRequestBodyToEndpointInfo(addEndpointRequestBody)
+        );
     }
 }

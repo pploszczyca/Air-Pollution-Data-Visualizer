@@ -7,11 +7,9 @@ import pl.edu.agh.apdvbackend.models.body_models.user.UserResponseBody;
 
 @Component
 @RequiredArgsConstructor
-public class GetAboutUserImpl
-        implements GetAboutUser {
+public class GetAboutUserImpl implements GetAboutUser {
 
     private final UserMapper userMapper;
-
     private final GetUser getUser;
 
     @Override

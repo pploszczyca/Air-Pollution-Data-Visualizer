@@ -55,7 +55,7 @@ APDV_BACKEND_URL=http://localhost:5000/   # For Android Emulator use this: http:
 ## How tu run
 ### Without Docker
 #### Backend
-Import project to IntelIJ IDEA and start the project. Remember to run database, it can be done by going to [docker-compose.yml](/backend/docker-compose.yml) in IntellIJ and pressing start button next to `PostgreSQL`.
+Import project to IntellIJ IDEA and start the project. Remember to run database, it can be done by going to [docker-compose.yml](/backend/docker-compose.yml) in IntellIJ and pressing start button next to `PostgreSQL`.
 
 #### Frontend
 Open the project in IntellIJ, or Android Studio, choose device and run project.
@@ -66,7 +66,7 @@ In backend root directory is placed a [docker-compose.yml](/backend/docker-compo
 ```
 $ docker-compose up
 ```
-or to re-build tthe project
+or to re-build the project
 ```
 $ docker-compose up --build
 ```

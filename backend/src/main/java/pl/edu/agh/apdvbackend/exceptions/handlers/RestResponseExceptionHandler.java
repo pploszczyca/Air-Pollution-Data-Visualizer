@@ -4,6 +4,7 @@ import java.util.NoSuchElementException;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -16,17 +17,11 @@ import pl.edu.agh.apdvbackend.models.body_models.Response;
 @RestControllerAdvice
 public class RestResponseExceptionHandler {
 
-    private static final String NO_SUCH_ENTITY =
-            "Entity doesn't exist. Check your request.";
-
-    private static final String SAVING_FAILED =
-            "Saving failed, maybe element already exists.";
-
-    private static final String CAN_T_DELETE =
-            "Can't delete, entity doesn't exists.";
-
-    private static final String NO_DATAHUB_CONNECTION =
-            "No connection with DataHub, check if your VPN is running.";
+    private static final String NO_SUCH_ENTITY = "Entity doesn't exist. Check your request.";
+    private static final String SAVING_FAILED = "Saving failed, maybe element already exists.";
+    private static final String CAN_T_DELETE = "Can't delete, entity doesn't exists.";
+    private static final String NO_DATAHUB_CONNECTION = "No connection with DataHub, check if your VPN is running.";
+    private static final String BAD_REQUEST_ERROR = "Bad Request error. Check parameters of your request";
 
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     @ExceptionHandler(NoSuchElementException.class)
@@ -63,5 +58,17 @@ public class RestResponseExceptionHandler {
     @ExceptionHandler(IncorrectNodeDeserialize.class)
     public Response<?> handleIncorrectNodeDeserialize(Exception exception) {
         return Response.withError(exception.getMessage());
+    }
+
+    @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(BadCredentialsException.class)
+    public Response<?> handleBadCredentialsException(Exception exception) {
+        return Response.withError(exception.getMessage());
+    }
+
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({IllegalArgumentException.class})
+    public Response<?> handleIllegalArgumentException(Exception e) {
+        return Response.withError(BAD_REQUEST_ERROR);
     }
 }

@@ -8,15 +8,11 @@ import pl.edu.agh.apdvbackend.use_cases.user.GetUser;
 
 @Component
 @RequiredArgsConstructor
-public class AddUserToGroupImpl
-        implements AddUserToGroup {
+public class AddUserToGroupImpl implements AddUserToGroup {
 
     private final GetGroup getGroup;
-
     private final GetUser getUser;
-
     private final SaveOrUpdateGroup saveOrUpdateGroup;
-
     private final GroupMapper groupMapper;
 
     @Override
@@ -26,7 +22,6 @@ public class AddUserToGroupImpl
 
         group.addUser(user);
 
-        return groupMapper.groupToAboutResponseBody(
-                saveOrUpdateGroup.execute(group));
+        return groupMapper.groupToAboutResponseBody(saveOrUpdateGroup.execute(group));
     }
 }

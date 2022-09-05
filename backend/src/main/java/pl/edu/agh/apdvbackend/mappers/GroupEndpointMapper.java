@@ -33,9 +33,15 @@ public abstract class GroupEndpointMapper {
             List<GroupEndpoint> groupEndpoints);
 
 
-    @Mapping(target = "id", expression = "java(makeGroupEndpointKey(group.getId(), endpointGroupRequestBody.endpointId()))")
+    @Mapping(
+            target = "id",
+            expression = "java(makeGroupEndpointKey(group.getId(), endpointGroupRequestBody.endpointId()))"
+    )
     @Mapping(target = "endpoint", expression = "java(getEndpoint.execute(endpointGroupRequestBody.endpointId()))")
-    @Mapping(target = "enableFields", expression = "java(endpointGroupRequestBody.fieldIds().stream().map(getField::execute).toList())")
+    @Mapping(
+            target = "enableFields",
+            expression = "java(endpointGroupRequestBody.fieldIds().stream().map(getField::execute).toList())"
+    )
     public abstract GroupEndpoint RequestBodyToEndpointGroup(
             EndpointGroupRequestBody endpointGroupRequestBody,
             Group group);

@@ -7,13 +7,14 @@ import pl.edu.agh.apdvbackend.repositories.UserRepository;
 
 @Component
 @RequiredArgsConstructor
-public class GetUserImpl
-        implements GetUser {
+public class GetUserImpl implements GetUser {
 
     private final UserRepository userRepository;
 
     @Override
     public User execute(Long userId) {
-        return userRepository.findById(userId).orElseThrow();
+        return userRepository
+                .findById(userId)
+                .orElseThrow();
     }
 }

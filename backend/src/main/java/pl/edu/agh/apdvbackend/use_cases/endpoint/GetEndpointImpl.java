@@ -7,13 +7,14 @@ import pl.edu.agh.apdvbackend.repositories.EndpointRepository;
 
 @Component
 @RequiredArgsConstructor
-public class GetEndpointImpl
-        implements GetEndpoint {
+public class GetEndpointImpl implements GetEndpoint {
 
     private final EndpointRepository endpointRepository;
 
     @Override
     public Endpoint execute(Long endpointId) {
-        return endpointRepository.findById(endpointId).orElseThrow();
+        return endpointRepository
+                .findById(endpointId)
+                .orElseThrow();
     }
 }

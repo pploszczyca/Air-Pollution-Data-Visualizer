@@ -7,8 +7,7 @@ import pl.edu.agh.apdvbackend.repositories.GroupRepository;
 
 @Component
 @RequiredArgsConstructor
-public class SaveOrUpdateGroupImpl
-        implements SaveOrUpdateGroup {
+public class SaveOrUpdateGroupImpl implements SaveOrUpdateGroup {
 
     private final GroupRepository groupRepository;
 

@@ -22,19 +22,23 @@ class EndpointRestRepository {
 
   EndpointRestRepository();
 
-  Future<List<EndpointSummary>> getEndpointSummaryList() async {
-    await Future.delayed(const Duration(seconds: 1)); //for my dear reviewer :)
+  Future<List<EndpointSummary>> getEndpointSummaryList(
+    String accessToken,
+  ) async {
+    client.options.headers["Authorization"] = "Bearer $accessToken";
+    client.options.headers["accept"] = "*/*";
     try {
       final Response response =
           await client.get(backendURL + getDataSummaryURL);
       if (response.statusCode == 200) {
         final BackendResponse backendResponse =
             BackendResponse.fromJson(response.data);
+
         if (backendResponse.error == "") {
           List<EndpointSummary> endpointSummaryList = [];
           endpointSummaryList = backendResponse.data
               .map<EndpointSummary>(
-            // ignore: unnecessary_lambdas
+                // ignore: unnecessary_lambdas
                 (e) => EndpointSummary.fromJson(e),
               ) // do not refactor! UFO MAGIC!
               .toList();
@@ -52,10 +56,15 @@ class EndpointRestRepository {
           .firstWhere((element) => element.label == field)
           .isForChart();
 
-  Future<EndpointData> getEndpointData(int id, int? limit, int? offset) async {
-    await Future.delayed(const Duration(seconds: 1)); //for my dear reviewer :)
+  Future<EndpointData> getEndpointData(
+    int id,
+    int? limit,
+    int? offset,
+    String accessToken,
+  ) async {
     limit = limit ?? 25;
     offset = offset ?? 0;
+    client.options.headers["Authorization"] = "Bearer $accessToken";
     try {
       final Response response = await client.get(
         backendURL + getEndpointDataURL,
@@ -102,7 +111,7 @@ class EndpointRestRepository {
           return Future.value(endpointData);
         }
       }
-    } on Exception catch (error) {
+    } catch (error) {
       return Future.error(error);
     }
     return Future(EndpointData.empty);

@@ -11,13 +11,10 @@ import pl.edu.agh.apdvbackend.utilities.StreamUtilities;
 
 @Component
 @RequiredArgsConstructor
-public class GetNotMembersOfTheGroupImpl
-        implements GetNotMembersOfTheGroup {
+public class GetNotMembersOfTheGroupImpl implements GetNotMembersOfTheGroup {
 
     private final UserRepository userRepository;
-
     private final StreamUtilities streamUtilities;
-
     private final UserMapper userMapper;
 
     @Override
@@ -29,7 +26,7 @@ public class GetNotMembersOfTheGroupImpl
                         .stream()
                         .map(Group::getId)
                         .noneMatch(id -> id.equals(groupId)))
-                .map(userMapper::toShortUserResponseBody)
+                .map(userMapper::toShortResponseBody)
                 .toList();
     }
 }

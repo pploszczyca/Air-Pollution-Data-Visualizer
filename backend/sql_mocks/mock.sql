@@ -108,10 +108,19 @@ INSERT INTO public.fields_parser_mapping (endpoint_id, field_parser_id, field_id
 INSERT INTO public.group (name) VALUES ('Best officials');
 INSERT INTO public.group (name) VALUES ('Best of the best');
 
-INSERT INTO public.user (email, name) VALUES ('test@test.com', 'Jan');
+-- Roles: USER,ADMIN; Password: 1234
+INSERT INTO public.user (email, password) VALUES ('admin@test.com', '$2a$10$bb7HuTrdYSg/wVAOVVU.YeG5Wx4JFdKLccz3tWPoVsWWWEqtPoPJK');
+
+-- Roles: USER; Password: 1234
+INSERT INTO public.user (email, password) VALUES ('user@test.com', '$2a$10$bb7HuTrdYSg/wVAOVVU.YeG5Wx4JFdKLccz3tWPoVsWWWEqtPoPJK');
 
 INSERT INTO public.users_in_group (group_id, user_id) VALUES (1, 1);
 INSERT INTO public.users_in_group (group_id, user_id) VALUES (2, 1);
+INSERT INTO public.users_in_group (group_id, user_id) VALUES (1, 2);
+
+INSERT INTO public.user_role(user_id, role_id) VALUES (1, 0);
+INSERT INTO public.user_role(user_id, role_id) VALUES (1, 1);
+INSERT INTO public.user_role(user_id, role_id) VALUES (2, 0);
 
 INSERT INTO public.group_endpoint (endpoint_id, group_id, approximation_precission, detailed_measurement_days) VALUES (1, 1, 10, 10);
 INSERT INTO public.group_endpoint (endpoint_id, group_id, approximation_precission, detailed_measurement_days) VALUES (2, 1, 10, 10);

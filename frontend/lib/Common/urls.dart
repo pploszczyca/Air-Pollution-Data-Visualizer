@@ -6,3 +6,9 @@ final backendURL = dotenv.env['APDV_BACKEND_URL'] ??
 const getDataSummaryURL = 'sensor/list';
 const getEndpointDataURL = 'sensor';
 const getFieldEnable = 'field/enable';
+
+const authLoginURL = 'auth/login';
+const authRegisterURL = 'auth/register';
+const refreshTokenURL = 'auth/refresh-token';
+
+const getGroupSummaryURL = "group/all/info";

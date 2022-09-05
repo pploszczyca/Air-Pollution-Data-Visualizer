@@ -4,6 +4,8 @@ import pl.edu.agh.apdvbackend.models.body_models.field_parser.AddFieldParserRequ
 import pl.edu.agh.apdvbackend.models.database.FieldParser;
 
 public interface UpdateFieldParser {
-    FieldParser execute(Long fieldParserId,
-                        AddFieldParserRequestBody addFieldParserRequestBody);
+    FieldParser execute(
+            Long fieldParserId,
+            AddFieldParserRequestBody addFieldParserRequestBody
+    );
 }

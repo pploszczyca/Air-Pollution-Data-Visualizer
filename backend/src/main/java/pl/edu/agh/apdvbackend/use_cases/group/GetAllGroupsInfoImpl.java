@@ -10,19 +10,16 @@ import pl.edu.agh.apdvbackend.utilities.ListUtilities;
 
 @Component
 @RequiredArgsConstructor
-public class GetAllGroupsInfoImpl
-        implements GetAllGroupsInfo {
+public class GetAllGroupsInfoImpl implements GetAllGroupsInfo {
 
     private final GroupRepository groupRepository;
-
     private final GroupMapper groupMapper;
-
     private final ListUtilities listUtilities;
 
     @Override
     public List<ShortGroupResponseBody> execute() {
-        final var groupList =
-                listUtilities.iterableToList(groupRepository.findAll());
+        final var groupList = listUtilities
+                .iterableToList(groupRepository.findAll());
         return groupMapper.groupListToShortGroupInfoList(groupList);
     }
 }

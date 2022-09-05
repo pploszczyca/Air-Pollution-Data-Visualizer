@@ -18,11 +18,11 @@ class EndpointViewProvider with ChangeNotifier {
     }
   }
 
-  String getChartUnitName(String name, EndpointData endpointData) => endpointData
-        .enableFieldsList
-        .firstWhere((element) => element.label == name)
-        .unit
-        .name;
+  String getChartUnitName(String name, EndpointData endpointData) =>
+      endpointData.enableFieldsList
+          .firstWhere((element) => element.label == name)
+          .unit
+          .name;
 
   void setDataTypeTab(dynamic name) {
     tabs.add(DataTypeTab(typeName: name.toString()));

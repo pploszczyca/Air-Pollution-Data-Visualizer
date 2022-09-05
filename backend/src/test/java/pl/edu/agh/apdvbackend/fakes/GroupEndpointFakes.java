@@ -6,7 +6,6 @@ import pl.edu.agh.apdvbackend.models.database.GroupEndpoint;
 public class GroupEndpointFakes {
 
     public static final int DETAILED_MEASUREMENT_DAYS = 999;
-
     public static final int APPROXIMATION_PRECISSION = 9999;
 
     public static GroupEndpoint getGroupEndpoint() {

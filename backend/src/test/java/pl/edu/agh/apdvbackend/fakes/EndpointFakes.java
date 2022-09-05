@@ -6,7 +6,6 @@ import pl.edu.agh.apdvbackend.models.database.Endpoint;
 public class EndpointFakes {
 
     public static final long ENDPOINT_ID = 99999L;
-
     public static final int ENDPOINT_NUMBER = 99;
 
     public static Endpoint getEndpoint() {

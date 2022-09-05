@@ -2,9 +2,6 @@ package pl.edu.agh.apdvbackend.mappers.group.admin_panel;
 
 import java.util.Collections;
 import java.util.List;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +11,10 @@ import pl.edu.agh.apdvbackend.fakes.UnitFakes;
 import pl.edu.agh.apdvbackend.models.body_models.group.AdminPanelGroupResponseBody;
 import pl.edu.agh.apdvbackend.models.database.Field;
 import pl.edu.agh.apdvbackend.models.database.FieldType;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 class AdminPanelGroupFieldMapperTest {

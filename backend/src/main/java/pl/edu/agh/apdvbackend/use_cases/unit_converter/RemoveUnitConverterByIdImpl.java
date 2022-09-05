@@ -6,8 +6,7 @@ import pl.edu.agh.apdvbackend.repositories.UnitConverterRepository;
 
 @Component
 @RequiredArgsConstructor
-public class RemoveUnitConverterByIdImpl
-        implements RemoveUnitConverterById {
+public class RemoveUnitConverterByIdImpl implements RemoveUnitConverterById {
 
     private final UnitConverterRepository unitConverterRepository;
 

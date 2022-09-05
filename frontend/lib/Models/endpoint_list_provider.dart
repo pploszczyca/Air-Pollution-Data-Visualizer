@@ -40,14 +40,16 @@ class EndpointListProvider with ChangeNotifier {
   }
 
   void setEndpoint(EndpointSummary es) {
-    endpointsList.add(ExpansionPanelEndpoint(
-      label: es.label,
-      id: es.id,
-      recentData: {},
-      fields: [],
-      buttonColor: Colors.pink,
-      units: []
-   , ),);
+    endpointsList.add(
+      ExpansionPanelEndpoint(
+        label: es.label,
+        id: es.id,
+        recentData: {},
+        fields: [],
+        buttonColor: Colors.pink,
+        units: [],
+      ),
+    );
   }
 
   void makeEndpointsList(List<EndpointSummary> endpointSummary) {

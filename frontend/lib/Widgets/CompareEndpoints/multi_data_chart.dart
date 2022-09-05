@@ -25,15 +25,17 @@ class _MultiDataChartState extends State<MultiDataChart> {
       .name;
 
   @override
-  Widget build(BuildContext context) => Column(children: [
-        buildChartHeader(),
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.8,
-          width: MediaQuery.of(context).size.width * 1,
-          child: buildChart(),
-        ),
-        buildSimpleDivider(context),
-      ],);
+  Widget build(BuildContext context) => Column(
+        children: [
+          buildChartHeader(),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.8,
+            width: MediaQuery.of(context).size.width * 1,
+            child: buildChart(),
+          ),
+          buildSimpleDivider(context),
+        ],
+      );
 
   Container buildSimpleDivider(BuildContext context) => Container(
         margin: const EdgeInsets.symmetric(vertical: 16),
@@ -70,44 +72,57 @@ class _MultiDataChartState extends State<MultiDataChart> {
       );
 
   List<charts.Series<Map<dynamic, dynamic>, DateTime>> _createData(
-          List<Endpoint> list,) =>
+    List<Endpoint> list,
+  ) =>
       list
-          .map((e) => charts.Series<Map<dynamic, dynamic>, DateTime>(
-                id: e.label,
-                data: e.data.dataList,
-                domainFn: (Map<dynamic, dynamic> endpointData, _) =>
-                    DateTime.parse(endpointData[ignoreField]),
-                measureFn: (Map<dynamic, dynamic> endpointData, _) =>
-                    endpointData[widget.field],
-              ),)
+          .map(
+            (e) => charts.Series<Map<dynamic, dynamic>, DateTime>(
+              id: e.label,
+              data: e.data.dataList,
+              domainFn: (Map<dynamic, dynamic> endpointData, _) =>
+                  DateTime.parse(endpointData[ignoreField]),
+              measureFn: (Map<dynamic, dynamic> endpointData, _) =>
+                  endpointData[widget.field],
+            ),
+          )
           .toList();
 }
 
 class CustomLegendBuilder extends charts.LegendContentBuilder {
   @override
-  Widget build(BuildContext context, LegendState legendState, Legend legend,
-          {bool? showMeasures,}) =>
+  Widget build(
+    BuildContext context,
+    LegendState legendState,
+    Legend legend, {
+    bool? showMeasures,
+  }) =>
       SizedBox(
         width: MediaQuery.of(context).size.width * 0.9,
         child: Wrap(
           children: legendState.legendEntries
               .map(
-                (entry) => Wrap(children: [
-                  Container(
-                    margin:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-                    child: Chip(
-                      backgroundColor:
-                          fromChartColor(entry.color).withOpacity(0.6),
-                      label: Text(
-                        entry.label,
-                        style:
-                            const TextStyle(color: Colors.black, fontSize: 16),
-                        overflow: TextOverflow.visible,
+                (entry) => Wrap(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 0,
+                      ),
+                      child: Chip(
+                        backgroundColor:
+                            fromChartColor(entry.color).withOpacity(0.6),
+                        label: Text(
+                          entry.label,
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                          ),
+                          overflow: TextOverflow.visible,
+                        ),
                       ),
                     ),
-                  ),
-                ],),
+                  ],
+                ),
               )
               .toList(),
         ),

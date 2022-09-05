@@ -8,18 +8,16 @@ import pl.edu.agh.apdvbackend.models.body_models.group.AddGroupRequestBody;
 
 @Component
 @RequiredArgsConstructor
-public class AddNewGroupImpl
-        implements AddNewGroup {
+public class AddNewGroupImpl implements AddNewGroup {
 
     private final SaveOrUpdateGroup saveOrUpdateGroup;
-
     private final GroupMapper groupMapper;
 
     @Override
-    public AboutGroupResponseBody execute(
-            AddGroupRequestBody addGroupRequestBody) {
+    public AboutGroupResponseBody execute(AddGroupRequestBody addGroupRequestBody) {
         final var group = saveOrUpdateGroup.execute(
-                groupMapper.addRequestBodyToGroup(addGroupRequestBody));
+                groupMapper.addRequestBodyToGroup(addGroupRequestBody)
+        );
         return groupMapper.groupToAboutResponseBody(group);
     }
 }

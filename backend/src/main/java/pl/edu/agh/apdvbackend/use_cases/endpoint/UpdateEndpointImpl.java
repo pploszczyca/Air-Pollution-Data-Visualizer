@@ -9,22 +9,20 @@ import pl.edu.agh.apdvbackend.repositories.EndpointRepository;
 
 @Component
 @RequiredArgsConstructor
-public class UpdateEndpointImpl
-        implements UpdateEndpoint {
+public class UpdateEndpointImpl implements UpdateEndpoint {
 
     private final GetEndpoint getEndpoint;
-
     private final EndpointRepository endpointRepository;
-
     private final EndpointMapper endpointMapper;
 
     @Override
-    public Endpoint execute(AddEndpointRequestBody addEndpointRequestBody,
-                            Long endpointId) {
+    public Endpoint execute(
+            AddEndpointRequestBody addEndpointRequestBody,
+            Long endpointId
+    ) {
         final var endpoint = getEndpoint.execute(endpointId);
 
-        endpointMapper.updateEndpointFromAddRequestBody(addEndpointRequestBody,
-                endpoint);
+        endpointMapper.updateEndpointFromAddRequestBody(addEndpointRequestBody, endpoint);
 
         return endpointRepository.save(endpoint);
     }

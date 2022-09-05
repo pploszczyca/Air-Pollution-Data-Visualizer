@@ -9,22 +9,16 @@ import pl.edu.agh.apdvbackend.utilities.ListUtilities;
 
 @Component
 @RequiredArgsConstructor
-public class GetEndpointDataForUserImpl
-        implements GetEndpointDataForUser {
+public class GetEndpointDataForUserImpl implements GetEndpointDataForUser {
 
     private final GroupEndpointRepository groupEndpointRepository;
-
     private final ListUtilities listUtilities;
-
     private final GroupEndpointMapper groupEndpointMapper;
 
     @Override
     public GroupEndpointResponseBody execute(Long userId, Long endpointId) {
-        final var groupEndpoints =
-                listUtilities.iterableToList(
-                        groupEndpointRepository.findAllUserIdAndEndpointId(
-                                userId,
-                                endpointId));
+        final var groupEndpoints = listUtilities
+                .iterableToList(groupEndpointRepository.findAllUserIdAndEndpointId(userId, endpointId));
 
         return groupEndpointMapper.mapToResponseBody(groupEndpoints);
     }

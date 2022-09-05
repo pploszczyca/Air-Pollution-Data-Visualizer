@@ -9,10 +9,11 @@ public class StreamUtilities {
         return asStream(sourceIterable, false);
     }
 
-    public <T> Stream<T> asStream(final Iterable<T> sourceIterable,
-                                  boolean parallel) {
-        return StreamSupport
-                .stream(sourceIterable.spliterator(), parallel);
+    public <T> Stream<T> asStream(
+            final Iterable<T> sourceIterable,
+            boolean parallel
+    ) {
+        return StreamSupport.stream(sourceIterable.spliterator(), parallel);
     }
 
     public <T> Stream<T> asStream(final Iterator<T> sourceIterator) {

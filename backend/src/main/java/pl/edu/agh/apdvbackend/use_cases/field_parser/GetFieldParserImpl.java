@@ -7,13 +7,14 @@ import pl.edu.agh.apdvbackend.repositories.FieldParserRepository;
 
 @Component
 @RequiredArgsConstructor
-public class GetFieldParserImpl
-        implements GetFieldParser {
+public class GetFieldParserImpl implements GetFieldParser {
 
     private final FieldParserRepository fieldParserRepository;
 
     @Override
     public FieldParser execute(Long fieldParserId) {
-        return fieldParserRepository.findById(fieldParserId).orElseThrow();
+        return fieldParserRepository
+                .findById(fieldParserId)
+                .orElseThrow();
     }
 }

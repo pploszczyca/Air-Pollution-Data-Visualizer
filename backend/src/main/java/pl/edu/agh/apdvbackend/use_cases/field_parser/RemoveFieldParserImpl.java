@@ -6,8 +6,7 @@ import pl.edu.agh.apdvbackend.repositories.FieldParserRepository;
 
 @Component
 @RequiredArgsConstructor
-public class RemoveFieldParserImpl
-        implements RemoveFieldParser {
+public class RemoveFieldParserImpl implements RemoveFieldParser {
 
     private final FieldParserRepository fieldParserRepository;
 

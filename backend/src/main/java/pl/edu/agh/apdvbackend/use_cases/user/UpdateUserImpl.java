@@ -9,18 +9,17 @@ import pl.edu.agh.apdvbackend.repositories.UserRepository;
 
 @Component
 @RequiredArgsConstructor
-public class UpdateUserImpl
-        implements UpdateUser {
+public class UpdateUserImpl implements UpdateUser {
 
     private final UserRepository userRepository;
-
     private final UserMapper userMapper;
 
     @Override
     public User execute(Long userId, AddUserRequestBody addUserRequestBody) {
-        final var updatingUser = userRepository.findById(userId).orElseThrow();
-        userMapper.updateUserFromAddRequestBody(addUserRequestBody,
-                updatingUser);
+        final var updatingUser = userRepository
+                .findById(userId)
+                .orElseThrow();
+        userMapper.updateUserFromAddRequestBody(addUserRequestBody, updatingUser);
         return userRepository.save(updatingUser);
     }
 }

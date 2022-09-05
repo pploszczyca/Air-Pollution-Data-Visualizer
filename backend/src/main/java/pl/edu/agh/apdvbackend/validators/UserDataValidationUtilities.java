@@ -5,7 +5,8 @@ import pl.edu.agh.apdvbackend.exceptions.IncorrectEmailException;
 
 public class UserDataValidationUtilities {
     /**
-     * Function to validate email based on <a href="https://www.baeldung.com/java-email-validation-regex">this article</a>.
+     * Function to validate email based on
+     * <a href="https://www.baeldung.com/java-email-validation-regex">this article</a>.
      * <br><br>
      * Rules to local part:
      * <ul>

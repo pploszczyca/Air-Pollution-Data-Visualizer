@@ -15,34 +15,28 @@ import pl.edu.agh.apdvbackend.utilities.StreamUtilities;
 
 @Component
 @RequiredArgsConstructor
-public class GetUserEndpointDataImpl
-        implements GetUserEndpointData {
+public class GetUserEndpointDataImpl implements GetUserEndpointData {
 
     private final StreamUtilities streamUtilities;
-
     private final EndpointDeserializer endpointDeserializer;
-
     private final GetJsonNodeFromDataHub getJsonNodeFromDataHub;
-
     private final GetEndpoint getEndpoint;
-
     private final GetEndpointDataForUser getEndpointDataForUser;
 
     @Override
-    public List<ObjectNode> execute(Long userId,
-                                    Long endpointId,
-                                    Long limit,
-                                    Long offset) {
+    public List<ObjectNode> execute(
+            Long userId,
+            Long endpointId,
+            Long limit,
+            Long offset
+    ) {
         final var fields = getEndpointDataForUser
                 .execute(userId, endpointId)
                 .enableFields();
         final var endpoint = getEndpoint
                 .execute(endpointId);
-        final var rawEndpointData =
-                getJsonNodeFromDataHub.execute(
-                        endpoint.getSensorUrl(),
-                        limit,
-                        offset);
+        final var rawEndpointData = getJsonNodeFromDataHub
+                .execute(endpoint.getSensorUrl(), limit, offset);
 
         return parseWeatherData(rawEndpointData, endpoint, fields);
     }
@@ -50,7 +44,8 @@ public class GetUserEndpointDataImpl
     private List<ObjectNode> parseWeatherData(
             Iterator<JsonNode> dataIterator,
             Endpoint endpoint,
-            List<Field> enableFields) {
+            List<Field> enableFields
+    ) {
         return streamUtilities.asStream(
                 dataIterator
         ).map(jsonNode -> endpointDeserializer.deserialize(

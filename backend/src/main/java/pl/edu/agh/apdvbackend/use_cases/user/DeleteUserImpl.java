@@ -6,8 +6,7 @@ import pl.edu.agh.apdvbackend.repositories.UserRepository;
 
 @Component
 @RequiredArgsConstructor
-public class DeleteUserImpl
-        implements DeleteUser {
+public class DeleteUserImpl implements DeleteUser {
 
     private final UserRepository userRepository;
 

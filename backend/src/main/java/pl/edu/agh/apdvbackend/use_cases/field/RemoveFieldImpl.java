@@ -6,8 +6,7 @@ import pl.edu.agh.apdvbackend.repositories.FieldRepository;
 
 @Component
 @RequiredArgsConstructor
-public class RemoveFieldImpl
-        implements RemoveField {
+public class RemoveFieldImpl implements RemoveField {
 
     private final FieldRepository fieldRepository;
 

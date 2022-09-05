@@ -9,20 +9,22 @@ import pl.edu.agh.apdvbackend.repositories.FieldRepository;
 
 @Component
 @RequiredArgsConstructor
-public class UpdateFieldImpl
-        implements UpdateField {
+public class UpdateFieldImpl implements UpdateField {
 
     private final FieldRepository fieldRepository;
-
     private final FieldMapper fieldMapper;
 
     @Override
-    public Field execute(Long fieldId,
-                         AddFieldBodyRequest addFieldBodyRequest) {
-        final var updatingField =
-                fieldRepository.findById(fieldId).orElseThrow();
-        fieldMapper.updateFieldFromAddRequestBody(addFieldBodyRequest,
-                updatingField);
+    public Field execute(
+            Long fieldId,
+            AddFieldBodyRequest addFieldBodyRequest
+    ) {
+        final var updatingField = fieldRepository
+                .findById(fieldId)
+                .orElseThrow();
+
+        fieldMapper.updateFieldFromAddRequestBody(addFieldBodyRequest, updatingField);
+
         return fieldRepository.save(updatingField);
     }
 }

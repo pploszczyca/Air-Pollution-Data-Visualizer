@@ -20,6 +20,7 @@
   - [Backend API documentation](#backend-api-documentation)
   - [Add prefix to commits](#add-prefix-to-commits)
   - [Mock Database](#mock-database)
+  - [Docs](#docs)
   
 ## Technologies
 ### Frontend
@@ -54,7 +55,7 @@ APDV_BACKEND_URL=http://localhost:5000/   # For Android Emulator use this: http:
 ## How tu run
 ### Without Docker
 #### Backend
-Import project to IntelIJ IDEA and start the project. Remember to run database, it can be done by going to [docker-compose.yml](/backend/docker-compose.yml) in IntellIJ and pressing start button next to `PostgreSQL`.
+Import project to IntellIJ IDEA and start the project. Remember to run database, it can be done by going to [docker-compose.yml](/backend/docker-compose.yml) in IntellIJ and pressing start button next to `PostgreSQL`.
 
 #### Frontend
 Open the project in IntellIJ, or Android Studio, choose device and run project.
@@ -65,7 +66,7 @@ In backend root directory is placed a [docker-compose.yml](/backend/docker-compo
 ```
 $ docker-compose up
 ```
-or to re-build tthe project
+or to re-build the project
 ```
 $ docker-compose up --build
 ```
@@ -122,3 +123,7 @@ $ git config --local core.hooksPath .githooks/
 
 ## Mock Database
 For this moment, it is prepared a [mock.sql](/backend/sql_mocks/mock.sql) file, which can be used for testing. This script needs to be run in database manually.
+
+## Docs
+- [Backend description (PL)](./docs/backend_overview_pl.md)
+- [Run frontend in own phone](./docs/run_frontend_in_own_phone.md)

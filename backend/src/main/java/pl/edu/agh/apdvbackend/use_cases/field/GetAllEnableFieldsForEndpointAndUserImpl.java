@@ -3,21 +3,19 @@ package pl.edu.agh.apdvbackend.use_cases.field;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import pl.edu.agh.apdvbackend.models.Field;
-import pl.edu.agh.apdvbackend.use_cases.enable_endpoints.GetEnableEndpointByUserAndEndpointId;
+import pl.edu.agh.apdvbackend.models.database.Field;
+import pl.edu.agh.apdvbackend.use_cases.group_endpoint.GetEndpointDataForUser;
 
 @Component
 @RequiredArgsConstructor
-public class GetAllEnableFieldsForEndpointAndUserImpl
-        implements GetAllEnableFieldsForEndpointAndUser {
+public class GetAllEnableFieldsForEndpointAndUserImpl implements GetAllEnableFieldsForEndpointAndUser {
 
-    private final GetEnableEndpointByUserAndEndpointId
-            getEnableEndpointByUserAndEndpointId;
+    private final GetEndpointDataForUser getEndpointDataForUser;
 
     @Override
     public List<Field> execute(Long userId, Long endpointId) {
-        return getEnableEndpointByUserAndEndpointId
+        return getEndpointDataForUser
                 .execute(userId, endpointId)
-                .getEnableFields();
+                .enableFields();
     }
 }

@@ -7,24 +7,20 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.springframework.beans.factory.annotation.Autowired;
-import pl.edu.agh.apdvbackend.controllers.endpoint.body_models.AddEndpointRequestBody;
-import pl.edu.agh.apdvbackend.controllers.endpoint.body_models.EndpointSummaryResponseBody;
-import pl.edu.agh.apdvbackend.controllers.endpoint.body_models.FieldAndParser;
-import pl.edu.agh.apdvbackend.controllers.endpoint.body_models.FieldAndParserKey;
-import pl.edu.agh.apdvbackend.controllers.endpoint.body_models.UserEndpointResponseBody;
-import pl.edu.agh.apdvbackend.models.Endpoint;
-import pl.edu.agh.apdvbackend.models.Field;
-import pl.edu.agh.apdvbackend.models.FieldParser;
+import pl.edu.agh.apdvbackend.annotations.mappers.FromAddRequestBodyToEndpointInfoAnnotation;
+import pl.edu.agh.apdvbackend.models.body_models.endpoint.AddEndpointRequestBody;
+import pl.edu.agh.apdvbackend.models.body_models.endpoint.EndpointSummaryResponseBody;
+import pl.edu.agh.apdvbackend.models.body_models.endpoint.UserEndpointResponseBody;
+import pl.edu.agh.apdvbackend.models.body_models.field_and_parser.FieldAndParser;
+import pl.edu.agh.apdvbackend.models.body_models.field_and_parser.FieldAndParserKey;
+import pl.edu.agh.apdvbackend.models.database.Endpoint;
+import pl.edu.agh.apdvbackend.models.database.Field;
+import pl.edu.agh.apdvbackend.models.database.FieldParser;
 import pl.edu.agh.apdvbackend.use_cases.field.GetField;
 import pl.edu.agh.apdvbackend.use_cases.field_parser.GetFieldParser;
 
 @Mapper(componentModel = "spring")
 public abstract class EndpointMapper {
-
-    private static final String FIELD_PARSER_MAP_TARGET = "fieldParserMap";
-
-    private static final String FIELD_PARSER_MAP_EXPRESSION =
-            "java(fieldAndParserKeyListToMap(addEndpointRequestBody.fieldAndParserKeys()))";
 
     @Autowired
     private GetField getField;
@@ -35,11 +31,11 @@ public abstract class EndpointMapper {
     @Autowired
     private FieldAndParserMapper fieldAndParserMapper;
 
-    @Mapping(target = FIELD_PARSER_MAP_TARGET, expression = FIELD_PARSER_MAP_EXPRESSION)
+    @FromAddRequestBodyToEndpointInfoAnnotation
     public abstract Endpoint fromAddRequestBodyToEndpointInfo(
             AddEndpointRequestBody addEndpointRequestBody);
 
-    @Mapping(target = FIELD_PARSER_MAP_TARGET, expression = FIELD_PARSER_MAP_EXPRESSION)
+    @FromAddRequestBodyToEndpointInfoAnnotation
     public abstract void updateEndpointFromAddRequestBody(
             AddEndpointRequestBody addEndpointRequestBody,
             @MappingTarget Endpoint endpoint);

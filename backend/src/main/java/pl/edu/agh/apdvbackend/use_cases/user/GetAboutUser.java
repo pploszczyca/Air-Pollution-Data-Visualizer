@@ -1,7 +1,7 @@
 package pl.edu.agh.apdvbackend.use_cases.user;
 
-import pl.edu.agh.apdvbackend.controllers.user.body_models.AboutUserResponseBody;
+import pl.edu.agh.apdvbackend.models.body_models.user.UserResponseBody;
 
 public interface GetAboutUser {
-    AboutUserResponseBody execute(Long userId);
+    UserResponseBody execute(Long userId);
 }

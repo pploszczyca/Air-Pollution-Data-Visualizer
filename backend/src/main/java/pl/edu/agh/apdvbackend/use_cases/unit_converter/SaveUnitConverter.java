@@ -1,9 +1,8 @@
 package pl.edu.agh.apdvbackend.use_cases.unit_converter;
 
-import pl.edu.agh.apdvbackend.controllers.unit_converter.body_models.AddUnitConverterRequestBody;
-import pl.edu.agh.apdvbackend.controllers.unit_converter.body_models.UnitConverterResponseBody;
+import pl.edu.agh.apdvbackend.models.body_models.unit_converter.AddUnitConverterRequestBody;
+import pl.edu.agh.apdvbackend.models.body_models.unit_converter.UnitConverterResponseBody;
 
 public interface SaveUnitConverter {
-    UnitConverterResponseBody execute(
-            AddUnitConverterRequestBody addUnitConverterRequestBody);
+    UnitConverterResponseBody execute(AddUnitConverterRequestBody addUnitConverterRequestBody);
 }

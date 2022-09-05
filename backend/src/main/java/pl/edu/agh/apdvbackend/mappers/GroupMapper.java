@@ -4,10 +4,10 @@ import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
-import pl.edu.agh.apdvbackend.controllers.group.body_models.AboutGroupResponseBody;
-import pl.edu.agh.apdvbackend.controllers.group.body_models.AddGroupRequestBody;
-import pl.edu.agh.apdvbackend.controllers.group.body_models.ShortGroupInfoResponseBody;
-import pl.edu.agh.apdvbackend.models.Group;
+import pl.edu.agh.apdvbackend.models.body_models.group.AboutGroupResponseBody;
+import pl.edu.agh.apdvbackend.models.body_models.group.AddGroupRequestBody;
+import pl.edu.agh.apdvbackend.models.body_models.group.ShortGroupResponseBody;
+import pl.edu.agh.apdvbackend.models.database.Group;
 
 @Mapper(componentModel = "spring")
 public abstract class GroupMapper {
@@ -16,16 +16,22 @@ public abstract class GroupMapper {
     protected UserMapper userMapper;
 
     @Autowired
-    protected EnableEndpointsForGroupMapper enableEndpointsForGroupMapper;
+    protected GroupEndpointMapper groupEndpointMapper;
 
-    public abstract ShortGroupInfoResponseBody groupToShortGroupInfo(
+    public abstract ShortGroupResponseBody groupToShortGroupInfo(
             Group group);
 
-    public abstract List<ShortGroupInfoResponseBody> groupListToShortGroupInfoList(
+    public abstract List<ShortGroupResponseBody> groupListToShortGroupInfoList(
             List<Group> groupList);
 
-    @Mapping(target = "shortUserInfos", expression = "java(userMapper.userListToShortInfoList(group.getUsersInGroup().stream().toList()))")
-    @Mapping(target = "enableEndpointInfos", expression = "java(enableEndpointsForGroupMapper.enableEndpointForGroupListToListInfo(group.getEnableEndpointsForGroups().stream().toList()))")
+    @Mapping(
+            target = "shortUserInfos",
+            expression = "java(userMapper.toShortResponseBodyList(group.getUsersInGroup().stream().toList()))"
+    )
+    @Mapping(
+            target = "groupEndpointResponseBodies",
+            expression = "java(groupEndpointMapper.groupEndpointsToInfos(group.getGroupEndpoints().stream().toList()))"
+    )
     public abstract AboutGroupResponseBody groupToAboutResponseBody(
             Group group);
 

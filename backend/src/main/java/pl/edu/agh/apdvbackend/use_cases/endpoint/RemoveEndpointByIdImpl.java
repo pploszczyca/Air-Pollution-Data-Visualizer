@@ -6,8 +6,7 @@ import pl.edu.agh.apdvbackend.repositories.EndpointRepository;
 
 @Component
 @RequiredArgsConstructor
-public class RemoveEndpointByIdImpl
-        implements RemoveEndpointById {
+public class RemoveEndpointByIdImpl implements RemoveEndpointById {
 
     private final EndpointRepository endpointRepository;
 

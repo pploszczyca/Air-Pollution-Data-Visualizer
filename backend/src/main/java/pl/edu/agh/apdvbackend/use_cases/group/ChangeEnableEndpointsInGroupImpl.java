@@ -3,38 +3,34 @@ package pl.edu.agh.apdvbackend.use_cases.group;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import pl.edu.agh.apdvbackend.controllers.group.body_models.AddEnableEndpointRequestBody;
-import pl.edu.agh.apdvbackend.mappers.EnableEndpointsForGroupMapper;
-import pl.edu.agh.apdvbackend.models.Group;
-import pl.edu.agh.apdvbackend.repositories.EnableEndpointsForGroupRepository;
+import pl.edu.agh.apdvbackend.mappers.GroupEndpointMapper;
+import pl.edu.agh.apdvbackend.mappers.GroupMapper;
+import pl.edu.agh.apdvbackend.models.body_models.group.AboutGroupResponseBody;
+import pl.edu.agh.apdvbackend.models.body_models.group.EndpointGroupRequestBody;
+import pl.edu.agh.apdvbackend.repositories.GroupEndpointRepository;
 
 @Component
 @RequiredArgsConstructor
-public class ChangeEnableEndpointsInGroupImpl
-        implements ChangeEnableEndpointsInGroup {
+public class ChangeEnableEndpointsInGroupImpl implements ChangeEnableEndpointsInGroup {
 
-    private final EnableEndpointsForGroupMapper enableEndpointsForGroupMapper;
-
+    private final GroupEndpointMapper groupEndpointMapper;
     private final GetGroup getGroup;
-
-    private final EnableEndpointsForGroupRepository
-            enableEndpointsForGroupRepository;
+    private final GroupEndpointRepository groupEndpointRepository;
+    private final GroupMapper groupMapper;
 
     @Override
-    public Group execute(
-            List<AddEnableEndpointRequestBody> addEnableEndpointRequestBodyList,
+    public AboutGroupResponseBody execute(
+            List<EndpointGroupRequestBody> endpointGroupRequestBodyList,
             Long groupId) {
         final var group = getGroup.execute(groupId);
-        final var enableEndpointsList =
-                enableEndpointsForGroupMapper.addRequestBodyListToEnableEndpointsList(
-                        addEnableEndpointRequestBodyList, group);
+        final var enableEndpointsList = groupEndpointMapper
+                .addRequestBodyListToEnableEndpointsList(endpointGroupRequestBodyList, group);
 
-        enableEndpointsForGroupRepository.deleteAll(
-                group.getEnableEndpointsForGroups());
+        groupEndpointRepository.deleteAll(group.getGroupEndpoints());
 
-        group.setEnableEndpointsForGroups(enableEndpointsList);
-        enableEndpointsForGroupRepository.saveAll(enableEndpointsList);
+        group.setGroupEndpoints(enableEndpointsList);
+        groupEndpointRepository.saveAll(enableEndpointsList);
 
-        return group;
+        return groupMapper.groupToAboutResponseBody(group);
     }
 }

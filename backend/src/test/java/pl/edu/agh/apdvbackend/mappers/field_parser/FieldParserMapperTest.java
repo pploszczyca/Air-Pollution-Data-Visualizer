@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import pl.edu.agh.apdvbackend.fakes.FieldParserFakes;
-import pl.edu.agh.apdvbackend.models.body_models.field_parser.AddFieldParserRequestBody;
+import pl.edu.agh.apdvbackend.models.body_models.field_parser.FieldParserRequestBody;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -18,7 +18,7 @@ class FieldParserMapperTest {
     public void ShouldMapToFieldParser() {
         // Given
         final var path = "/path";
-        final var requestBody = new AddFieldParserRequestBody(path);
+        final var requestBody = new FieldParserRequestBody(path);
         final var expectedFieldParser = FieldParserFakes.builder()
                 .id(null)
                 .path(path)
@@ -36,7 +36,7 @@ class FieldParserMapperTest {
         // Given
         final var id = 54L;
         final var path = "/new/path";
-        final var requestBody = new AddFieldParserRequestBody(path);
+        final var requestBody = new FieldParserRequestBody(path);
         final var fieldToUpdate = FieldParserFakes.builder()
                 .id(id)
                 .path("/old/path")

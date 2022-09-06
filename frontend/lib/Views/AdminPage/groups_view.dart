@@ -1,15 +1,18 @@
-import 'package:adpv_frontend/DataModels/GroupSummary.dart';
-import 'package:adpv_frontend/Repository/AdminRepository/AdminGateway.dart';
+import 'dart:async';
+
+import 'package:adpv_frontend/DataModels/group_summary.dart';
+import 'package:adpv_frontend/Repository/AdminRepository/admin_gateway.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../Models/GroupListProvider.dart';
+import '../../Models/group_list_provider.dart';
+import '../../Repository/UserRepository/user_gateway.dart';
 import '../../Widgets/common_widgets.dart';
 
 class GroupsView extends StatefulWidget {
-  const GroupsView({required this.gateway, Key? key}) : super(key: key);
+  GroupsView({Key? key}) : super(key: key);
 
-  final AdminGateway gateway;
+  final AdminGateway gateway = AdminGateway();
 
   @override
   State<GroupsView> createState() => _GroupsViewState();
@@ -21,6 +24,15 @@ class _GroupsViewState extends State<GroupsView> {
         appBar: _buildAppBar(),
         body: _buildBody(),
       );
+
+  FutureOr<List<GroupSummary>> onError<E extends Object>(
+      E error, StackTrace stackTrace,) {
+   UserGateway().resetMemoryToken().then(
+         (value) =>
+             Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false),
+       );
+    return Future.error(error.toString());
+  }
 
   PreferredSize _buildAppBar() => PreferredSize(
         preferredSize: const Size.fromHeight(120),
@@ -52,22 +64,25 @@ class _GroupsViewState extends State<GroupsView> {
         ),
       );
 
-  FutureBuilder _buildBody() => FutureBuilder<List<GroupSummary>>(
-        future: widget.gateway.getGroupsSummary(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.none ||
-              snapshot.data == null) {
-            return loadingInCenter();
-          }
-          return ChangeNotifierProvider(
-            create: (context) =>
-                GroupListProvider(snapshot.data!, widget.gateway),
-            child: Consumer<GroupListProvider>(
-              builder: (context, groupListProvider, _) =>
-                  _buildGroupList(groupListProvider, snapshot.data!.length),
-            ),
-          );
-        },
+  Widget _buildBody() => RefreshIndicator(
+        onRefresh: () => widget.gateway.getGroupsSummary().onError(onError),
+        child: FutureBuilder<List<GroupSummary>>(
+          future: widget.gateway.getGroupsSummary().onError(onError),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.none ||
+                snapshot.data == null) {
+              return loadingInCenter();
+            }
+            return ChangeNotifierProvider(
+              create: (context) =>
+                  GroupListProvider(snapshot.data!, widget.gateway),
+              child: Consumer<GroupListProvider>(
+                builder: (context, groupListProvider, _) =>
+                    _buildGroupList(groupListProvider, snapshot.data!.length),
+              ),
+            );
+          },
+        ),
       );
 
   ListView _buildGroupList(
@@ -75,6 +90,7 @@ class _GroupsViewState extends State<GroupsView> {
     int itemCount,
   ) =>
       ListView.builder(
+        shrinkWrap: true,
         itemCount: itemCount,
         padding: const EdgeInsets.symmetric(horizontal: 20),
         itemBuilder: (context, i) =>

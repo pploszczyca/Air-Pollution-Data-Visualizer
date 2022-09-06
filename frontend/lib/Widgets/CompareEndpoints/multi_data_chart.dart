@@ -1,6 +1,5 @@
 // ignore implementation_imports
 import 'package:adpv_frontend/Widgets/common_widgets.dart';
-
 // ignore: implementation_imports
 import 'package:charts_common/src/chart/common/behavior/legend/legend.dart';
 import 'package:charts_flutter/flutter.dart' as charts;

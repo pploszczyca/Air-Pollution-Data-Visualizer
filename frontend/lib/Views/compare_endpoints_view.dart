@@ -1,10 +1,14 @@
+import 'dart:async';
+
 import 'package:adpv_frontend/Repository/EndpointRepository/endpoint_gateway.dart';
+import 'package:adpv_frontend/Repository/UserRepository/user_gateway.dart';
 import 'package:adpv_frontend/Widgets/CompareEndpoints/multi_data_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:multiselect/multiselect.dart';
 import 'package:provider/provider.dart';
 
 import '../DataModels/endpoint.dart';
+import '../DataModels/endpoint_data.dart';
 import '../DataModels/endpoint_summary.dart';
 import '../Models/compare_endpoints_provider.dart';
 import '../Widgets/common_widgets.dart';
@@ -21,12 +25,21 @@ class CompareChartsView extends StatefulWidget {
 class _CompareChartsViewState extends State<CompareChartsView> {
   Widget chart = Container();
   late CompareEndpointsModel model =
-      CompareEndpointsModel(widget.endpointGateway);
+      CompareEndpointsModel(widget.endpointGateway, onError);
 
   // ignore: always_declare_return_types
   _pullDownRefresh() async {
     widget.endpointGateway.clearEndpointDataCache();
     model.clear();
+  }
+
+  FutureOr<EndpointData> onError<E extends Object>(
+      E error, StackTrace stackTrace,) {
+    UserGateway().resetMemoryToken().then(
+          (value) =>
+              Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false),
+        );
+    return Future.error(error.toString());
   }
 
   @override

@@ -5,8 +5,8 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
-import pl.edu.agh.apdvbackend.models.body_models.endpoint.AddEndpointRequestBody;
-import pl.edu.agh.apdvbackend.models.body_models.endpoint.EndpointSummaryResponseBody;
+import pl.edu.agh.apdvbackend.models.body_models.endpoint.EndpointRequestBody;
+import pl.edu.agh.apdvbackend.models.body_models.endpoint.EndpointResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.endpoint.EndpointWithField;
 import pl.edu.agh.apdvbackend.models.body_models.endpoint.UserEndpointResponseBody;
 import pl.edu.agh.apdvbackend.models.database.Endpoint;
@@ -49,12 +49,12 @@ public class EndpointService {
         );
     }
 
-    public Response<List<EndpointSummaryResponseBody>> getEndpointsList() {
+    public Response<List<EndpointResponseBody>> getEndpointsList() {
         return Response.withOkStatus(getAllEndpointSummaries.execute());
     }
 
-    public Response<Endpoint> addEndpoint(AddEndpointRequestBody addEndpointRequestBody) {
-        return Response.withOkStatus(saveNewEndpoint.execute(addEndpointRequestBody));
+    public Response<Endpoint> addEndpoint(EndpointRequestBody endpointRequestBody) {
+        return Response.withOkStatus(saveNewEndpoint.execute(endpointRequestBody));
     }
 
     public void removeEndpoint(Long endpointId) {
@@ -66,9 +66,9 @@ public class EndpointService {
     }
 
     public Response<Endpoint> updateEndpoint(
-            AddEndpointRequestBody addEndpointRequestBody,
+            EndpointRequestBody endpointRequestBody,
             Long endpointId
     ) {
-        return Response.withOkStatus(updateEndpoint.execute(addEndpointRequestBody, endpointId));
+        return Response.withOkStatus(updateEndpoint.execute(endpointRequestBody, endpointId));
     }
 }

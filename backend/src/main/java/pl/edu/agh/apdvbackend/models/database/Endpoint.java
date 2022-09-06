@@ -17,6 +17,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.MapKeyJoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,6 +28,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @JsonIgnoreProperties({"fieldParserMap", "groupEndpoints"})
+@EqualsAndHashCode
 public class Endpoint {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,8 +54,7 @@ public class Endpoint {
     private Map<Field, FieldParser> fieldParserMap = new HashMap<>();
 
     @OneToMany(mappedBy = "endpoint")
-    private Set<GroupEndpoint> groupEndpoints =
-            new HashSet<>();
+    private Set<GroupEndpoint> groupEndpoints = new HashSet<>();
 
     public String getFieldPath(Field field) {
         return fieldParserMap.get(field).getPath();

@@ -5,8 +5,10 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import pl.edu.agh.apdvbackend.fakes.FieldFakes;
 import pl.edu.agh.apdvbackend.fakes.UnitFakes;
 import pl.edu.agh.apdvbackend.fakes.body_models.field.AddFieldRequestBodyFakes;
@@ -16,9 +18,10 @@ import pl.edu.agh.apdvbackend.models.database.FieldType;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
+@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 class FieldRequestBodyMapperTest {
 
-    @SpyBean
+    @MockBean
     private UnitNameMapper unitNameMapper;
 
     @Autowired

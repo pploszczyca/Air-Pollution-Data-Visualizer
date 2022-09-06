@@ -3,8 +3,10 @@ package pl.edu.agh.apdvbackend.mappers.unit;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import pl.edu.agh.apdvbackend.fakes.UnitFakes;
 import pl.edu.agh.apdvbackend.repositories.UnitRepository;
 
@@ -13,9 +15,10 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.doReturn;
 
 @SpringBootTest
+@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 class UnitNameMapperTest {
 
-    @SpyBean
+    @MockBean
     private UnitRepository unitRepository;
 
     @Autowired

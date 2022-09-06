@@ -2,6 +2,8 @@ package pl.edu.agh.apdvbackend.mappers.field_parser;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import pl.edu.agh.apdvbackend.fakes.FieldFakes;
 import pl.edu.agh.apdvbackend.fakes.FieldParserFakes;
@@ -10,6 +12,7 @@ import pl.edu.agh.apdvbackend.models.body_models.field_and_parser.FieldAndParser
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
+@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 class FieldAndParserMapperTest {
 
     @Autowired

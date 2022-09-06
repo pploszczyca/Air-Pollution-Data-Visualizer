@@ -16,13 +16,13 @@ import pl.edu.agh.apdvbackend.models.database.FieldType;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-class AddFieldRequestBodyMapperTest {
+class FieldRequestBodyMapperTest {
 
     @SpyBean
     private UnitNameMapper unitNameMapper;
 
     @Autowired
-    private AddFieldRequestBodyMapper mapper;
+    private FieldRequestBodyMapper mapper;
 
     @Test
     void ShouldMapToField() {

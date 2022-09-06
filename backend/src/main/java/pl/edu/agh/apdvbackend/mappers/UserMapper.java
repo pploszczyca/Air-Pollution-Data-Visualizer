@@ -8,6 +8,7 @@ import org.mapstruct.MappingTarget;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import pl.edu.agh.apdvbackend.mappers.group.short_group.ShortGroupMapper;
 import pl.edu.agh.apdvbackend.models.body_models.auth.LogInRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.auth.UserWithRoles;
 import pl.edu.agh.apdvbackend.models.body_models.user.AddUserRequestBody;
@@ -19,7 +20,7 @@ import pl.edu.agh.apdvbackend.models.database.User;
 public abstract class UserMapper {
 
     @Autowired
-    protected ShortMapper shortMapper;
+    protected ShortGroupMapper shortGroupMapper;
 
     @Autowired
     protected PasswordEncoder passwordEncoder;
@@ -34,7 +35,7 @@ public abstract class UserMapper {
 
     @Mapping(
             target = "groups",
-            expression = "java(user.getGroups().stream().map(shortMapper::groupToShortGroupInfo).toList())"
+            expression = "java(user.getGroups().stream().map(shortGroupMapper::toShortGroup).toList())"
     )
     public abstract UserResponseBody userToAboutResponseBody(User user);
 

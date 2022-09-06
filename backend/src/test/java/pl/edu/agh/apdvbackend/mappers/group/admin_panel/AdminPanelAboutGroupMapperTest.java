@@ -16,7 +16,7 @@ import pl.edu.agh.apdvbackend.models.body_models.group.AdminPanelGroupResponseBo
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-class AdminPanelGroupMapperTest {
+class AdminPanelAboutGroupMapperTest {
 
     @SpyBean
     private AdminPanelGroupEndpointMapper endpointMapper;

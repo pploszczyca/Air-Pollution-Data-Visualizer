@@ -4,7 +4,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import pl.edu.agh.apdvbackend.mappers.GroupEndpointMapper;
-import pl.edu.agh.apdvbackend.mappers.GroupMapper;
+import pl.edu.agh.apdvbackend.mappers.group.about_group.AboutGroupMapper;
 import pl.edu.agh.apdvbackend.models.body_models.group.AboutGroupResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.EndpointGroupRequestBody;
 import pl.edu.agh.apdvbackend.repositories.GroupEndpointRepository;
@@ -16,7 +16,7 @@ public class ChangeEnableEndpointsInGroupImpl implements ChangeEnableEndpointsIn
     private final GroupEndpointMapper groupEndpointMapper;
     private final GetGroup getGroup;
     private final GroupEndpointRepository groupEndpointRepository;
-    private final GroupMapper groupMapper;
+    private final AboutGroupMapper aboutGroupMapper;
 
     @Override
     public AboutGroupResponseBody execute(
@@ -31,6 +31,6 @@ public class ChangeEnableEndpointsInGroupImpl implements ChangeEnableEndpointsIn
         group.setGroupEndpoints(enableEndpointsList);
         groupEndpointRepository.saveAll(enableEndpointsList);
 
-        return groupMapper.groupToAboutResponseBody(group);
+        return aboutGroupMapper.toAboutGroupResponseBody(group);
     }
 }

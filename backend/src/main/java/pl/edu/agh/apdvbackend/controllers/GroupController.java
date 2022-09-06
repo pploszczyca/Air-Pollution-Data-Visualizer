@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
 import pl.edu.agh.apdvbackend.models.body_models.group.AboutGroupResponseBody;
-import pl.edu.agh.apdvbackend.models.body_models.group.AddGroupRequestBody;
+import pl.edu.agh.apdvbackend.models.body_models.group.GroupRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.AdminPanelGroupResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.EndpointGroupRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.GroupMembersResponseBody;
@@ -101,8 +101,8 @@ public class GroupController {
             security = @SecurityRequirement(name = JWT_AUTH)
     )
     @PostMapping
-    public Response<AboutGroupResponseBody> addGroup(@RequestBody AddGroupRequestBody addGroupRequestBody) {
-        return groupService.addGroup(addGroupRequestBody);
+    public Response<AboutGroupResponseBody> addGroup(@RequestBody GroupRequestBody groupRequestBody) {
+        return groupService.addGroup(groupRequestBody);
     }
 
     @Operation(

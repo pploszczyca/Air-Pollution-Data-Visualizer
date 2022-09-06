@@ -4,7 +4,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
-import pl.edu.agh.apdvbackend.models.body_models.field.AddFieldRequestBody;
+import pl.edu.agh.apdvbackend.models.body_models.field.FieldRequestBody;
 import pl.edu.agh.apdvbackend.models.database.Field;
 import pl.edu.agh.apdvbackend.use_cases.field.GetAllEnableFieldsForEndpointAndUser;
 import pl.edu.agh.apdvbackend.use_cases.field.GetAllFields;
@@ -24,8 +24,8 @@ public class FieldService {
     private final UpdateField updateField;
     private final FindCurrentUserId findCurrentUserId;
 
-    public Response<Field> addField(AddFieldRequestBody addFieldRequestBody) {
-        return Response.withOkStatus(saveNewField.execute(addFieldRequestBody));
+    public Response<Field> addField(FieldRequestBody fieldRequestBody) {
+        return Response.withOkStatus(saveNewField.execute(fieldRequestBody));
     }
 
     public Response<List<Field>> getAllFields() {
@@ -44,8 +44,8 @@ public class FieldService {
 
     public Response<Field> updateField(
             Long fieldId,
-            AddFieldRequestBody addFieldRequestBody
+            FieldRequestBody fieldRequestBody
     ) {
-        return Response.withOkStatus(updateField.execute(fieldId, addFieldRequestBody));
+        return Response.withOkStatus(updateField.execute(fieldId, fieldRequestBody));
     }
 }

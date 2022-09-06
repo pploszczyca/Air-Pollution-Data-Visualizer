@@ -1,5 +1,5 @@
-import 'package:adpv_frontend/DataModels/GroupSummary.dart';
-import 'package:adpv_frontend/Repository/AdminRepository/GroupsRepository.dart';
+import 'package:adpv_frontend/DataModels/group_summary.dart';
+import 'package:adpv_frontend/Repository/AdminRepository/groups_repository.dart';
 
 class AdminGateway {
   final GroupsRepository restRepository = GroupsRepository();

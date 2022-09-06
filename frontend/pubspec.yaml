@@ -45,6 +45,7 @@ dependencies:
   linter: ^1.23.0
   jwt_decode: ^0.3.1
   flutter_secure_storage: ^6.0.0
+  flutter_phoenix: ^1.0.0
 
 dev_dependencies:
   flutter_test:

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
-import pl.edu.agh.apdvbackend.models.body_models.field_parser.AddFieldParserRequestBody;
+import pl.edu.agh.apdvbackend.models.body_models.field_parser.FieldParserRequestBody;
 import pl.edu.agh.apdvbackend.models.database.FieldParser;
 import pl.edu.agh.apdvbackend.services.FieldParserService;
 
@@ -33,8 +33,8 @@ public class FieldParserController {
             security = @SecurityRequirement(name = JWT_AUTH)
     )
     @PostMapping
-    public Response<FieldParser> addField(@RequestBody AddFieldParserRequestBody addFieldParserRequestBody) {
-        return fieldParserService.addFieldParser(addFieldParserRequestBody);
+    public Response<FieldParser> addField(@RequestBody FieldParserRequestBody fieldParserRequestBody) {
+        return fieldParserService.addFieldParser(fieldParserRequestBody);
     }
 
     @Operation(
@@ -62,9 +62,9 @@ public class FieldParserController {
     @PutMapping
     public Response<FieldParser> updateFieldParser(
             @RequestParam Long fieldParserId,
-            @RequestBody AddFieldParserRequestBody addFieldParserRequestBody
+            @RequestBody FieldParserRequestBody fieldParserRequestBody
     ) {
         return fieldParserService.updateFieldParser(fieldParserId,
-                addFieldParserRequestBody);
+                fieldParserRequestBody);
     }
 }

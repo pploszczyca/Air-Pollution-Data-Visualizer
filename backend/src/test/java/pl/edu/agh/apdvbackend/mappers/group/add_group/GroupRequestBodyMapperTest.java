@@ -8,22 +8,22 @@ import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import pl.edu.agh.apdvbackend.fakes.GroupFakes;
-import pl.edu.agh.apdvbackend.models.body_models.group.AddGroupRequestBody;
+import pl.edu.agh.apdvbackend.models.body_models.group.GroupRequestBody;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
-class AddGroupRequestBodyMapperTest {
+class GroupRequestBodyMapperTest {
 
     @Autowired
-    private AddGroupRequestBodyMapper mapper;
+    private GroupRequestBodyMapper mapper;
 
     @Test
     public void ShouldMapToGroup() {
         // Given
         final var groupName = "groupName";
-        final var requestBody = new AddGroupRequestBody(groupName);
+        final var requestBody = new GroupRequestBody(groupName);
         final var expectedResult = GroupFakes.builder()
                 .id(null)
                 .name(groupName)

@@ -4,8 +4,10 @@ import 'package:adpv_frontend/Repository/UserRepository/user_gateway.dart';
 import 'package:adpv_frontend/Widgets/common_widgets.dart';
 import 'package:flutter/material.dart';
 
-import 'Routing/endpoint_navigator.dart';
+import 'Repository/AdminRepository/admin_gateway.dart';
+import 'Views/AdminPage/groups_view.dart';
 import 'Views/compare_endpoints_view.dart';
+import 'Views/enpoint_list_view.dart';
 import 'Views/profile_view.dart';
 
 const String endpointList = "Endpoint List";
@@ -21,8 +23,9 @@ const int adminIcon = 0xe062;
 class App extends StatefulWidget {
   final EndpointGateway endpointGateway;
   final UserGateway userGateway;
+  final AdminGateway adminGateway = AdminGateway();
 
-  const App({
+  App({
     required this.endpointGateway,
     required this.userGateway,
     Key? key,
@@ -37,7 +40,9 @@ class _AppState extends State<App> {
 
   int _selectedIndex = 0;
   late final List<Widget> _navigationOptions = <Widget>[
-    EndpointNavigator(endpointGateway: widget.endpointGateway),
+    EndpointListView(
+      repository: widget.endpointGateway,
+    ),
     CompareChartsView(
       endpointGateway: widget.endpointGateway,
     ),
@@ -72,6 +77,7 @@ class _AppState extends State<App> {
 
     if (widget.userGateway.isAdmin()) {
       destinations.add(_buildRailNavigationItem(admin, adminIcon));
+      _navigationOptions.add(GroupsView());
     }
 
     final Widget navi = Expanded(
@@ -128,6 +134,7 @@ class _AppState extends State<App> {
           const Icon(Icons.admin_panel_settings_outlined),
         ),
       );
+      _navigationOptions.add(GroupsView());
     }
 
     final Widget navbar = BottomNavigationBar(

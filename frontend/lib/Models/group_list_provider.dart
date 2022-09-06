@@ -1,7 +1,7 @@
-import 'package:adpv_frontend/DataModels/GroupSummary.dart';
+import 'package:adpv_frontend/DataModels/group_summary.dart';
 import 'package:flutter/material.dart';
 
-import '../Repository/AdminRepository/AdminGateway.dart';
+import '../Repository/AdminRepository/admin_gateway.dart';
 
 class GroupCard {
   String name;

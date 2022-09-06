@@ -2,28 +2,31 @@ package pl.edu.agh.apdvbackend.use_cases.field;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import pl.edu.agh.apdvbackend.mappers.FieldMapper;
-import pl.edu.agh.apdvbackend.models.body_models.field.AddFieldBodyRequest;
+import pl.edu.agh.apdvbackend.mappers.field.FieldRequestBodyMapper;
+import pl.edu.agh.apdvbackend.models.body_models.field.FieldRequestBody;
 import pl.edu.agh.apdvbackend.models.database.Field;
 import pl.edu.agh.apdvbackend.repositories.FieldRepository;
+import pl.edu.agh.apdvbackend.use_cases.unit.SaveUnitByNameIfNotExist;
 
 @Component
 @RequiredArgsConstructor
 public class UpdateFieldImpl implements UpdateField {
 
     private final FieldRepository fieldRepository;
-    private final FieldMapper fieldMapper;
+    private final SaveUnitByNameIfNotExist saveUnitByNameIfNotExist;
+    private final FieldRequestBodyMapper mapper;
 
     @Override
     public Field execute(
             Long fieldId,
-            AddFieldBodyRequest addFieldBodyRequest
+            FieldRequestBody fieldRequestBody
     ) {
         final var updatingField = fieldRepository
                 .findById(fieldId)
                 .orElseThrow();
 
-        fieldMapper.updateFieldFromAddRequestBody(addFieldBodyRequest, updatingField);
+        fieldRequestBody.unitName().ifPresent(saveUnitByNameIfNotExist::execute);
+        mapper.updateFieldBy(fieldRequestBody, updatingField);
 
         return fieldRepository.save(updatingField);
     }

@@ -2,7 +2,7 @@ package pl.edu.agh.apdvbackend.use_cases.endpoint;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import pl.edu.agh.apdvbackend.mappers.FieldMapper;
+import pl.edu.agh.apdvbackend.mappers.field.FieldWithoutIdMapper;
 import pl.edu.agh.apdvbackend.models.body_models.endpoint.EndpointWithField;
 import pl.edu.agh.apdvbackend.use_cases.field.GetAllEnableFieldsForEndpointAndUser;
 
@@ -12,7 +12,7 @@ public class GetUserEndpointDataWithFieldsImpl implements GetUserEndpointDataWit
 
     private final GetUserEndpointData getUserEndpointData;
     private final GetAllEnableFieldsForEndpointAndUser getEnableFields;
-    private final FieldMapper fieldMapper;
+    private final FieldWithoutIdMapper fieldWithoutIdMapper;
 
     @Override
     public EndpointWithField execute(
@@ -22,7 +22,7 @@ public class GetUserEndpointDataWithFieldsImpl implements GetUserEndpointDataWit
             Long offset
     ) {
         final var fields = getEnableFields.execute(userId, endpointId);
-        final var fieldsWithoutId = fieldMapper.fieldListToWithoutIdList(fields);
+        final var fieldsWithoutId = fieldWithoutIdMapper.fieldsToWithoutIdList(fields);
         final var endpointData = getUserEndpointData.execute(userId, endpointId, limit, offset);
 
         return new EndpointWithField(fieldsWithoutId, endpointData);

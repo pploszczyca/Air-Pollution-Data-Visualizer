@@ -4,7 +4,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
-import pl.edu.agh.apdvbackend.models.body_models.field_parser.AddFieldParserRequestBody;
+import pl.edu.agh.apdvbackend.models.body_models.field_parser.FieldParserRequestBody;
 import pl.edu.agh.apdvbackend.models.database.FieldParser;
 import pl.edu.agh.apdvbackend.use_cases.field_parser.GetAllFieldParsers;
 import pl.edu.agh.apdvbackend.use_cases.field_parser.RemoveFieldParser;
@@ -20,8 +20,8 @@ public class FieldParserService {
     private final RemoveFieldParser removeFieldParser;
     private final UpdateFieldParser updateFieldParser;
 
-    public Response<FieldParser> addFieldParser(AddFieldParserRequestBody addFieldParserRequestBody) {
-        return Response.withOkStatus(saveNewFieldParser.execute(addFieldParserRequestBody));
+    public Response<FieldParser> addFieldParser(FieldParserRequestBody fieldParserRequestBody) {
+        return Response.withOkStatus(saveNewFieldParser.execute(fieldParserRequestBody));
     }
 
     public Response<List<FieldParser>> getAllFieldParsers() {
@@ -34,8 +34,8 @@ public class FieldParserService {
 
     public Response<FieldParser> updateFieldParser(
             Long fieldParserId,
-            AddFieldParserRequestBody addFieldParserRequestBody
+            FieldParserRequestBody fieldParserRequestBody
     ) {
-        return Response.withOkStatus(updateFieldParser.execute(fieldParserId, addFieldParserRequestBody));
+        return Response.withOkStatus(updateFieldParser.execute(fieldParserId, fieldParserRequestBody));
     }
 }

@@ -27,3 +27,16 @@ Remeber to change URL in frontend `.env`!!!
 ```bash
 APDV_BACKEND_URL=http://YOUR_IP_ADRESS_IN_LOCAL_NETWORK:5000/
 ```
+
+## Phone screen mirroring in computer
+If you want to see your phone's screen in your computer, you have to install [scrcpy](https://github.com/Genymobile/scrcpy):
+
+```bash
+$ sudo apt install scrcpy
+```
+
+Connect your phone to computer via USB cable (make sure that you granded debug access on your phone) and run in terminal:
+
+```
+$ scrcpy
+```

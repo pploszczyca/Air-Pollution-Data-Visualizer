@@ -34,7 +34,9 @@ class _CompareChartsViewState extends State<CompareChartsView> {
   }
 
   FutureOr<EndpointData> onError<E extends Object>(
-      E error, StackTrace stackTrace,) {
+    E error,
+    StackTrace stackTrace,
+  ) {
     UserGateway().resetMemoryToken().then(
           (value) =>
               Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false),
@@ -48,36 +50,52 @@ class _CompareChartsViewState extends State<CompareChartsView> {
         child: RefreshIndicator(
           onRefresh: () => _pullDownRefresh(),
           child: Scaffold(
-            appBar: buildAppBar(compareEndpointsViewAppBar),
-            body: FutureBuilder<List<EndpointSummary>>(
-              future: widget.endpointGateway.getEndpointSummary(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.none ||
-                    snapshot.data == null) {
-                  return loadingInCenter();
-                } else {
-                  return SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        buildDropDownSelection(context, snapshot),
-                        const SizedBox(height: 10),
-                        Consumer<CompareEndpointsModel>(
-                          builder: (context, endpointModel, child) => Wrap(
-                            children: _createChips(endpointModel),
+            appBar: buildFancyAppBar(compareEndpointsViewAppBar),
+            body: Container(
+              height: MediaQuery.of(context).size.height,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  colors: [
+                    Color.fromRGBO(21, 184, 194, 1),
+                    Color.fromRGBO(14, 14, 82, 0.9)
+                  ],
+                ),
+              ),
+              child: FutureBuilder<List<EndpointSummary>>(
+                future: widget.endpointGateway.getEndpointSummary(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.none ||
+                      snapshot.data == null) {
+                    return loadingInCenter();
+                  } else {
+                    return SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 25,
                           ),
-                        ),
-                        const SizedBox(height: 10),
-                        Consumer<CompareEndpointsModel>(
-                          builder: (context, endpointModel, child) {
-                            chart = _createChart(endpointModel);
-                            return chart;
-                          },
-                        ),
-                      ],
-                    ),
-                  );
-                }
-              },
+                          buildDropDownSelection(context, snapshot),
+                          const SizedBox(height: 10),
+                          Consumer<CompareEndpointsModel>(
+                            builder: (context, endpointModel, child) => Wrap(
+                              children: _createChips(endpointModel),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Consumer<CompareEndpointsModel>(
+                            builder: (context, endpointModel, child) {
+                              chart = _createChart(endpointModel);
+                              return chart;
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                },
+              ),
             ),
           ),
         ),
@@ -90,7 +108,10 @@ class _CompareChartsViewState extends State<CompareChartsView> {
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-          SizedBox(
+          Container(
+            decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(5)),),
             width: MediaQuery.of(context).size.width * 0.8,
             child: Consumer<CompareEndpointsModel>(
               builder: (context, endpointModel, _) {
@@ -128,6 +149,7 @@ class _CompareChartsViewState extends State<CompareChartsView> {
       endpointModel.commonFields.map((endpointName) {
         endpointModel.selectedChips.putIfAbsent(endpointName, () => false);
         return Container(
+          decoration: const BoxDecoration(color: Colors.white),
           margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           child: InputChip(
             label: Text(endpointName),

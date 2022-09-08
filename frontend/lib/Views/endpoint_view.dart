@@ -61,7 +61,7 @@ SizedBox _buildBarView(
   snapshot,
 ) =>
     SizedBox(
-      height: MediaQuery.of(context).size.height * 0.5,
+      height: MediaQuery.of(context).size.height * 0.4,
       child: TabBarView(
         children: endpointViewProvider.tabs
             .map(
@@ -105,40 +105,70 @@ class _EndpointViewState extends State<EndpointView> {
               appBar: buildAppBar(endpointViewAppBar),
               body: loadingInCenter(),
             );
-          }
-
-          return Scaffold(
+          } else {
+            return Scaffold(
             appBar: buildAppBar(endpointViewAppBar),
-            body: RefreshIndicator(
-              onRefresh: () => _pullDownRefresh(),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    EndpointInfoTable(data: snapshot.data!.technicalInfo),
-                    ChangeNotifierProvider(
-                      create: (context) => EndpointViewProvider(snapshot.data!),
-                      child: Consumer<EndpointViewProvider>(
-                        builder: (context, endpointViewProvider, _) =>
-                            DefaultTabController(
-                          length: endpointViewProvider.tabs.length,
-                          child: Column(
-                            children: [
-                              _buildTabBar(endpointViewProvider, context),
-                              _buildBarView(
-                                endpointViewProvider,
-                                context,
-                                snapshot,
-                              )
-                            ],
+            body: Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  colors: [
+                    Color.fromRGBO(21, 184, 194, 1),
+                    Color.fromRGBO(14, 14, 82, 0.9)
+                  ],
+                ),
+              ),
+              child: RefreshIndicator(
+                onRefresh: () => _pullDownRefresh(),
+                child: SingleChildScrollView(
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const SizedBox(height: 25,),
+                        EndpointInfoTable(data: snapshot.data!.technicalInfo),
+                        const SizedBox(height: 25,),
+                        ChangeNotifierProvider(
+                          create: (context) => EndpointViewProvider(snapshot.data!),
+                          child: Consumer<EndpointViewProvider>(
+                            builder: (context, endpointViewProvider, _) =>
+                                DefaultTabController(
+                              length: endpointViewProvider.tabs.length,
+                              child: Container(
+                                padding: const EdgeInsets.all(10),
+                                decoration: const BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(5),
+                                  ),
+                                ),
+                                width: MediaQuery.of(context).size.width * 0.9,
+                                child: Column(
+                                  children: [
+                                    _buildTabBar(endpointViewProvider, context),
+                                    _buildBarView(
+                                      endpointViewProvider,
+                                      context,
+                                      snapshot,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                        const SizedBox(height: 25,),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),
           );
+          }
         },
       );
 

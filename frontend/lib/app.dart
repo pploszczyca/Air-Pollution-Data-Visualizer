@@ -46,7 +46,7 @@ class _AppState extends State<App> {
     CompareChartsView(
       endpointGateway: widget.endpointGateway,
     ),
-    const ProfileView(),
+    ProfileView(widget.userGateway),
   ];
 
   @override

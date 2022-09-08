@@ -1,5 +1,6 @@
 // ignore implementation_imports
 import 'package:adpv_frontend/Widgets/common_widgets.dart';
+
 // ignore: implementation_imports
 import 'package:charts_common/src/chart/common/behavior/legend/legend.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
@@ -26,16 +27,36 @@ class _MultiDataChartState extends State<MultiDataChart> {
 
   @override
   Widget build(BuildContext context) => Column(
-        children: [
-          buildChartHeader(),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.8,
-            width: MediaQuery.of(context).size.width * 1,
-            child: buildChart(),
+    children: [
+      Container(
+        width: MediaQuery.of(context).size.width * 0.9,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(
+            Radius.circular(5),
           ),
-          buildSimpleDivider(context),
-        ],
-      );
+        ),
+        child: Column(
+              children: [
+                buildChartHeader(),
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(5),
+                    ),
+                  ),
+                  height: MediaQuery.of(context).size.height * 0.5,
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child: buildChart(),
+                ),
+              ],
+            ),
+      ),
+      const SizedBox(height: 25,),
+    ],
+  );
 
   Container buildSimpleDivider(BuildContext context) => Container(
         margin: const EdgeInsets.symmetric(vertical: 16),
@@ -99,26 +120,22 @@ class CustomLegendBuilder extends charts.LegendContentBuilder {
       SizedBox(
         width: MediaQuery.of(context).size.width * 0.9,
         child: Wrap(
+          alignment: WrapAlignment.start,
           children: legendState.legendEntries
               .map(
                 (entry) => Wrap(
                   children: [
-                    Container(
-                      margin: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 0,
-                      ),
-                      child: Chip(
-                        backgroundColor:
-                            fromChartColor(entry.color).withOpacity(0.6),
-                        label: Text(
-                          entry.label,
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                          ),
-                          overflow: TextOverflow.visible,
+                    Chip(
+                      backgroundColor:
+                          fromChartColor(entry.color).withOpacity(0.6),
+                      label: Text(
+                        entry.label,
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontFamily: "SofiaSans"
                         ),
+                        overflow: TextOverflow.visible,
                       ),
                     ),
                   ],

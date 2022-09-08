@@ -109,76 +109,71 @@ class _EndpointListViewState extends State<EndpointListView> {
           tilePadding: const EdgeInsets.all(20),
           childrenPadding: const EdgeInsets.all(0),
           children: <Widget>[
-            Container(
-              decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 127, 166, 168),
+            FutureBuilder<EndpointData>(
+              future: widget.repository.getEndpointData(
+                expansionPanelEndpoint.id,
+                null,
+                null,
+                false,
               ),
-              child: FutureBuilder<EndpointData>(
-                future: widget.repository.getEndpointData(
-                  expansionPanelEndpoint.id,
-                  null,
-                  null,
-                  false,
-                ),
-                builder: (context, recentDataSnapshot) {
-                  if (recentDataSnapshot.connectionState ==
-                          ConnectionState.none ||
-                      recentDataSnapshot.data == null) {
-                    return loadingInCenter();
-                  } else {
-                    // line below temporary fixes always loading everything problem
-                    expansionPanelEndpoint.setRecentData(
-                      EndpointData(
-                        recentDataSnapshot.data!.dataList,
-                        recentDataSnapshot.data!.technicalInfo,
-                        recentDataSnapshot.data!.enableFieldsList,
+              builder: (context, recentDataSnapshot) {
+                if (recentDataSnapshot.connectionState ==
+                        ConnectionState.none ||
+                    recentDataSnapshot.data == null) {
+                  return loadingInCenter();
+                } else {
+                  // line below temporary fixes always loading everything problem
+                  expansionPanelEndpoint.setRecentData(
+                    EndpointData(
+                      recentDataSnapshot.data!.dataList,
+                      recentDataSnapshot.data!.technicalInfo,
+                      recentDataSnapshot.data!.enableFieldsList,
+                    ),
+                  );
+                  return ListView.builder(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    padding: const EdgeInsets.only(top: 10),
+                    shrinkWrap: true,
+                    itemCount: expansionPanelEndpoint.fields.length,
+                    itemBuilder: (context, i) => Container(
+                      decoration: BoxDecoration(
+                        borderRadius: basicBorderRadius,
+                        color: Colors.white,
                       ),
-                    );
-                    return ListView.builder(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      padding: const EdgeInsets.only(top: 10),
-                      shrinkWrap: true,
-                      itemCount: expansionPanelEndpoint.fields.length,
-                      itemBuilder: (context, i) => Container(
-                        decoration: BoxDecoration(
-                          borderRadius: basicBorderRadius,
-                          color: Colors.white,
-                        ),
-                        height: 70,
-                        margin: const EdgeInsets.only(
-                          left: 0,
-                          top: 10,
-                          right: 0,
-                          bottom: 10,
-                        ),
-                        padding: const EdgeInsets.all(17),
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Text(
-                                expansionPanelEndpoint.fields[i],
-                                textAlign: TextAlign.left,
-                                style: endpointDataTextStyle,
-                              ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                expansionPanelEndpoint.recentData[
-                                            expansionPanelEndpoint.fields[i]]
-                                        .toStringAsFixed(2) +
-                                    spacer +
-                                    expansionPanelEndpoint.units[i].name,
-                                textAlign: TextAlign.right,
-                                style: endpointDataTextStyle,
-                              ),
-                            ),
-                          ],
-                        ),
+                      height: 70,
+                      margin: const EdgeInsets.only(
+                        left: 0,
+                        top: 10,
+                        right: 0,
+                        bottom: 10,
                       ),
-                    );
-                  }
-                },
-              ),
+                      padding: const EdgeInsets.all(17),
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: Text(
+                              expansionPanelEndpoint.fields[i],
+                              textAlign: TextAlign.left,
+                              style: endpointDataTextStyle,
+                            ),
+                          ),
+                          Expanded(
+                            child: Text(
+                              expansionPanelEndpoint.recentData[
+                                          expansionPanelEndpoint.fields[i]]
+                                      .toStringAsFixed(2) +
+                                  spacer +
+                                  expansionPanelEndpoint.units[i].name,
+                              textAlign: TextAlign.right,
+                              style: endpointDataTextStyle,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }
+              },
             )
           ],
         ),
@@ -241,6 +236,18 @@ class _EndpointListViewState extends State<EndpointListView> {
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: const Color.fromARGB(255, 127, 166, 168),
         appBar: _buildAppBar(),
-        body: _buildBody(),
+        body: Container(
+            height: MediaQuery.of(context).size.height,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [
+                  Color.fromRGBO(21, 184, 194, 1),
+                  Color.fromRGBO(14, 14, 82, 0.9)
+                ],
+              ),
+            ),
+            child: _buildBody(),),
       );
 }

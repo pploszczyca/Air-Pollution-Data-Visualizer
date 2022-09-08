@@ -1,7 +1,8 @@
 import 'package:adpv_frontend/Repository/EndpointRepository/endpoint_gateway.dart';
+import 'package:adpv_frontend/Views/endpoint_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../Common/routing.dart';
+
 import '../DataModels/endpoint_data.dart';
 import '../DataModels/endpoint_summary.dart';
 import '../Models/endpoint_list_provider.dart';
@@ -29,8 +30,14 @@ class EndpointListView extends StatefulWidget {
 }
 
 class _EndpointListViewState extends State<EndpointListView> {
-  void onTapHandler(int id, EndpointGateway endpointRepository) {
-    Navigator.pushNamed(context, endpointViewRoute + "/" + id.toString());
+  void onTapHandler(int id, EndpointGateway endpointGateway) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            EndpointView(endpointId: id, endpointGateway: endpointGateway),
+      ),
+    );
   }
 
   PreferredSize _buildAppBar() => PreferredSize(
@@ -177,20 +184,28 @@ class _EndpointListViewState extends State<EndpointListView> {
         ),
       );
 
-  Container _buildExpansionList(
+  Container _buildList(
     EndpointListProvider endpointListProvider,
     int itemCount,
   ) =>
       Container(
         margin: const EdgeInsets.only(left: 10, right: 10),
-        child: ListView.builder(
-          physics: const AlwaysScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: itemCount,
-          itemBuilder: (context, i) =>
-              _buildEndpointCard(endpointListProvider.endpointsList[i]),
+        child: RefreshIndicator(
+          onRefresh: () => _refresh(endpointListProvider),
+          child: ListView.builder(
+            physics: const AlwaysScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: itemCount,
+            itemBuilder: (context, i) =>
+                _buildEndpointCard(endpointListProvider.endpointsList[i]),
+          ),
         ),
       );
+
+  Future<void> _refresh(EndpointListProvider endpointListProvider) async {
+    endpointListProvider
+        .makeEndpointsList(await widget.repository.getEndpointSummary());
+  }
 
   SingleChildScrollView _buildBody() => SingleChildScrollView(
         child: Container(
@@ -211,8 +226,7 @@ class _EndpointListViewState extends State<EndpointListView> {
                 create: (context) =>
                     EndpointListProvider(snapshot.data!, widget.repository),
                 child: Consumer<EndpointListProvider>(
-                  builder: (context, endpointListProvider, _) =>
-                      _buildExpansionList(
+                  builder: (context, endpointListProvider, _) => _buildList(
                     endpointListProvider,
                     snapshot.data!.length,
                   ),

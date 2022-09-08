@@ -10,8 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import pl.edu.agh.apdvbackend.fakes.UnitConverterFakes;
 import pl.edu.agh.apdvbackend.fakes.UnitFakes;
-import pl.edu.agh.apdvbackend.mappers.unit_converter.AddUnitConverterRequestBodyMapper;
-import pl.edu.agh.apdvbackend.models.body_models.unit_converter.AddUnitConverterRequestBody;
+import pl.edu.agh.apdvbackend.mappers.unit_converter.UnitConverterRequestBodyMapper;
+import pl.edu.agh.apdvbackend.models.body_models.unit_converter.UnitConverterRequestBody;
 import pl.edu.agh.apdvbackend.models.database.MathOperation;
 import pl.edu.agh.apdvbackend.repositories.UnitRepository;
 
@@ -19,13 +19,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
-class AddUnitConverterRequestBodyMapperTest {
+class UnitConverterRequestBodyMapperTest {
 
     @MockBean
     private UnitRepository unitRepository;
 
     @Autowired
-    private AddUnitConverterRequestBodyMapper mapper;
+    private UnitConverterRequestBodyMapper mapper;
 
     @Test
     public void ShouldMapToUnitConverter() {
@@ -42,7 +42,7 @@ class AddUnitConverterRequestBodyMapperTest {
                 .id(toUnitId)
                 .build();
         final var addUnitConverterRequestBody =
-                new AddUnitConverterRequestBody(fromUnitId, toUnitId, calculationStep, mathOperation, value);
+                new UnitConverterRequestBody(fromUnitId, toUnitId, calculationStep, mathOperation, value);
         final var expectedResult = UnitConverterFakes.builder()
                 .id(null)
                 .fromUnit(fromUnit)
@@ -80,7 +80,7 @@ class AddUnitConverterRequestBodyMapperTest {
                 .id(toUnitId)
                 .build();
         final var addUnitConverterRequestBody =
-                new AddUnitConverterRequestBody(fromUnitId, toUnitId, calculationStep, mathOperation, value);
+                new UnitConverterRequestBody(fromUnitId, toUnitId, calculationStep, mathOperation, value);
         final var unitConverterToUpdate = UnitConverterFakes.builder()
                 .id(id)
                 .build();

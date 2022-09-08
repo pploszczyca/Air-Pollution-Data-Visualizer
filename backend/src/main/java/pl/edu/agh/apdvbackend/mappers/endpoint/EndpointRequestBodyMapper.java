@@ -5,21 +5,21 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.springframework.beans.factory.annotation.Autowired;
 import pl.edu.agh.apdvbackend.mappers.field_parser.FieldAndParserKeyMapper;
-import pl.edu.agh.apdvbackend.models.body_models.endpoint.AddEndpointRequestBody;
+import pl.edu.agh.apdvbackend.models.body_models.endpoint.EndpointRequestBody;
 import pl.edu.agh.apdvbackend.models.database.Endpoint;
 
 @Mapper(componentModel = "spring")
-public abstract class AddEndpointRequestBodyMapper {
+public abstract class EndpointRequestBodyMapper {
 
     @Autowired
     protected FieldAndParserKeyMapper fieldAndParserKeyMapper;
 
     @RequestBodyMapping
-    public abstract Endpoint toEndpoint(AddEndpointRequestBody requestBody);
+    public abstract Endpoint toEndpoint(EndpointRequestBody requestBody);
 
     @RequestBodyMapping
     public abstract void updateEndpoint(
-            AddEndpointRequestBody requestBody,
+            EndpointRequestBody requestBody,
             @MappingTarget Endpoint endpoint
     );
 

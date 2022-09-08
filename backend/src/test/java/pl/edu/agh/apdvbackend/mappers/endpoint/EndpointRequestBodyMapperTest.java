@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import pl.edu.agh.apdvbackend.fakes.EndpointFakes;
 import pl.edu.agh.apdvbackend.mappers.field_parser.FieldAndParserKeyMapper;
-import pl.edu.agh.apdvbackend.models.body_models.endpoint.AddEndpointRequestBody;
+import pl.edu.agh.apdvbackend.models.body_models.endpoint.EndpointRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.field_and_parser.FieldAndParserKey;
 import pl.edu.agh.apdvbackend.models.database.Field;
 import pl.edu.agh.apdvbackend.models.database.FieldParser;
@@ -21,13 +21,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
-class AddEndpointRequestBodyMapperTest {
+class EndpointRequestBodyMapperTest {
 
     @MockBean
     private FieldAndParserKeyMapper fieldAndParserKeyMapper;
 
     @Autowired
-    private AddEndpointRequestBodyMapper mapper;
+    private EndpointRequestBodyMapper mapper;
 
     @Test
     public void ShouldMapToEndpoint() {
@@ -37,7 +37,7 @@ class AddEndpointRequestBodyMapperTest {
         final var sensorUrl = "sensor.url.pl";
         final List<FieldAndParserKey> fieldAndParserKeys = Collections.emptyList();
         final Map<Field, FieldParser> fieldParserMap = Collections.emptyMap();
-        final var requestBody = new AddEndpointRequestBody(endpointNumber, label, sensorUrl, fieldAndParserKeys);
+        final var requestBody = new EndpointRequestBody(endpointNumber, label, sensorUrl, fieldAndParserKeys);
         final var expected = EndpointFakes.builder()
                 .id(null)
                 .endpointNumber(endpointNumber)
@@ -65,7 +65,7 @@ class AddEndpointRequestBodyMapperTest {
         final var sensorUrl = "sensor.url.pl";
         final List<FieldAndParserKey> fieldAndParserKeys = Collections.emptyList();
         final Map<Field, FieldParser> fieldParserMap = Collections.emptyMap();
-        final var requestBody = new AddEndpointRequestBody(endpointNumber, label, sensorUrl, fieldAndParserKeys);
+        final var requestBody = new EndpointRequestBody(endpointNumber, label, sensorUrl, fieldAndParserKeys);
         final var endpointToUpdate = EndpointFakes.builder()
                 .id(endpointId)
                 .build();

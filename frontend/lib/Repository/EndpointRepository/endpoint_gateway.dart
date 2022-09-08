@@ -1,22 +1,25 @@
 import 'package:adpv_frontend/DataModels/endpoint_data.dart';
 import 'package:adpv_frontend/DataModels/endpoint_summary.dart';
 
+import '../UserRepository/user_gateway.dart';
 import 'endpoint_cache.dart';
 import 'endpoint_rest_repository.dart';
 
 class EndpointGateway {
   final EndpointRestRepository restRepository = EndpointRestRepository();
   final EndpointCache endpointCache = EndpointCache();
+  final UserGateway userGateway;
 
-  EndpointGateway();
+  EndpointGateway(this.userGateway);
 
-  Future<List<EndpointSummary>> getEndpointSummary() {
+  Future<List<EndpointSummary>> getEndpointSummary() async {
     if (endpointCache.isEndpointSummaryInCache()) {
       return endpointCache.getEndpointSummary();
     }
-    final Future<List<EndpointSummary>> summary =
-        restRepository.getEndpointSummaryList();
-    summary.then(endpointCache.saveEndpointSummary);
+    final List<EndpointSummary> summary = await restRepository
+        .getEndpointSummaryList(userGateway.user.tokenResponse.accessToken);
+
+    endpointCache.saveEndpointSummary(summary);
     return summary;
   }
 
@@ -41,7 +44,12 @@ class EndpointGateway {
     int offset,
   ) {
     final Future<EndpointData> endpointDataFuture =
-        restRepository.getEndpointData(id, limit, offset);
+        restRepository.getEndpointData(
+      id,
+      limit,
+      offset,
+      userGateway.user.tokenResponse.accessToken,
+    );
     endpointDataFuture.then((value) {
       endpointCache.saveEndpoint(id, value);
     });

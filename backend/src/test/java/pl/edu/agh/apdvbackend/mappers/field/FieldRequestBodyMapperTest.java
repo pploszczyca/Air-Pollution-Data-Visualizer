@@ -19,13 +19,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
-class AddFieldRequestBodyMapperTest {
+class FieldRequestBodyMapperTest {
 
     @MockBean
     private UnitNameMapper unitNameMapper;
 
     @Autowired
-    private AddFieldRequestBodyMapper mapper;
+    private FieldRequestBodyMapper mapper;
 
     @Test
     void ShouldMapToField() {

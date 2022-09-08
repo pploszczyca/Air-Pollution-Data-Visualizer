@@ -4,23 +4,23 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.springframework.beans.factory.annotation.Autowired;
-import pl.edu.agh.apdvbackend.models.body_models.unit_converter.AddUnitConverterRequestBody;
+import pl.edu.agh.apdvbackend.models.body_models.unit_converter.UnitConverterRequestBody;
 import pl.edu.agh.apdvbackend.models.database.Unit;
 import pl.edu.agh.apdvbackend.models.database.UnitConverter;
 import pl.edu.agh.apdvbackend.repositories.UnitRepository;
 
 @Mapper(componentModel = "spring")
-public abstract class AddUnitConverterRequestBodyMapper {
+public abstract class UnitConverterRequestBodyMapper {
 
     @Autowired
     private UnitRepository unitRepository;
 
     @UnitConverterMapping
-    public abstract UnitConverter toUnitConverter(AddUnitConverterRequestBody requestBody);
+    public abstract UnitConverter toUnitConverter(UnitConverterRequestBody requestBody);
 
     @UnitConverterMapping
     public abstract UnitConverter updateUnitConverter(
-            AddUnitConverterRequestBody requestBody,
+            UnitConverterRequestBody requestBody,
             @MappingTarget UnitConverter unitConverter
     );
 

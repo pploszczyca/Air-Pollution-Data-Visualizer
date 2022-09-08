@@ -1,8 +1,9 @@
 import 'package:adpv_frontend/Views/Logging/utils.dart';
+import 'package:adpv_frontend/Views/snackbar.dart';
 import 'package:flutter/material.dart';
 
 import '../../Repository/EndpointRepository/endpoint_gateway.dart';
-import '../../Repository/UserRepository/AuthGateway.dart';
+import '../../Repository/UserRepository/auth_gateway.dart';
 import '../../Repository/UserRepository/user_gateway.dart';
 import '../../app.dart';
 
@@ -395,45 +396,23 @@ class _LoginViewState extends State<LoginView>
     } else {
       form = AuthenticateForm(
         _emailCreateController.text,
-        _passwordLoginController.text,
+        _passwordCreateController.text,
         AuthFormType.signup,
       );
     }
     final AuthResponse response =
         await widget.userGateway.authenticateUser(form);
+
     if (!response.success) {
       final String message = response.errorMessage ?? 'LOGIN ERROR';
-      Scaffold.of(context).showSnackBar(
-        SnackBar(
-          content: Container(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Text(
-              message,
-              style: const TextStyle(
-                color: Colors.red,
-                fontFamily: 'Sofia sans',
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
-          elevation: 1,
-          duration: const Duration(seconds: 15),
-          padding: EdgeInsets.zero,
-          backgroundColor: Colors.transparent,
-        ),
-      );
+      buildSnackbar(message, context);
     } else {
       await Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (BuildContext context) => App(
+            endpointGateway: EndpointGateway(widget.userGateway),
             userGateway: widget.userGateway,
-            endpointGateway: EndpointGateway(),
           ),
         ),
       );

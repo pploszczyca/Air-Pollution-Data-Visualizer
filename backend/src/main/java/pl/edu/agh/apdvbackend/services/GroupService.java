@@ -7,7 +7,7 @@ import pl.edu.agh.apdvbackend.models.body_models.Response;
 import pl.edu.agh.apdvbackend.models.body_models.group.AboutGroupResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.GroupRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.AdminPanelGroupResponseBody;
-import pl.edu.agh.apdvbackend.models.body_models.group.EndpointGroupRequestBody;
+import pl.edu.agh.apdvbackend.models.body_models.group.GroupEndpointRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.GroupMembersResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.ShortGroupResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.user.ShortUserResponseBody;
@@ -58,10 +58,10 @@ public class GroupService {
     }
 
     public Response<AboutGroupResponseBody> changeEnableEndpoints(
-            List<EndpointGroupRequestBody> endpointGroupRequestBodyList,
+            List<GroupEndpointRequestBody> groupEndpointRequestBodyList,
             Long groupId
     ) {
-        return Response.withOkStatus(changeEnableEndpointsInGroup.execute(endpointGroupRequestBodyList, groupId));
+        return Response.withOkStatus(changeEnableEndpointsInGroup.execute(groupEndpointRequestBodyList, groupId));
     }
 
     public Response<AboutGroupResponseBody> addGroup(

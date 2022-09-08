@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import pl.edu.agh.apdvbackend.mappers.group_endpoint.GroupEndpointMapper;
 import pl.edu.agh.apdvbackend.mappers.group.about_group.AboutGroupMapper;
 import pl.edu.agh.apdvbackend.models.body_models.group.AboutGroupResponseBody;
-import pl.edu.agh.apdvbackend.models.body_models.group.EndpointGroupRequestBody;
+import pl.edu.agh.apdvbackend.models.body_models.group.GroupEndpointRequestBody;
 import pl.edu.agh.apdvbackend.repositories.GroupEndpointRepository;
 
 @Component
@@ -20,11 +20,11 @@ public class ChangeEnableEndpointsInGroupImpl implements ChangeEnableEndpointsIn
 
     @Override
     public AboutGroupResponseBody execute(
-            List<EndpointGroupRequestBody> endpointGroupRequestBodyList,
+            List<GroupEndpointRequestBody> groupEndpointRequestBodyList,
             Long groupId) {
         final var group = getGroup.execute(groupId);
         final var enableEndpointsList = groupEndpointMapper
-                .toGroupEndpointList(endpointGroupRequestBodyList, group);
+                .toGroupEndpointList(groupEndpointRequestBodyList, group);
 
         groupEndpointRepository.deleteAll(group.getGroupEndpoints());
 

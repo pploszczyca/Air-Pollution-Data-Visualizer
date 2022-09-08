@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
 import pl.edu.agh.apdvbackend.models.body_models.group.AboutGroupResponseBody;
+import pl.edu.agh.apdvbackend.models.body_models.group.GroupEndpointRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.GroupRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.AdminPanelGroupResponseBody;
-import pl.edu.agh.apdvbackend.models.body_models.group.EndpointGroupRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.GroupMembersResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.ShortGroupResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.user.ShortUserResponseBody;
@@ -90,10 +90,10 @@ public class GroupController {
     )
     @PutMapping("/endpoints")
     public Response<AboutGroupResponseBody> changeEnableEndpoints(
-            @RequestBody List<EndpointGroupRequestBody> endpointGroupRequestBodyList,
+            @RequestBody List<GroupEndpointRequestBody> groupEndpointRequestBodyList,
             @RequestParam Long groupId
     ) {
-        return groupService.changeEnableEndpoints(endpointGroupRequestBodyList, groupId);
+        return groupService.changeEnableEndpoints(groupEndpointRequestBodyList, groupId);
     }
 
     @Operation(

@@ -24,7 +24,7 @@ public class ChangeEnableEndpointsInGroupImpl implements ChangeEnableEndpointsIn
             Long groupId) {
         final var group = getGroup.execute(groupId);
         final var enableEndpointsList = groupEndpointMapper
-                .addRequestBodyListToEnableEndpointsList(endpointGroupRequestBodyList, group);
+                .toGroupEndpointList(endpointGroupRequestBodyList, group);
 
         groupEndpointRepository.deleteAll(group.getGroupEndpoints());
 

@@ -4,12 +4,12 @@ import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
+import pl.edu.agh.apdvbackend.mappers.field.IdsToFieldsMapper;
+import pl.edu.agh.apdvbackend.mappers.group_endpoint_key.GroupEndpointKeyMapper;
 import pl.edu.agh.apdvbackend.models.body_models.group.EndpointGroupRequestBody;
 import pl.edu.agh.apdvbackend.models.database.Group;
 import pl.edu.agh.apdvbackend.models.database.GroupEndpoint;
-import pl.edu.agh.apdvbackend.models.database.GroupEndpointKey;
 import pl.edu.agh.apdvbackend.use_cases.endpoint.GetEndpoint;
-import pl.edu.agh.apdvbackend.use_cases.field.GetField;
 
 @Mapper(componentModel = "spring")
 public abstract class GroupEndpointMapper {
@@ -18,33 +18,32 @@ public abstract class GroupEndpointMapper {
     protected GetEndpoint getEndpoint;
 
     @Autowired
-    protected GetField getField;
+    protected IdsToFieldsMapper idsToFieldsMapper;
+
+    @Autowired
+    protected GroupEndpointKeyMapper groupEndpointKeyMapper;
+
+    public List<GroupEndpoint> toGroupEndpointList(
+            List<EndpointGroupRequestBody> requestBodies,
+            Group group
+    ) {
+        return requestBodies
+                .stream()
+                .map(endpointGroupRequestBody -> toEndpointGroup(endpointGroupRequestBody, group))
+                .toList();
+    }
 
     @Mapping(
             target = "id",
-            expression = "java(makeGroupEndpointKey(group.getId(), endpointGroupRequestBody.endpointId()))"
+            expression = "java(groupEndpointKeyMapper.map(group.getId(), endpointGroupRequestBody.endpointId()))"
     )
     @Mapping(target = "endpoint", expression = "java(getEndpoint.execute(endpointGroupRequestBody.endpointId()))")
     @Mapping(
             target = "enableFields",
-            expression = "java(endpointGroupRequestBody.fieldIds().stream().map(getField::execute).toList())"
+            expression = "java(idsToFieldsMapper.toFields(endpointGroupRequestBody.fieldIds()))"
     )
-    public abstract GroupEndpoint RequestBodyToEndpointGroup(
+    public abstract GroupEndpoint toEndpointGroup(
             EndpointGroupRequestBody endpointGroupRequestBody,
-            Group group);
-
-    protected GroupEndpointKey makeGroupEndpointKey(
-            Long groupId, Long endpointId) {
-        return new GroupEndpointKey(groupId, endpointId);
-    }
-
-    public List<GroupEndpoint> addRequestBodyListToEnableEndpointsList(
-            List<EndpointGroupRequestBody> requestBodies,
-            Group group) {
-        return requestBodies
-                .stream()
-                .map(endpointGroupRequestBody -> RequestBodyToEndpointGroup(
-                        endpointGroupRequestBody, group))
-                .toList();
-    }
+            Group group
+    );
 }

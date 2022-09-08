@@ -3,7 +3,7 @@ package pl.edu.agh.apdvbackend.use_cases.group;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import pl.edu.agh.apdvbackend.mappers.GroupEndpointMapper;
+import pl.edu.agh.apdvbackend.mappers.group_endpoint.GroupEndpointMapper;
 import pl.edu.agh.apdvbackend.mappers.group.about_group.AboutGroupMapper;
 import pl.edu.agh.apdvbackend.models.body_models.group.AboutGroupResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.EndpointGroupRequestBody;

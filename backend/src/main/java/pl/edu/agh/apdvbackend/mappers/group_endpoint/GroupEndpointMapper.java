@@ -1,4 +1,4 @@
-package pl.edu.agh.apdvbackend.mappers;
+package pl.edu.agh.apdvbackend.mappers.group_endpoint;
 
 import java.util.List;
 import org.mapstruct.Mapper;

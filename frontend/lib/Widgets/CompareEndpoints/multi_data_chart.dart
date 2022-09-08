@@ -27,16 +27,16 @@ class _MultiDataChartState extends State<MultiDataChart> {
 
   @override
   Widget build(BuildContext context) => Column(
-    children: [
-      Container(
-        width: MediaQuery.of(context).size.width * 0.9,
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(
-            Radius.circular(5),
-          ),
-        ),
-        child: Column(
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width * 0.9,
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(
+                Radius.circular(5),
+              ),
+            ),
+            child: Column(
               children: [
                 buildChartHeader(),
                 Container(
@@ -53,10 +53,12 @@ class _MultiDataChartState extends State<MultiDataChart> {
                 ),
               ],
             ),
-      ),
-      const SizedBox(height: 25,),
-    ],
-  );
+          ),
+          const SizedBox(
+            height: 25,
+          ),
+        ],
+      );
 
   Container buildSimpleDivider(BuildContext context) => Container(
         margin: const EdgeInsets.symmetric(vertical: 16),
@@ -133,7 +135,7 @@ class CustomLegendBuilder extends charts.LegendContentBuilder {
                         style: const TextStyle(
                           color: Colors.black,
                           fontSize: 16,
-                          fontFamily: "SofiaSans"
+                          fontFamily: "SofiaSans",
                         ),
                         overflow: TextOverflow.visible,
                       ),

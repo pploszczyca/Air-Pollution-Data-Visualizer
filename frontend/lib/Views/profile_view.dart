@@ -74,7 +74,7 @@ class _ProfileViewState extends State<ProfileView> {
               context,
               MaterialPageRoute(
                   builder: (BuildContext context) =>
-                      LoginView(userGateway: widget.userGateway)),
+                      LoginView(userGateway: widget.userGateway),),
             );
           },
           child: Row(
@@ -137,7 +137,7 @@ class _ProfileViewState extends State<ProfileView> {
         width: MediaQuery.of(context).size.width * 0.9,
         decoration: const BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(5))),
+            borderRadius: BorderRadius.all(Radius.circular(5)),),
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -154,7 +154,7 @@ class _ProfileViewState extends State<ProfileView> {
                   ),
                 ),
               ),
-            ]),
+            ],),
       );
 
   SizedBox buildSpacer(double height, double width) => SizedBox(
@@ -171,7 +171,7 @@ class _ProfileViewState extends State<ProfileView> {
               border: Border.all(
                 color: Colors.pink,
               ),
-              borderRadius: const BorderRadius.all(Radius.circular(90))),
+              borderRadius: const BorderRadius.all(Radius.circular(90)),),
           child: Center(
             child: Text(
               widget.userGateway.user.email[0].toUpperCase(),

@@ -11,7 +11,7 @@ ButtonStyle proceedButtonStyle = ButtonStyle(
     const BorderSide(width: 1, color: Colors.grey),
   ),
   padding: buttonPadding,
-  backgroundColor: MaterialStateProperty.all(floatingButtonColor),
+  backgroundColor: MaterialStateProperty.all(adminGreenColor),
   shape: MaterialStateProperty.all(
     RoundedRectangleBorder(borderRadius: basicBorderRadius),
   ),

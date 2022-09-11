@@ -1,11 +1,11 @@
 import 'package:adpv_frontend/DataModels/endpoint_summary.dart';
 import 'package:adpv_frontend/Repository/EndpointRepository/endpoint_gateway.dart';
 import 'package:adpv_frontend/Repository/UserRepository/user_gateway.dart';
+import 'package:adpv_frontend/Views/AdminPage/main.dart';
 import 'package:adpv_frontend/Widgets/common_widgets.dart';
 import 'package:flutter/material.dart';
 
 import 'Repository/AdminRepository/admin_gateway.dart';
-import 'Views/AdminPage/groups_view.dart';
 import 'Views/compare_endpoints_view.dart';
 import 'Views/enpoint_list_view.dart';
 import 'Views/profile_view.dart';
@@ -77,7 +77,7 @@ class _AppState extends State<App> {
 
     if (widget.userGateway.isAdmin()) {
       destinations.add(_buildRailNavigationItem(admin, adminIcon));
-      _navigationOptions.add(GroupsView());
+      _navigationOptions.add(const AdminMainView());
     }
 
     final Widget navi = Expanded(
@@ -134,7 +134,7 @@ class _AppState extends State<App> {
           const Icon(Icons.admin_panel_settings_outlined),
         ),
       );
-      _navigationOptions.add(GroupsView());
+      _navigationOptions.add(const AdminMainView());
     }
 
     final Widget navbar = BottomNavigationBar(

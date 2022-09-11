@@ -11,7 +11,7 @@ import '../../Repository/UserRepository/user_gateway.dart';
 import '../../Widgets/common_widgets.dart';
 import 'form_modal.dart';
 
-const floatingButtonColor = Color.fromRGBO(36, 109, 114, 0.9);
+const adminGreenColor = Color.fromRGBO(36, 109, 114, 0.9);
 
 class GroupsView extends StatefulWidget {
   GroupsView({Key? key}) : super(key: key);
@@ -52,6 +52,9 @@ class _GroupsViewState extends State<GroupsView> {
   PreferredSize _buildAppBar() => PreferredSize(
         preferredSize: const Size.fromHeight(120),
         child: AppBar(
+          iconTheme: const IconThemeData(
+            color: adminGreenColor,
+          ),
           centerTitle: true,
           toolbarHeight: 120,
           title: Container(
@@ -213,7 +216,7 @@ class _GroupsViewState extends State<GroupsView> {
 
   FloatingActionButton _buildAddButton() => FloatingActionButton(
         onPressed: () => _onCreatePressed(groupListProvider),
-        backgroundColor: floatingButtonColor,
+        backgroundColor: adminGreenColor,
         child: const Icon(Icons.add),
       );
 

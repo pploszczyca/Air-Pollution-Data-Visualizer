@@ -16,10 +16,8 @@ class ProfileNavigator extends StatefulWidget {
 class _ProfileNavigatorState extends State<ProfileNavigator> {
   @override
   Widget build(BuildContext context) => Navigator(
-        onGenerateRoute: (settings) {
-          late Widget page;
-          page = ProfileView(widget.userGateway);
-          return MaterialPageRoute<dynamic>(builder: (context) => page);
-        },
+        onGenerateRoute: (settings) => MaterialPageRoute<dynamic>(
+          builder: (context) => ProfileView(widget.userGateway),
+        ),
       );
 }

@@ -208,7 +208,7 @@ class _EndpointListViewState extends State<EndpointListView> {
           margin: EdgeInsets.only(
             left: MediaQuery.of(context).size.width * 0.03,
             right: MediaQuery.of(context).size.width * 0.03,
-            top: 50.9,
+            top: 25,
           ),
           child: FutureBuilder<List<EndpointSummary>>(
             future: widget.repository.getEndpointSummary(),
@@ -238,16 +238,7 @@ class _EndpointListViewState extends State<EndpointListView> {
         appBar: _buildAppBar(),
         body: Container(
             height: MediaQuery.of(context).size.height,
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                colors: [
-                  Color.fromRGBO(21, 184, 194, 1),
-                  Color.fromRGBO(14, 14, 82, 0.9)
-                ],
-              ),
-            ),
+            decoration: buildBackgroundBoxDecoration(),
             child: _buildBody(),),
       );
 }

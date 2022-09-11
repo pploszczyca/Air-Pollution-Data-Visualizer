@@ -53,16 +53,7 @@ class _CompareChartsViewState extends State<CompareChartsView> {
             appBar: buildFancyAppBar(compareEndpointsViewAppBar),
             body: Container(
               height: MediaQuery.of(context).size.height,
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topRight,
-                  end: Alignment.bottomLeft,
-                  colors: [
-                    Color.fromRGBO(21, 184, 194, 1),
-                    Color.fromRGBO(14, 14, 82, 0.9)
-                  ],
-                ),
-              ),
+              decoration: buildBackgroundBoxDecoration(),
               child: FutureBuilder<List<EndpointSummary>>(
                 future: widget.endpointGateway.getEndpointSummary(),
                 builder: (context, snapshot) {
@@ -149,7 +140,6 @@ class _CompareChartsViewState extends State<CompareChartsView> {
       endpointModel.commonFields.map((endpointName) {
         endpointModel.selectedChips.putIfAbsent(endpointName, () => false);
         return Container(
-          decoration: const BoxDecoration(color: Colors.white),
           margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           child: InputChip(
             label: Text(endpointName),

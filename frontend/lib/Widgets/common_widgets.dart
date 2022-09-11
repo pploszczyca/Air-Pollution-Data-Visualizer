@@ -37,6 +37,18 @@ PreferredSize buildFancyAppBar(String title) => PreferredSize(
         titleSpacing: 20,
       ),
     );
+
+BoxDecoration buildBackgroundBoxDecoration() => const BoxDecoration(
+  gradient: LinearGradient(
+    begin: Alignment.topRight,
+    end: Alignment.bottomLeft,
+    colors: [
+      Color.fromRGBO(21, 184, 194, 1),
+      Color.fromRGBO(14, 14, 82, 0.9)
+    ],
+  ),
+);
+
 const emptyField = 'Select Endpoint';
 const compareEndpointsViewAppBar = 'Compare charts';
 const endpointViewAppBar = 'Endpoint Details';

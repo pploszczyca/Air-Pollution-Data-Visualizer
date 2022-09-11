@@ -23,26 +23,14 @@ class _ProfileViewState extends State<ProfileView> {
           height: MediaQuery.of(context).size.height,
           width: double.infinity,
           alignment: Alignment.topCenter,
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [
-                Color.fromRGBO(21, 184, 194, 1),
-                Color.fromRGBO(14, 14, 82, 0.9)
-              ],
-            ),
-          ),
+          decoration: buildBackgroundBoxDecoration(),
           child: SingleChildScrollView(
             child: Center(
               child: Column(
                 children: [
-                  buildSpacer(25, 0),
-                  buildAvatarContainer(),
-                  buildSpacer(25, 0),
-                  buildRoleContainer(),
-                  buildSpacer(25, 0),
-                  buildLogoutButton(context)
+                  _buildAvatarContainer(),
+                  _buildRoleContainer(),
+                  _buildLogoutButton(context)
                 ],
               ),
             ),
@@ -50,128 +38,41 @@ class _ProfileViewState extends State<ProfileView> {
         ),
       );
 
-  SizedBox buildLogoutButton(BuildContext context) => SizedBox(
-        width: MediaQuery.of(context).size.width * 0.5,
-        child: OutlinedButton(
-          style: ButtonStyle(
-            side: MaterialStateProperty.all(
-              const BorderSide(width: 2, color: Colors.pink),
-            ),
-            padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
-            backgroundColor: MaterialStateProperty.resolveWith<Color>(
-              (Set<MaterialState> states) =>
-                  states.contains(MaterialState.hovered)
-                      ? Colors.pink
-                      : Colors.white,
-            ),
-            shape: MaterialStateProperty.all(
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            ),
-          ),
-          onPressed: () {
-            widget.userGateway.resetMemoryToken();
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                  builder: (BuildContext context) =>
-                      LoginView(userGateway: widget.userGateway),),
-            );
-          },
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Text(
-                "LOG OUT",
-                style: TextStyle(
-                  fontFamily: 'SofiaSans',
-                  fontSize: 26,
-                  color: Colors.pink,
-                ),
-              ),
-              buildSpacer(0, 25),
-              const Icon(
-                Icons.logout,
-                size: 32,
-                color: Colors.pink,
-              ),
-            ],
-          ),
-        ),
-      );
-
-  Container buildRoleContainer() => Container(
-        height: MediaQuery.of(context).size.height *
-            0.09 *
-            widget.userGateway.user.userRoles.length,
+  Container _buildAvatarContainer() => Container(
+        margin: const EdgeInsets.symmetric(vertical: 12.5),
+        height: MediaQuery.of(context).size.height * 0.2,
         width: MediaQuery.of(context).size.width * 0.9,
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(
-            Radius.circular(5),
-          ),
-        ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Text(
-              "Your roles:",
-              style: TextStyle(
-                fontFamily: 'SofiaSans',
-                color: Colors.pink,
-                fontSize: 32,
+            _buildRoundAvatar(),
+            Center(
+              child: Text(
+                widget.userGateway.user.email,
+                style: const TextStyle(
+                  fontStyle: FontStyle.normal,
+                  color: Colors.white,
+                  fontSize: 24,
+                ),
               ),
             ),
-            Center(
-              child: Column(
-                children: listRoles(),
-              ),
-            )
           ],
         ),
       );
 
-  Container buildAvatarContainer() => Container(
-        height: MediaQuery.of(context).size.height * 0.2,
-        width: MediaQuery.of(context).size.width * 0.9,
-        decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(5)),),
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              buildRoundAvatar(),
-              buildSpacer(10, 10),
-              Center(
-                child: Text(
-                  widget.userGateway.user.email,
-                  style: const TextStyle(
-                    fontStyle: FontStyle.normal,
-                    color: Color.fromARGB(255, 100, 100, 100),
-                    fontSize: 24,
-                  ),
-                ),
-              ),
-            ],),
-      );
-
-  SizedBox buildSpacer(double height, double width) => SizedBox(
-        width: width,
-        height: height,
-      );
-
-  SizedBox buildRoundAvatar() => SizedBox(
+  Container _buildRoundAvatar() => Container(
+        margin: const EdgeInsets.symmetric(vertical: 12.5),
         height: 100,
         width: 100,
         child: DecoratedBox(
           decoration: BoxDecoration(
+            color: Colors.pink,
+            border: Border.all(
               color: Colors.pink,
-              border: Border.all(
-                color: Colors.pink,
-              ),
-              borderRadius: const BorderRadius.all(Radius.circular(90)),),
+            ),
+            borderRadius: const BorderRadius.all(Radius.circular(90)),
+          ),
           child: Center(
             child: Text(
               widget.userGateway.user.email[0].toUpperCase(),
@@ -185,16 +86,97 @@ class _ProfileViewState extends State<ProfileView> {
         ),
       );
 
-  List<Widget> listRoles() => widget.userGateway.user.userRoles
-      .map(
-        (e) => Center(
-          child: Text(
-            bullet + " " + e.toString().split('.').last,
-            style: const TextStyle(
-              fontFamily: 'SofiaSans',
-              color: Color.fromARGB(255, 100, 100, 100),
-              fontSize: 24,
+  Container _buildRoleContainer() => Container(
+        margin: const EdgeInsets.symmetric(vertical: 12.5),
+        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+        width: MediaQuery.of(context).size.width * 0.9,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(
+            Radius.circular(5),
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              "Your roles",
+              style: TextStyle(
+                fontFamily: 'SofiaSans',
+                color: Colors.pink,
+                fontSize: 32,
+              ),
             ),
+            const Divider(
+              height: 20,
+              thickness: 2,
+              indent: 0,
+              endIndent: 0,
+              color: Colors.grey,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: _listRoles(),
+            ),
+          ],
+        ),
+      );
+
+  Container _buildLogoutButton(BuildContext context) => Container(
+        margin: const EdgeInsets.symmetric(vertical: 12.5),
+        width: MediaQuery.of(context).size.width * 0.5,
+        child: TextButton.icon(
+          label: const Text(
+            "LOG OUT",
+            style: TextStyle(
+              fontFamily: 'SofiaSans',
+              fontSize: 26,
+            ),
+          ),
+          icon: const Icon(
+            Icons.logout,
+            size: 32,
+          ),
+          style: ButtonStyle(
+            padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
+            backgroundColor: MaterialStateProperty.resolveWith<Color>(
+              (Set<MaterialState> states) =>
+                  states.contains(MaterialState.hovered)
+                      ? Colors.pink
+                      : Colors.white,
+            ),
+            foregroundColor: MaterialStateProperty.resolveWith<Color>(
+              (Set<MaterialState> states) =>
+                  states.contains(MaterialState.hovered)
+                      ? Colors.white
+                      : Colors.pink,
+            ),
+            shape: MaterialStateProperty.all(
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            ),
+          ),
+          onPressed: () {
+            widget.userGateway.resetMemoryToken();
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    LoginView(userGateway: widget.userGateway),
+              ),
+            );
+          },
+        ),
+      );
+
+  List<Widget> _listRoles() => widget.userGateway.user.userRoles
+      .map(
+        (role) => Text(
+          bullet + " " + role.toString().trim().split('.').last,
+          style: const TextStyle(
+            fontFamily: 'SofiaSans',
+            color: Color.fromARGB(255, 100, 100, 100),
+            fontSize: 24,
           ),
         ),
       )

@@ -10,7 +10,7 @@ import pl.edu.agh.apdvbackend.deserializer.EndpointDeserializer;
 import pl.edu.agh.apdvbackend.models.database.Endpoint;
 import pl.edu.agh.apdvbackend.models.database.Field;
 import pl.edu.agh.apdvbackend.use_cases.datahub.GetJsonNodeFromDataHub;
-import pl.edu.agh.apdvbackend.use_cases.group_endpoint.GetEndpointDataForUser;
+import pl.edu.agh.apdvbackend.use_cases.field.GetAllEnableFieldsForEndpointAndUser;
 import pl.edu.agh.apdvbackend.utilities.StreamUtilities;
 
 @Component
@@ -21,7 +21,7 @@ public class GetUserEndpointDataImpl implements GetUserEndpointData {
     private final EndpointDeserializer endpointDeserializer;
     private final GetJsonNodeFromDataHub getJsonNodeFromDataHub;
     private final GetEndpoint getEndpoint;
-    private final GetEndpointDataForUser getEndpointDataForUser;
+    private final GetAllEnableFieldsForEndpointAndUser getAllEnableFieldsForEndpointAndUser;
 
     @Override
     public List<ObjectNode> execute(
@@ -30,9 +30,8 @@ public class GetUserEndpointDataImpl implements GetUserEndpointData {
             Long limit,
             Long offset
     ) {
-        final var fields = getEndpointDataForUser
-                .execute(userId, endpointId)
-                .enableFields();
+        final var fields = getAllEnableFieldsForEndpointAndUser
+                .execute(userId, endpointId);
         final var endpoint = getEndpoint
                 .execute(endpointId);
         final var rawEndpointData = getJsonNodeFromDataHub

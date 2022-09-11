@@ -22,7 +22,7 @@ class _EndpointNavigatorState extends State<EndpointNavigator> {
           late Widget page;
           if (settings.name == endpointListRoute) {
             page = EndpointListView(
-              repository: widget.endpointGateway,
+              gateway: widget.endpointGateway,
             );
           } else if (settings.name!.startsWith(endpointViewRoute)) {
             final endpointId = settings.name!.split("/")[2];

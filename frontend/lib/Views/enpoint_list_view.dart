@@ -20,10 +20,9 @@ const int limit = 1;
 const int offset = 0;
 
 class EndpointListView extends StatefulWidget {
-  const EndpointListView({required this.repository, Key? key})
-      : super(key: key);
+  const EndpointListView({required this.gateway, Key? key}) : super(key: key);
 
-  final EndpointGateway repository;
+  final EndpointGateway gateway;
 
   @override
   State<EndpointListView> createState() => _EndpointListViewState();
@@ -81,7 +80,7 @@ class _EndpointListViewState extends State<EndpointListView> {
             alignment: Alignment.centerLeft,
           ),
           onPressed: () {
-            onTapHandler(expansionPanelEndpoint.id, widget.repository);
+            onTapHandler(expansionPanelEndpoint.id, widget.gateway);
           },
           onHover: (hc) {
             setState(() {
@@ -110,10 +109,10 @@ class _EndpointListViewState extends State<EndpointListView> {
           childrenPadding: const EdgeInsets.all(0),
           children: <Widget>[
             FutureBuilder<EndpointData>(
-              future: widget.repository.getEndpointData(
+              future: widget.gateway.getEndpointData(
                 expansionPanelEndpoint.id,
-                null,
-                null,
+                1,
+                0,
                 false,
               ),
               builder: (context, recentDataSnapshot) {
@@ -199,7 +198,7 @@ class _EndpointListViewState extends State<EndpointListView> {
 
   Future<void> _refresh(EndpointListProvider endpointListProvider) async {
     endpointListProvider
-        .makeEndpointsList(await widget.repository.getEndpointSummary());
+        .makeEndpointsList(await widget.gateway.getEndpointSummary());
   }
 
   SingleChildScrollView _buildBody() => SingleChildScrollView(
@@ -211,7 +210,7 @@ class _EndpointListViewState extends State<EndpointListView> {
             top: 25,
           ),
           child: FutureBuilder<List<EndpointSummary>>(
-            future: widget.repository.getEndpointSummary(),
+            future: widget.gateway.getEndpointSummary(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.none ||
                   snapshot.data == null) {
@@ -219,7 +218,7 @@ class _EndpointListViewState extends State<EndpointListView> {
               }
               return ChangeNotifierProvider(
                 create: (context) =>
-                    EndpointListProvider(snapshot.data!, widget.repository),
+                    EndpointListProvider(snapshot.data!, widget.gateway),
                 child: Consumer<EndpointListProvider>(
                   builder: (context, endpointListProvider, _) => _buildList(
                     endpointListProvider,
@@ -237,8 +236,9 @@ class _EndpointListViewState extends State<EndpointListView> {
         backgroundColor: const Color.fromARGB(255, 127, 166, 168),
         appBar: _buildAppBar(),
         body: Container(
-            height: MediaQuery.of(context).size.height,
-            decoration: buildBackgroundBoxDecoration(),
-            child: _buildBody(),),
+          height: MediaQuery.of(context).size.height,
+          decoration: buildBackgroundBoxDecoration(),
+          child: _buildBody(),
+        ),
       );
 }

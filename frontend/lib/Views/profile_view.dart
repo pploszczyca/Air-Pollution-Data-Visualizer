@@ -40,7 +40,6 @@ class _ProfileViewState extends State<ProfileView> {
 
   Container _buildAvatarContainer() => Container(
         margin: const EdgeInsets.symmetric(vertical: 12.5),
-        height: MediaQuery.of(context).size.height * 0.2,
         width: MediaQuery.of(context).size.width * 0.9,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

@@ -1,14 +1,15 @@
 import 'dart:async';
 
-import 'package:adpv_frontend/Views/AdminPage/confirmation_dialog_modal.dart';
+import 'package:adpv_frontend/Views/AdminPage/groups/confirmation_dialog_modal.dart';
+import 'package:adpv_frontend/Views/AdminPage/members/members_view.dart';
 import 'package:adpv_frontend/Views/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../DataModels/group_summary.dart';
-import '../../Models/group_list_provider.dart';
-import '../../Repository/AdminRepository/admin_gateway.dart';
-import '../../Repository/UserRepository/user_gateway.dart';
-import '../../Widgets/common_widgets.dart';
+import '../../../DataModels/group_summary.dart';
+import '../../../Models/group_list_provider.dart';
+import '../../../Repository/AdminRepository/admin_gateway.dart';
+import '../../../Repository/UserRepository/user_gateway.dart';
+import '../../../Widgets/common_widgets.dart';
 import 'form_modal.dart';
 
 const adminGreenColor = Color.fromRGBO(36, 109, 114, 0.9);
@@ -42,42 +43,9 @@ class _GroupsViewState extends State<GroupsView> {
         child: RefreshIndicator(
           onRefresh: () => widget.gateway.getGroupsSummary().onError(onError),
           child: Scaffold(
-            appBar: _buildAppBar(),
+            appBar: buildAppBar('User groups'),
             body: _buildBody(),
             floatingActionButton: _buildAddButton(),
-          ),
-        ),
-      );
-
-  PreferredSize _buildAppBar() => PreferredSize(
-        preferredSize: const Size.fromHeight(120),
-        child: AppBar(
-          iconTheme: const IconThemeData(
-            color: adminGreenColor,
-          ),
-          centerTitle: true,
-          toolbarHeight: 120,
-          title: Container(
-            padding: const EdgeInsets.only(top: 20, bottom: 10),
-            child: const Text("Administrator panel"),
-          ),
-          backgroundColor: Colors.white,
-          titleTextStyle: const TextStyle(
-            color: Colors.black,
-            fontFamily: 'Ubuntu Condensed',
-            fontSize: 40,
-            fontWeight: FontWeight.w500,
-          ),
-          titleSpacing: 20,
-          bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(20),
-            child: Container(
-              padding: const EdgeInsets.only(bottom: 10, top: 5),
-              child: const Text(
-                "User groups",
-                style: TextStyle(fontSize: 25),
-              ),
-            ),
           ),
         ),
       );
@@ -151,6 +119,7 @@ class _GroupsViewState extends State<GroupsView> {
     String text,
     GroupCard groupCard,
     Color color,
+      Function(GroupCard groupCard) onPressedFunction
   ) =>
       Container(
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
@@ -265,5 +234,15 @@ class _GroupsViewState extends State<GroupsView> {
         context,
       );
     });
+  }
+
+  void _navigateToMembers(GroupCard groupCard) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            MembersView(groupId: groupCard.id, groupName: groupCard.name,),
+      ),
+    );
   }
 }

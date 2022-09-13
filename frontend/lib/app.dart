@@ -41,12 +41,12 @@ class _AppState extends State<App> {
   int _selectedIndex = 0;
   late final List<Widget> _navigationOptions = <Widget>[
     EndpointListView(
-      repository: widget.endpointGateway,
+      gateway: widget.endpointGateway,
     ),
     CompareChartsView(
       endpointGateway: widget.endpointGateway,
     ),
-    const ProfileView(),
+    ProfileView(widget.userGateway),
   ];
 
   @override

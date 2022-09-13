@@ -22,7 +22,7 @@ class _CompareEndpointsNavigatorState extends State<CompareEndpointsNavigator> {
           late Widget page;
           if (settings.name == compareEndpointsRoute) {
             page = EndpointListView(
-              repository: widget.endpointGateway,
+              gateway: widget.endpointGateway,
             );
           }
           return MaterialPageRoute<dynamic>(builder: (context) => page);

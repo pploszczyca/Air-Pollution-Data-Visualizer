@@ -1,18 +1,13 @@
 import 'package:adpv_frontend/Views/AdminPage/groups_view.dart';
 import 'package:flutter/material.dart';
 
-class AdminMainView extends StatefulWidget {
+class AdminMainView extends StatelessWidget {
   const AdminMainView({Key? key}) : super(key: key);
 
   @override
-  State<AdminMainView> createState() => _AdminMainViewState();
-}
-
-class _AdminMainViewState extends State<AdminMainView> {
-  @override
   Widget build(BuildContext context) => Scaffold(
         appBar: _buildAppBar(),
-        body: _buildBody(),
+        body: _buildBody(context),
       );
 
   PreferredSize _buildAppBar() => PreferredSize(
@@ -35,17 +30,19 @@ class _AdminMainViewState extends State<AdminMainView> {
         ),
       );
 
-  Column _buildBody() => Column(
+  Column _buildBody(BuildContext context) => Column(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           _buildButtonContainer(
+            context,
             'Groups',
             Icons.group,
             _onGroupsPressed,
           ),
           _buildButtonContainer(
+            context,
             'Endpoints',
             Icons.map_outlined,
             _onEndpointsPressed,
@@ -54,6 +51,7 @@ class _AdminMainViewState extends State<AdminMainView> {
       );
 
   Card _buildButtonContainer(
+  BuildContext context,
     String text,
     IconData icon,
     Function(BuildContext context) onPressedFunction,
@@ -113,11 +111,6 @@ class _AdminMainViewState extends State<AdminMainView> {
   }
 
   void _onEndpointsPressed(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => GroupsView(), //tu bd endpoints view jbc
-      ),
-    );
+    //todo przeniesienie do widoku endpointow
   }
 }

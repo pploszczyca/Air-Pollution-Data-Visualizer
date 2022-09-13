@@ -12,7 +12,7 @@ const refreshKey = 'refresh';
 class UserGateway {
   AuthGetaway authGetaway = AuthGetaway();
   FlutterSecureStorage secureStorage = const FlutterSecureStorage();
-  late User user;
+  User user = User.empty();
 
   bool isAdmin() => user.userRoles.contains(UserRole.admin);
 

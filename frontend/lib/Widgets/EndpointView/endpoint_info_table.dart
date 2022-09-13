@@ -18,7 +18,13 @@ class EndpointInfoTable extends StatelessWidget {
 
     return Container(
       margin: const EdgeInsets.only(top: 8),
-      padding: const EdgeInsets.all(4),
+      padding: const EdgeInsets.all(10),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(
+          Radius.circular(5),
+        ),
+      ),
       width: MediaQuery.of(context).size.width * 0.9,
       child: buildInfo(newest),
     );
@@ -41,7 +47,7 @@ class EndpointInfoTable extends StatelessWidget {
                               fontWeight: FontWeight.normal,
                               fontStyle: FontStyle.italic,
                               color: Colors.grey,
-                              fontSize: 12,
+                              fontSize: 14,
                             ),
                           ),
                           Container(
@@ -51,7 +57,7 @@ class EndpointInfoTable extends StatelessWidget {
                               style: const TextStyle(
                                 fontStyle: FontStyle.normal,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 16,
+                                fontSize: 18,
                               ),
                             ),
                           ),

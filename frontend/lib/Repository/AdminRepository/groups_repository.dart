@@ -1,4 +1,3 @@
-import 'package:adpv_frontend/DataModels/group_data.dart';
 import 'package:dio/dio.dart';
 
 import '../../Common/urls.dart';
@@ -51,40 +50,43 @@ class GroupsRepository {
     if (authResponse.success) {
       final String token = authResponse.tokens!.accessToken;
       _client.options.headers["Authorization"] = "Bearer $token";
-    }
-    try {
-      final response = await _client
-          .delete(backendURL + groupURL, queryParameters: {'groupId': id});
-      if (response.statusCode == 200) {
-        return Future.value(true);
+
+      try {
+        final response = await _client
+            .delete(backendURL + groupURL, queryParameters: {'groupId': id});
+        if (response.statusCode == 200) {
+          return Future.value(true);
+        }
+      } on DioError catch (error) {
+        return Future.error(error);
       }
-    } on DioError catch (error) {
-      return Future.error(error);
     }
     return Future.value(false);
   }
 
-  Future<GroupData> createGroup(String name) async {
+  Future<GroupSummary> createGroup(String name) async {
     final AuthResponse authResponse = await userGateway.getFromMemory();
 
     if (authResponse.success) {
       final String token = authResponse.tokens!.accessToken;
       _client.options.headers["Authorization"] = "Bearer $token";
-    }
-    try {
-      final response =
-          await _client.post(backendURL + groupURL, data: {'name': name});
-      if (response.statusCode == 200) {
-        final BackendResponse backendResponse =
-            BackendResponse.fromJson(response.data);
-        if (backendResponse.error == "") {
-          final GroupData groupData = GroupData.fromJson(backendResponse.data);
-          return Future.value(groupData);
+
+      try {
+        final response =
+            await _client.post(backendURL + groupURL, data: {'name': name});
+        if (response.statusCode == 200) {
+          final BackendResponse backendResponse =
+              BackendResponse.fromJson(response.data);
+          if (backendResponse.error == "") {
+            final GroupSummary groupData =
+                GroupSummary.fromJson(backendResponse.data);
+            return Future.value(groupData);
+          }
         }
+      } on DioError catch (error) {
+        return Future.error(error);
       }
-    } on DioError catch (error) {
-      return Future.error(error);
     }
-    return Future.value(GroupData(-1, ''));
+    return Future.value(GroupSummary(-1, ''));
   }
 }

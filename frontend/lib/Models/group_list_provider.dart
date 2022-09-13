@@ -1,8 +1,6 @@
 import 'package:adpv_frontend/DataModels/group_summary.dart';
 import 'package:flutter/material.dart';
 
-import '../Repository/AdminRepository/admin_gateway.dart';
-
 class GroupCard {
   String name;
   int id;
@@ -23,13 +21,8 @@ class GroupCard {
 
 class GroupListProvider with ChangeNotifier {
   List<GroupCard> groupsList = [];
-  AdminGateway adminGateway;
 
-  GroupListProvider(this.adminGateway);
-
-  void addGroup(GroupSummary group) {
-    groupsList.add(GroupCard(name: group.name, id: group.id));
-  }
+  GroupListProvider();
 
   void makeGroupList(List<GroupSummary> groupSummary) {
     groupsList = groupSummary
@@ -39,17 +32,12 @@ class GroupListProvider with ChangeNotifier {
   }
 
   void addNewGroup(GroupSummary group) {
-    addGroup(group);
+    groupsList.add(GroupCard(name: group.name, id: group.id));
     notifyListeners();
   }
 
   void delete(int id) {
     groupsList.removeWhere((element) => element.id == id);
     notifyListeners();
-  }
-
-  void clear() {
-    groupsList = [];
-    adminGateway.getGroupsSummary().then(makeGroupList);
   }
 }

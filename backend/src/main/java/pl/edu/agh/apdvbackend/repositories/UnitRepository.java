@@ -8,4 +8,6 @@ import pl.edu.agh.apdvbackend.models.database.Unit;
 @Repository
 public interface UnitRepository extends CrudRepository<Unit, Long> {
     Optional<Unit> findByName(String name);
+
+    boolean existsByName(String name);
 }

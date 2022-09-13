@@ -1,5 +1,6 @@
 package pl.edu.agh.apdvbackend.fakes;
 
+import lombok.Builder;
 import pl.edu.agh.apdvbackend.models.database.FieldParser;
 
 public class FieldParserFakes {
@@ -12,5 +13,21 @@ public class FieldParserFakes {
         fieldParser.setPath("dummy field parser path");
 
         return fieldParser;
+    }
+
+    @Builder
+    private static FieldParser buildNewFieldParser(
+            Long id,
+            String path
+    ) {
+        final var fieldParser = new FieldParser();
+        fieldParser.setId(id);
+        fieldParser.setPath(getOrElse(path, "dummy field parser path"));
+
+        return fieldParser;
+    }
+
+    private static <T> T getOrElse(T value, T defaultValue) {
+        return value == null ? defaultValue : value;
     }
 }

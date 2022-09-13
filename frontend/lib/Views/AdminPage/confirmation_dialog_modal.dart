@@ -5,7 +5,7 @@ void showAlertDialog(
   BuildContext context,
   String warningTitle,
   String warningContent,
-  onAcceptFunction,
+  Function() onAcceptFunction,
 ) {
   void _onProceedPressed() {
     onAcceptFunction();
@@ -21,7 +21,7 @@ void showAlertDialog(
   final AlertDialog alert = AlertDialog(
     title: Text(warningTitle),
     content: Text(warningContent),
-    actions: [continueButton, cancelButton(context)],
+    actions: [cancelButton(context), continueButton],
   );
 
   showDialog(

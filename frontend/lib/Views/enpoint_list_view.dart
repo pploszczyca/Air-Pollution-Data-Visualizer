@@ -20,10 +20,9 @@ const int limit = 1;
 const int offset = 0;
 
 class EndpointListView extends StatefulWidget {
-  const EndpointListView({required this.repository, Key? key})
-      : super(key: key);
+  const EndpointListView({required this.gateway, Key? key}) : super(key: key);
 
-  final EndpointGateway repository;
+  final EndpointGateway gateway;
 
   @override
   State<EndpointListView> createState() => _EndpointListViewState();
@@ -81,7 +80,7 @@ class _EndpointListViewState extends State<EndpointListView> {
             alignment: Alignment.centerLeft,
           ),
           onPressed: () {
-            onTapHandler(expansionPanelEndpoint.id, widget.repository);
+            onTapHandler(expansionPanelEndpoint.id, widget.gateway);
           },
           onHover: (hc) {
             setState(() {
@@ -109,76 +108,71 @@ class _EndpointListViewState extends State<EndpointListView> {
           tilePadding: const EdgeInsets.all(20),
           childrenPadding: const EdgeInsets.all(0),
           children: <Widget>[
-            Container(
-              decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 127, 166, 168),
+            FutureBuilder<EndpointData>(
+              future: widget.gateway.getEndpointData(
+                expansionPanelEndpoint.id,
+                1,
+                0,
+                false,
               ),
-              child: FutureBuilder<EndpointData>(
-                future: widget.repository.getEndpointData(
-                  expansionPanelEndpoint.id,
-                  null,
-                  null,
-                  false,
-                ),
-                builder: (context, recentDataSnapshot) {
-                  if (recentDataSnapshot.connectionState ==
-                          ConnectionState.none ||
-                      recentDataSnapshot.data == null) {
-                    return loadingInCenter();
-                  } else {
-                    // line below temporary fixes always loading everything problem
-                    expansionPanelEndpoint.setRecentData(
-                      EndpointData(
-                        recentDataSnapshot.data!.dataList,
-                        recentDataSnapshot.data!.technicalInfo,
-                        recentDataSnapshot.data!.enableFieldsList,
+              builder: (context, recentDataSnapshot) {
+                if (recentDataSnapshot.connectionState ==
+                        ConnectionState.none ||
+                    recentDataSnapshot.data == null) {
+                  return loadingInCenter();
+                } else {
+                  // line below temporary fixes always loading everything problem
+                  expansionPanelEndpoint.setRecentData(
+                    EndpointData(
+                      recentDataSnapshot.data!.dataList,
+                      recentDataSnapshot.data!.technicalInfo,
+                      recentDataSnapshot.data!.enableFieldsList,
+                    ),
+                  );
+                  return ListView.builder(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    padding: const EdgeInsets.only(top: 10),
+                    shrinkWrap: true,
+                    itemCount: expansionPanelEndpoint.fields.length,
+                    itemBuilder: (context, i) => Container(
+                      decoration: BoxDecoration(
+                        borderRadius: basicBorderRadius,
+                        color: Colors.white,
                       ),
-                    );
-                    return ListView.builder(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      padding: const EdgeInsets.only(top: 10),
-                      shrinkWrap: true,
-                      itemCount: expansionPanelEndpoint.fields.length,
-                      itemBuilder: (context, i) => Container(
-                        decoration: BoxDecoration(
-                          borderRadius: basicBorderRadius,
-                          color: Colors.white,
-                        ),
-                        height: 70,
-                        margin: const EdgeInsets.only(
-                          left: 0,
-                          top: 10,
-                          right: 0,
-                          bottom: 10,
-                        ),
-                        padding: const EdgeInsets.all(17),
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Text(
-                                expansionPanelEndpoint.fields[i],
-                                textAlign: TextAlign.left,
-                                style: endpointDataTextStyle,
-                              ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                expansionPanelEndpoint.recentData[
-                                            expansionPanelEndpoint.fields[i]]
-                                        .toStringAsFixed(2) +
-                                    spacer +
-                                    expansionPanelEndpoint.units[i].name,
-                                textAlign: TextAlign.right,
-                                style: endpointDataTextStyle,
-                              ),
-                            ),
-                          ],
-                        ),
+                      height: 70,
+                      margin: const EdgeInsets.only(
+                        left: 0,
+                        top: 10,
+                        right: 0,
+                        bottom: 10,
                       ),
-                    );
-                  }
-                },
-              ),
+                      padding: const EdgeInsets.all(17),
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: Text(
+                              expansionPanelEndpoint.fields[i],
+                              textAlign: TextAlign.left,
+                              style: endpointDataTextStyle,
+                            ),
+                          ),
+                          Expanded(
+                            child: Text(
+                              expansionPanelEndpoint.recentData[
+                                          expansionPanelEndpoint.fields[i]]
+                                      .toStringAsFixed(2) +
+                                  spacer +
+                                  expansionPanelEndpoint.units[i].name,
+                              textAlign: TextAlign.right,
+                              style: endpointDataTextStyle,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }
+              },
             )
           ],
         ),
@@ -204,7 +198,7 @@ class _EndpointListViewState extends State<EndpointListView> {
 
   Future<void> _refresh(EndpointListProvider endpointListProvider) async {
     endpointListProvider
-        .makeEndpointsList(await widget.repository.getEndpointSummary());
+        .makeEndpointsList(await widget.gateway.getEndpointSummary());
   }
 
   SingleChildScrollView _buildBody() => SingleChildScrollView(
@@ -213,10 +207,10 @@ class _EndpointListViewState extends State<EndpointListView> {
           margin: EdgeInsets.only(
             left: MediaQuery.of(context).size.width * 0.03,
             right: MediaQuery.of(context).size.width * 0.03,
-            top: 50.9,
+            top: 25,
           ),
           child: FutureBuilder<List<EndpointSummary>>(
-            future: widget.repository.getEndpointSummary(),
+            future: widget.gateway.getEndpointSummary(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.none ||
                   snapshot.data == null) {
@@ -224,7 +218,7 @@ class _EndpointListViewState extends State<EndpointListView> {
               }
               return ChangeNotifierProvider(
                 create: (context) =>
-                    EndpointListProvider(snapshot.data!, widget.repository),
+                    EndpointListProvider(snapshot.data!, widget.gateway),
                 child: Consumer<EndpointListProvider>(
                   builder: (context, endpointListProvider, _) => _buildList(
                     endpointListProvider,
@@ -241,6 +235,10 @@ class _EndpointListViewState extends State<EndpointListView> {
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: const Color.fromARGB(255, 127, 166, 168),
         appBar: _buildAppBar(),
-        body: _buildBody(),
+        body: Container(
+          height: MediaQuery.of(context).size.height,
+          decoration: buildBackgroundBoxDecoration(),
+          child: _buildBody(),
+        ),
       );
 }

@@ -1,5 +1,4 @@
 
-import '../../DataModels/group_data.dart';
 import '../../DataModels/group_summary.dart';
 import 'groups_repository.dart';
 
@@ -14,13 +13,7 @@ class AdminGateway {
     return summary;
   }
 
-  Future<bool> deleteGroup(int id) {
-    final Future<bool> response = restRepository.deleteGroup(id);
-    return response;
-  }
+  Future<bool> deleteGroup(int id) => restRepository.deleteGroup(id);
 
-  Future<GroupData> createGroup(String name) {
-    final Future<GroupData> response = restRepository.createGroup(name);
-    return response;
-  }
+  Future<GroupSummary> createGroup(String name) => restRepository.createGroup(name);
 }

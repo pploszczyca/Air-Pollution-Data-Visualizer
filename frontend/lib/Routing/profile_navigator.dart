@@ -1,11 +1,12 @@
-import 'package:adpv_frontend/Repository/EndpointRepository/endpoint_gateway.dart';
 import 'package:adpv_frontend/Views/profile_view.dart';
 import 'package:flutter/material.dart';
 
-class ProfileNavigator extends StatefulWidget {
-  final EndpointGateway endpointGateway;
+import '../Repository/UserRepository/user_gateway.dart';
 
-  const ProfileNavigator({required this.endpointGateway, Key? key})
+class ProfileNavigator extends StatefulWidget {
+  final UserGateway userGateway;
+
+  const ProfileNavigator({required this.userGateway, Key? key})
       : super(key: key);
 
   @override
@@ -15,10 +16,8 @@ class ProfileNavigator extends StatefulWidget {
 class _ProfileNavigatorState extends State<ProfileNavigator> {
   @override
   Widget build(BuildContext context) => Navigator(
-        onGenerateRoute: (settings) {
-          late Widget page;
-          page = const ProfileView();
-          return MaterialPageRoute<dynamic>(builder: (context) => page);
-        },
+        onGenerateRoute: (settings) => MaterialPageRoute<dynamic>(
+          builder: (context) => ProfileView(widget.userGateway),
+        ),
       );
 }

@@ -22,11 +22,11 @@ public abstract class UserMapper {
     @Autowired
     protected PasswordEncoder passwordEncoder;
 
-    @Mapping(target = "password", expression = "java(passwordEncoder.encode(addUserRequestBody.password()))")
+    @Mapping(target = "password", expression = "java(passwordEncoder.encode(userRequestBody.password()))")
     public abstract User addRequestBodyToUser(
             UserRequestBody userRequestBody);
 
-    @Mapping(target = "password", expression = "java(passwordEncoder.encode(addUserRequestBody.password()))")
+    @Mapping(target = "password", expression = "java(passwordEncoder.encode(userRequestBody.password()))")
     public abstract void updateUserFromAddRequestBody(
             UserRequestBody userRequestBody, @MappingTarget User user);
 
@@ -43,7 +43,4 @@ public abstract class UserMapper {
 
     public abstract List<ShortUserResponseBody> toShortResponseBodyList(
             List<User> users);
-
-    public abstract LogInRequestBody addUserToLogIn(
-            UserRequestBody userRequestBody);
 }

@@ -12,7 +12,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import pl.edu.agh.apdvbackend.fakes.UserFakes;
 import pl.edu.agh.apdvbackend.models.database.Role;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
@@ -39,6 +39,6 @@ class SimpleGrantedAuthorityMapperTest {
         final var result = mapper.map(user);
 
         // Then
-        assertEquals(expected, result);
+        expected.forEach(authority -> assertTrue(result.contains(authority)));
     }
 }

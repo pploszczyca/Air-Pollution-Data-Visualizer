@@ -48,18 +48,4 @@ public abstract class UserMapper {
 
     public abstract LogInRequestBody addUserToLogIn(
             AddUserRequestBody addUserRequestBody);
-
-    public org.springframework.security.core.userdetails.User userToUserDetails(
-            User user) {
-        return new org.springframework.security.core.userdetails.User(
-                user.getEmail(), user.getPassword(), getUserAuthorities(user));
-    }
-
-    private Collection<SimpleGrantedAuthority> getUserAuthorities(User user) {
-        return user
-                .getRoles()
-                .stream()
-                .map(role -> new SimpleGrantedAuthority(role.name()))
-                .toList();
-    }
 }

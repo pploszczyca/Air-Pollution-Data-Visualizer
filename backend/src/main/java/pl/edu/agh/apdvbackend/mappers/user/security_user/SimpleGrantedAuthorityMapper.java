@@ -6,7 +6,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import pl.edu.agh.apdvbackend.models.database.User;
 
 @Mapper(componentModel = "spring")
-public abstract class UserSimpleGrantedAuthorityMapper {
+public abstract class SimpleGrantedAuthorityMapper {
     public Collection<SimpleGrantedAuthority> map(User user) {
         return user
                 .getRoles()

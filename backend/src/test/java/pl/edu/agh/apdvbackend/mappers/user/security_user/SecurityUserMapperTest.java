@@ -3,7 +3,6 @@ package pl.edu.agh.apdvbackend.mappers.user.security_user;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;

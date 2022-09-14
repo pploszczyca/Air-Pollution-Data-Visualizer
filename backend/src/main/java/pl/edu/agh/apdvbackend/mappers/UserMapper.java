@@ -1,12 +1,10 @@
 package pl.edu.agh.apdvbackend.mappers;
 
-import java.util.Collection;
 import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import pl.edu.agh.apdvbackend.mappers.group.short_group.ShortGroupMapper;
 import pl.edu.agh.apdvbackend.models.body_models.auth.LogInRequestBody;

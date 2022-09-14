@@ -63,6 +63,4 @@ public abstract class UserMapper {
                 .map(role -> new SimpleGrantedAuthority(role.name()))
                 .toList();
     }
-
-    public abstract UserWithRoles toUserWithRoles(User user);
 }

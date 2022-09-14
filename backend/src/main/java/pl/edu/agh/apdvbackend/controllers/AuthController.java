@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
 import pl.edu.agh.apdvbackend.models.body_models.auth.JWTResponse;
 import pl.edu.agh.apdvbackend.models.body_models.auth.LogInRequestBody;
-import pl.edu.agh.apdvbackend.models.body_models.user.AddUserRequestBody;
+import pl.edu.agh.apdvbackend.models.body_models.user.UserRequestBody;
 import pl.edu.agh.apdvbackend.services.AuthService;
 
 import static pl.edu.agh.apdvbackend.configs.SwaggerConfig.JWT_AUTH;
@@ -33,8 +33,8 @@ public class AuthController {
 
     @Operation(summary = "Register new user")
     @PostMapping("/register")
-    public Response<JWTResponse> registerUser(@RequestBody AddUserRequestBody addUserRequestBody) {
-        return authService.registerUser(addUserRequestBody);
+    public Response<JWTResponse> registerUser(@RequestBody UserRequestBody userRequestBody) {
+        return authService.registerUser(userRequestBody);
     }
 
     @Operation(

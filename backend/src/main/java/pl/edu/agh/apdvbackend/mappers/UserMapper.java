@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import pl.edu.agh.apdvbackend.mappers.group.short_group.ShortGroupMapper;
 import pl.edu.agh.apdvbackend.models.body_models.auth.LogInRequestBody;
-import pl.edu.agh.apdvbackend.models.body_models.user.AddUserRequestBody;
+import pl.edu.agh.apdvbackend.models.body_models.user.UserRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.user.ShortUserResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.user.UserResponseBody;
 import pl.edu.agh.apdvbackend.models.database.User;
@@ -24,11 +24,11 @@ public abstract class UserMapper {
 
     @Mapping(target = "password", expression = "java(passwordEncoder.encode(addUserRequestBody.password()))")
     public abstract User addRequestBodyToUser(
-            AddUserRequestBody addUserRequestBody);
+            UserRequestBody userRequestBody);
 
     @Mapping(target = "password", expression = "java(passwordEncoder.encode(addUserRequestBody.password()))")
     public abstract void updateUserFromAddRequestBody(
-            AddUserRequestBody addUserRequestBody, @MappingTarget User user);
+            UserRequestBody userRequestBody, @MappingTarget User user);
 
     @Mapping(
             target = "groups",
@@ -45,5 +45,5 @@ public abstract class UserMapper {
             List<User> users);
 
     public abstract LogInRequestBody addUserToLogIn(
-            AddUserRequestBody addUserRequestBody);
+            UserRequestBody userRequestBody);
 }

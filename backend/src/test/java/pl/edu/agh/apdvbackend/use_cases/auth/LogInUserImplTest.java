@@ -8,7 +8,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.authentication.BadCredentialsException;
 import pl.edu.agh.apdvbackend.models.body_models.auth.LogInRequestBody;
-import pl.edu.agh.apdvbackend.models.body_models.user.AddUserRequestBody;
+import pl.edu.agh.apdvbackend.models.body_models.user.UserRequestBody;
 import pl.edu.agh.apdvbackend.repositories.UserRepository;
 import pl.edu.agh.apdvbackend.use_cases.user.AddUser;
 
@@ -54,7 +54,7 @@ class LogInUserImplTest {
         final var password = "1234";
         final var logInRequestBody = new LogInRequestBody(email, password);
         final var addUserRequestBody =
-                new AddUserRequestBody(email, password);
+                new UserRequestBody(email, password);
         addUser.execute(addUserRequestBody);
 
         final var result = logInUser.execute(logInRequestBody);

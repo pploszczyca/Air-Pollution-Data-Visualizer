@@ -8,13 +8,13 @@ import pl.edu.agh.apdvbackend.models.database.User;
 public abstract class SecurityUserMapper {
 
     @Autowired
-    private SimpleGrantedAuthorityMapper simpleGrantedAuthorityMapper;
+    private SimpleGrantedAuthorityMapper mapper;
 
-    public org.springframework.security.core.userdetails.User map(User user) {
+    public org.springframework.security.core.userdetails.User toSecurityUser(User user) {
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(),
                 user.getPassword(),
-                simpleGrantedAuthorityMapper.map(user)
+                mapper.toSimpleGrantedAuthorityCollection(user)
         );
     }
 }

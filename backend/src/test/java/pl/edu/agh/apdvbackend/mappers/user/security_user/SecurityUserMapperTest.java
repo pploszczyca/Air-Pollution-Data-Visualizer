@@ -41,10 +41,10 @@ class SecurityUserMapperTest {
                 .build();
         final var expected = new User(email, password, simpleGrantedAuthorities);
 
-        doReturn(simpleGrantedAuthorities).when(simpleGrantedAuthorityMapper).map(user);
+        doReturn(simpleGrantedAuthorities).when(simpleGrantedAuthorityMapper).toSimpleGrantedAuthorityCollection(user);
 
         // When
-        final var result = mapper.map(user);
+        final var result = mapper.toSecurityUser(user);
 
         // Then
         assertEquals(expected, result);

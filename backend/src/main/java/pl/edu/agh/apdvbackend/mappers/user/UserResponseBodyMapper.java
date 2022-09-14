@@ -20,9 +20,9 @@ public abstract class UserResponseBodyMapper {
             target = "groups",
             expression = "java(mapUsersGroupsToShortGroups(user))"
     )
-    public abstract UserResponseBody map(User user);
+    public abstract UserResponseBody toUserResponseBody(User user);
 
-    public abstract List<UserResponseBody> mapToList(List<User> users);
+    public abstract List<UserResponseBody> toUserResponseBodyList(List<User> users);
 
     protected List<ShortGroupResponseBody> mapUsersGroupsToShortGroups(User user) {
         return user

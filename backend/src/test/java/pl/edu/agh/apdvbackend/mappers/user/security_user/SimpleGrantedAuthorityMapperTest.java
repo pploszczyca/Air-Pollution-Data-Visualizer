@@ -36,7 +36,7 @@ class SimpleGrantedAuthorityMapperTest {
         );
 
         // When
-        final var result = mapper.map(user);
+        final var result = mapper.toSimpleGrantedAuthorityCollection(user);
 
         // Then
         expected.forEach(authority -> assertTrue(result.contains(authority)));

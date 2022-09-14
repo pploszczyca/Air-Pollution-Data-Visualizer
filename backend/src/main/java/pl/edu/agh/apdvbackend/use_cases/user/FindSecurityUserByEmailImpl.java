@@ -13,7 +13,7 @@ public class FindSecurityUserByEmailImpl implements FindSecurityUserByEmail {
 
     public static final String USER_NOT_FOUND = "User not found in the database";
     private final UserRepository userRepository;
-    private final SecurityUserMapper securityUserMapper;
+    private final SecurityUserMapper mapper;
 
     @Override
     public User execute(String email) throws UsernameNotFoundException {
@@ -21,6 +21,6 @@ public class FindSecurityUserByEmailImpl implements FindSecurityUserByEmail {
                 .findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND));
 
-        return securityUserMapper.map(databaseUser);
+        return mapper.toSecurityUser(databaseUser);
     }
 }

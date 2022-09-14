@@ -30,7 +30,7 @@ class ShortUserResponseBodyMapperTest {
         final var expected = new ShortUserResponseBody(id, email);
 
         // When
-        final var result = mapper.map(user);
+        final var result = mapper.toShortUser(user);
 
         // Then
         assertEquals(expected, result);
@@ -48,7 +48,7 @@ class ShortUserResponseBodyMapperTest {
         final var expected = List.of(new ShortUserResponseBody(id, email));
 
         // When
-        final var result = mapper.mapToList(List.of(user));
+        final var result = mapper.toShortUserList(List.of(user));
 
         // Then
         assertEquals(expected, result);

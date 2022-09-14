@@ -9,11 +9,11 @@ import pl.edu.agh.apdvbackend.models.body_models.user.UserResponseBody;
 @RequiredArgsConstructor
 public class GetAboutUserImpl implements GetAboutUser {
 
-    private final UserResponseBodyMapper userMapper;
+    private final UserResponseBodyMapper mapper;
     private final GetUser getUser;
 
     @Override
     public UserResponseBody execute(Long userId) {
-        return userMapper.map(getUser.execute(userId));
+        return mapper.toUserResponseBody(getUser.execute(userId));
     }
 }

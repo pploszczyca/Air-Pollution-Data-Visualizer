@@ -26,7 +26,7 @@ public class GetNotMembersOfTheGroupImpl implements GetNotMembersOfTheGroup {
                         .stream()
                         .map(Group::getId)
                         .noneMatch(id -> id.equals(groupId)))
-                .map(shortUserMapper::map)
+                .map(shortUserMapper::toShortUser)
                 .toList();
     }
 }

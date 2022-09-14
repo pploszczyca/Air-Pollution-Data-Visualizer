@@ -7,7 +7,7 @@ import pl.edu.agh.apdvbackend.models.database.User;
 
 @Mapper(componentModel = "spring")
 public interface ShortUserResponseBodyMapper {
-    ShortUserResponseBody map(User user);
+    ShortUserResponseBody toShortUser(User user);
 
-    List<ShortUserResponseBody> mapToList(List<User> users);
+    List<ShortUserResponseBody> toShortUserList(List<User> users);
 }

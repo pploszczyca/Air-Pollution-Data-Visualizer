@@ -45,7 +45,7 @@ class UserResponseBodyMapperTest {
         doReturn(shortGroups).when(shortGroupMapper).toShortGroupList(groups.stream().toList());
 
         // When
-        final var result = mapper.map(user);
+        final var result = mapper.toUserResponseBody(user);
 
         // Then
         assertEquals(expected, result);
@@ -68,7 +68,7 @@ class UserResponseBodyMapperTest {
         doReturn(shortGroups).when(shortGroupMapper).toShortGroupList(groups.stream().toList());
 
         // When
-        final var result = mapper.mapToList(List.of(user));
+        final var result = mapper.toUserResponseBodyList(List.of(user));
 
         // Then
         assertEquals(expected, result);

@@ -46,7 +46,7 @@ class AboutGroupMapperTest {
                 new AboutGroupResponseBody(groupId, groupName, shortUsers, groupEndpointResponseBodies);
 
         Mockito.doReturn(shortUsers)
-                .when(shortUserResponseBodyMapper).mapToList(group.getUsersInGroup().stream().toList());
+                .when(shortUserResponseBodyMapper).toShortUserList(group.getUsersInGroup().stream().toList());
         Mockito.doReturn(groupEndpointResponseBodies)
                 .when(groupEndpointMapper).toResponseBodyList(group.getGroupEndpoints().stream().toList());
 

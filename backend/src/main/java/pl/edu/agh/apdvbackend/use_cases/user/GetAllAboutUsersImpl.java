@@ -12,13 +12,13 @@ import pl.edu.agh.apdvbackend.utilities.ListUtilities;
 @RequiredArgsConstructor
 public class GetAllAboutUsersImpl implements GetAllAboutUsers {
 
-    private final UserResponseBodyMapper userMapper;
+    private final UserResponseBodyMapper mapper;
     private final UserRepository userRepository;
     private final ListUtilities listUtilities;
 
     @Override
     public List<UserResponseBody> execute() {
         final var userList = listUtilities.iterableToList(userRepository.findAll());
-        return userMapper.mapToList(userList);
+        return mapper.toUserResponseBodyList(userList);
     }
 }

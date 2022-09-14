@@ -6,5 +6,5 @@ import pl.edu.agh.apdvbackend.models.body_models.user.UserRequestBody;
 
 @Mapper(componentModel = "spring")
 public interface LogInRequestBodyMapper {
-    LogInRequestBody map(UserRequestBody userRequestBody);
+    LogInRequestBody toLogInRequestBody(UserRequestBody userRequestBody);
 }

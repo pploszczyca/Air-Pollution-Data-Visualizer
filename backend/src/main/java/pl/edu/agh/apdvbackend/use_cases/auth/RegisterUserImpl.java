@@ -13,11 +13,11 @@ public class RegisterUserImpl implements RegisterUser {
 
     private final AddUser addUser;
     private final LogInUser logInUser;
-    private final LogInRequestBodyMapper logInRequestBodyMapper;
+    private final LogInRequestBodyMapper mapper;
 
     @Override
     public JWTResponse execute(UserRequestBody userRequestBody) {
         addUser.execute(userRequestBody);
-        return logInUser.execute(logInRequestBodyMapper.map(userRequestBody));
+        return logInUser.execute(mapper.toLogInRequestBody(userRequestBody));
     }
 }

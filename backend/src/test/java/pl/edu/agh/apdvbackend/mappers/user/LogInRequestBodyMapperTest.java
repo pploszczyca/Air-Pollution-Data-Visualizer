@@ -26,7 +26,7 @@ class LogInRequestBodyMapperTest {
         final var expected = new LogInRequestBody(email, password);
 
         // When
-        final var result = mapper.map(userRequestBody);
+        final var result = mapper.toLogInRequestBody(userRequestBody);
 
         // Then
         assertEquals(expected, result);

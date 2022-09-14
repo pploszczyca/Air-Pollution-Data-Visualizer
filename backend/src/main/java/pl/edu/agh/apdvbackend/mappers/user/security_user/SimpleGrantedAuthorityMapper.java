@@ -7,7 +7,7 @@ import pl.edu.agh.apdvbackend.models.database.User;
 
 @Mapper(componentModel = "spring")
 public abstract class SimpleGrantedAuthorityMapper {
-    public Collection<SimpleGrantedAuthority> map(User user) {
+    public Collection<SimpleGrantedAuthority> toSimpleGrantedAuthorityCollection(User user) {
         return user
                 .getRoles()
                 .stream()

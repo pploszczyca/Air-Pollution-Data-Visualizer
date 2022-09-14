@@ -20,7 +20,7 @@ public abstract class AboutGroupMapper {
 
     @Mapping(
             target = "shortUserInfos",
-            expression = "java(shortUserMapper.mapToList(group.getUsersInGroup().stream().toList()))"
+            expression = "java(shortUserMapper.toShortUserList(group.getUsersInGroup().stream().toList()))"
     )
     @Mapping(
             target = "groupEndpointResponseBodies",

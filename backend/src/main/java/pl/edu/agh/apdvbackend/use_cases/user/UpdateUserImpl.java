@@ -2,7 +2,7 @@ package pl.edu.agh.apdvbackend.use_cases.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import pl.edu.agh.apdvbackend.mappers.UserMapper;
+import pl.edu.agh.apdvbackend.mappers.user.UserMapper;
 import pl.edu.agh.apdvbackend.models.body_models.user.UserRequestBody;
 import pl.edu.agh.apdvbackend.models.database.User;
 import pl.edu.agh.apdvbackend.repositories.UserRepository;
@@ -19,7 +19,7 @@ public class UpdateUserImpl implements UpdateUser {
         final var updatingUser = userRepository
                 .findById(userId)
                 .orElseThrow();
-        userMapper.updateUserFromAddRequestBody(userRequestBody, updatingUser);
+        userMapper.updateUser(userRequestBody, updatingUser);
         return userRepository.save(updatingUser);
     }
 }

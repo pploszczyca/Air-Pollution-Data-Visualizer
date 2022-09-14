@@ -7,9 +7,7 @@ import org.mapstruct.MappingTarget;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import pl.edu.agh.apdvbackend.mappers.group.short_group.ShortGroupMapper;
-import pl.edu.agh.apdvbackend.models.body_models.auth.LogInRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.user.UserRequestBody;
-import pl.edu.agh.apdvbackend.models.body_models.user.ShortUserResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.user.UserResponseBody;
 import pl.edu.agh.apdvbackend.models.database.User;
 
@@ -38,9 +36,4 @@ public abstract class UserMapper {
 
     public abstract List<UserResponseBody> userListToAboutResponseBodyList(
             List<User> userList);
-
-    public abstract ShortUserResponseBody toShortResponseBody(User user);
-
-    public abstract List<ShortUserResponseBody> toShortResponseBodyList(
-            List<User> users);
 }

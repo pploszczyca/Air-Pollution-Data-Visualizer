@@ -1,3 +1,5 @@
+import 'package:adpv_frontend/DataModels/group_data.dart';
+import 'package:adpv_frontend/DataModels/member_summary.dart';
 import 'package:dio/dio.dart';
 
 import '../../Common/urls.dart';
@@ -42,6 +44,41 @@ class GroupsRepository {
       }
     }
     return Future.value([]);
+  }
+
+  Future<GroupData> getGroupData(int id) async {
+    final AuthResponse authResponse = await userGateway.getFromMemory();
+
+    if (authResponse.success) {
+      final String token = authResponse.tokens!.accessToken;
+      _client.options.headers["Authorization"] = "Bearer $token";
+
+      try {
+        final response = await _client.get(
+          backendURL + groupURL,
+          queryParameters: {'groupId': id},
+        );
+        if (response.statusCode == 200) {
+          final BackendResponse backendResponse =
+              BackendResponse.fromJson(response.data);
+          if (backendResponse.error == "") {
+            var groupInfo = GroupData.fromJson(backendResponse.data);
+            final List<MemberSummary> members =
+                backendResponse.data["shortUserInfos"]
+                    .map<MemberSummary>(
+                      (e) => MemberSummary.fromJson(Map.from(e)),
+                    )
+                    .toList();
+            groupInfo.members = members;
+            // do not refactor! UFO MAGIC!
+            return Future.value(groupInfo);
+          }
+        }
+      } on DioError catch (error) {
+        return Future.error(error);
+      }
+    }
+    return Future.value(null);
   }
 
   Future<bool> deleteGroup(int id) async {

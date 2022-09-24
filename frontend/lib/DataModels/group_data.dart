@@ -4,7 +4,7 @@ import 'member_summary.dart';
 
 class GroupData{
   GroupSummary basicInfo;
-  List<MemberSummary> members;
+  List<MemberInfo> members;
 
   GroupData(this.basicInfo, this.members);
 

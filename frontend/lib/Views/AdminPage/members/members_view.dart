@@ -157,7 +157,7 @@ class _MembersViewState extends State<MembersView> {
               Container(
                 padding: EdgeInsets.only(right: 30),
                 child: Text(
-                  member.memberSummary.id.toString(),
+                  member.id.toString(),
                   style: const TextStyle(
                     fontFamily: 'SofiaSans',
                     fontSize: 25,
@@ -167,7 +167,7 @@ class _MembersViewState extends State<MembersView> {
                 ),
               ),
               Text(
-                member.memberSummary.email,
+                member.email,
                 style: const TextStyle(
                   fontFamily: 'SofiaSans',
                   fontSize: 25,
@@ -182,27 +182,21 @@ class _MembersViewState extends State<MembersView> {
           tilePadding: const EdgeInsets.all(20),
           childrenPadding: const EdgeInsets.all(0),
           children: [
-            _buildDeleteContainer(member.memberSummary),
+            _buildDeleteContainer(member),
             _buildInfoContainer("Roles", member.userRoles),
-            // _buildInfoContainer("Other groups", member.otherGroups)
+            _buildInfoContainer("Other groups", member.otherGroups)
           ],
         ),
       );
 
-  FutureBuilder _buildInfoContainer(String title, data) => FutureBuilder(
-      future: widget.gateway.getGroupData(widget.groupId).onError(onError),
-  builder: (context, snapshot) {
-  if (snapshot.connectionState == ConnectionState.none ||
-  snapshot.data == null) {
-  return loadingInCenter();
-  }   //     Container(
-  //   child: Row(
-  //     children: [
-  //       Container(child: Text(title),),
-  //       Container()
-  //     ],
-  //   )
-  // )
+  Container _buildInfoContainer(String title, data) =>   Container(
+    child: Row(
+      children: [
+        Container(child: Text(title),),
+        Container(child: Text(data))
+      ],
+    )
+  );
 
   Container _buildButtonContainer(
     String text,
@@ -242,7 +236,7 @@ class _MembersViewState extends State<MembersView> {
         ),
       );
 
-  Container _buildDeleteContainer(MemberSummary memberSummary) => Container(
+  Container _buildDeleteContainer(MemberInfo memberInfo) => Container(
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
         child: OutlinedButton(
           style: ButtonStyle(
@@ -267,7 +261,7 @@ class _MembersViewState extends State<MembersView> {
             alignment: Alignment.centerLeft,
           ),
           child: const Icon(Icons.delete_outline_outlined, size: 30),
-          onPressed: () => _onDeletePressed(memberSummary),
+          onPressed: () => _onDeletePressed(memberInfo),
         ),
       );
 
@@ -277,7 +271,7 @@ class _MembersViewState extends State<MembersView> {
         child: const Icon(Icons.add),
       );
 
-  void _onDeletePressed(MemberSummary memberSummary) {
+  void _onDeletePressed(MemberInfo memberSummary) {
     showAlertDialog(
       context,
       'Delete ' + memberSummary.email + 'from ' + widget.groupName,

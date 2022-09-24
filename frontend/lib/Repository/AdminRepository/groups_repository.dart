@@ -63,13 +63,13 @@ class GroupsRepository {
               BackendResponse.fromJson(response.data);
           if (backendResponse.error == "") {
             var groupInfo = GroupData.fromJson(backendResponse.data);
-            final List<MemberSummary> members =
-                backendResponse.data["shortUserInfos"]
-                    .map<MemberSummary>(
-                      (e) => MemberSummary.fromJson(Map.from(e)),
-                    )
-                    .toList();
-            groupInfo.members = members;
+            // final List<MemberInfo> members =
+            //     backendResponse.data["shortUserInfos"]
+            //         .map<MemberInfo>(
+            //           (e) => MemberInfo.fromJson(Map.from(e)),
+            //         )
+            //         .toList();
+            // groupInfo.members = members;
             // do not refactor! UFO MAGIC!
             return Future.value(groupInfo);
           }

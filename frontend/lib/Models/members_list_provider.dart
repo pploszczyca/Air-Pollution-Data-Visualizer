@@ -5,14 +5,6 @@ import 'package:flutter/material.dart';
 
 import '../DataModels/User/user.dart';
 
-class MemberInfo {
-  MemberSummary memberSummary;
-  List<UserRole> userRoles = [];
-  List<String> otherGroups = [];
-
-  MemberInfo(this.memberSummary);
-}
-
 class MembersListProvider with ChangeNotifier {
   List<MemberInfo> membersList = [];
   int groupId;
@@ -20,25 +12,27 @@ class MembersListProvider with ChangeNotifier {
   MembersListProvider(this.groupId);
 
   void makeMemberList(GroupData groupData) {
-    membersList = groupData.members.map(MemberInfo.new).toList();
+    for (var e in groupData.members) {
+      membersList.add(MemberInfo(e.id, e.email, e.userRoles, e.otherGroups));
+    }
     sortByID();
     notifyListeners();
   }
 
   void delete(int id) {
-    membersList.removeWhere((element) => element.memberSummary.id == id);
+    membersList.removeWhere((element) => element.id == id);
     notifyListeners();
   }
 
   void sortByID() {
     membersList
-        .sort((a, b) => a.memberSummary.id.compareTo(b.memberSummary.id));
+        .sort((a, b) => a.id.compareTo(b.id));
     notifyListeners();
   }
 
   void sortByEmail() {
     membersList
-        .sort((a, b) => a.memberSummary.email.compareTo(b.memberSummary.email));
+        .sort((a, b) => a.email.compareTo(b.email));
     notifyListeners();
   }
 }

@@ -1,10 +1,15 @@
-class MemberSummary{
+import 'User/user.dart';
+
+class MemberInfo {
   int id;
   String email;
+  List<UserRole> userRoles = [];
+  List<String> otherGroups = [];
 
-  MemberSummary(this.id, this.email);
+  MemberInfo(this.id, this.email, this.userRoles, this.otherGroups);
 
-  MemberSummary.fromJson(Map json)
+  MemberInfo.fromJson(Map json)
       : id = json["id"],
-  email = json["email"];
+        email = json["email"],
+        userRoles = json["roles"];
 }

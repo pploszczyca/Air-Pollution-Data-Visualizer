@@ -11,6 +11,6 @@ public interface FieldRepository extends CrudRepository<Field, Long> {
     @Query("SELECT DISTINCT e.enableFields FROM User u " +
             "INNER JOIN u.groups g " +
             "INNER JOIN g.groupEndpoints e " +
-            "WHERE u.id = ?1 AND e.id = ?2")
+            "WHERE u.id = ?1 AND e.endpoint.id = ?2")
     Iterable<Field> findAllThatAreEnable(Long userId, Long endpointId);
 }

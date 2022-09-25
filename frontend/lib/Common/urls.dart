@@ -16,3 +16,4 @@ const groupURL = "group";
 const groupEndpointsUrl = "group/endpoints";
 const groupMembersURL = "group/members";
 const removeMemberURL = "group/user/remove";
+const usersNotInGroup = "group/users/not/in";

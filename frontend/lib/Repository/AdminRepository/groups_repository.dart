@@ -1,4 +1,5 @@
 import 'package:adpv_frontend/DataModels/group_data.dart';
+import 'package:adpv_frontend/DataModels/member_summary.dart';
 import 'package:dio/dio.dart';
 
 import '../../Common/urls.dart';
@@ -201,5 +202,38 @@ class GroupsRepository {
       }
     }
     return Future.value(false);
+  }
+
+  Future<List<UserSummary>> getMembersNotInGroup(int groupId) async {
+    final AuthResponse authResponse = await userGateway.getFromMemory();
+
+    if (authResponse.success) {
+      final String token = authResponse.tokens!.accessToken;
+      _client.options.headers["Authorization"] = "Bearer $token";
+
+      try {
+        final response = await _client.get(
+          backendURL + usersNotInGroup,
+          queryParameters: {'groupId': groupId},
+        );
+        if (response.statusCode == 200) {
+          final BackendResponse backendResponse =
+          BackendResponse.fromJson(response.data);
+          if (backendResponse.error == "") {
+            List<UserSummary> usersList = [];
+            usersList = backendResponse.data
+                .map<UserSummary>(
+              // ignore: unnecessary_lambdas
+                  (e) => UserSummary.fromJson(e),
+            )
+                .toList();
+            return Future.value(usersList);
+          }
+        }
+      } on DioError catch (error) {
+        return Future.error(error);
+      }
+    }
+    return Future.value([]);
   }
 }

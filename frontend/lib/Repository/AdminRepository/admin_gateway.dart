@@ -5,6 +5,7 @@ import 'package:adpv_frontend/DataModels/group_data.dart';
 
 import '../../DataModels/group_endpoints.dart';
 import '../../DataModels/group_summary.dart';
+import '../../DataModels/member_summary.dart';
 import 'groups_repository.dart';
 
 class AdminGateway {
@@ -29,4 +30,7 @@ class AdminGateway {
       restRepository.getEndpointsForGroup(groupId);
 
   Future<bool> deleteMember(int memberId, int groupId) => restRepository.deleteMember(memberId, groupId);
+
+  Future<List<UserSummary>> getMembersNotInGroup(int groupId) => restRepository.getMembersNotInGroup(groupId);
+
 }

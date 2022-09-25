@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:adpv_frontend/DataModels/User/user.dart';
 import 'package:adpv_frontend/DataModels/group_data.dart';
-import 'package:adpv_frontend/DataModels/member_summary.dart';
+import 'package:adpv_frontend/DataModels/member_info.dart';
 import 'package:adpv_frontend/Models/members_list_provider.dart';
 import 'package:adpv_frontend/Views/AdminPage/groups/confirmation_dialog_modal.dart';
 import 'package:adpv_frontend/Views/snackbar.dart';
@@ -13,6 +13,7 @@ import '../../../Repository/AdminRepository/admin_gateway.dart';
 import '../../../Repository/UserRepository/user_gateway.dart';
 import '../../../Widgets/common_widgets.dart';
 import '../utils.dart';
+import 'add_user_modal.dart';
 
 class MembersView extends StatefulWidget {
   MembersView({
@@ -240,10 +241,14 @@ class _MembersViewState extends State<MembersView> {
       );
 
   FloatingActionButton _buildAddButton() => FloatingActionButton(
-        onPressed: () => {},
+        onPressed: () => _onAddPressed(membersListProvider),
         backgroundColor: adminGreenColor,
         child: const Icon(Icons.add),
       );
+
+  void _onAddPressed(groupListProvider) {
+    showAddUserModal(context, widget.gateway, widget.groupId);
+  }
 
   void _onDeletePressed(MemberInfo member) {
     showAlertDialog(
@@ -269,4 +274,6 @@ class _MembersViewState extends State<MembersView> {
       buildSnackbar('Cannot delete user', context);
     });
   }
+
+
 }

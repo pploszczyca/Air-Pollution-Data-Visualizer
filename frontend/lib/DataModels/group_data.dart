@@ -1,4 +1,4 @@
-import 'member_summary.dart';
+import 'member_info.dart';
 
 class GroupData {
   int id;

@@ -1,5 +1,5 @@
 import 'package:adpv_frontend/DataModels/group_data.dart';
-import 'package:adpv_frontend/DataModels/member_summary.dart';
+import 'package:adpv_frontend/DataModels/member_info.dart';
 import 'package:flutter/material.dart';
 
 //ignore_for_file:  constant_identifier_names

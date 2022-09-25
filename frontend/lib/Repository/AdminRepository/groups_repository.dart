@@ -1,5 +1,4 @@
 import 'package:adpv_frontend/DataModels/group_data.dart';
-import 'package:adpv_frontend/DataModels/member_summary.dart';
 import 'package:dio/dio.dart';
 
 import '../../Common/urls.dart';
@@ -55,30 +54,21 @@ class GroupsRepository {
 
       try {
         final response = await _client.get(
-          backendURL + groupURL,
+          backendURL + groupMembersURL,
           queryParameters: {'groupId': id},
         );
         if (response.statusCode == 200) {
           final BackendResponse backendResponse =
               BackendResponse.fromJson(response.data);
           if (backendResponse.error == "") {
-            var groupInfo = GroupData.fromJson(backendResponse.data);
-            // final List<MemberInfo> members =
-            //     backendResponse.data["shortUserInfos"]
-            //         .map<MemberInfo>(
-            //           (e) => MemberInfo.fromJson(Map.from(e)),
-            //         )
-            //         .toList();
-            // groupInfo.members = members;
-            // do not refactor! UFO MAGIC!
-            return Future.value(groupInfo);
+            return Future.value(GroupData.fromJson(backendResponse.data));
           }
         }
       } on DioError catch (error) {
         return Future.error(error);
       }
     }
-    return Future.value(null);
+    return Future.value(GroupData(-1, '', []));
   }
 
   Future<bool> deleteGroup(int id) async {
@@ -125,5 +115,27 @@ class GroupsRepository {
       }
     }
     return Future.value(GroupSummary(-1, ''));
+  }
+
+  Future<bool> deleteMember(int memberId, int groupId) async {
+    final AuthResponse authResponse = await userGateway.getFromMemory();
+
+    if (authResponse.success) {
+      final String token = authResponse.tokens!.accessToken;
+      _client.options.headers["Authorization"] = "Bearer $token";
+
+      try {
+        final response = await _client.delete(
+          backendURL + removeMemberURL,
+          queryParameters: {'groupId': groupId, 'userId': memberId},
+        );
+        if (response.statusCode == 200) {
+          return Future.value(true);
+        }
+      } on DioError catch (error) {
+        return Future.error(error);
+      }
+    }
+    return Future.value(false);
   }
 }

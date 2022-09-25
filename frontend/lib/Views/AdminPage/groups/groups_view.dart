@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:adpv_frontend/Views/AdminPage/groups/confirmation_dialog_modal.dart';
 import 'package:adpv_frontend/Views/AdminPage/members/members_view.dart';
+import 'package:adpv_frontend/Views/AdminPage/utils.dart';
 import 'package:adpv_frontend/Views/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -45,7 +46,7 @@ class _GroupsViewState extends State<GroupsView> {
         child: RefreshIndicator(
           onRefresh: () => widget.gateway.getGroupsSummary().onError(onError),
           child: Scaffold(
-            appBar: buildAppBar('User groups'),
+            appBar: buildAdminAppBar('User groups'),
             body: _buildBody(),
             floatingActionButton: _buildAddButton(),
           ),
@@ -119,8 +120,12 @@ class _GroupsViewState extends State<GroupsView> {
         ),
       );
 
-  Container _buildButtonContainer(String text, GroupCard groupCard, Color color,
-          Function(GroupCard groupCard) onPressedFunction) =>
+  Container _buildButtonContainer(
+    String text,
+    GroupCard groupCard,
+    Color color,
+    Function(GroupCard groupCard) onPressedFunction,
+  ) =>
       Container(
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
         child: TextButton(

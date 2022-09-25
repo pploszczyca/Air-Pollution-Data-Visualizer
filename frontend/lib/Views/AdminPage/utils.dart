@@ -42,7 +42,7 @@ Widget cancelButton(BuildContext context) => OutlinedButton(
     );
 
 
-PreferredSize buildAppBar(String bottomText) => PreferredSize(
+PreferredSize buildAdminAppBar(String bottomText) => PreferredSize(
   preferredSize: const Size.fromHeight(120),
   child: AppBar(
     iconTheme: const IconThemeData(
@@ -72,5 +72,35 @@ PreferredSize buildAppBar(String bottomText) => PreferredSize(
         ),
       ),
     ) : null,
+  ),
+);
+
+Container buildDeleteContainer(Function onDeletePressed, arguments) => Container(
+  alignment: Alignment.centerRight,
+  padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+  child: OutlinedButton(
+    style: ButtonStyle(
+      side: MaterialStateProperty.all(
+        const BorderSide(width: 1.5, color: Colors.red),
+      ),
+      padding: MaterialStateProperty.all(
+        const EdgeInsets.all(15),
+      ),
+      foregroundColor: MaterialStateProperty.resolveWith<Color>(
+            (Set<MaterialState> states) =>
+        states.contains(MaterialState.hovered)
+            ? Colors.white
+            : Colors.red,
+      ),
+      backgroundColor: MaterialStateProperty.resolveWith<Color>(
+            (Set<MaterialState> states) =>
+        states.contains(MaterialState.hovered)
+            ? Colors.red
+            : Colors.white,
+      ),
+      alignment: Alignment.centerLeft,
+    ),
+    child: const Icon(Icons.delete_outline_outlined, size: 30),
+    onPressed: () => onDeletePressed(arguments),
   ),
 );

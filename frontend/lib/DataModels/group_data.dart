@@ -1,16 +1,18 @@
-import 'package:adpv_frontend/DataModels/group_summary.dart';
-
 import 'member_summary.dart';
 
-class GroupData{
-  GroupSummary basicInfo;
+class GroupData {
+  int id;
+  String name;
   List<MemberInfo> members;
 
-  GroupData(this.basicInfo, this.members);
+  GroupData(this.id, this.name, this.members);
 
   GroupData.fromJson(Map json)
-      : basicInfo = GroupSummary(json["id"], json["name"]),
-  members = [];
-
-
+      : id = json['groupId'],
+        name = json['groupName'],
+        members = List<MemberInfo>.from(
+          //ignore: unnecessary_lambdas
+          json['members'].map((member) => MemberInfo.fromJson(member)),
+        );
+//nie tykać bo i tak to cud że działą
 }

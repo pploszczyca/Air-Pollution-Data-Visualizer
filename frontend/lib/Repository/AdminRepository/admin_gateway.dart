@@ -25,4 +25,6 @@ class AdminGateway {
   Future<bool> deleteGroup(int id) => restRepository.deleteGroup(id);
 
   Future<GroupSummary> createGroup(String name) => restRepository.createGroup(name);
+
+  Future<bool> deleteMember(int memberId, int groupId) => restRepository.deleteMember(memberId, groupId);
 }

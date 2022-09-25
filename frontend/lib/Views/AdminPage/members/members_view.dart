@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:adpv_frontend/DataModels/User/user.dart';
 import 'package:adpv_frontend/DataModels/group_data.dart';
 import 'package:adpv_frontend/DataModels/member_summary.dart';
 import 'package:adpv_frontend/Models/members_list_provider.dart';
@@ -7,13 +8,11 @@ import 'package:adpv_frontend/Views/AdminPage/groups/confirmation_dialog_modal.d
 import 'package:adpv_frontend/Views/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../DataModels/group_summary.dart';
-import '../../../Models/group_list_provider.dart';
 import '../../../Repository/AdminRepository/admin_gateway.dart';
 import '../../../Repository/UserRepository/user_gateway.dart';
 import '../../../Widgets/common_widgets.dart';
 import '../groups/groups_view.dart';
-
+import '../utils.dart';
 
 class MembersView extends StatefulWidget {
   MembersView({
@@ -37,13 +36,13 @@ class _MembersViewState extends State<MembersView> {
       MembersListProvider(widget.groupId);
 
   FutureOr<GroupData> onError<E extends Object>(
-    E error,
-    StackTrace stackTrace,
-  ) {
+      E error,
+      StackTrace stackTrace,
+      ) {
     UserGateway().resetMemoryToken().then(
           (value) =>
-              Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false),
-        );
+          Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false),
+    );
     return Future.error(error.toString());
   }
 
@@ -51,10 +50,9 @@ class _MembersViewState extends State<MembersView> {
   Widget build(BuildContext context) => ChangeNotifierProvider(
         create: (context) => membersListProvider,
         child: RefreshIndicator(
-          onRefresh: () =>
-              widget.gateway.getGroupData(widget.groupId).onError(onError),
+          onRefresh: () => widget.gateway.getGroupData(widget.groupId).onError(onError),
           child: Scaffold(
-            appBar: buildAppBar('Members of ' + widget.groupName),
+            appBar: buildAdminAppBar('Members of ' + widget.groupName),
             body: _buildBody(),
             floatingActionButton: _buildAddButton(),
           ),
@@ -88,52 +86,45 @@ class _MembersViewState extends State<MembersView> {
         margin: const EdgeInsets.only(top: 20),
         alignment: Alignment.centerLeft,
         padding: const EdgeInsets.symmetric(horizontal: 30),
-        child: Row(children: [
-          ToggleButtons(
-            selectedColor: Colors.red,
-            isSelected: widget._selections,
-            fillColor: Colors.transparent,
-            renderBorder: false,
-            children: [
-              Container(
+        child: Row(
+          children: [
+            ToggleButtons(
+              selectedColor: Colors.red,
+              isSelected: widget._selections,
+              fillColor: Colors.transparent,
+              renderBorder: false,
+              children: [
+                Container(
                   margin: const EdgeInsets.only(left: 20, right: 20),
-                  child: const Text(
+                  child: Text(
                     "ID",
                     style: TextStyle(
                       fontFamily: 'SofiaSans',
                       fontSize: 25,
                       fontWeight: FontWeight.normal,
+                      color: membersListProvider.idColor,
                     ),
-                  )),
-              Container(
-                margin: const EdgeInsets.only(
-                  left: 20, right:20
-                ),
-                child: const Text(
-                  "EMAIL",
-                  style: TextStyle(
-                    fontFamily: 'SofiaSans',
-                    fontSize: 25,
-                    fontWeight: FontWeight.normal,
                   ),
                 ),
-              )
-            ],
-            onPressed: (int index) {
-              setState(() {
-                for (int i = 0; i < widget._selections.length; i++) {
-                  widget._selections[i] = i == index;
-                }
-                if(widget._selections[0]){
-                  membersListProvider.sortByID();
-                }else if(widget._selections[1]){
-                  membersListProvider.sortByEmail();
-                  print(membersListProvider.membersList);
-                }
-              });
-            },
-          )
-        ]),
+                Container(
+                  margin: const EdgeInsets.only(left: 20, right: 20),
+                  child: Text(
+                    "EMAIL",
+                    style: TextStyle(
+                      fontFamily: 'SofiaSans',
+                      fontSize: 25,
+                      fontWeight: FontWeight.normal,
+                      color: membersListProvider.emailColor,
+                    ),
+                  ),
+                )
+              ],
+              onPressed: (int index) {
+                membersListProvider.changeSorting(index);
+              },
+            )
+          ],
+        ),
       );
 
   ListView _buildMembersList(int itemCount) => ListView.builder(
@@ -155,7 +146,7 @@ class _MembersViewState extends State<MembersView> {
           title: Row(
             children: [
               Container(
-                padding: EdgeInsets.only(right: 30),
+                padding: const EdgeInsets.only(right: 30),
                 child: Text(
                   member.id.toString(),
                   style: const TextStyle(
@@ -177,93 +168,56 @@ class _MembersViewState extends State<MembersView> {
               ),
             ],
           ),
-          trailing: Text(""),
           collapsedBackgroundColor: Colors.white,
           tilePadding: const EdgeInsets.all(20),
           childrenPadding: const EdgeInsets.all(0),
           children: [
-            _buildDeleteContainer(member),
-            _buildInfoContainer("Roles", member.userRoles),
-            _buildInfoContainer("Other groups", member.otherGroups)
+            _buildInfoContainer(
+              "Roles",
+              member.userRoles.map((e) => e.toShortString()).join(', '),
+            ),
+            _buildInfoContainer("Other groups", member.otherGroups.join(', ')),
+            buildDeleteContainer(_onDeletePressed, member),
           ],
         ),
       );
 
-  Container _buildInfoContainer(String title, data) =>   Container(
-    child: Row(
-      children: [
-        Container(child: Text(title),),
-        Container(child: Text(data))
-      ],
-    )
-  );
-
-  Container _buildButtonContainer(
-    String text,
-    GroupCard groupCard,
-    Color color,
-  ) =>
-      Container(
-        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-        child: TextButton(
-          onPressed: () => {},
-          child: Row(
-            children: [
-              Expanded(
-                child: Container(
-                  width: double.infinity,
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    text,
-                    style: TextStyle(
-                      fontFamily: 'SofiaSans',
-                      fontSize: 23,
-                      color: color,
-                    ),
-                  ),
+  Container _buildInfoContainer(String title, String data) => Container(
+        padding:
+             EdgeInsets.only(top: 20, left: MediaQuery.of(context).size.width * 0.05 , right: 20, bottom: 10),
+        alignment: Alignment.center,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontFamily: 'SofiaSans',
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black45,
                 ),
               ),
-              Container(
-                alignment: Alignment.centerRight,
-                child: Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  color: color,
-                  size: 25,
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.5,
+              child: Text(
+                data,
+                overflow: TextOverflow.fade,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontFamily: 'SofiaSans',
+                  color: Colors.black45,
                 ),
               ),
-            ],
-          ),
+            )
+          ],
         ),
       );
 
-  Container _buildDeleteContainer(MemberInfo memberInfo) => Container(
-        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-        child: OutlinedButton(
-          style: ButtonStyle(
-            side: MaterialStateProperty.all(
-              const BorderSide(width: 1.5, color: Colors.red),
-            ),
-            padding: MaterialStateProperty.all(
-              const EdgeInsets.all(20),
-            ),
-            foregroundColor: MaterialStateProperty.resolveWith<Color>(
-              (Set<MaterialState> states) =>
-                  states.contains(MaterialState.hovered)
-                      ? Colors.white
-                      : Colors.red,
-            ),
-            backgroundColor: MaterialStateProperty.resolveWith<Color>(
-              (Set<MaterialState> states) =>
-                  states.contains(MaterialState.hovered)
-                      ? Colors.red
-                      : Colors.white,
-            ),
-            alignment: Alignment.centerLeft,
-          ),
-          child: const Icon(Icons.delete_outline_outlined, size: 30),
-          onPressed: () => _onDeletePressed(memberInfo),
-        ),
-      );
+
 
   FloatingActionButton _buildAddButton() => FloatingActionButton(
         onPressed: () => {},
@@ -271,18 +225,18 @@ class _MembersViewState extends State<MembersView> {
         child: const Icon(Icons.add),
       );
 
-  void _onDeletePressed(MemberInfo memberSummary) {
+  void _onDeletePressed(MemberInfo member) {
     showAlertDialog(
       context,
-      'Delete ' + memberSummary.email + 'from ' + widget.groupName,
+      'Delete ' + member.email + ' from ' + widget.groupName,
       "You are about to delete this user from the group",
-      () => deleteUser(memberSummary.id),
+      () => deleteUser(member.id),
     );
   }
 
   void deleteUser(int id) async {
     await widget.gateway
-        .deleteGroup(id)
+        .deleteMember(id, widget.groupId)
         .then(
           (value) => {
             if (value)
@@ -292,7 +246,7 @@ class _MembersViewState extends State<MembersView> {
           },
         )
         .catchError((error) {
-      buildSnackbar('Cannot delete group', context);
+      buildSnackbar('Cannot delete user', context);
     });
   }
 }

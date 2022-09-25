@@ -1,5 +1,6 @@
 package pl.edu.agh.apdvbackend.fakes;
 
+import java.util.Collections;
 import java.util.Set;
 import lombok.Builder;
 import pl.edu.agh.apdvbackend.models.database.Group;
@@ -28,11 +29,15 @@ public class UserFakes {
     ) {
         final var user = new User();
         user.setId(id);
-        user.setEmail(email);
-        user.setPassword(password);
-        user.setGroups(groups);
-        user.setRoles(roles);
+        user.setEmail(getOrElse(email, "dummy.user@email.com"));
+        user.setPassword(getOrElse(password, "dummy password"));
+        user.setGroups(getOrElse(groups, Collections.emptySet()));
+        user.setRoles(getOrElse(roles, Collections.emptySet()));
 
         return user;
+    }
+
+    private static <T> T getOrElse(T value, T defaultValue) {
+        return value == null ? defaultValue : value;
     }
 }

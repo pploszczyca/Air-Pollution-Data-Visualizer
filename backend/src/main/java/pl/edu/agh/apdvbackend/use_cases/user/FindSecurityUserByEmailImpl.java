@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-import pl.edu.agh.apdvbackend.mappers.UserMapper;
+import pl.edu.agh.apdvbackend.mappers.user.security_user.SecurityUserMapper;
 import pl.edu.agh.apdvbackend.repositories.UserRepository;
 
 @Component
@@ -13,7 +13,7 @@ public class FindSecurityUserByEmailImpl implements FindSecurityUserByEmail {
 
     public static final String USER_NOT_FOUND = "User not found in the database";
     private final UserRepository userRepository;
-    private final UserMapper userMapper;
+    private final SecurityUserMapper mapper;
 
     @Override
     public User execute(String email) throws UsernameNotFoundException {
@@ -21,6 +21,6 @@ public class FindSecurityUserByEmailImpl implements FindSecurityUserByEmail {
                 .findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND));
 
-        return userMapper.userToUserDetails(databaseUser);
+        return mapper.toSecurityUser(databaseUser);
     }
 }

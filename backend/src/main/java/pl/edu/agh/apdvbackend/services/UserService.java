@@ -4,7 +4,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
-import pl.edu.agh.apdvbackend.models.body_models.user.AddUserRequestBody;
+import pl.edu.agh.apdvbackend.models.body_models.user.UserRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.user.UserResponseBody;
 import pl.edu.agh.apdvbackend.models.database.User;
 import pl.edu.agh.apdvbackend.use_cases.user.AddUser;
@@ -31,15 +31,15 @@ public class UserService {
         return Response.withOkStatus(getAboutUser.execute(userId));
     }
 
-    public Response<User> addUser(AddUserRequestBody addUserRequestBody) {
-        return Response.withOkStatus(addUser.execute(addUserRequestBody));
+    public Response<User> addUser(UserRequestBody userRequestBody) {
+        return Response.withOkStatus(addUser.execute(userRequestBody));
     }
 
     public Response<User> updateUser(
             Long userId,
-            AddUserRequestBody addUserRequestBody
+            UserRequestBody userRequestBody
     ) {
-        return Response.withOkStatus(updateUser.execute(userId, addUserRequestBody));
+        return Response.withOkStatus(updateUser.execute(userId, userRequestBody));
     }
 
     public void deleteUser(Long userId) {

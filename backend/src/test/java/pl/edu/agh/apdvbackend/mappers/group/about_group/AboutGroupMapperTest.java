@@ -11,8 +11,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import pl.edu.agh.apdvbackend.fakes.GroupFakes;
 import pl.edu.agh.apdvbackend.fakes.body_models.endpoint.GroupEndpointResponseBodyFakes;
 import pl.edu.agh.apdvbackend.fakes.body_models.user.ShortUserResponseBodyFakes;
-import pl.edu.agh.apdvbackend.mappers.UserMapper;
 import pl.edu.agh.apdvbackend.mappers.group_endpoint.GroupEndpointResponseBodyMapper;
+import pl.edu.agh.apdvbackend.mappers.user.ShortUserResponseBodyMapper;
 import pl.edu.agh.apdvbackend.models.body_models.group.AboutGroupResponseBody;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class AboutGroupMapperTest {
 
     @MockBean
-    private UserMapper userMapper;
+    private ShortUserResponseBodyMapper shortUserResponseBodyMapper;
 
     @MockBean
     private GroupEndpointResponseBodyMapper groupEndpointMapper;
@@ -46,7 +46,7 @@ class AboutGroupMapperTest {
                 new AboutGroupResponseBody(groupId, groupName, shortUsers, groupEndpointResponseBodies);
 
         Mockito.doReturn(shortUsers)
-                .when(userMapper).toShortResponseBodyList(group.getUsersInGroup().stream().toList());
+                .when(shortUserResponseBodyMapper).toShortUserList(group.getUsersInGroup().stream().toList());
         Mockito.doReturn(groupEndpointResponseBodies)
                 .when(groupEndpointMapper).toResponseBodyList(group.getGroupEndpoints().stream().toList());
 

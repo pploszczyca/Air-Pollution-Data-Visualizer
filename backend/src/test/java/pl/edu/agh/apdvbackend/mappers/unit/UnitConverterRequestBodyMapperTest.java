@@ -16,7 +16,6 @@ import pl.edu.agh.apdvbackend.models.database.MathOperation;
 import pl.edu.agh.apdvbackend.repositories.UnitRepository;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)

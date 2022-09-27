@@ -3,7 +3,6 @@ package pl.edu.agh.apdvbackend.models.database;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;

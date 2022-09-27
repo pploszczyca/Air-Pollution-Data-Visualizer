@@ -53,7 +53,7 @@ class EndpointRequestBodyMapperTest {
         final var result = mapper.toEndpoint(requestBody);
 
         // Then
-        assertEquals(expected, result);
+        assert(expected, result);
     }
 
     @Test

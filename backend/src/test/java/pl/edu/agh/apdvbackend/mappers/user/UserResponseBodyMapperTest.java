@@ -14,6 +14,7 @@ import pl.edu.agh.apdvbackend.mappers.group.short_group.ShortGroupMapper;
 import pl.edu.agh.apdvbackend.models.body_models.group.ShortGroupResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.user.UserResponseBody;
 import pl.edu.agh.apdvbackend.models.database.Group;
+import pl.edu.agh.apdvbackend.models.database.Role;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.doReturn;
@@ -33,14 +34,16 @@ class UserResponseBodyMapperTest {
         // Given
         final var id = 34L;
         final var email = "email@test.com";
+        final var roles = Set.of(Role.ADMIN);
         final Set<Group> groups = Collections.emptySet();
         final List<ShortGroupResponseBody> shortGroups = Collections.emptyList();
         final var user = UserFakes.builder()
                 .id(id)
                 .email(email)
                 .groups(groups)
+                .roles(roles)
                 .build();
-        final var expected = new UserResponseBody(id, email, shortGroups);
+        final var expected = new UserResponseBody(id, email, roles.stream().toList(), shortGroups);
 
         doReturn(shortGroups).when(shortGroupMapper).toShortGroupList(groups.stream().toList());
 
@@ -56,14 +59,18 @@ class UserResponseBodyMapperTest {
         // Given
         final var id = 34L;
         final var email = "email@test.com";
+        final var roles = Set.of(Role.ADMIN);
         final Set<Group> groups = Collections.emptySet();
         final List<ShortGroupResponseBody> shortGroups = Collections.emptyList();
         final var user = UserFakes.builder()
                 .id(id)
                 .email(email)
                 .groups(groups)
+                .roles(roles)
                 .build();
-        final var expected = List.of(new UserResponseBody(id, email, shortGroups));
+        final var expected = List.of(
+                new UserResponseBody(id, email, roles.stream().toList(), shortGroups)
+        );
 
         doReturn(shortGroups).when(shortGroupMapper).toShortGroupList(groups.stream().toList());
 

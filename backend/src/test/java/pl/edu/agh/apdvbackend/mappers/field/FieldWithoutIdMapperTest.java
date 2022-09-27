@@ -12,7 +12,7 @@ import pl.edu.agh.apdvbackend.models.body_models.field.FieldWithoutId;
 import pl.edu.agh.apdvbackend.models.database.FieldType;
 import pl.edu.agh.apdvbackend.models.database.Unit;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
@@ -38,7 +38,7 @@ class FieldWithoutIdMapperTest {
         final var result = mapper.fieldToWithoutId(field);
 
         // Then
-        assertEquals(expectedFieldWithoutId, result);
+        assertThat(result).usingRecursiveComparison().isEqualTo(expectedFieldWithoutId);
     }
 
     @Test
@@ -59,6 +59,6 @@ class FieldWithoutIdMapperTest {
         final var result = mapper.fieldsToWithoutIdList(fields);
 
         // Then
-        assertEquals(expectedFieldsWithoutId, result);
+        assertThat(result).usingRecursiveComparison().isEqualTo(expectedFieldsWithoutId);
     }
 }

@@ -15,7 +15,7 @@ import pl.edu.agh.apdvbackend.fakes.body_models.field.AddFieldRequestBodyFakes;
 import pl.edu.agh.apdvbackend.mappers.unit.UnitNameMapper;
 import pl.edu.agh.apdvbackend.models.database.FieldType;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
@@ -57,7 +57,7 @@ class FieldRequestBodyMapperTest {
         final var result = mapper.toField(addFieldRequestBody);
 
         // Then
-        assertEquals(expectedField, result);
+        assertThat(result).usingRecursiveComparison().isEqualTo(expectedField);
     }
 
     @Test
@@ -95,6 +95,6 @@ class FieldRequestBodyMapperTest {
         mapper.updateFieldBy(addFieldRequestBody, fieldToUpdate);
 
         // Then
-        assertEquals(expectedField, fieldToUpdate);
+        assertThat(fieldToUpdate).usingRecursiveComparison().isEqualTo(expectedField);
     }
 }

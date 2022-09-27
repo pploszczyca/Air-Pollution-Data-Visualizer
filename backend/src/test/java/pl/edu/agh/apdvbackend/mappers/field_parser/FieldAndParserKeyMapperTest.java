@@ -15,7 +15,7 @@ import pl.edu.agh.apdvbackend.fakes.body_models.field_and_parser.FieldAndParserK
 import pl.edu.agh.apdvbackend.use_cases.field.GetField;
 import pl.edu.agh.apdvbackend.use_cases.field_parser.GetFieldParser;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
@@ -56,6 +56,6 @@ class FieldAndParserKeyMapperTest {
         final var result = mapper.toMap(List.of(fieldAndParserKey));
 
         // Then
-        assertEquals(expectedResult, result);
+        assertThat(result).usingRecursiveComparison().isEqualTo(expectedResult);
     }
 }

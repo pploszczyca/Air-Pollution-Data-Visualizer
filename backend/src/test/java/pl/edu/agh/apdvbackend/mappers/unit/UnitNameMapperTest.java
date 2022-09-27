@@ -10,7 +10,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import pl.edu.agh.apdvbackend.fakes.UnitFakes;
 import pl.edu.agh.apdvbackend.repositories.UnitRepository;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.doReturn;
 
@@ -41,7 +41,7 @@ class UnitNameMapperTest {
         final var result = mapper.toUnit(unitNameOptional);
 
         // Then
-        assertEquals(unit, result);
+        assertThat(result).usingRecursiveComparison().isEqualTo(unit);
     }
 
     @Test

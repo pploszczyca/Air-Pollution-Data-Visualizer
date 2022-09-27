@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../enpoint_list_view.dart';
+
+const adminGreenColor = Color.fromRGBO(36, 109, 114, 0.9);
 import 'groups/groups_view.dart';
 
 MaterialStateProperty<EdgeInsetsGeometry?> buttonPadding =
@@ -16,6 +18,12 @@ ButtonStyle proceedButtonStyle = ButtonStyle(
     RoundedRectangleBorder(borderRadius: basicBorderRadius),
   ),
   alignment: Alignment.centerLeft,
+);
+
+TextStyle defaultAdminTextStyle = const TextStyle(
+  fontFamily: 'SofiaSans',
+  fontSize: 23,
+  color: Colors.black,
 );
 
 TextStyle proceedButtonTextStyle =
@@ -37,6 +45,39 @@ Widget cancelButton(BuildContext context) => OutlinedButton(
           fontFamily: 'SofiaSans',
           fontSize: 16,
           color: Colors.grey,
+        ),
+      ),
+    );
+
+PreferredSize adminAppBar(String upperText, String bottomText) => PreferredSize(
+      preferredSize: const Size.fromHeight(120),
+      child: AppBar(
+        iconTheme: const IconThemeData(
+          color: adminGreenColor,
+        ),
+        centerTitle: true,
+        toolbarHeight: 120,
+        title: Container(
+          padding: const EdgeInsets.only(top: 20, bottom: 10),
+          child: Text(upperText),
+        ),
+        backgroundColor: Colors.white,
+        titleTextStyle: const TextStyle(
+          color: Colors.black,
+          fontFamily: 'Ubuntu Condensed',
+          fontSize: 40,
+          fontWeight: FontWeight.w500,
+        ),
+        titleSpacing: 20,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(20),
+          child: Container(
+            padding: const EdgeInsets.only(bottom: 10, top: 5),
+            child: Text(
+              bottomText,
+              style: const TextStyle(fontSize: 25),
+            ),
+          ),
         ),
       ),
     );

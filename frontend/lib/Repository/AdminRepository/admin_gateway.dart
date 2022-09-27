@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:adpv_frontend/DataModels/group_data.dart';
 
+import '../../DataModels/group_endpoints.dart';
 import '../../DataModels/group_summary.dart';
 import 'groups_repository.dart';
 
@@ -21,6 +22,11 @@ class AdminGateway {
 
   Future<bool> deleteGroup(int id) => restRepository.deleteGroup(id);
 
+  Future<GroupSummary> createGroup(String name) =>
+      restRepository.createGroup(name);
+
+  Future<GroupEndpointsData> getEndpointsForGroup(int groupId) =>
+      restRepository.getEndpointsForGroup(groupId);
   Future<GroupSummary> createGroup(String name) => restRepository.createGroup(name);
 
   Future<bool> deleteMember(int memberId, int groupId) => restRepository.deleteMember(memberId, groupId);

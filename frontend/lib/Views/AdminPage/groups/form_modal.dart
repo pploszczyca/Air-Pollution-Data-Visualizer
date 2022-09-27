@@ -43,8 +43,7 @@ void onProceedPressed(name, onCreateFunction, context) {
   if (name == "") {
     Navigator.pop(context);
     buildSnackbar("Can't create group with no name", context);
-  }
-  else{
+  } else {
     onCreateFunction(name);
     Navigator.pop(context);
   }

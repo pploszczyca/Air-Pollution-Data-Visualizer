@@ -32,7 +32,7 @@ class EndpointData {
       .map((e) => e.toString())
       .toList();
 
-  void addAll(EndpointData newData){
+  void addAll(EndpointData newData) {
     dataList.addAll(newData.dataList);
   }
 

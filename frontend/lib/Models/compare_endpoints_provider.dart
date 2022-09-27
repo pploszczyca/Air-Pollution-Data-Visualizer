@@ -17,7 +17,9 @@ class CompareEndpointsModel extends ChangeNotifier {
   List<String> selectedEndpoints = [];
   EndpointGateway endpointGateway;
   FutureOr<EndpointData> Function<E extends Object>(
-      E error, StackTrace stackTrace,) onError;
+    E error,
+    StackTrace stackTrace,
+  ) onError;
 
   CompareEndpointsModel(this.endpointGateway, this.onError);
 

@@ -3,12 +3,13 @@ import 'package:dio/dio.dart';
 
 import '../../Common/urls.dart';
 import '../../DataModels/backend_response.dart';
+import '../../DataModels/group_endpoints.dart';
 import '../../DataModels/group_summary.dart';
 import '../UserRepository/auth_gateway.dart';
 import '../UserRepository/user_gateway.dart';
 
 class GroupsRepository {
-  final Dio _client = Dio();
+  Dio _client = Dio();
   UserGateway userGateway = UserGateway();
 
   GroupsRepository();
@@ -93,6 +94,7 @@ class GroupsRepository {
 
   Future<GroupSummary> createGroup(String name) async {
     final AuthResponse authResponse = await userGateway.getFromMemory();
+    _client = Dio();
 
     if (authResponse.success) {
       final String token = authResponse.tokens!.accessToken;
@@ -115,6 +117,63 @@ class GroupsRepository {
       }
     }
     return Future.value(GroupSummary(-1, ''));
+  }
+
+  Future<GroupEndpointsData> getEndpointsForGroup(int groupId) async {
+    final AuthResponse authResponse = await userGateway.getFromMemory();
+
+    if (authResponse.success) {
+      final String token = authResponse.tokens!.accessToken;
+      _client.options.headers["Authorization"] = "Bearer $token";
+
+      try {
+        final Response response = await _client.get(
+          backendURL + groupEndpointsUrl,
+          queryParameters: {"groupId": groupId.toString()},
+        );
+        if (response.statusCode == 200) {
+          final BackendResponse backendResponse =
+              BackendResponse.fromJson(response.data);
+          if (backendResponse.error == "") {
+            return GroupEndpointsData(
+              backendResponse.data["groupId"],
+              backendResponse.data["groupName"],
+              {
+                for (var e in backendResponse.data["endpoints"])
+                  e["label"]: EndpointForGroup.fromJson(e)
+              },
+            );
+          }
+        }
+      } on DioError catch (error) {
+        return Future.error(error);
+      } catch (error) {
+        return Future.error(error);
+      }
+    }
+    return Future.error("Cannot get endpoints for group");
+  }
+
+  Future<bool> updateGroupEndpoints(
+      GroupEndpointsData groupEndpointsData,) async {
+    final AuthResponse authResponse = await userGateway.getFromMemory();
+    _client = Dio();
+
+    if (authResponse.success) {
+      final String token = authResponse.tokens!.accessToken;
+      _client.options.headers["Authorization"] = "Bearer $token";
+      try {
+        await _client.put(
+          backendURL + groupEndpointsUrl,
+          queryParameters: {"groupId": groupEndpointsData.groupId.toString()},
+          data: groupEndpointsData.toJson(),
+        );
+        return Future.value(true);
+      } on DioError catch (error) {
+        return Future.error(error);
+      }
+    }
+    return Future.error("Cannot post");
   }
 
   Future<bool> deleteMember(int memberId, int groupId) async {

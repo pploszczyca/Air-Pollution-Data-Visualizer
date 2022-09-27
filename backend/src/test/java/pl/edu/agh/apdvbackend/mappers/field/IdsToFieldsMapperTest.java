@@ -10,8 +10,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import pl.edu.agh.apdvbackend.fakes.FieldFakes;
 import pl.edu.agh.apdvbackend.use_cases.field.GetField;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doReturn;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
@@ -44,6 +44,6 @@ class IdsToFieldsMapperTest {
         final var result = mapper.toFields(fieldIds);
 
         // Then
-        assertEquals(expected, result);
+        assertThat(result).usingRecursiveComparison().isEqualTo(expected);
     }
 }

@@ -18,7 +18,7 @@ import pl.edu.agh.apdvbackend.models.body_models.group.GroupEndpointRequestBody;
 import pl.edu.agh.apdvbackend.models.database.Field;
 import pl.edu.agh.apdvbackend.use_cases.endpoint.GetEndpoint;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doReturn;
 
 @SpringBootTest
@@ -75,7 +75,7 @@ class GroupEndpointMapperTest {
         final var result = mapper.toEndpointGroup(requestBody, group);
 
         // Then
-        assertEquals(expected, result);
+        assertThat(result).usingRecursiveComparison().isEqualTo(expected);
     }
 
     @Test
@@ -119,6 +119,6 @@ class GroupEndpointMapperTest {
         final var result = mapper.toGroupEndpointList(requestBodies, group);
 
         // Then
-        assertEquals(expected, result);
+        assertThat(result).usingRecursiveComparison().isEqualTo(expected);
     }
 }

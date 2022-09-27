@@ -15,6 +15,7 @@ import pl.edu.agh.apdvbackend.models.body_models.unit_converter.UnitConverterReq
 import pl.edu.agh.apdvbackend.models.database.MathOperation;
 import pl.edu.agh.apdvbackend.repositories.UnitRepository;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
@@ -61,7 +62,7 @@ class UnitConverterRequestBodyMapperTest {
         final var result = mapper.toUnitConverter(addUnitConverterRequestBody);
 
         // Then
-        assertEquals(expectedResult, result);
+        assertThat(result).usingRecursiveComparison().isEqualTo(expectedResult);
     }
 
     @Test
@@ -102,6 +103,6 @@ class UnitConverterRequestBodyMapperTest {
         mapper.updateUnitConverter(addUnitConverterRequestBody, unitConverterToUpdate);
 
         // Then
-        assertEquals(expectedResult, unitConverterToUpdate);
+        assertThat(unitConverterToUpdate).usingRecursiveComparison().isEqualTo(expectedResult);
     }
 }

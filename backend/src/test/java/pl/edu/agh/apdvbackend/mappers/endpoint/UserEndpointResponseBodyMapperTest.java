@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import pl.edu.agh.apdvbackend.fakes.EndpointFakes;
 import pl.edu.agh.apdvbackend.models.body_models.endpoint.UserEndpointResponseBody;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
@@ -35,7 +35,7 @@ class UserEndpointResponseBodyMapperTest {
         final var result = mapper.toResponseBody(endpoint);
 
         // Then
-        assertEquals(expected, result);
+        assertThat(result).usingRecursiveComparison().isEqualTo(expected);
     }
 
     @Test
@@ -55,6 +55,6 @@ class UserEndpointResponseBodyMapperTest {
         final var result = mapper.toResponseBodyList(List.of(endpoint));
 
         // Then
-        assertEquals(expected, result);
+        assertThat(result).usingRecursiveComparison().isEqualTo(expected);
     }
 }

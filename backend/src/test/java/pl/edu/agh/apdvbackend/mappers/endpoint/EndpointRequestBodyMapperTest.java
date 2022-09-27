@@ -17,7 +17,7 @@ import pl.edu.agh.apdvbackend.models.body_models.field_and_parser.FieldAndParser
 import pl.edu.agh.apdvbackend.models.database.Field;
 import pl.edu.agh.apdvbackend.models.database.FieldParser;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
@@ -53,7 +53,7 @@ class EndpointRequestBodyMapperTest {
         final var result = mapper.toEndpoint(requestBody);
 
         // Then
-        assert(expected, result);
+        assertThat(result).usingRecursiveComparison().isEqualTo(expected);
     }
 
     @Test
@@ -84,6 +84,6 @@ class EndpointRequestBodyMapperTest {
         mapper.updateEndpoint(requestBody, endpointToUpdate);
 
         // Then
-        assertEquals(expected, endpointToUpdate);
+        assertThat(endpointToUpdate).usingRecursiveComparison().isEqualTo(expected);
     }
 }

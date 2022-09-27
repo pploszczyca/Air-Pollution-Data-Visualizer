@@ -10,7 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import pl.edu.agh.apdvbackend.fakes.UserFakes;
 import pl.edu.agh.apdvbackend.models.body_models.user.UserRequestBody;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doReturn;
 
 @SpringBootTest
@@ -42,7 +42,7 @@ class UserMapperTest {
         final var result = mapper.toUser(userRequestBody);
 
         // Then
-        assertEquals(expected, result);
+        assertThat(result).usingRecursiveComparison().isEqualTo(expected);
     }
 
     @Test
@@ -68,6 +68,6 @@ class UserMapperTest {
         mapper.updateUser(userRequestBody, userToUpdate);
 
         // Then
-        assertEquals(expected, userToUpdate);
+        assertThat(userToUpdate).usingRecursiveComparison().isEqualTo(expected);
     }
 }

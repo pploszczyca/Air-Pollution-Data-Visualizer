@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import pl.edu.agh.apdvbackend.fakes.FieldParserFakes;
 import pl.edu.agh.apdvbackend.models.body_models.field_parser.FieldParserRequestBody;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
@@ -31,7 +31,7 @@ class FieldParserMapperTest {
         final var result = mapper.addRequestBodyToFieldParser(requestBody);
 
         // Then
-        assertEquals(expectedFieldParser, result);
+        assertThat(result).usingRecursiveComparison().isEqualTo(expectedFieldParser);
     }
 
     @Test
@@ -53,6 +53,6 @@ class FieldParserMapperTest {
         mapper.updateFieldParserFromAddRequestBody(requestBody, fieldToUpdate);
 
         // Then
-        assertEquals(expectedField, fieldToUpdate);
+        assertThat(fieldToUpdate).usingRecursiveComparison().isEqualTo(expectedField);
     }
 }

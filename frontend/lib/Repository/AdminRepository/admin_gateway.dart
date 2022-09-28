@@ -17,10 +17,7 @@ class AdminGateway {
     return summary;
   }
 
-  Future<GroupData> getGroupData(int groupId){
-    final Future<GroupData> groupData = restRepository.getGroupData(groupId);
-    return groupData;
-  }
+  Future<GroupData> getGroupData(int groupId) => restRepository.getGroupData(groupId);
 
   Future<bool> deleteGroup(int id) => restRepository.deleteGroup(id);
 

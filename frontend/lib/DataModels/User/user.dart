@@ -18,13 +18,11 @@ extension UserRoleExtension on UserRole {
     return UserRole.empty;
   }
 
+  String toShortString() => toString()
+      .split('.')
+      .last;
 }
 
-extension ParseToString on UserRole {
-  String toShortString() => toString()
-        .split('.')
-        .last;
-}
 
 class User {
   late AuthTokenResponse tokenResponse;

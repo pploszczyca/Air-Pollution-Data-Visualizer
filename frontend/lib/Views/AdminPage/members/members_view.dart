@@ -36,13 +36,13 @@ class _MembersViewState extends State<MembersView> {
       MembersListProvider(widget.groupId);
 
   FutureOr<GroupData> onError<E extends Object>(
-      E error,
-      StackTrace stackTrace,
-      ) {
+    E error,
+    StackTrace stackTrace,
+  ) {
     UserGateway().resetMemoryToken().then(
           (value) =>
-          Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false),
-    );
+              Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false),
+        );
     return Future.error(error.toString());
   }
 
@@ -50,7 +50,8 @@ class _MembersViewState extends State<MembersView> {
   Widget build(BuildContext context) => ChangeNotifierProvider(
         create: (context) => membersListProvider,
         child: RefreshIndicator(
-          onRefresh: () => widget.gateway.getGroupData(widget.groupId).onError(onError),
+          onRefresh: () =>
+              widget.gateway.getGroupData(widget.groupId).onError(onError),
           child: Scaffold(
             appBar: buildAdminAppBar('Members of ' + widget.groupName),
             body: _buildBody(),
@@ -94,36 +95,27 @@ class _MembersViewState extends State<MembersView> {
               fillColor: Colors.transparent,
               renderBorder: false,
               children: [
-                Container(
-                  margin: const EdgeInsets.only(left: 20, right: 20),
-                  child: Text(
-                    "ID",
-                    style: TextStyle(
-                      fontFamily: 'SofiaSans',
-                      fontSize: 25,
-                      fontWeight: FontWeight.normal,
-                      color: membersListProvider.idColor,
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(left: 20, right: 20),
-                  child: Text(
-                    "EMAIL",
-                    style: TextStyle(
-                      fontFamily: 'SofiaSans',
-                      fontSize: 25,
-                      fontWeight: FontWeight.normal,
-                      color: membersListProvider.emailColor,
-                    ),
-                  ),
-                )
+                _buildToggleButton("ID"),
+                _buildToggleButton("EMAIL"),
               ],
               onPressed: (int index) {
                 membersListProvider.changeSorting(index);
               },
             )
           ],
+        ),
+      );
+
+  Container _buildToggleButton(String buttonName) => Container(
+        margin: const EdgeInsets.only(left: 20, right: 20),
+        child: Text(
+          buttonName,
+          style: TextStyle(
+            fontFamily: 'SofiaSans',
+            fontSize: 25,
+            fontWeight: FontWeight.normal,
+            color: membersListProvider.idColor,
+          ),
         ),
       );
 
@@ -183,8 +175,11 @@ class _MembersViewState extends State<MembersView> {
       );
 
   Container _buildInfoContainer(String title, String data) => Container(
-        padding:
-             EdgeInsets.only(top: 20, left: MediaQuery.of(context).size.width * 0.05 , right: 20, bottom: 10),
+        padding: EdgeInsets.only(
+            top: 20,
+            left: MediaQuery.of(context).size.width * 0.05,
+            right: 20,
+            bottom: 10),
         alignment: Alignment.center,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -216,8 +211,6 @@ class _MembersViewState extends State<MembersView> {
           ],
         ),
       );
-
-
 
   FloatingActionButton _buildAddButton() => FloatingActionButton(
         onPressed: () => {},

@@ -2,7 +2,11 @@ import 'package:adpv_frontend/DataModels/group_data.dart';
 import 'package:adpv_frontend/DataModels/member_summary.dart';
 import 'package:flutter/material.dart';
 
-enum SortingField { id, mail }
+//ignore_for_file:  constant_identifier_names
+const ID_SORTING_BUTTON_INDEX = 0;
+const EMAIL_SORTING_BUTTON_INDEX = 1;
+
+enum SortingField { id, email }
 
 enum SortingOrder { asc, desc }
 
@@ -24,7 +28,7 @@ class MembersListProvider with ChangeNotifier {
     for (var e in groupData.members) {
       membersList.add(MemberInfo(e.id, e.email, e.userRoles, e.otherGroups));
     }
-    sortByIDAsc();
+    _sortByIDAsc();
     notifyListeners();
   }
 
@@ -33,57 +37,60 @@ class MembersListProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void sortByIDAsc() {
+  void _sortByIDAsc() {
     membersList.sort((a, b) => a.id.compareTo(b.id));
-    notifyListeners();
   }
 
-  void sortByIDDesc() {
+  void _sortByIDDesc() {
     membersList.sort((b, a) => a.id.compareTo(b.id));
-    notifyListeners();
   }
 
-  void sortByEmailAsc() {
+  void _sortByEmailAsc() {
     membersList.sort((a, b) => a.email.compareTo(b.email));
-    notifyListeners();
   }
 
-  void sortByEmailDesc() {
+  void _sortByEmailDesc() {
     membersList.sort((b, a) => a.email.compareTo(b.email));
-    notifyListeners();
   }
 
-  void changeEmailColor() {
-    emailColor = emailColor == Colors.black ? Colors.pink : Colors.black;
+  SortingOrder _reverseSortingOrder() =>
+      currentSorting.order == SortingOrder.asc
+          ? SortingOrder.desc
+          : SortingOrder.asc;
+
+  void _setSortingById(){
+    if (currentSorting.field == SortingField.id) {
+      currentSorting.order = _reverseSortingOrder();
+    } else {
+      currentSorting.field = SortingField.id;
+      currentSorting.order = SortingOrder.asc;
+      idColor = Colors.pink;
+      emailColor = Colors.black;
+    }
+    currentSorting.order == SortingOrder.asc
+        ? _sortByIDAsc()
+        : _sortByIDDesc();
+  }
+
+  void _setSortingByEmail(){
+    if (currentSorting.field == SortingField.email) {
+      currentSorting.order = _reverseSortingOrder();
+    } else {
+      currentSorting.field = SortingField.email;
+      currentSorting.order = SortingOrder.asc;
+      emailColor = Colors.pink;
+      idColor = Colors.black;
+    }
+    currentSorting.order == SortingOrder.asc
+        ? _sortByEmailAsc()
+        : _sortByEmailDesc();
   }
 
   void changeSorting(int index) {
-    if (index == 0) {
-      if (currentSorting.field == SortingField.id) {
-        currentSorting.order = currentSorting.order == SortingOrder.asc
-            ? SortingOrder.desc
-            : SortingOrder.asc;
-      } else {
-        currentSorting.field = SortingField.id;
-        currentSorting.order = SortingOrder.asc;
-        idColor = Colors.pink;
-        emailColor = Colors.black;
-      }
-      currentSorting.order == SortingOrder.asc ? sortByIDAsc() : sortByIDDesc();
-    } else if (index == 1) {
-      if (currentSorting.field == SortingField.mail) {
-        currentSorting.order = currentSorting.order == SortingOrder.asc
-            ? SortingOrder.desc
-            : SortingOrder.asc;
-      } else {
-        currentSorting.field = SortingField.mail;
-        currentSorting.order = SortingOrder.asc;
-        emailColor = Colors.pink;
-        idColor = Colors.black;
-      }
-      currentSorting.order == SortingOrder.asc
-          ? sortByEmailAsc()
-          : sortByEmailDesc();
+    if (index == ID_SORTING_BUTTON_INDEX) {
+      _setSortingById();
+    } else if (index == EMAIL_SORTING_BUTTON_INDEX) {
+     _setSortingByEmail();
     }
     notifyListeners();
   }

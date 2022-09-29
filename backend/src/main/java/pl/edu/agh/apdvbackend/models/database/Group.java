@@ -55,4 +55,8 @@ public class Group {
     public void removeUser(User user) {
         usersInGroup.remove(user);
     }
+
+    public void setGroupEndpoints(List<GroupEndpoint> groupEndpoints) {
+        this.groupEndpoints = new ArrayList<>(groupEndpoints);
+    }
 }

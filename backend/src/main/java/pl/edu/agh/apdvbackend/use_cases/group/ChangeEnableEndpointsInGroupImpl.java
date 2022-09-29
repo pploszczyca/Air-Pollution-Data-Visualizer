@@ -7,7 +7,7 @@ import pl.edu.agh.apdvbackend.mappers.group_endpoint.GroupEndpointMapper;
 import pl.edu.agh.apdvbackend.mappers.group.about_group.AboutGroupMapper;
 import pl.edu.agh.apdvbackend.models.body_models.group.AboutGroupResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.GroupEndpointRequestBody;
-import pl.edu.agh.apdvbackend.repositories.GroupEndpointRepository;
+import pl.edu.agh.apdvbackend.repositories.GroupRepository;
 
 @Component
 @RequiredArgsConstructor
@@ -15,8 +15,8 @@ public class ChangeEnableEndpointsInGroupImpl implements ChangeEnableEndpointsIn
 
     private final GroupEndpointMapper groupEndpointMapper;
     private final GetGroup getGroup;
-    private final GroupEndpointRepository groupEndpointRepository;
     private final AboutGroupMapper aboutGroupMapper;
+    private final GroupRepository groupRepository;
 
     @Override
     public AboutGroupResponseBody execute(
@@ -26,10 +26,8 @@ public class ChangeEnableEndpointsInGroupImpl implements ChangeEnableEndpointsIn
         final var enableEndpointsList = groupEndpointMapper
                 .toGroupEndpointList(groupEndpointRequestBodyList, group);
 
-        groupEndpointRepository.deleteAll(group.getGroupEndpoints());
-
         group.setGroupEndpoints(enableEndpointsList);
-        groupEndpointRepository.saveAll(enableEndpointsList);
+        groupRepository.save(group);
 
         return aboutGroupMapper.toAboutGroupResponseBody(group);
     }

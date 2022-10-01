@@ -8,8 +8,6 @@ public record GroupEndpointResponseBody(
         @Schema(required = true) Long id,
         @Schema(required = true) String label,
         @Schema(required = true) int endpointNumber,
-        @Schema(required = true) List<Field> enableFields,
-        @Schema(required = true) Integer detailedMeasurementDays,
-        @Schema(required = true) Integer approximationPrecission
+        @Schema(required = true) List<Field> enableFields
 ) {
 }

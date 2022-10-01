@@ -9,25 +9,19 @@ import pl.edu.agh.apdvbackend.models.database.Field;
 public class GroupEndpointResponseBodyFakes {
 
     private static final int ENDPOINT_NUMBER = 99;
-    private static final int DEFAULT_DETAILED_MEASURED_DAYS = 999;
-    private static final int DEFAULT_APPROXIMATION_PRECISSION = 9999;
 
     @Builder
     private static GroupEndpointResponseBody buildNewGroupEndpointResponseBody(
             Long id,
             String label,
             int endpointNumber,
-            List<Field> enableFields,
-            Integer detailedMeasurementDays,
-            Integer approximationPrecission
+            List<Field> enableFields
     ) {
         return new GroupEndpointResponseBody(
                 id,
                 getOrElse(label, "dummy label"),
                 getOrElse(endpointNumber, ENDPOINT_NUMBER),
-                getOrElse(enableFields, Collections.emptyList()),
-                getOrElse(detailedMeasurementDays, DEFAULT_DETAILED_MEASURED_DAYS),
-                getOrElse(approximationPrecission, DEFAULT_APPROXIMATION_PRECISSION)
+                getOrElse(enableFields, Collections.emptyList())
         );
     }
 

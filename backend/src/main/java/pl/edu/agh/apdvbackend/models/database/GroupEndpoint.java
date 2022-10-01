@@ -41,8 +41,4 @@ public class GroupEndpoint {
             inverseJoinColumns = {@JoinColumn(name = "field_id")}
     )
     private List<Field> enableFields = new ArrayList<>();
-
-    private Integer detailedMeasurementDays;
-
-    private Integer approximationPrecission;
 }

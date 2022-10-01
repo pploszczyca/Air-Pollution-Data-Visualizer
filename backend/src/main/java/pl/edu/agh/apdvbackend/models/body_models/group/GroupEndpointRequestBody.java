@@ -5,8 +5,6 @@ import java.util.List;
 
 public record GroupEndpointRequestBody(
         @Schema(required = true) Long endpointId,
-        @Schema(required = true) List<Long> fieldIds,
-        @Schema(required = true) Integer detailedMeasurementDays,
-        @Schema(required = true) Integer approximationPrecission
+        @Schema(required = true) List<Long> fieldIds
 ) {
 }

@@ -29,8 +29,6 @@ class GroupEndpointResponseBodyMapperTest {
         final var label = "label";
         final var endpointNumber = 2314;
         final List<Field> enableFields = Collections.emptyList();
-        final var detailedMeasurementDays = 324;
-        final var approximationPrecission = 213;
         final var endpoint = EndpointFakes.builder()
                 .id(endpointId)
                 .label(label)
@@ -43,12 +41,8 @@ class GroupEndpointResponseBodyMapperTest {
                 .id(groupEndpointKey)
                 .endpoint(endpoint)
                 .enableFields(enableFields)
-                .detailedMeasurementDays(detailedMeasurementDays)
-                .approximationPrecission(approximationPrecission)
                 .build();
-        final var expected = new GroupEndpointResponseBody(
-                endpointId, label, endpointNumber, enableFields, detailedMeasurementDays, approximationPrecission
-        );
+        final var expected = new GroupEndpointResponseBody(endpointId, label, endpointNumber, enableFields);
 
         // When
         final var result = mapper.toResponseBody(groupEndpoint);
@@ -64,8 +58,6 @@ class GroupEndpointResponseBodyMapperTest {
         final var label = "label";
         final var endpointNumber = 2314;
         final List<Field> enableFields = Collections.emptyList();
-        final var detailedMeasurementDays = 324;
-        final var approximationPrecission = 213;
         final var endpoint = EndpointFakes.builder()
                 .id(endpointId)
                 .label(label)
@@ -78,11 +70,9 @@ class GroupEndpointResponseBodyMapperTest {
                 .id(groupEndpointKey)
                 .endpoint(endpoint)
                 .enableFields(enableFields)
-                .detailedMeasurementDays(detailedMeasurementDays)
-                .approximationPrecission(approximationPrecission)
                 .build();
         final var expected = List.of(new GroupEndpointResponseBody(
-                endpointId, label, endpointNumber, enableFields, detailedMeasurementDays, approximationPrecission
+                endpointId, label, endpointNumber, enableFields
         ));
 
         // When

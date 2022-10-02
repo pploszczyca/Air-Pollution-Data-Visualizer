@@ -59,8 +59,4 @@ public class Group {
     public void setGroupEndpoints(List<GroupEndpoint> groupEndpoints) {
         this.groupEndpoints = new ArrayList<>(groupEndpoints);
     }
-
-    public void clearGroupEndpoints() {
-        this.groupEndpoints = new ArrayList<>();
-    }
 }

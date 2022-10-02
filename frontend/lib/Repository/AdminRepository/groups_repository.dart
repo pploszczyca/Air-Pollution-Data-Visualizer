@@ -155,7 +155,8 @@ class GroupsRepository {
   }
 
   Future<bool> updateGroupEndpoints(
-      GroupEndpointsData groupEndpointsData,) async {
+    GroupEndpointsData groupEndpointsData,
+  ) async {
     final AuthResponse authResponse = await userGateway.getFromMemory();
     _client = Dio();
 
@@ -163,7 +164,6 @@ class GroupsRepository {
       final String token = authResponse.tokens!.accessToken;
       _client.options.headers["Authorization"] = "Bearer $token";
       try {
-        print(groupEndpointsData.toJson());
         await _client.put(
           backendURL + groupEndpointsUrl,
           queryParameters: {"groupId": groupEndpointsData.groupId.toString()},

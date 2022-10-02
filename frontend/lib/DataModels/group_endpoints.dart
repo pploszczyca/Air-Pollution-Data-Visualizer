@@ -1,4 +1,4 @@
-import 'package:adpv_frontend/Common/consts.dart';
+
 
 class Field {
   final int id;
@@ -67,8 +67,10 @@ class GroupEndpointsData {
         groupName = "",
         endpoints = {};
 
-  List<Map<String, dynamic>> toJson() =>
-      endpoints.values.where((element) => element.isBelongingToGroup).map((value) => value.toJson()).toList();
+  List<Map<String, dynamic>> toJson() => endpoints.values
+      .where((element) => element.isBelongingToGroup)
+      .map((value) => value.toJson())
+      .toList();
 
   void sortFields() {
     for (final element in endpoints.values) {

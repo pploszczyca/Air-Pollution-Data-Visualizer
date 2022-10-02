@@ -109,8 +109,12 @@ class _GroupsViewState extends State<GroupsView> {
               group.membersButtonColor,
               _navigateToMembers,
             ),
-            _buildButtonContainer('Endpoints and permissions', group,
-                group.endpointsButtonColor, _onEndpointsAndPermissionsPressed,),
+            _buildButtonContainer(
+              'Endpoints and permissions',
+              group,
+              group.endpointsButtonColor,
+              _onEndpointsAndPermissionsPressed,
+            ),
             _buildDeleteContainer(group)
           ],
         ),
@@ -251,5 +255,19 @@ class _GroupsViewState extends State<GroupsView> {
     );
   }
 
-  void _navigateToEndpoints(GroupCard groupCard) {}
+
+  void _onEndpointsAndPermissionsPressed(
+    BuildContext context,
+    GroupCard groupCard,
+  ) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MembersView(
+          groupId: groupCard.id,
+          groupName: groupCard.name,
+        ),
+      ),
+    );
+  }
 }

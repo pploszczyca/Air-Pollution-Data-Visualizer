@@ -162,14 +162,17 @@ class _GroupEndpointViewState extends State<GroupEndpointView> {
                         provider.updateEndpointState(value, endpoint.label);
                       },
                     ),
-                    Text(
-                      endpoint.label,
-                      style: defaultAdminTextStyle,
+                    Flexible(
+                      child: Text(
+                        endpoint.label,
+                        style: defaultAdminTextStyle,
+                      ),
                     ),
                   ],
                 ),
                 children: endpoint.fields.entries
-                    .where((element) => ![ignoreField, ignoreLabel, ignoreId].contains(element.key))
+                    .where((element) => ![ignoreField, ignoreLabel, ignoreId]
+                        .contains(element.key),)
                     .map((field) {
                   final Field value = field.value;
                   final String tileText = value.unitName != null
@@ -211,9 +214,11 @@ class _GroupEndpointViewState extends State<GroupEndpointView> {
       CheckboxListTile(
         activeColor: Colors.teal,
         controlAffinity: ListTileControlAffinity.leading,
-        title: Text(
-          tileText,
-          style: defaultAdminTextStyle,
+        title: Flexible(
+          child: Text(
+            tileText,
+            style: defaultAdminTextStyle,
+          ),
         ),
         value: field.isBelongingToGroup,
         onChanged: (bool? value) => provider.updateFieldState(

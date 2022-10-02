@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 
 ScaffoldFeatureController<SnackBar, SnackBarClosedReason> buildSnackbar(
-        String message, BuildContext context,
-        {int? duration, double? height, Color? color,}) =>
+  String message,
+  BuildContext context, {
+  int? duration,
+  double? height,
+  Color? color,
+}) =>
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Container(

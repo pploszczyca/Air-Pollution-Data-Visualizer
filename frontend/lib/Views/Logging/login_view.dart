@@ -367,7 +367,7 @@ class _LoginViewState extends State<LoginView>
                 ? null
                 : _onSubmitButton(context),
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.transparent,
+              primary: Colors.transparent,
               shadowColor: Colors.transparent,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),

@@ -8,6 +8,7 @@ import 'package:adpv_frontend/Views/AdminPage/groups/confirmation_dialog_modal.d
 import 'package:adpv_frontend/Views/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../../../Repository/AdminRepository/admin_gateway.dart';
 import '../../../Repository/UserRepository/user_gateway.dart';
 import '../../../Widgets/common_widgets.dart';
@@ -32,25 +33,23 @@ class MembersView extends StatefulWidget {
 }
 
 class _MembersViewState extends State<MembersView> {
-  late MembersListProvider membersListProvider =
-      MembersListProvider(widget.groupId);
-
   FutureOr<GroupData> onError<E extends Object>(
-      E error,
-      StackTrace stackTrace,
-      ) {
+    E error,
+    StackTrace stackTrace,
+  ) {
     UserGateway().resetMemoryToken().then(
           (value) =>
-          Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false),
-    );
+              Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false),
+        );
     return Future.error(error.toString());
   }
 
   @override
   Widget build(BuildContext context) => ChangeNotifierProvider(
-        create: (context) => membersListProvider,
+        create: (context) => MembersListProvider(widget.groupId),
         child: RefreshIndicator(
-          onRefresh: () => widget.gateway.getGroupData(widget.groupId).onError(onError),
+          onRefresh: () =>
+              widget.gateway.getGroupData(widget.groupId).onError(onError),
           child: Scaffold(
             appBar: buildAdminAppBar('Members of ' + widget.groupName),
             body: _buildBody(),
@@ -66,16 +65,21 @@ class _MembersViewState extends State<MembersView> {
               snapshot.data == null) {
             return loadingInCenter();
           } else {
-            membersListProvider.makeMemberList(snapshot.data!);
             return SingleChildScrollView(
               controller: ScrollController(),
               child: Consumer<MembersListProvider>(
-                builder: (context, __, _) => Column(
-                  children: [
-                    _buildSortBar(membersListProvider),
-                    _buildMembersList(membersListProvider.membersList.length)
-                  ],
-                ),
+                builder: (context, membersListProvider, _) {
+                  membersListProvider.makeMemberList(snapshot.data!);
+                  return Column(
+                    children: [
+                      _buildSortBar(membersListProvider),
+                      _buildMembersList(
+                        membersListProvider.membersList.length,
+                        membersListProvider,
+                      )
+                    ],
+                  );
+                },
               ),
             );
           }
@@ -127,7 +131,11 @@ class _MembersViewState extends State<MembersView> {
         ),
       );
 
-  ListView _buildMembersList(int itemCount) => ListView.builder(
+  ListView _buildMembersList(
+    int itemCount,
+    MembersListProvider membersListProvider,
+  ) =>
+      ListView.builder(
         controller: ScrollController(),
         itemCount: itemCount,
         shrinkWrap: true,
@@ -183,8 +191,12 @@ class _MembersViewState extends State<MembersView> {
       );
 
   Container _buildInfoContainer(String title, String data) => Container(
-        padding:
-             EdgeInsets.only(top: 20, left: MediaQuery.of(context).size.width * 0.05 , right: 20, bottom: 10),
+        padding: EdgeInsets.only(
+          top: 20,
+          left: MediaQuery.of(context).size.width * 0.05,
+          right: 10,
+          bottom: 10,
+        ),
         alignment: Alignment.center,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -217,24 +229,25 @@ class _MembersViewState extends State<MembersView> {
         ),
       );
 
-
-
   FloatingActionButton _buildAddButton() => FloatingActionButton(
         onPressed: () => {},
         backgroundColor: adminGreenColor,
         child: const Icon(Icons.add),
       );
 
-  void _onDeletePressed(MemberInfo member) {
+  void _onDeletePressed(
+    MemberInfo member,
+    MembersListProvider membersListProvider,
+  ) {
     showAlertDialog(
       context,
       'Delete ' + member.email + ' from ' + widget.groupName,
       "You are about to delete this user from the group",
-      () => deleteUser(member.id),
+      () => deleteUser(member.id, membersListProvider),
     );
   }
 
-  void deleteUser(int id) async {
+  void deleteUser(int id, MembersListProvider membersListProvider) async {
     await widget.gateway
         .deleteMember(id, widget.groupId)
         .then(

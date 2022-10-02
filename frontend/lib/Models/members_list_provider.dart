@@ -15,11 +15,17 @@ class Sorting {
   SortingOrder order = SortingOrder.asc;
 }
 
+const ARROW_UP = Icons.keyboard_arrow_up_rounded;
+const ARROW_DOWN =Icons.keyboard_arrow_down_rounded;
+
 class MembersListProvider with ChangeNotifier {
   List<MemberInfo> membersList = [];
   int groupId;
   Color emailColor = Colors.black;
   Color idColor = Colors.pink;
+  IconData emailIcon = ARROW_DOWN;
+  IconData idIcon = ARROW_UP;
+
   Sorting currentSorting = Sorting();
 
   MembersListProvider(this.groupId);
@@ -61,6 +67,7 @@ class MembersListProvider with ChangeNotifier {
   void _setSortingById(){
     if (currentSorting.field == SortingField.id) {
       currentSorting.order = _reverseSortingOrder();
+      idIcon = (idIcon == ARROW_UP) ? ARROW_DOWN : ARROW_UP;
     } else {
       currentSorting.field = SortingField.id;
       currentSorting.order = SortingOrder.asc;
@@ -75,6 +82,7 @@ class MembersListProvider with ChangeNotifier {
   void _setSortingByEmail(){
     if (currentSorting.field == SortingField.email) {
       currentSorting.order = _reverseSortingOrder();
+      emailIcon = (emailIcon == ARROW_UP) ? ARROW_DOWN : ARROW_UP;
     } else {
       currentSorting.field = SortingField.email;
       currentSorting.order = SortingOrder.asc;

@@ -90,13 +90,20 @@ class _MembersViewState extends State<MembersView> {
         child: Row(
           children: [
             ToggleButtons(
-              selectedColor: Colors.red,
               isSelected: widget._selections,
               fillColor: Colors.transparent,
               renderBorder: false,
               children: [
-                _buildToggleButton("ID"),
-                _buildToggleButton("EMAIL"),
+                _buildToggleButton(
+                  "ID",
+                  membersListProvider.idIcon,
+                  membersListProvider.idColor,
+                ),
+                _buildToggleButton(
+                  "EMAIL",
+                  membersListProvider.emailIcon,
+                  membersListProvider.emailColor,
+                ),
               ],
               onPressed: (int index) {
                 membersListProvider.changeSorting(index);
@@ -106,15 +113,28 @@ class _MembersViewState extends State<MembersView> {
         ),
       );
 
-  Container _buildToggleButton(String buttonName) => Container(
-        margin: const EdgeInsets.only(left: 20, right: 20),
-        child: Text(
-          buttonName,
-          style: TextStyle(
-            fontFamily: 'SofiaSans',
-            fontSize: 25,
-            fontWeight: FontWeight.normal,
-            color: membersListProvider.idColor,
+  Container _buildToggleButton(String buttonName, IconData icon, Color color) =>
+      Container(
+        margin: const EdgeInsets.only(right: 10, left: 10),
+        child: RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: buttonName,
+                style: TextStyle(
+                  fontFamily: 'SofiaSans',
+                  fontSize: 25,
+                  fontWeight: FontWeight.normal,
+                  color: color,
+                ),
+              ),
+              WidgetSpan(
+                child: Icon(
+                  icon,
+                  color: color,
+                ),
+              ),
+            ],
           ),
         ),
       );
@@ -135,35 +155,45 @@ class _MembersViewState extends State<MembersView> {
           borderRadius: BorderRadius.circular(10),
         ),
         child: ExpansionTile(
-          title: Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.only(right: 30),
-                child: Text(
-                  member.id.toString(),
-                  style: const TextStyle(
-                    fontFamily: 'SofiaSans',
-                    fontSize: 25,
-                    color: Colors.black,
-                    fontWeight: FontWeight.normal,
+          title: SizedBox(
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: Text(
+                    member.id.toString(),
+                    style: const TextStyle(
+                      fontFamily: 'SofiaSans',
+                      fontSize: 25,
+                      color: Colors.black,
+                      fontWeight: FontWeight.normal,
+                    ),
                   ),
                 ),
-              ),
-              Text(
-                member.email,
-                style: const TextStyle(
-                  fontFamily: 'SofiaSans',
-                  fontSize: 25,
-                  color: Colors.black,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-            ],
+                Flexible(
+                  child: Container(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: Text(
+                      member.email,
+                      overflow: TextOverflow.fade,
+                      softWrap: false,
+                      style: const TextStyle(
+                        fontFamily: 'SofiaSans',
+                        fontSize: 25,
+                        color: Colors.black,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
           collapsedBackgroundColor: Colors.white,
           tilePadding: const EdgeInsets.all(20),
           childrenPadding: const EdgeInsets.all(0),
           children: [
+            _buildInfoContainer("Email", member.email),
             _buildInfoContainer(
               "Roles",
               member.userRoles.map((e) => e.toShortString()).join(', '),
@@ -175,11 +205,8 @@ class _MembersViewState extends State<MembersView> {
       );
 
   Container _buildInfoContainer(String title, String data) => Container(
-        padding: EdgeInsets.only(
-            top: 20,
-            left: MediaQuery.of(context).size.width * 0.05,
-            right: 20,
-            bottom: 10),
+        padding:
+            const EdgeInsets.only(top: 20, left: 10, right: 10, bottom: 10),
         alignment: Alignment.center,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

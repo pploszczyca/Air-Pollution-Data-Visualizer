@@ -7,13 +7,13 @@ void showAlertDialog(
   String warningContent,
   Function() onAcceptFunction,
 ) {
-  void _onProceedPressed() {
+  void onProceedPressed() {
     onAcceptFunction();
     Navigator.of(context).pop();
   }
 
   final Widget continueButton = ElevatedButton(
-    onPressed: _onProceedPressed,
+    onPressed: onProceedPressed,
     style: proceedButtonStyle,
     child: Text("Proceed", style: proceedButtonTextStyle),
   );

@@ -163,6 +163,7 @@ class GroupsRepository {
       final String token = authResponse.tokens!.accessToken;
       _client.options.headers["Authorization"] = "Bearer $token";
       try {
+        print(groupEndpointsData.toJson());
         await _client.put(
           backendURL + groupEndpointsUrl,
           queryParameters: {"groupId": groupEndpointsData.groupId.toString()},

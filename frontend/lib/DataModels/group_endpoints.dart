@@ -35,8 +35,6 @@ class EndpointForGroup {
     final sortedEntries = fields.entries.toList()
       ..sort((e1, e2) => (e1.value.label.compareTo(e2.value.label)));
     fields = Map.fromEntries(sortedEntries);
-    fields.remove(ignoreId);
-    fields.remove(ignoreField);
   }
 
   EndpointForGroup.fromJson(Map json)
@@ -70,10 +68,10 @@ class GroupEndpointsData {
         endpoints = {};
 
   List<Map<String, dynamic>> toJson() =>
-      endpoints.values.map((value) => value.toJson()).toList();
+      endpoints.values.where((element) => element.isBelongingToGroup).map((value) => value.toJson()).toList();
 
   void sortFields() {
-    for (var element in endpoints.values) {
+    for (final element in endpoints.values) {
       element.sortFields();
     }
   }

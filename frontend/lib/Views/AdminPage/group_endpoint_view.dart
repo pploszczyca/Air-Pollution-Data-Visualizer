@@ -5,6 +5,7 @@ import 'package:adpv_frontend/Views/AdminPage/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../Common/consts.dart';
 import '../snackbar.dart';
 import 'confirmation_dialog_modal.dart';
 
@@ -60,13 +61,13 @@ class _GroupEndpointViewState extends State<GroupEndpointView> {
       );
 
   Container buildButtonContainer(BuildContext context) => Container(
-      margin: const EdgeInsets.symmetric(vertical: 20),
-      width: MediaQuery.of(context).size.width,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [buildCancelButton(context), buildSaveButton(context)],
-      ),
-    );
+        margin: const EdgeInsets.symmetric(vertical: 20),
+        width: MediaQuery.of(context).size.width,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [buildCancelButton(context), buildSaveButton(context)],
+        ),
+      );
 
   TextButton buildSaveButton(BuildContext context) => TextButton(
         style: ButtonStyle(
@@ -97,8 +98,13 @@ class _GroupEndpointViewState extends State<GroupEndpointView> {
           groupEndpointProvider
               .save()
               .then(
-                (_) => buildSnackbar("Group endpoints edited", context,
-                    duration: 3, color: adminGreenColor, height: 65,),
+                (_) => buildSnackbar(
+                  "Group endpoints edited",
+                  context,
+                  duration: 3,
+                  color: adminGreenColor,
+                  height: 65,
+                ),
               )
               .onError(
                 (error, stackTrace) => buildSnackbar(
@@ -115,8 +121,9 @@ class _GroupEndpointViewState extends State<GroupEndpointView> {
         style: ButtonStyle(
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5),
-                side: const BorderSide(color: Colors.red),),
+              borderRadius: BorderRadius.circular(5),
+              side: const BorderSide(color: Colors.red),
+            ),
           ),
         ),
         onPressed: () {
@@ -161,14 +168,13 @@ class _GroupEndpointViewState extends State<GroupEndpointView> {
                     ),
                   ],
                 ),
-                children: endpoint.fields.values.map((field) {
-                  final String tileText = field.unitName != null
-                      ? field.label +
-                          "/" +
-                          field.unitName.toString() +
-                          "#" +
-                          field.id.toString()
-                      : field.label;
+                children: endpoint.fields.entries
+                    .where((element) => ![ignoreField, ignoreLabel, ignoreId].contains(element.key))
+                    .map((field) {
+                  final Field value = field.value;
+                  final String tileText = value.unitName != null
+                      ? value.label + " / " + value.unitName.toString()
+                      : value.label;
                   return Theme(
                     data: ThemeData(
                       checkboxTheme:
@@ -184,7 +190,7 @@ class _GroupEndpointViewState extends State<GroupEndpointView> {
                       ),
                       child: makeCheckboxListTile(
                         tileText,
-                        field,
+                        value,
                         provider,
                         endpoint,
                       ),

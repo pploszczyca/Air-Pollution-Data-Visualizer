@@ -111,8 +111,8 @@ class _EndpointListViewState extends State<EndpointListView> {
             FutureBuilder<EndpointData>(
               future: widget.gateway.getEndpointData(
                 expansionPanelEndpoint.id,
-                1,
-                0,
+                null,
+                null,
                 false,
               ),
               builder: (context, recentDataSnapshot) {

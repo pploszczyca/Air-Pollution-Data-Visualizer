@@ -29,8 +29,7 @@ public abstract class AdminPanelGroupMapper {
         final var endpointsBelongsToGroup = group
                 .getGroupEndpoints()
                 .stream()
-                .collect(Collectors.toMap(GroupEndpoint::getEndpoint,
-                        Function.identity()));
+                .collect(Collectors.toMap(GroupEndpoint::getEndpoint, Function.identity()));
 
         return endpoints
                 .stream()

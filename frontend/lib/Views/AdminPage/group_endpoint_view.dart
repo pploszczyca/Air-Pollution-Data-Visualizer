@@ -28,12 +28,13 @@ final roundedRectangleBorder = RoundedRectangleBorder(
 
 class _GroupEndpointViewState extends State<GroupEndpointView> {
   late final Future<GroupEndpointsData> future;
-  late final GroupEndpointProvider groupEndpointProvider;
+
+  //late final GroupEndpointProvider groupEndpointProvider;
 
   @override
   void initState() {
     future = widget.gateway.getEndpointsForGroup(widget.groupEndpointId);
-    groupEndpointProvider = GroupEndpointProvider(future);
+    // groupEndpointProvider = GroupEndpointProvider(future);
     super.initState();
   }
 
@@ -44,7 +45,7 @@ class _GroupEndpointViewState extends State<GroupEndpointView> {
           widget.groupName + " - endpoints",
         ),
         body: ChangeNotifierProvider<GroupEndpointProvider>(
-          create: (context) => groupEndpointProvider,
+          create: (context) => GroupEndpointProvider(future),
           child: Consumer<GroupEndpointProvider>(
             builder: (context, provider, _) => Column(
               children: [
@@ -95,7 +96,7 @@ class _GroupEndpointViewState extends State<GroupEndpointView> {
         'Confirm saving group settings',
         "You are about to edit group permissions",
         () {
-          groupEndpointProvider
+          Provider.of<GroupEndpointProvider>(context, listen: false)
               .save()
               .then(
                 (_) => buildSnackbar(
@@ -171,8 +172,10 @@ class _GroupEndpointViewState extends State<GroupEndpointView> {
                   ],
                 ),
                 children: endpoint.fields.entries
-                    .where((element) => ![ignoreField, ignoreLabel, ignoreId]
-                        .contains(element.key),)
+                    .where(
+                  (element) => ![ignoreField, ignoreLabel, ignoreId]
+                      .contains(element.key),
+                )
                     .map((field) {
                   final Field value = field.value;
                   final String tileText = value.unitName != null

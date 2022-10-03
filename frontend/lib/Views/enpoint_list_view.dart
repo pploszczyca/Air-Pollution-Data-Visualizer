@@ -197,8 +197,8 @@ class _EndpointListViewState extends State<EndpointListView> {
       );
 
   Future<void> _refresh(EndpointListProvider endpointListProvider) async {
-    endpointListProvider
-        .makeEndpointsList(await widget.gateway.getEndpointSummary());
+    endpointListProvider.makeEndpointsList(
+        await widget.gateway.getEndpointSummary(needUpdate: true),);
   }
 
   SingleChildScrollView _buildBody() => SingleChildScrollView(

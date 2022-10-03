@@ -1,4 +1,4 @@
-
+import 'package:adpv_frontend/Common/consts.dart';
 
 class Field {
   final int id;
@@ -42,7 +42,13 @@ class EndpointForGroup {
         label = json["label"],
         // ignore: unnecessary_lambdas
         fields = {for (var e in json["fields"]) e["label"]: Field.fromJson(e)},
-        isBelongingToGroup = json["isBelongingToGroup"];
+        isBelongingToGroup = json["isBelongingToGroup"] {
+    for (var element in fields.entries) {
+      if ([ignoreId, ignoreLabel, ignoreField].contains(element.key)) {
+        element.value.isBelongingToGroup = true;
+      }
+    }
+  }
 
   Map<String, dynamic> toJson() => {
         "endpointId": id,
@@ -50,8 +56,6 @@ class EndpointForGroup {
             .where((field) => field.isBelongingToGroup)
             .map((field) => field.id.toString())
             .toList(),
-        "detailedMeasurementDays": 0,
-        "approximationPrecission": 0 // na co to po co to?
       };
 }
 
@@ -67,10 +71,21 @@ class GroupEndpointsData {
         groupName = "",
         endpoints = {};
 
-  List<Map<String, dynamic>> toJson() => endpoints.values
-      .where((element) => element.isBelongingToGroup)
-      .map((value) => value.toJson())
-      .toList();
+  GroupEndpointsData.fromJson(Map json)
+      : groupId = json["groupId"],
+        groupName = json["groupName"],
+        endpoints = {
+          for (var e in json["endpoints"])
+            e["label"]: EndpointForGroup.fromJson(e)
+        };
+
+  List<Map<String, dynamic>> toJson() {
+    final List<Map<String, dynamic>> list = endpoints.values
+        .where((element) => element.isBelongingToGroup)
+        .map((value) => value.toJson())
+        .toList();
+    return list;
+  }
 
   void sortFields() {
     for (final element in endpoints.values) {

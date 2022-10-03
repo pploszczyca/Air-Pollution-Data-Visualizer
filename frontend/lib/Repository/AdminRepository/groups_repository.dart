@@ -135,13 +135,8 @@ class GroupsRepository {
           final BackendResponse backendResponse =
               BackendResponse.fromJson(response.data);
           if (backendResponse.error == "") {
-            return GroupEndpointsData(
-              backendResponse.data["groupId"],
-              backendResponse.data["groupName"],
-              {
-                for (var e in backendResponse.data["endpoints"])
-                  e["label"]: EndpointForGroup.fromJson(e)
-              },
+            return GroupEndpointsData.fromJson(
+              backendResponse.data,
             );
           }
         }

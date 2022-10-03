@@ -57,5 +57,6 @@ class EndpointListProvider with ChangeNotifier {
     for (var element in endpointSummary) {
       setEndpoint(element);
     }
+    notifyListeners();
   }
 }

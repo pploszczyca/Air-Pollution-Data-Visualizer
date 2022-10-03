@@ -89,7 +89,7 @@ public class GroupController {
             security = @SecurityRequirement(name = JWT_AUTH)
     )
     @PutMapping("/endpoints")
-    public Response<AboutGroupResponseBody> changeEnableEndpoints(
+    public Response<AdminPanelGroupResponseBody> changeEnableEndpoints(
             @RequestBody List<GroupEndpointRequestBody> groupEndpointRequestBodyList,
             @RequestParam Long groupId
     ) {

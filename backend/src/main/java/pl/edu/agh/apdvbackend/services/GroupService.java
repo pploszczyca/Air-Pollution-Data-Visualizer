@@ -57,7 +57,7 @@ public class GroupService {
         removeGroup.execute(groupId);
     }
 
-    public Response<AboutGroupResponseBody> changeEnableEndpoints(
+    public Response<AdminPanelGroupResponseBody> changeEnableEndpoints(
             List<GroupEndpointRequestBody> groupEndpointRequestBodyList,
             Long groupId
     ) {

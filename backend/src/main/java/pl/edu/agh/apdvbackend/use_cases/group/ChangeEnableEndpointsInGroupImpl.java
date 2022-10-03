@@ -7,7 +7,6 @@ import pl.edu.agh.apdvbackend.mappers.group_endpoint.GroupEndpointMapper;
 import pl.edu.agh.apdvbackend.models.body_models.group.AdminPanelGroupResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.group.GroupEndpointRequestBody;
 import pl.edu.agh.apdvbackend.repositories.GroupEndpointRepository;
-import pl.edu.agh.apdvbackend.repositories.GroupRepository;
 
 @Component
 @RequiredArgsConstructor
@@ -16,7 +15,6 @@ public class ChangeEnableEndpointsInGroupImpl implements ChangeEnableEndpointsIn
     private final GroupEndpointMapper groupEndpointMapper;
     private final GetGroup getGroup;
     private final GetAdminPanelGroup getAdminPanelGroup;
-    private final GroupRepository groupRepository;
     private final GroupEndpointRepository groupEndpointRepository;
 
     @Override
@@ -27,9 +25,6 @@ public class ChangeEnableEndpointsInGroupImpl implements ChangeEnableEndpointsIn
         final var enableEndpointsList = groupEndpointMapper
                 .toGroupEndpointList(groupEndpointRequestBodyList, group);
 
-//        group.setGroupEndpoints(enableEndpointsList);
-//        groupRepository.save(group);
-//        groupEndpointRepository.deleteAll(group.getGroupEndpoints());
         groupEndpointRepository.deleteAllByGroupId(groupId);
         groupEndpointRepository.saveAll(enableEndpointsList);
 

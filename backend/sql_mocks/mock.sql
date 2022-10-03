@@ -122,13 +122,13 @@ INSERT INTO public.user_role(user_id, role_id) VALUES (1, 0);
 INSERT INTO public.user_role(user_id, role_id) VALUES (1, 1);
 INSERT INTO public.user_role(user_id, role_id) VALUES (2, 0);
 
-INSERT INTO public.group_endpoint (endpoint_id, group_id, approximation_precission, detailed_measurement_days) VALUES (1, 1, 10, 10);
-INSERT INTO public.group_endpoint (endpoint_id, group_id, approximation_precission, detailed_measurement_days) VALUES (2, 1, 10, 10);
-INSERT INTO public.group_endpoint (endpoint_id, group_id, approximation_precission, detailed_measurement_days) VALUES (3, 1, 10, 10);
-INSERT INTO public.group_endpoint (endpoint_id, group_id, approximation_precission, detailed_measurement_days) VALUES (4, 1, 10, 10);
+INSERT INTO public.group_endpoint (endpoint_id, group_id) VALUES (1, 1);
+INSERT INTO public.group_endpoint (endpoint_id, group_id) VALUES (2, 1);
+INSERT INTO public.group_endpoint (endpoint_id, group_id) VALUES (3, 1);
+INSERT INTO public.group_endpoint (endpoint_id, group_id) VALUES (4, 1);
 
-INSERT INTO public.group_endpoint (endpoint_id, group_id, approximation_precission, detailed_measurement_days) VALUES (1, 2, 10, 10);
-INSERT INTO public.group_endpoint (endpoint_id, group_id, approximation_precission, detailed_measurement_days) VALUES (5, 2, 10, 10);
+INSERT INTO public.group_endpoint (endpoint_id, group_id) VALUES (1, 2);
+INSERT INTO public.group_endpoint (endpoint_id, group_id) VALUES (5, 2);
 
 INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (1, 1, 1);
 INSERT INTO public.enable_fields (endpoint_id, gropu_id, field_id) VALUES (1, 1, 2);

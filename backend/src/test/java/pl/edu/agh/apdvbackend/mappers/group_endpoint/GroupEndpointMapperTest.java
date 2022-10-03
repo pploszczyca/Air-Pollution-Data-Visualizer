@@ -43,8 +43,6 @@ class GroupEndpointMapperTest {
         final var endpointId = 53L;
         final var groupId = 34L;
         final List<Long> fieldIds = Collections.emptyList();
-        final var detailedMeasurementDays = 24;
-        final var approximationPrecission = 32;
         final var endpoint = EndpointFakes.builder()
                 .id(endpointId)
                 .build();
@@ -57,14 +55,12 @@ class GroupEndpointMapperTest {
                 .build();
         final List<Field> fields = Collections.emptyList();
         final var requestBody =
-                new GroupEndpointRequestBody(endpointId, fieldIds, detailedMeasurementDays, approximationPrecission);
+                new GroupEndpointRequestBody(endpointId, fieldIds);
         final var expected = GroupEndpointFakes.builder()
                 .id(groupEndpointKey)
                 .group(group)
                 .endpoint(endpoint)
                 .enableFields(fields)
-                .detailedMeasurementDays(detailedMeasurementDays)
-                .approximationPrecission(approximationPrecission)
                 .build();
 
         doReturn(endpoint).when(getEndpoint).execute(endpointId);
@@ -84,8 +80,6 @@ class GroupEndpointMapperTest {
         final var endpointId = 53L;
         final var groupId = 34L;
         final List<Long> fieldIds = Collections.emptyList();
-        final var detailedMeasurementDays = 24;
-        final var approximationPrecission = 32;
         final var endpoint = EndpointFakes.builder()
                 .id(endpointId)
                 .build();
@@ -98,7 +92,7 @@ class GroupEndpointMapperTest {
                 .build();
         final List<Field> fields = Collections.emptyList();
         final var requestBodies = List.of(
-                new GroupEndpointRequestBody(endpointId, fieldIds, detailedMeasurementDays, approximationPrecission)
+                new GroupEndpointRequestBody(endpointId, fieldIds)
         );
         final var expected = List.of(
                 GroupEndpointFakes.builder()
@@ -106,8 +100,6 @@ class GroupEndpointMapperTest {
                         .group(group)
                         .endpoint(endpoint)
                         .enableFields(fields)
-                        .detailedMeasurementDays(detailedMeasurementDays)
-                        .approximationPrecission(approximationPrecission)
                         .build()
         );
 

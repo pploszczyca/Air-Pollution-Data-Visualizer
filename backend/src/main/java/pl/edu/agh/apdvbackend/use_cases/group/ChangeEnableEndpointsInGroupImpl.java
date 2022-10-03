@@ -30,7 +30,7 @@ public class ChangeEnableEndpointsInGroupImpl implements ChangeEnableEndpointsIn
 //        group.setGroupEndpoints(enableEndpointsList);
 //        groupRepository.save(group);
 //        groupEndpointRepository.deleteAll(group.getGroupEndpoints());
-        groupEndpointRepository.deleteAllMyFunction(groupId);
+        groupEndpointRepository.deleteAllByGroupId(groupId);
         groupEndpointRepository.saveAll(enableEndpointsList);
 
         return getAdminPanelGroup.execute(groupId);

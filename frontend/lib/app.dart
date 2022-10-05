@@ -134,7 +134,7 @@ class _AppState extends State<App> {
           const Icon(Icons.admin_panel_settings_outlined),
         ),
       );
-      _navigationOptions.add(const AdminMainView());
+      _navigationOptions.add( const AdminMainView());
     }
 
     final Widget navbar = BottomNavigationBar(

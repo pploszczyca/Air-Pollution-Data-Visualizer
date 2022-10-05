@@ -7,6 +7,23 @@ enum UserRole {
   empty,
 }
 
+extension UserRoleExtension on UserRole {
+  UserRole fromString(String roleString) {
+    switch (roleString) {
+      case "USER":
+        return UserRole.user;
+      case "ADMIN":
+        return UserRole.admin;
+    }
+    return UserRole.empty;
+  }
+
+  String toShortString() => toString()
+      .split('.')
+      .last;
+}
+
+
 class User {
   late AuthTokenResponse tokenResponse;
   late String email;
@@ -16,18 +33,8 @@ class User {
     final Map<String, dynamic> parsed = Jwt.parseJwt(tokenResponse.accessToken);
     email = parsed['sub'];
     for (var element in (parsed['roles'] as List)) {
-      userRoles.add(fromString(element));
+      userRoles.add(UserRole.user.fromString(element));
     }
-  }
-
-  UserRole fromString(String roleString) {
-    switch (roleString) {
-      case "USER":
-        return UserRole.user;
-      case "ADMIN":
-        return UserRole.admin;
-    }
-    return UserRole.empty;
   }
 
   User.empty()

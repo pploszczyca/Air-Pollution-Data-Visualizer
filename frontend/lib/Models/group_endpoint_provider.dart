@@ -1,3 +1,4 @@
+import 'package:adpv_frontend/Common/consts.dart';
 import 'package:adpv_frontend/DataModels/group_endpoints.dart';
 import 'package:flutter/material.dart';
 
@@ -55,10 +56,14 @@ class GroupEndpointProvider with ChangeNotifier {
       });
 
   void updateEndpointAfterFieldChange(int endpointId, int fieldId) {
-    final List<Field> enabled = groupEndpointsData
-        .endpoints[endpointId]!.fields.values
-        .where((element) => element.isBelongingToGroup == true)
-        .toList();
+    final List<Field> enabled =
+        groupEndpointsData.endpoints[endpointId]!.fields.values
+            .where(
+              (element) =>
+                  element.isBelongingToGroup == true &&
+                  ![ignoreField, ignoreLabel, ignoreId].contains(element.label),
+            )
+            .toList();
     groupEndpointsData.endpoints[endpointId]!.isBelongingToGroup =
         enabled.isEmpty ? false : true;
   }

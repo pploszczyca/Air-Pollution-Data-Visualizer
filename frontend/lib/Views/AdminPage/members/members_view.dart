@@ -53,7 +53,7 @@ class _MembersViewState extends State<MembersView> {
           onRefresh: () =>
               widget.gateway.getGroupData(widget.groupId).onError(onError),
           child: Scaffold(
-            appBar: buildAdminAppBar('Members of ' + widget.groupName),
+            appBar: adminAppBar("Administrator", 'Members of ' + widget.groupName),
             body: _buildBody(),
             floatingActionButton: _buildAddButton(),
           ),

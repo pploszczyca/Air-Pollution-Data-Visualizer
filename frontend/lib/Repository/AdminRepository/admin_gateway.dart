@@ -27,7 +27,6 @@ class AdminGateway {
 
   Future<GroupEndpointsData> getEndpointsForGroup(int groupId) =>
       restRepository.getEndpointsForGroup(groupId);
-  Future<GroupSummary> createGroup(String name) => restRepository.createGroup(name);
 
   Future<bool> deleteMember(int memberId, int groupId) => restRepository.deleteMember(memberId, groupId);
 }

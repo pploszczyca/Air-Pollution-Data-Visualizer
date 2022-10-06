@@ -1,4 +1,3 @@
-import 'package:adpv_frontend/Views/AdminPage/groups_view.dart';
 import 'package:adpv_frontend/Views/AdminPage/utils.dart';
 import 'package:adpv_frontend/Views/AdminPage/groups/groups_view.dart';
 import 'package:flutter/material.dart';

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../enpoint_list_view.dart';
 
 const adminGreenColor = Color.fromRGBO(36, 109, 114, 0.9);
-import 'groups/groups_view.dart';
 
 MaterialStateProperty<EdgeInsetsGeometry?> buttonPadding =
     MaterialStateProperty.all(const EdgeInsets.all(20));

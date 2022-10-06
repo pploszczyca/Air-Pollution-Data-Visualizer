@@ -1,18 +1,19 @@
 import 'dart:async';
 
-import 'package:adpv_frontend/Views/AdminPage/confirmation_dialog_modal.dart';
+import 'package:adpv_frontend/Views/AdminPage/group_endpoint_view.dart';
 import 'package:adpv_frontend/Views/AdminPage/utils.dart';
 import 'package:adpv_frontend/Views/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../DataModels/group_summary.dart';
-import '../../Models/group_list_provider.dart';
-import '../../Repository/AdminRepository/admin_gateway.dart';
-import '../../Repository/UserRepository/user_gateway.dart';
-import '../../Widgets/common_widgets.dart';
+import '../../../DataModels/group_summary.dart';
+import '../../../Models/group_list_provider.dart';
+import '../../../Repository/AdminRepository/admin_gateway.dart';
+import '../../../Repository/UserRepository/user_gateway.dart';
+import '../../../Widgets/common_widgets.dart';
+import '../members/members_view.dart';
+import 'confirmation_dialog_modal.dart';
 import 'form_modal.dart';
-import 'group_endpoint_view.dart';
 
 //ignore: constant_identifier_names
 const EMPTY_GROUP_ID = -1;
@@ -243,7 +244,7 @@ class _GroupsViewState extends State<GroupsView> {
     });
   }
 
-  void _navigateToMembers(GroupCard groupCard) {
+  void _navigateToMembers(BuildContext context, GroupCard groupCard) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -255,7 +256,6 @@ class _GroupsViewState extends State<GroupsView> {
     );
   }
 
-
   void _onEndpointsAndPermissionsPressed(
     BuildContext context,
     GroupCard groupCard,
@@ -263,10 +263,7 @@ class _GroupsViewState extends State<GroupsView> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => MembersView(
-          groupId: groupCard.id,
-          groupName: groupCard.name,
-        ),
+        builder: (context) => GroupEndpointView(groupCard.id, groupCard.name),
       ),
     );
   }

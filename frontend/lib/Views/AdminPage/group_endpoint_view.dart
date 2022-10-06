@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 
 import '../../Common/consts.dart';
 import '../snackbar.dart';
-import 'confirmation_dialog_modal.dart';
+import 'groups/confirmation_dialog_modal.dart';
 
 class GroupEndpointView extends StatefulWidget {
   final int groupEndpointId;

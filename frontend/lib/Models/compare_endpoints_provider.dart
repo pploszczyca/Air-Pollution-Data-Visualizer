@@ -17,7 +17,9 @@ class CompareEndpointsModel extends ChangeNotifier {
   List<String> selectedEndpoints = [];
   EndpointGateway endpointGateway;
   FutureOr<EndpointData> Function<E extends Object>(
-      E error, StackTrace stackTrace,) onError;
+    E error,
+    StackTrace stackTrace,
+  ) onError;
 
   CompareEndpointsModel(this.endpointGateway, this.onError);
 
@@ -36,12 +38,17 @@ class CompareEndpointsModel extends ChangeNotifier {
   }
 
   void updateCommonFields() {
-    if (selectedEndpoints.isNotEmpty && endpointsMap.isNotEmpty) {
+    if (endpointsMap.isNotEmpty) {
       final Map<String, int> counter = {};
       final List fields =
           endpointsMap[selectedEndpoints[0]]!.data.dataList[0].keys.toList();
+
+      final List<Endpoint> selected = endpointsMap.entries
+          .where((element) => selectedEndpoints.contains(element.key))
+          .map((e) => e.value)
+          .toList();
       for (String s in fields) {
-        for (Endpoint e in endpointsMap.values) {
+        for (Endpoint e in selected) {
           if (e.hasField(s)) {
             counter[s] = counter[s] == null ? 1 : counter[s]! + 1;
           }

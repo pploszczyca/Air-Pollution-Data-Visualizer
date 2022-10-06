@@ -1,21 +1,22 @@
 import 'dart:async';
 
-import 'package:adpv_frontend/Views/AdminPage/groups/confirmation_dialog_modal.dart';
-import 'package:adpv_frontend/Views/AdminPage/members/members_view.dart';
+import 'package:adpv_frontend/Views/AdminPage/group_endpoint_view.dart';
 import 'package:adpv_frontend/Views/AdminPage/utils.dart';
 import 'package:adpv_frontend/Views/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../../../DataModels/group_summary.dart';
 import '../../../Models/group_list_provider.dart';
 import '../../../Repository/AdminRepository/admin_gateway.dart';
 import '../../../Repository/UserRepository/user_gateway.dart';
 import '../../../Widgets/common_widgets.dart';
+import '../members/members_view.dart';
+import 'confirmation_dialog_modal.dart';
 import 'form_modal.dart';
 
 //ignore: constant_identifier_names
 const EMPTY_GROUP_ID = -1;
-const adminGreenColor = Color.fromRGBO(36, 109, 114, 0.9);
 
 class GroupsView extends StatefulWidget {
   GroupsView({Key? key}) : super(key: key);
@@ -46,7 +47,7 @@ class _GroupsViewState extends State<GroupsView> {
         child: RefreshIndicator(
           onRefresh: () => widget.gateway.getGroupsSummary().onError(onError),
           child: Scaffold(
-            appBar: buildAdminAppBar('User groups'),
+            appBar: adminAppBar("Administrator panel", "User groups"),
             body: _buildBody(),
             floatingActionButton: _buildAddButton(),
           ),
@@ -66,7 +67,7 @@ class _GroupsViewState extends State<GroupsView> {
               child: Consumer<GroupListProvider>(
                 builder: (context, __, _) => Column(
                   children: [
-                    _buildGroupList(groupListProvider.groupsList.length)
+                    _buildGroupList(groupListProvider.groupsList.length),
                   ],
                 ),
               ),
@@ -113,7 +114,7 @@ class _GroupsViewState extends State<GroupsView> {
               'Endpoints and permissions',
               group,
               group.endpointsButtonColor,
-              _navigateToEndpoints,
+              _onEndpointsAndPermissionsPressed,
             ),
             _buildDeleteContainer(group)
           ],
@@ -124,12 +125,12 @@ class _GroupsViewState extends State<GroupsView> {
     String text,
     GroupCard groupCard,
     Color color,
-    Function(GroupCard groupCard) onPressedFunction,
+    Function(BuildContext context, GroupCard groupCard) onPressedFunction,
   ) =>
       Container(
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
         child: TextButton(
-          onPressed: () => {onPressedFunction(groupCard)},
+          onPressed: () => onPressedFunction(context, groupCard),
           child: Row(
             children: [
               Expanded(
@@ -219,7 +220,7 @@ class _GroupsViewState extends State<GroupsView> {
           },
         )
         .catchError((error) {
-      buildSnackbar('Cannot delete group', context);
+      buildSnackbar('Cannot delete group', context, duration: 5);
     });
   }
 
@@ -231,17 +232,19 @@ class _GroupsViewState extends State<GroupsView> {
         buildSnackbar(
           'Cannot create group, probably a group with this name already exists',
           context,
+          duration: 5,
         );
       }
     }).catchError((error) {
       buildSnackbar(
         'Cannot create group, probably a group with this name already exists',
         context,
+        duration: 5,
       );
     });
   }
 
-  void _navigateToMembers(GroupCard groupCard) {
+  void _navigateToMembers(BuildContext context, GroupCard groupCard) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -253,5 +256,15 @@ class _GroupsViewState extends State<GroupsView> {
     );
   }
 
-  void _navigateToEndpoints(GroupCard groupCard) {}
+  void _onEndpointsAndPermissionsPressed(
+    BuildContext context,
+    GroupCard groupCard,
+  ) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => GroupEndpointView(groupCard.id, groupCard.name),
+      ),
+    );
+  }
 }

@@ -101,8 +101,9 @@ class _CompareChartsViewState extends State<CompareChartsView> {
         children: <Widget>[
           Container(
             decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(5)),),
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(5)),
+            ),
             width: MediaQuery.of(context).size.width * 0.8,
             child: Consumer<CompareEndpointsModel>(
               builder: (context, endpointModel, _) {

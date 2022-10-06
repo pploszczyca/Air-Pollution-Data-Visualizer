@@ -77,8 +77,12 @@ class _EndpointViewState extends State<EndpointView> {
     return Future.error(error.toString());
   }
 
-  SizedBox _buildBarView(EndpointViewProvider endpointViewProvider,
-          BuildContext context, snapshot, int endpointId,) =>
+  SizedBox _buildBarView(
+    EndpointViewProvider endpointViewProvider,
+    BuildContext context,
+    snapshot,
+    int endpointId,
+  ) =>
       SizedBox(
         height: MediaQuery.of(context).size.height * 0.7,
         child: TabBarView(
@@ -106,42 +110,45 @@ class _EndpointViewState extends State<EndpointView> {
                       margin: const EdgeInsets.only(top: 10),
                       height: MediaQuery.of(context).size.height * 0.3,
                       child: ListView.separated(
-                          separatorBuilder: (context, index) => const Divider(
-                                color: Colors.black,
-                                thickness: 1,
-                                height: 0,
-                              ),
-                          addAutomaticKeepAlives: true,
-                          itemCount: endpointViewProvider
-                                  .endpointData.dataList.length +
-                              1,
-                          itemBuilder: (context, i) {
-                            if (i <
-                                endpointViewProvider
-                                    .endpointData.dataList.length) {
-                              return endpointViewProvider.makeListElement(
-                                  dataKey.typeName, i,);
-                            } else {
-                              if (endpointViewProvider.loadedAll) {
-                                return const ListTile(
-                                  title: Text(
-                                    "No more data",
-                                    style: pinkTextStyle,
-                                  ),
-                                );
-                              }
-                              return ListTile(
-                                title: const Text(
-                                  "Load more data",
+                        separatorBuilder: (context, index) => const Divider(
+                          color: Colors.black,
+                          thickness: 1,
+                          height: 0,
+                        ),
+                        addAutomaticKeepAlives: true,
+                        itemCount:
+                            endpointViewProvider.endpointData.dataList.length +
+                                1,
+                        itemBuilder: (context, i) {
+                          if (i <
+                              endpointViewProvider
+                                  .endpointData.dataList.length) {
+                            return endpointViewProvider.makeListElement(
+                              dataKey.typeName,
+                              i,
+                            );
+                          } else {
+                            if (endpointViewProvider.loadedAll) {
+                              return const ListTile(
+                                title: Text(
+                                  "No more data",
                                   style: pinkTextStyle,
                                 ),
-                                onTap: () {
-                                  endpointViewProvider.loadMore(endpointId);
-                                  setState(() {});
-                                },
                               );
                             }
-                          },),
+                            return ListTile(
+                              title: const Text(
+                                "Load more data",
+                                style: pinkTextStyle,
+                              ),
+                              onTap: () {
+                                endpointViewProvider.loadMore(endpointId);
+                                setState(() {});
+                              },
+                            );
+                          }
+                        },
+                      ),
                     ),
                   ],
                 ),
@@ -176,7 +183,9 @@ class _EndpointViewState extends State<EndpointView> {
                     builder: (context, endpointViewProvider, _) =>
                         RefreshIndicator(
                       onRefresh: () => _pullDownRefresh(
-                          endpointViewProvider, widget.endpointId,),
+                        endpointViewProvider,
+                        widget.endpointId,
+                      ),
                       child: SingleChildScrollView(
                         child: Center(
                           child: Column(
@@ -186,7 +195,8 @@ class _EndpointViewState extends State<EndpointView> {
                                 height: 25,
                               ),
                               EndpointInfoTable(
-                                  data: snapshot.data!.technicalInfo,),
+                                data: snapshot.data!.technicalInfo,
+                              ),
                               const SizedBox(
                                 height: 25,
                               ),
@@ -236,7 +246,9 @@ class _EndpointViewState extends State<EndpointView> {
 
   // ignore: always_declare_return_types
   _pullDownRefresh(
-      EndpointViewProvider endpointViewProvider, int endpointId,) async {
+    EndpointViewProvider endpointViewProvider,
+    int endpointId,
+  ) async {
     await endpointViewProvider.clearAndUpdate(endpointId);
   }
 }

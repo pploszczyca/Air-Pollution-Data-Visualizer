@@ -53,8 +53,10 @@ class EndpointListProvider with ChangeNotifier {
   }
 
   void makeEndpointsList(List<EndpointSummary> endpointSummary) {
+    endpointsList = [];
     for (var element in endpointSummary) {
       setEndpoint(element);
     }
+    notifyListeners();
   }
 }

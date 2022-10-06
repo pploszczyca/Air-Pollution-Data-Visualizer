@@ -8,10 +8,10 @@ import 'package:adpv_frontend/Views/AdminPage/groups/confirmation_dialog_modal.d
 import 'package:adpv_frontend/Views/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../../../Repository/AdminRepository/admin_gateway.dart';
 import '../../../Repository/UserRepository/user_gateway.dart';
 import '../../../Widgets/common_widgets.dart';
-import '../groups/groups_view.dart';
 import '../utils.dart';
 
 class MembersView extends StatefulWidget {
@@ -53,7 +53,7 @@ class _MembersViewState extends State<MembersView> {
           onRefresh: () =>
               widget.gateway.getGroupData(widget.groupId).onError(onError),
           child: Scaffold(
-            appBar: buildAdminAppBar('Members of ' + widget.groupName),
+            appBar: adminAppBar("Administrator", 'Members of ' + widget.groupName),
             body: _buildBody(),
             floatingActionButton: _buildAddButton(),
           ),

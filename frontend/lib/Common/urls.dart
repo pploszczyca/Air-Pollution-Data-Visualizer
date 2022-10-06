@@ -13,5 +13,6 @@ const refreshTokenURL = 'auth/refresh-token';
 
 const getGroupSummaryURL = "group/all/info";
 const groupURL = "group";
+const groupEndpointsUrl = "group/endpoints";
 const groupMembersURL = "group/members";
 const removeMemberURL = "group/user/remove";

@@ -1,4 +1,5 @@
 import 'package:adpv_frontend/Views/AdminPage/groups/groups_view.dart';
+import 'package:adpv_frontend/Views/AdminPage/utils.dart';
 import 'package:flutter/material.dart';
 
 class AdminMainView extends StatelessWidget {
@@ -51,7 +52,7 @@ class AdminMainView extends StatelessWidget {
       );
 
   Card _buildButtonContainer(
-  BuildContext context,
+    BuildContext context,
     String text,
     IconData icon,
     Function(BuildContext context) onPressedFunction,

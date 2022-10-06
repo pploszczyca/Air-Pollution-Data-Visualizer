@@ -111,8 +111,8 @@ class _EndpointListViewState extends State<EndpointListView> {
             FutureBuilder<EndpointData>(
               future: widget.gateway.getEndpointData(
                 expansionPanelEndpoint.id,
-                1,
-                0,
+                null,
+                null,
                 false,
               ),
               builder: (context, recentDataSnapshot) {
@@ -180,7 +180,6 @@ class _EndpointListViewState extends State<EndpointListView> {
 
   Container _buildList(
     EndpointListProvider endpointListProvider,
-    int itemCount,
   ) =>
       Container(
         margin: const EdgeInsets.only(left: 10, right: 10),
@@ -189,7 +188,7 @@ class _EndpointListViewState extends State<EndpointListView> {
           child: ListView.builder(
             physics: const AlwaysScrollableScrollPhysics(),
             shrinkWrap: true,
-            itemCount: itemCount,
+            itemCount: endpointListProvider.endpointsList.length,
             itemBuilder: (context, i) =>
                 _buildEndpointCard(endpointListProvider.endpointsList[i]),
           ),
@@ -197,8 +196,9 @@ class _EndpointListViewState extends State<EndpointListView> {
       );
 
   Future<void> _refresh(EndpointListProvider endpointListProvider) async {
-    endpointListProvider
-        .makeEndpointsList(await widget.gateway.getEndpointSummary());
+    endpointListProvider.makeEndpointsList(
+      await widget.gateway.getEndpointSummary(needUpdate: true),
+    );
   }
 
   SingleChildScrollView _buildBody() => SingleChildScrollView(
@@ -222,7 +222,6 @@ class _EndpointListViewState extends State<EndpointListView> {
                 child: Consumer<EndpointListProvider>(
                   builder: (context, endpointListProvider, _) => _buildList(
                     endpointListProvider,
-                    snapshot.data!.length,
                   ),
                 ),
               );

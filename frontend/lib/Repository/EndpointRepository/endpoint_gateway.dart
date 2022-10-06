@@ -12,8 +12,10 @@ class EndpointGateway {
 
   EndpointGateway(this.userGateway);
 
-  Future<List<EndpointSummary>> getEndpointSummary() async {
-    if (endpointCache.isEndpointSummaryInCache()) {
+  Future<List<EndpointSummary>> getEndpointSummary({bool? needUpdate}) async {
+    needUpdate = needUpdate ?? false;
+    if (endpointCache.isEndpointSummaryInCache() && !needUpdate) {
+      endpointCache.clearEndpointDataCache();
       return endpointCache.getEndpointSummary();
     }
     final List<EndpointSummary> summary = await restRepository

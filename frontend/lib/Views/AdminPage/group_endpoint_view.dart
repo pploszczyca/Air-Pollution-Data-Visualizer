@@ -29,12 +29,9 @@ final roundedRectangleBorder = RoundedRectangleBorder(
 class _GroupEndpointViewState extends State<GroupEndpointView> {
   late final Future<GroupEndpointsData> future;
 
-  //late final GroupEndpointProvider groupEndpointProvider;
-
   @override
   void initState() {
     future = widget.gateway.getEndpointsForGroup(widget.groupEndpointId);
-    // groupEndpointProvider = GroupEndpointProvider(future);
     super.initState();
   }
 
@@ -160,7 +157,7 @@ class _GroupEndpointViewState extends State<GroupEndpointView> {
                       activeColor: Colors.teal,
                       value: endpoint.isBelongingToGroup,
                       onChanged: (bool? value) {
-                        provider.updateEndpointState(value, endpoint.label);
+                        provider.updateEndpointState(value, endpoint.id);
                       },
                     ),
                     Flexible(
@@ -174,7 +171,7 @@ class _GroupEndpointViewState extends State<GroupEndpointView> {
                 children: endpoint.fields.entries
                     .where(
                   (element) => ![ignoreField, ignoreLabel, ignoreId]
-                      .contains(element.key),
+                      .contains(element.value.label),
                 )
                     .map((field) {
                   final Field value = field.value;
@@ -226,8 +223,8 @@ class _GroupEndpointViewState extends State<GroupEndpointView> {
         value: field.isBelongingToGroup,
         onChanged: (bool? value) => provider.updateFieldState(
           value,
-          endpoint.label,
-          field.label,
+          endpoint.id,
+          field.id,
         ),
       );
 }

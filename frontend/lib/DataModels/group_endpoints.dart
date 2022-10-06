@@ -27,7 +27,7 @@ class EndpointForGroup {
   final int id;
   final String label;
   late bool isBelongingToGroup;
-  Map<String, Field> fields;
+  Map<int, Field> fields;
 
   EndpointForGroup(this.id, this.label, this.isBelongingToGroup, this.fields);
 
@@ -41,10 +41,10 @@ class EndpointForGroup {
       : id = json["id"],
         label = json["label"],
         // ignore: unnecessary_lambdas
-        fields = {for (var e in json["fields"]) e["label"]: Field.fromJson(e)},
+        fields = {for (var e in json["fields"]) e["id"]: Field.fromJson(e)},
         isBelongingToGroup = json["isBelongingToGroup"] {
     for (var element in fields.entries) {
-      if ([ignoreId, ignoreLabel, ignoreField].contains(element.key)) {
+      if ([ignoreId, ignoreLabel, ignoreField].contains(element.value.label)) {
         element.value.isBelongingToGroup = true;
       }
     }
@@ -62,7 +62,7 @@ class EndpointForGroup {
 class GroupEndpointsData {
   final int groupId;
   final String groupName;
-  Map<String, EndpointForGroup> endpoints;
+  Map<int, EndpointForGroup> endpoints;
 
   GroupEndpointsData(this.groupId, this.groupName, this.endpoints);
 
@@ -76,7 +76,7 @@ class GroupEndpointsData {
         groupName = json["groupName"],
         endpoints = {
           for (var e in json["endpoints"])
-            e["label"]: EndpointForGroup.fromJson(e)
+            e["id"]: EndpointForGroup.fromJson(e)
         };
 
   List<Map<String, dynamic>> toJson() {

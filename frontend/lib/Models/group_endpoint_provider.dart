@@ -21,34 +21,45 @@ class GroupEndpointProvider with ChangeNotifier {
 
   void updateEndpointState(
     bool? value,
-    String endpointLabel,
+    int endpointId,
   ) {
     if (value != null) {
-      groupEndpointsData.endpoints[endpointLabel]!.isBelongingToGroup = value;
+      groupEndpointsData.endpoints[endpointId]!.isBelongingToGroup = value;
+      for (var element
+          in groupEndpointsData.endpoints[endpointId]!.fields.values) {
+        element.isBelongingToGroup = value;
+      }
     }
     notifyListeners();
   }
 
   void updateFieldState(
     bool? value,
-    String endpointLabel,
-    String fieldLabel,
+    int endpointId,
+    int fieldId,
   ) {
     if (value != null) {
-      groupEndpointsData.endpoints[endpointLabel]!.fields[fieldLabel]!
-          .isBelongingToGroup = value;
+      groupEndpointsData
+          .endpoints[endpointId]!.fields[fieldId]!.isBelongingToGroup = value;
     }
+    updateEndpointAfterFieldChange(endpointId, fieldId);
     notifyListeners();
   }
 
   Future<GroupEndpointsData> save() =>
       repository.updateGroupEndpoints(groupEndpointsData).then((value) async {
-        if (value == true) {
-          groupEndpointsData =
-              await repository.getEndpointsForGroup(groupEndpointsData.groupId);
-          groupEndpointsData.sortFields();
-          notifyListeners();
-        }
+        groupEndpointsData = value;
+        groupEndpointsData.sortFields();
+        notifyListeners();
         return groupEndpointsData;
       });
+
+  void updateEndpointAfterFieldChange(int endpointId, int fieldId) {
+    final List<Field> enabled = groupEndpointsData
+        .endpoints[endpointId]!.fields.values
+        .where((element) => element.isBelongingToGroup == true)
+        .toList();
+    groupEndpointsData.endpoints[endpointId]!.isBelongingToGroup =
+        enabled.isEmpty ? false : true;
+  }
 }

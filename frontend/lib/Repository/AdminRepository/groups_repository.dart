@@ -27,14 +27,14 @@ class GroupsRepository {
         );
         if (response.statusCode == 200) {
           final BackendResponse backendResponse =
-              BackendResponse.fromJson(response.data);
+          BackendResponse.fromJson(response.data);
           if (backendResponse.error == "") {
             List<GroupSummary> groupSummaryList = [];
             groupSummaryList = backendResponse.data
                 .map<GroupSummary>(
-                  // ignore: unnecessary_lambdas
+              // ignore: unnecessary_lambdas
                   (e) => GroupSummary.fromJson(e),
-                ) // do not refactor! UFO MAGIC!
+            ) // do not refactor! UFO MAGIC!
                 .toList();
             return Future.value(groupSummaryList);
           }
@@ -102,13 +102,13 @@ class GroupsRepository {
 
       try {
         final response =
-            await _client.post(backendURL + groupURL, data: {'name': name});
+        await _client.post(backendURL + groupURL, data: {'name': name});
         if (response.statusCode == 200) {
           final BackendResponse backendResponse =
-              BackendResponse.fromJson(response.data);
+          BackendResponse.fromJson(response.data);
           if (backendResponse.error == "") {
             final GroupSummary groupData =
-                GroupSummary.fromJson(backendResponse.data);
+            GroupSummary.fromJson(backendResponse.data);
             return Future.value(groupData);
           }
         }
@@ -133,7 +133,7 @@ class GroupsRepository {
         );
         if (response.statusCode == 200) {
           final BackendResponse backendResponse =
-              BackendResponse.fromJson(response.data);
+          BackendResponse.fromJson(response.data);
           if (backendResponse.error == "") {
             return GroupEndpointsData.fromJson(
               backendResponse.data,
@@ -149,9 +149,8 @@ class GroupsRepository {
     return Future.error("Cannot get endpoints for group");
   }
 
-  Future<bool> updateGroupEndpoints(
-    GroupEndpointsData groupEndpointsData,
-  ) async {
+  Future<GroupEndpointsData> updateGroupEndpoints(
+      GroupEndpointsData groupEndpointsData,) async {
     final AuthResponse authResponse = await userGateway.getFromMemory();
     _client = Dio();
 
@@ -159,13 +158,23 @@ class GroupsRepository {
       final String token = authResponse.tokens!.accessToken;
       _client.options.headers["Authorization"] = "Bearer $token";
       try {
-        await _client.put(
+        final Response response = await _client.put(
           backendURL + groupEndpointsUrl,
           queryParameters: {"groupId": groupEndpointsData.groupId.toString()},
           data: groupEndpointsData.toJson(),
         );
-        return Future.value(true);
+        if (response.statusCode == 200) {
+          final BackendResponse backendResponse =
+          BackendResponse.fromJson(response.data);
+          if (backendResponse.error == "") {
+            return GroupEndpointsData.fromJson(
+              backendResponse.data,
+            );
+          }
+        }
       } on DioError catch (error) {
+        return Future.error(error);
+      } catch (error) {
         return Future.error(error);
       }
     }

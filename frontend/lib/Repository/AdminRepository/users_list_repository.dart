@@ -90,7 +90,10 @@ class UsersListRepository {
   }
 
   Future<bool> saveRoles(
-      Set<String> toRemove, Set<String> toAdd, int userId) async {
+    Set<String> toRemove,
+    Set<String> toAdd,
+    int userId,
+  ) async {
     _client = Dio();
 
     final AuthResponse authResponse = await userGateway.getFromMemory();

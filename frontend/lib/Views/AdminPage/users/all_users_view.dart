@@ -159,7 +159,9 @@ class _AllUsersViewState extends State<AllUsersView> {
       );
 
   Row buildButtonRow(
-          UserListData userListData, AllUsersListProvider provider) =>
+    UserListData userListData,
+    AllUsersListProvider provider,
+  ) =>
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [

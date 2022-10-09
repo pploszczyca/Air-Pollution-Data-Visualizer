@@ -1,4 +1,5 @@
 import 'package:adpv_frontend/Views/AdminPage/groups/groups_view.dart';
+import 'package:adpv_frontend/Views/AdminPage/users/all_users_view.dart';
 import 'package:adpv_frontend/Views/AdminPage/utils.dart';
 import 'package:flutter/material.dart';
 
@@ -48,6 +49,8 @@ class AdminMainView extends StatelessWidget {
             Icons.map_outlined,
             _onEndpointsPressed,
           ),
+          _buildButtonContainer(
+              context, 'Users', Icons.people_alt_outlined, _onUsersPressed),
         ],
       );
 
@@ -113,5 +116,10 @@ class AdminMainView extends StatelessWidget {
 
   void _onEndpointsPressed(BuildContext context) {
     //todo przeniesienie do widoku endpointow
+  }
+
+  void _onUsersPressed(BuildContext context) {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => AllUsersView()));
   }
 }

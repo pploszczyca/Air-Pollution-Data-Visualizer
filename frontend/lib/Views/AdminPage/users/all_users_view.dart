@@ -2,12 +2,11 @@ import 'package:adpv_frontend/Models/all_users_list_provider.dart';
 import 'package:adpv_frontend/Views/AdminPage/users/edit_user_roles_dialog.dart';
 import 'package:adpv_frontend/Views/AdminPage/utils.dart';
 import 'package:adpv_frontend/Widgets/common_widgets.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../Repository/AdminRepository/users_list_repository.dart';
-import '../groups/confirmation_dialog_modal.dart';
+import '../confirmation_dialog_modal.dart';
 
 class ArgsContainer {
   UserListData userListData;
@@ -54,14 +53,7 @@ class _AllUsersViewState extends State<AllUsersView> {
                     children: [
                       _buildSortBar(provider),
                       Expanded(
-                        child: ListView(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                          ),
-                          children: provider.usersList
-                              .map((e) => _buildUserCard(e, provider))
-                              .toList(),
-                        ),
+                        child: _buildList(provider),
                       ),
                     ],
                   ),
@@ -70,6 +62,14 @@ class _AllUsersViewState extends State<AllUsersView> {
             );
           }
         },
+      );
+
+  ListView _buildList(AllUsersListProvider provider) => ListView(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 20,
+        ),
+        children:
+            provider.usersList.map((e) => _buildUserCard(e, provider)).toList(),
       );
 
   void _onDeletePressed(ArgsContainer args) {
@@ -153,21 +153,25 @@ class _AllUsersViewState extends State<AllUsersView> {
               "Groups",
               userListData.groups.map((e) => e.name).join(', '),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                buildDeleteContainer(
-                  _onDeletePressed,
-                  ArgsContainer(userListData, provider),
-                ),
-                buildEditContainer(
-                  _editUser,
-                  ArgsContainer(userListData, provider),
-                )
-              ],
-            ),
+            buildButtonRow(userListData, provider),
           ],
         ),
+      );
+
+  Row buildButtonRow(
+          UserListData userListData, AllUsersListProvider provider) =>
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          buildDeleteContainer(
+            _onDeletePressed,
+            ArgsContainer(userListData, provider),
+          ),
+          buildEditContainer(
+            _editUser,
+            ArgsContainer(userListData, provider),
+          )
+        ],
       );
 
   Container _buildInfoContainer(String title, String data) => Container(

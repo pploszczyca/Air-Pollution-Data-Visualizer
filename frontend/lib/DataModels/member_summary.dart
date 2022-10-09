@@ -11,6 +11,7 @@ class MemberInfo {
   MemberInfo.fromJson(Map json)
       : id = json["id"],
         email = json["email"],
-        userRoles = List<UserRole>.from(json["roles"].map((role) => UserRole.admin.fromString(role))),
+        userRoles = List<UserRole>.from(
+            json["roles"].map((role) => UserRole.admin.fromString(role))),
         otherGroups = List<String>.from(json["otherGroupNames"]);
 }

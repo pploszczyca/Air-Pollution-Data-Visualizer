@@ -16,7 +16,7 @@ class Sorting {
 }
 
 const ARROW_UP = Icons.keyboard_arrow_up_rounded;
-const ARROW_DOWN =Icons.keyboard_arrow_down_rounded;
+const ARROW_DOWN = Icons.keyboard_arrow_down_rounded;
 
 class MembersListProvider with ChangeNotifier {
   List<MemberInfo> membersList = [];
@@ -64,7 +64,7 @@ class MembersListProvider with ChangeNotifier {
           ? SortingOrder.desc
           : SortingOrder.asc;
 
-  void _setSortingById(){
+  void _setSortingById() {
     if (currentSorting.field == SortingField.id) {
       currentSorting.order = _reverseSortingOrder();
       idIcon = (idIcon == ARROW_UP) ? ARROW_DOWN : ARROW_UP;
@@ -74,12 +74,10 @@ class MembersListProvider with ChangeNotifier {
       idColor = Colors.pink;
       emailColor = Colors.black;
     }
-    currentSorting.order == SortingOrder.asc
-        ? _sortByIDAsc()
-        : _sortByIDDesc();
+    currentSorting.order == SortingOrder.asc ? _sortByIDAsc() : _sortByIDDesc();
   }
 
-  void _setSortingByEmail(){
+  void _setSortingByEmail() {
     if (currentSorting.field == SortingField.email) {
       currentSorting.order = _reverseSortingOrder();
       emailIcon = (emailIcon == ARROW_UP) ? ARROW_DOWN : ARROW_UP;
@@ -98,7 +96,7 @@ class MembersListProvider with ChangeNotifier {
     if (index == ID_SORTING_BUTTON_INDEX) {
       _setSortingById();
     } else if (index == EMAIL_SORTING_BUTTON_INDEX) {
-     _setSortingByEmail();
+      _setSortingByEmail();
     }
     notifyListeners();
   }

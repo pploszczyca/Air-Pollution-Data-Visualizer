@@ -112,7 +112,7 @@ INSERT INTO public.group (name) VALUES ('Best of the best');
 INSERT INTO public.user (email, password) VALUES ('admin@test.com', '$2a$10$bb7HuTrdYSg/wVAOVVU.YeG5Wx4JFdKLccz3tWPoVsWWWEqtPoPJK');
 
 -- Roles: USER; Password: 1234
-INSERT INTO public.user (email, password) VALUES ('user@test.com', '$2a$10$bb7HuTrdYSg/wVAOVVU.YeG5Wx4JFdKLccz3tWPoVsWWWEqtPoPJK');
+INSERT INTO public.user (email, password) VALUES ('user2@test.com', '$2a$10$bb7HuTrdYSg/wVAOVVU.YeG5Wx4JFdKLccz3tWPoVsWWWEqtPoPJK');
 
 INSERT INTO public.users_in_group (group_id, user_id) VALUES (1, 1);
 INSERT INTO public.users_in_group (group_id, user_id) VALUES (2, 1);

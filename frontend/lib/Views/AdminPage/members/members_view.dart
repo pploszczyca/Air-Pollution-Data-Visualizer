@@ -54,7 +54,8 @@ class _MembersViewState extends State<MembersView> {
           onRefresh: () =>
               widget.gateway.getGroupData(widget.groupId).onError(onError),
           child: Scaffold(
-            appBar: adminAppBar("Administrator", 'Members of ' + widget.groupName),
+            appBar:
+                adminAppBar("Administrator", 'Members of ' + widget.groupName),
             body: _buildBody(),
             floatingActionButton: _buildAddButton(),
           ),
@@ -247,7 +248,7 @@ class _MembersViewState extends State<MembersView> {
       );
 
   void _onAddPressed(groupListProvider) {
-    showAddUserModal(context, widget.gateway, widget.groupId);
+    showAddUserModal(context, widget.gateway, widget.groupId, addMember);
   }
 
   void _onDeletePressed(MemberInfo member) {
@@ -275,5 +276,21 @@ class _MembersViewState extends State<MembersView> {
     });
   }
 
-
+  void addMember(int id) async {
+    await widget.gateway
+        .addMember(id, widget.groupId)
+        .then(
+          (value) => {
+            if (value)
+              {
+                widget.gateway
+                    .getGroupData(widget.groupId)
+                    .then((value) => membersListProvider.makeMemberList(value))
+              }
+          },
+        )
+        .catchError((error) {
+      buildSnackbar('Cannot add user', context);
+    });
+  }
 }

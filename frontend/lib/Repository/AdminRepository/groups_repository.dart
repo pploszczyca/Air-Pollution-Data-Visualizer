@@ -236,4 +236,26 @@ class GroupsRepository {
     }
     return Future.value([]);
   }
+
+  Future<bool> addMember(int userId, int groupId) async {
+    final AuthResponse authResponse = await userGateway.getFromMemory();
+
+    if (authResponse.success) {
+      final String token = authResponse.tokens!.accessToken;
+      _client.options.headers["Authorization"] = "Bearer $token";
+
+      try {
+        final response = await _client.post(
+          backendURL + addUserToGroupURL,
+          queryParameters: {'groupId': groupId, 'userId': userId},
+        );
+        if (response.statusCode == 200) {
+          return Future.value(true);
+        }
+      } on DioError catch (error) {
+        return Future.error(error);
+      }
+    }
+    return Future.value(false);
+  }
 }

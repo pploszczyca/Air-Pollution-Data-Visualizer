@@ -31,6 +31,7 @@ class MembersListProvider with ChangeNotifier {
   MembersListProvider(this.groupId);
 
   void makeMemberList(GroupData groupData) {
+    membersList = [];
     for (var e in groupData.members) {
       membersList.add(MemberInfo(e.id, e.email, e.userRoles, e.otherGroups));
     }

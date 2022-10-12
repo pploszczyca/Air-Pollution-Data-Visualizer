@@ -33,4 +33,6 @@ class AdminGateway {
 
   Future<List<UserSummary>> getMembersNotInGroup(int groupId) => restRepository.getMembersNotInGroup(groupId);
 
+  Future<bool> addMember(int userId, int groupId) => restRepository.addMember(userId, groupId);
+
 }

@@ -113,7 +113,7 @@ class _EndpointListViewState extends State<EndpointListView> {
                 expansionPanelEndpoint.id,
                 null,
                 null,
-                true,
+                false,
               ),
               builder: (context, recentDataSnapshot) {
                 if (recentDataSnapshot.connectionState ==

@@ -16,15 +16,15 @@ class UserGroups {
         name = json["name"];
 }
 
-class UserListData {
+class UserData {
   int id;
   String email;
   List<String> roles;
   List<UserGroups> groups;
 
-  UserListData(this.id, this.email, this.roles, this.groups);
+  UserData(this.id, this.email, this.roles, this.groups);
 
-  UserListData.fromJson(Map json)
+  UserData.fromJson(Map json)
       : id = json["id"],
         email = json["email"],
         roles = List.from(json["roles"]),
@@ -34,11 +34,11 @@ class UserListData {
             .toList();
 }
 
-class UsersListRepository {
+class UsersDataRepository {
   Dio _client = Dio();
   UserGateway userGateway = UserGateway();
 
-  Future<List<UserListData>> getAllUsers() async {
+  Future<List<UserData>> getAllUsers() async {
     _client = Dio();
 
     final AuthResponse authResponse = await userGateway.getFromMemory();
@@ -54,10 +54,10 @@ class UsersListRepository {
           final BackendResponse backendResponse =
               BackendResponse.fromJson(response.data);
           if (backendResponse.error == "") {
-            final List<UserListData> list = backendResponse.data
-                .map<UserListData>(
+            final List<UserData> list = backendResponse.data
+                .map<UserData>(
                   // ignore: unnecessary_lambdas
-                  (e) => UserListData.fromJson(e),
+                  (e) => UserData.fromJson(e),
                 )
                 .toList();
             return list;

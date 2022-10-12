@@ -10,7 +10,7 @@ const List<String> roles = ["USER", "ADMIN"];
 
 void editUserRoleDialog(
   BuildContext context,
-  UserListData userListData,
+  UserData userListData,
   AllUsersListProvider provider,
 ) {
   showDialog(
@@ -56,7 +56,7 @@ Column _buildRolesListTiles(List<String> toSelect, StateSetter setState) =>
                 value: toSelect.contains(element),
                 onChanged: (bool? value) {
                   setState(() {
-                    if (value != null && value) {
+                    if (value ?? true) {
                       toSelect.add(element);
                     } else {
                       toSelect.remove(element);
@@ -71,7 +71,7 @@ Column _buildRolesListTiles(List<String> toSelect, StateSetter setState) =>
 
 Row _buildButtons(
   BuildContext context,
-  UserListData userListData,
+  UserData userListData,
   AllUsersListProvider provider,
   List<String> toSelect,
 ) =>
@@ -103,7 +103,7 @@ TextButton _buildCancelButton(BuildContext context) => TextButton(
 
 TextButton _buildSaveButton(
   BuildContext context,
-  UserListData userListData,
+  UserData userListData,
   AllUsersListProvider provider,
   List<String> toSelect,
 ) =>

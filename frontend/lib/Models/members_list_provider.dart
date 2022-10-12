@@ -64,6 +64,15 @@ class MembersListProvider with ChangeNotifier {
           ? SortingOrder.desc
           : SortingOrder.asc;
 
+  void changeSorting(int index) {
+    if (index == ID_SORTING_BUTTON_INDEX) {
+      _setSortingById();
+    } else if (index == EMAIL_SORTING_BUTTON_INDEX) {
+      _setSortingByEmail();
+    }
+    notifyListeners();
+  }
+
   void _setSortingById() {
     if (currentSorting.field == SortingField.id) {
       currentSorting.order = _reverseSortingOrder();
@@ -92,12 +101,4 @@ class MembersListProvider with ChangeNotifier {
         : _sortByEmailDesc();
   }
 
-  void changeSorting(int index) {
-    if (index == ID_SORTING_BUTTON_INDEX) {
-      _setSortingById();
-    } else if (index == EMAIL_SORTING_BUTTON_INDEX) {
-      _setSortingByEmail();
-    }
-    notifyListeners();
-  }
 }

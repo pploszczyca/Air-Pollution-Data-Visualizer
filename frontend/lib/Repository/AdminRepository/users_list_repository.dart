@@ -16,30 +16,29 @@ class UserGroups {
         name = json["name"];
 }
 
-class UserListData {
+class UserData {
   int id;
   String email;
   List<String> roles;
   List<UserGroups> groups;
 
-  UserListData(this.id, this.email, this.roles, this.groups);
+  UserData(this.id, this.email, this.roles, this.groups);
 
-  UserListData.fromJson(Map json)
+  UserData.fromJson(Map json)
       : id = json["id"],
         email = json["email"],
         roles = List.from(json["roles"]),
-        groups =
-            json["groups"]
+        groups = json["groups"]
             // ignore: unnecessary_lambdas
-                .map<UserGroups>((group) => UserGroups.fromJson(group))
-                .toList();
+            .map<UserGroups>((group) => UserGroups.fromJson(group))
+            .toList();
 }
 
-class UsersListRepository {
+class UsersDataRepository {
   Dio _client = Dio();
   UserGateway userGateway = UserGateway();
 
-  Future<List<UserListData>> getAllUsers() async {
+  Future<List<UserData>> getAllUsers() async {
     _client = Dio();
 
     final AuthResponse authResponse = await userGateway.getFromMemory();
@@ -55,10 +54,10 @@ class UsersListRepository {
           final BackendResponse backendResponse =
               BackendResponse.fromJson(response.data);
           if (backendResponse.error == "") {
-            final List<UserListData> list = backendResponse.data
-                .map<UserListData>(
+            final List<UserData> list = backendResponse.data
+                .map<UserData>(
                   // ignore: unnecessary_lambdas
-                  (e) => UserListData.fromJson(e),
+                  (e) => UserData.fromJson(e),
                 )
                 .toList();
             return list;
@@ -84,13 +83,17 @@ class UsersListRepository {
         await _client
             .delete(backendURL + "user", queryParameters: {"userId": id});
         return;
-      } on DioError catch (error){
+      } on DioError catch (error) {
         return Future.error(error);
       }
     }
   }
 
-  Future<bool> saveRoles(Set<String> toRemove, Set<String> toAdd, int userId) async {
+  Future<bool> saveRoles(
+    Set<String> toRemove,
+    Set<String> toAdd,
+    int userId,
+  ) async {
     _client = Dio();
 
     final AuthResponse authResponse = await userGateway.getFromMemory();
@@ -100,17 +103,23 @@ class UsersListRepository {
       _client.options.headers["Authorization"] = "Bearer $token";
 
       try {
-        for(String role in toRemove){
-          await _client.delete(backendURL + "role", queryParameters: {
-            "userId" : userId.toString(),
-            "roleName" : role,
-          },);
+        for (String role in toRemove) {
+          await _client.delete(
+            backendURL + "role",
+            queryParameters: {
+              "userId": userId.toString(),
+              "roleName": role,
+            },
+          );
         }
-        for(String role in toAdd){
-          await _client.post(backendURL + "role", queryParameters: {
-            "userId" : userId.toString(),
-            "roleName" : role,
-          },);
+        for (String role in toAdd) {
+          await _client.post(
+            backendURL + "role",
+            queryParameters: {
+              "userId": userId.toString(),
+              "roleName": role,
+            },
+          );
         }
         return Future.value(true);
       } on DioError catch (error) {

@@ -6,17 +6,17 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../Repository/AdminRepository/users_list_repository.dart';
-import '../groups/confirmation_dialog_modal.dart';
+import '../confirmation_dialog_modal.dart';
 
 class ArgsContainer {
-  UserListData userListData;
+  UserData userListData;
   AllUsersListProvider provider;
 
   ArgsContainer(this.userListData, this.provider);
 }
 
 class AllUsersView extends StatefulWidget {
-  final UsersListRepository repository = UsersListRepository();
+  final UsersDataRepository repository = UsersDataRepository();
 
   AllUsersView({Key? key}) : super(key: key);
 
@@ -26,7 +26,7 @@ class AllUsersView extends StatefulWidget {
 
 class _AllUsersViewState extends State<AllUsersView> {
   final _selections = [true, false];
-  late Future<List<UserListData>> users;
+  late Future<List<UserData>> users;
 
   @override
   void initState() {
@@ -38,7 +38,7 @@ class _AllUsersViewState extends State<AllUsersView> {
   Widget build(BuildContext context) =>
       Scaffold(appBar: buildAdminAppBar("Users list"), body: _buildBody());
 
-  Widget _buildBody() => FutureBuilder<List<UserListData>>(
+  Widget _buildBody() => FutureBuilder<List<UserData>>(
         future: users,
         builder: (context, snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
@@ -52,15 +52,9 @@ class _AllUsersViewState extends State<AllUsersView> {
                   child: Column(
                     children: [
                       _buildSortBar(provider),
+                      // dear PP, this will be refactored ^
                       Expanded(
-                        child: ListView(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                          ),
-                          children: provider.usersList
-                              .map((e) => _buildUserCard(e, provider))
-                              .toList(),
-                        ),
+                        child: _buildList(provider),
                       ),
                     ],
                   ),
@@ -71,31 +65,16 @@ class _AllUsersViewState extends State<AllUsersView> {
         },
       );
 
-  void _onDeletePressed(ArgsContainer args) {
-    showAlertDialog(
-      context,
-      'Delete ' + args.userListData.email + '?',
-      "You are about to delete this user",
-      () => {
-        widget.repository.deleteUser(args.userListData.id).then((value) {
-          users = widget.repository.getAllUsers();
-          users.then((value) => args.provider.init(value));
-        })
-      },
-    );
-  }
-
-  void _editUser(ArgsContainer args) {
-    editUserRoleDialog(context, args.userListData, args.provider);
-  }
-
-  Future<void> _onPullDownRefresh(AllUsersListProvider provider) async {
-    users = widget.repository.getAllUsers();
-    await users.then((value) => provider.init(value));
-  }
+  ListView _buildList(AllUsersListProvider provider) => ListView(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 20,
+        ),
+        children:
+            provider.usersList.map((e) => _buildUserCard(e, provider)).toList(),
+      );
 
   Card _buildUserCard(
-    UserListData userListData,
+    UserData userListData,
     AllUsersListProvider provider,
   ) =>
       Card(
@@ -152,19 +131,7 @@ class _AllUsersViewState extends State<AllUsersView> {
               "Groups",
               userListData.groups.map((e) => e.name).join(', '),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                buildDeleteContainer(
-                  _onDeletePressed,
-                  ArgsContainer(userListData, provider),
-                ),
-                buildEditContainer(
-                  _editUser,
-                  ArgsContainer(userListData, provider),
-                )
-              ],
-            ),
+            buildButtonRow(userListData, provider),
           ],
         ),
       );
@@ -203,6 +170,47 @@ class _AllUsersViewState extends State<AllUsersView> {
           ],
         ),
       );
+
+  Row buildButtonRow(
+    UserData userListData,
+    AllUsersListProvider provider,
+  ) =>
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          buildDeleteContainer(
+            _onDeletePressed,
+            ArgsContainer(userListData, provider),
+          ),
+          buildEditContainer(
+            _editUser,
+            ArgsContainer(userListData, provider),
+          )
+        ],
+      );
+
+  void _onDeletePressed(ArgsContainer args) {
+    showAlertDialog(
+      context,
+      'Delete ' + args.userListData.email + '?',
+      "You are about to delete this user",
+      () => {
+        widget.repository.deleteUser(args.userListData.id).then((value) {
+          users = widget.repository.getAllUsers();
+          users.then((value) => args.provider.init(value));
+        })
+      },
+    );
+  }
+
+  void _editUser(ArgsContainer args) {
+    editUserRoleDialog(context, args.userListData, args.provider);
+  }
+
+  Future<void> _onPullDownRefresh(AllUsersListProvider provider) async {
+    users = widget.repository.getAllUsers();
+    await users.then((value) => provider.init(value));
+  }
 
   Container _buildSortBar(AllUsersListProvider membersListProvider) =>
       Container(

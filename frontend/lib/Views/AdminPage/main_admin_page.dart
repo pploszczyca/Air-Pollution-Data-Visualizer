@@ -40,7 +40,7 @@ class AdminMainView extends StatelessWidget {
           _buildButtonContainer(
             context,
             'Groups',
-            Icons.group,
+            Icons.groups,
             _onGroupsPressed,
           ),
           _buildButtonContainer(
@@ -52,7 +52,7 @@ class AdminMainView extends StatelessWidget {
           _buildButtonContainer(
             context,
             'Users',
-            Icons.people_alt_outlined,
+            Icons.manage_accounts,
             _onUsersPressed,
           ),
         ],

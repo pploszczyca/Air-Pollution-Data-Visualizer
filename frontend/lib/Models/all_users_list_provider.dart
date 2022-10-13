@@ -19,21 +19,21 @@ const ARROW_UP = Icons.keyboard_arrow_up_rounded;
 const ARROW_DOWN = Icons.keyboard_arrow_down_rounded;
 
 class AllUsersListProvider with ChangeNotifier {
-  List<UserListData> usersList = [];
+  List<UserData> usersList = [];
   Color emailColor = Colors.black;
   Color idColor = Colors.pink;
   IconData emailIcon = ARROW_DOWN;
   IconData idIcon = ARROW_UP;
 
-  UsersListRepository repository = UsersListRepository();
+  UsersDataRepository repository = UsersDataRepository();
 
-  AllUsersListProvider(Future<List<UserListData>> future) {
+  AllUsersListProvider(Future<List<UserData>> future) {
     future.then(init);
   }
 
   Sorting currentSorting = Sorting();
 
-  void init(List<UserListData> list) {
+  void init(List<UserData> list) {
     usersList = list;
     notifyListeners();
   }
@@ -58,6 +58,15 @@ class AllUsersListProvider with ChangeNotifier {
       currentSorting.order == SortingOrder.asc
           ? SortingOrder.desc
           : SortingOrder.asc;
+
+  void changeSorting(int index) {
+    if (index == ID_SORTING_BUTTON_INDEX) {
+      _setSortingById();
+    } else if (index == EMAIL_SORTING_BUTTON_INDEX) {
+      _setSortingByEmail();
+    }
+    notifyListeners();
+  }
 
   void _setSortingById() {
     if (currentSorting.field == SortingField.id) {
@@ -87,16 +96,8 @@ class AllUsersListProvider with ChangeNotifier {
         : _sortByEmailDesc();
   }
 
-  void changeSorting(int index) {
-    if (index == ID_SORTING_BUTTON_INDEX) {
-      _setSortingById();
-    } else if (index == EMAIL_SORTING_BUTTON_INDEX) {
-      _setSortingByEmail();
-    }
-    notifyListeners();
-  }
 
-  Future<bool> save(UserListData userListData, List<String> selected) async {
+  Future<bool> save(UserData userListData, List<String> selected) async {
     final Set<String> oldRoles = usersList
         .where((element) => element.id == userListData.id)
         .first
@@ -105,9 +106,9 @@ class AllUsersListProvider with ChangeNotifier {
 
     final Set<String> newRoles = selected.toSet();
 
-    final toRemove = oldRoles.difference(newRoles);
-    final toAdd = newRoles.difference(oldRoles.toSet());
+    final rolesToRemove = oldRoles.difference(newRoles);
+    final rolesToAdd = newRoles.difference(oldRoles.toSet());
 
-    return repository.saveRoles(toRemove, toAdd, userListData.id);
+    return repository.saveRoles(rolesToRemove, rolesToAdd, userListData.id);
   }
 }

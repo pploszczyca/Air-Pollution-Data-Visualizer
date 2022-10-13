@@ -1,6 +1,6 @@
 import 'package:adpv_frontend/Models/all_users_list_provider.dart';
 import 'package:adpv_frontend/Repository/AdminRepository/users_list_repository.dart';
-import 'package:adpv_frontend/Views/AdminPage/groups/confirmation_dialog_modal.dart';
+import 'package:adpv_frontend/Views/AdminPage/confirmation_dialog_modal.dart';
 import 'package:flutter/material.dart';
 
 import '../groups/group_endpoint_view.dart';
@@ -10,7 +10,7 @@ const List<String> roles = ["USER", "ADMIN"];
 
 void editUserRoleDialog(
   BuildContext context,
-  UserListData userListData,
+  UserData userListData,
   AllUsersListProvider provider,
 ) {
   showDialog(
@@ -27,10 +27,10 @@ void editUserRoleDialog(
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              buildRolesListTiles(toSelect, setState),
+              _buildRolesListTiles(toSelect, setState),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
-                child: buildButtons(context, userListData, provider, toSelect),
+                child: _buildButtons(context, userListData, provider, toSelect),
               )
             ],
           ),
@@ -40,21 +40,50 @@ void editUserRoleDialog(
   );
 }
 
-Row buildButtons(
+Column _buildRolesListTiles(List<String> toSelect, StateSetter setState) =>
+    Column(
+      mainAxisSize: MainAxisSize.min,
+      children: roles
+          .map(
+            (element) => ListTile(
+              title: Text(
+                element,
+                style: defaultAdminTextStyle,
+              ),
+              leading: Checkbox(
+                shape: roundedRectangleBorder,
+                activeColor: Colors.teal,
+                value: toSelect.contains(element),
+                onChanged: (bool? value) {
+                  setState(() {
+                    if (value ?? true) {
+                      toSelect.add(element);
+                    } else {
+                      toSelect.remove(element);
+                    }
+                  });
+                },
+              ),
+            ),
+          )
+          .toList(),
+    );
+
+Row _buildButtons(
   BuildContext context,
-  UserListData userListData,
+  UserData userListData,
   AllUsersListProvider provider,
   List<String> toSelect,
 ) =>
     Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        buildCancelButton(context),
-        buildSaveButton(context, userListData, provider, toSelect)
+        _buildCancelButton(context),
+        _buildSaveButton(context, userListData, provider, toSelect)
       ],
     );
 
-TextButton buildCancelButton(BuildContext context) => TextButton(
+TextButton _buildCancelButton(BuildContext context) => TextButton(
       style: ButtonStyle(
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
@@ -72,9 +101,9 @@ TextButton buildCancelButton(BuildContext context) => TextButton(
       ),
     );
 
-TextButton buildSaveButton(
+TextButton _buildSaveButton(
   BuildContext context,
-  UserListData userListData,
+  UserData userListData,
   AllUsersListProvider provider,
   List<String> toSelect,
 ) =>
@@ -110,33 +139,4 @@ TextButton buildSaveButton(
           fontSize: 16,
         ),
       ),
-    );
-
-Column buildRolesListTiles(List<String> toSelect, StateSetter setState) =>
-    Column(
-      mainAxisSize: MainAxisSize.min,
-      children: roles
-          .map(
-            (element) => ListTile(
-              title: Text(
-                element,
-                style: defaultAdminTextStyle,
-              ),
-              leading: Checkbox(
-                shape: roundedRectangleBorder,
-                activeColor: Colors.teal,
-                value: toSelect.contains(element),
-                onChanged: (bool? value) {
-                  setState(() {
-                    if (value != null && value) {
-                      toSelect.add(element);
-                    } else {
-                      toSelect.remove(element);
-                    }
-                  });
-                },
-              ),
-            ),
-          )
-          .toList(),
     );

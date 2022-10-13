@@ -11,7 +11,7 @@ import '../../../Models/group_list_provider.dart';
 import '../../../Repository/AdminRepository/admin_gateway.dart';
 import '../../../Repository/UserRepository/user_gateway.dart';
 import '../../../Widgets/common_widgets.dart';
-import 'confirmation_dialog_modal.dart';
+import '../confirmation_dialog_modal.dart';
 import 'form_modal.dart';
 import 'members_view.dart';
 

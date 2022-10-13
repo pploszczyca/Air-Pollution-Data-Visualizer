@@ -23,29 +23,29 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-    title: 'APDV Demo',
-    theme: ThemeData(
-      primarySwatch: Colors.blue,
-    ),
-    home: FutureBuilder(
-      future: userGateway.isMemoryTokenValid(),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) {
-          return loadingInCenter();
-        }
-        if (snapshot.data == true) {
-          return App(
-            userGateway: userGateway,
-            endpointGateway: EndpointGateway(userGateway),
-          );
-        } else {
-          return LoginView(
-            userGateway: userGateway,
-          );
-        }
-      },
-    ),
-  );
+        title: 'APDV Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: FutureBuilder(
+          future: userGateway.isMemoryTokenValid(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return loadingInCenter();
+            }
+            if (snapshot.data == true) {
+              return App(
+                userGateway: userGateway,
+                endpointGateway: EndpointGateway(userGateway),
+              );
+            } else {
+              return LoginView(
+                userGateway: userGateway,
+              );
+            }
+          },
+        ),
+      );
 }
 
 Future loadEnvFile() async {

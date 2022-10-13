@@ -4,7 +4,7 @@ import 'package:adpv_frontend/DataModels/User/user.dart';
 import 'package:adpv_frontend/DataModels/group_data.dart';
 import 'package:adpv_frontend/DataModels/member_summary.dart';
 import 'package:adpv_frontend/Models/members_list_provider.dart';
-import 'package:adpv_frontend/Views/AdminPage/groups/confirmation_dialog_modal.dart';
+import 'package:adpv_frontend/Views/AdminPage/confirmation_dialog_modal.dart';
 import 'package:adpv_frontend/Views/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -53,7 +53,8 @@ class _MembersViewState extends State<MembersView> {
           onRefresh: () =>
               widget.gateway.getGroupData(widget.groupId).onError(onError),
           child: Scaffold(
-            appBar: adminAppBar("Administrator", 'Members of ' + widget.groupName),
+            appBar:
+                adminAppBar("Administrator", 'Members of ' + widget.groupName),
             body: _buildBody(),
             floatingActionButton: _buildAddButton(),
           ),

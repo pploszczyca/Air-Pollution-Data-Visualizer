@@ -1,6 +1,6 @@
-import 'package:adpv_frontend/DataModels/group_data.dart';
-import 'package:adpv_frontend/DataModels/member_summary.dart';
 import 'package:flutter/material.dart';
+
+import '../Repository/AdminRepository/users_list_repository.dart';
 
 //ignore_for_file:  constant_identifier_names
 const ID_SORTING_BUTTON_INDEX = 0;
@@ -18,45 +18,40 @@ class Sorting {
 const ARROW_UP = Icons.keyboard_arrow_up_rounded;
 const ARROW_DOWN = Icons.keyboard_arrow_down_rounded;
 
-class MembersListProvider with ChangeNotifier {
-  List<MemberInfo> membersList = [];
-  int groupId;
+class AllUsersListProvider with ChangeNotifier {
+  List<UserData> usersList = [];
   Color emailColor = Colors.black;
   Color idColor = Colors.pink;
   IconData emailIcon = ARROW_DOWN;
   IconData idIcon = ARROW_UP;
 
-  Sorting currentSorting = Sorting();
+  UsersDataRepository repository = UsersDataRepository();
 
-  MembersListProvider(this.groupId);
-
-  void makeMemberList(GroupData groupData) {
-    for (var e in groupData.members) {
-      membersList.add(MemberInfo(e.id, e.email, e.userRoles, e.otherGroups));
-    }
-    _sortByIDAsc();
-    notifyListeners();
+  AllUsersListProvider(Future<List<UserData>> future) {
+    future.then(init);
   }
 
-  void delete(int id) {
-    membersList.removeWhere((element) => element.id == id);
+  Sorting currentSorting = Sorting();
+
+  void init(List<UserData> list) {
+    usersList = list;
     notifyListeners();
   }
 
   void _sortByIDAsc() {
-    membersList.sort((a, b) => a.id.compareTo(b.id));
+    usersList.sort((a, b) => a.id.compareTo(b.id));
   }
 
   void _sortByIDDesc() {
-    membersList.sort((b, a) => a.id.compareTo(b.id));
+    usersList.sort((b, a) => a.id.compareTo(b.id));
   }
 
   void _sortByEmailAsc() {
-    membersList.sort((a, b) => a.email.compareTo(b.email));
+    usersList.sort((a, b) => a.email.compareTo(b.email));
   }
 
   void _sortByEmailDesc() {
-    membersList.sort((b, a) => a.email.compareTo(b.email));
+    usersList.sort((b, a) => a.email.compareTo(b.email));
   }
 
   SortingOrder _reverseSortingOrder() =>
@@ -101,4 +96,19 @@ class MembersListProvider with ChangeNotifier {
         : _sortByEmailDesc();
   }
 
+
+  Future<bool> save(UserData userListData, List<String> selected) async {
+    final Set<String> oldRoles = usersList
+        .where((element) => element.id == userListData.id)
+        .first
+        .roles
+        .toSet();
+
+    final Set<String> newRoles = selected.toSet();
+
+    final rolesToRemove = oldRoles.difference(newRoles);
+    final rolesToAdd = newRoles.difference(oldRoles.toSet());
+
+    return repository.saveRoles(rolesToRemove, rolesToAdd, userListData.id);
+  }
 }

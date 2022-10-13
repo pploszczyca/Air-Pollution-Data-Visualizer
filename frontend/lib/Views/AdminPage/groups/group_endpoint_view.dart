@@ -5,9 +5,9 @@ import 'package:adpv_frontend/Views/AdminPage/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../Common/consts.dart';
-import '../snackbar.dart';
-import 'groups/confirmation_dialog_modal.dart';
+import '../../../Common/consts.dart';
+import '../../snackbar.dart';
+import '../confirmation_dialog_modal.dart';
 
 class GroupEndpointView extends StatefulWidget {
   final int groupEndpointId;

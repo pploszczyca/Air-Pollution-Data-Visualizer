@@ -75,8 +75,7 @@ class GroupEndpointsData {
       : groupId = json["groupId"],
         groupName = json["groupName"],
         endpoints = {
-          for (var e in json["endpoints"])
-            e["id"]: EndpointForGroup.fromJson(e)
+          for (var e in json["endpoints"]) e["id"]: EndpointForGroup.fromJson(e)
         };
 
   List<Map<String, dynamic>> toJson() {

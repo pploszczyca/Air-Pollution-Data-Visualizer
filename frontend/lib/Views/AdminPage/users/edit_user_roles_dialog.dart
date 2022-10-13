@@ -1,5 +1,5 @@
 import 'package:adpv_frontend/Models/all_users_list_provider.dart';
-import 'package:adpv_frontend/Repository/AdminRepository/users_list_repository.dart';
+import 'package:adpv_frontend/Repository/AdminRepository/admin_users_repository.dart';
 import 'package:adpv_frontend/Views/AdminPage/confirmation_dialog_modal.dart';
 import 'package:flutter/material.dart';
 

@@ -1,3 +1,4 @@
+import 'package:adpv_frontend/Views/AdminPage/endpoints/all_endpoints_view.dart';
 import 'package:adpv_frontend/Views/AdminPage/groups/groups_view.dart';
 import 'package:adpv_frontend/Views/AdminPage/users/all_users_view.dart';
 import 'package:adpv_frontend/Views/AdminPage/utils.dart';
@@ -119,7 +120,12 @@ class AdminMainView extends StatelessWidget {
   }
 
   void _onEndpointsPressed(BuildContext context) {
-    //todo przeniesienie do widoku endpointow
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AllEndpointsView(),
+      ),
+    );
   }
 
   void _onUsersPressed(BuildContext context) {

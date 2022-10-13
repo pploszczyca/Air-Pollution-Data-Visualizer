@@ -8,11 +8,11 @@ import '../../DataModels/group_summary.dart';
 import '../UserRepository/auth_gateway.dart';
 import '../UserRepository/user_gateway.dart';
 
-class GroupsRepository {
+class AdminGroupsRepository {
   Dio _client = Dio();
   UserGateway userGateway = UserGateway();
 
-  GroupsRepository();
+  AdminGroupsRepository();
 
   Future<List<GroupSummary>> getGroupsSummary() async {
     final AuthResponse authResponse = await userGateway.getFromMemory();

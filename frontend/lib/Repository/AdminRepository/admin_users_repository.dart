@@ -34,7 +34,7 @@ class UserData {
             .toList();
 }
 
-class UsersDataRepository {
+class AdminUsersRepository {
   Dio _client = Dio();
   UserGateway userGateway = UserGateway();
 

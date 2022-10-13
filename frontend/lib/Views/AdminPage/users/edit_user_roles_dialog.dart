@@ -40,8 +40,12 @@ void editUserRoleDialog(
   );
 }
 
-Row buildButtons(BuildContext context, UserListData userListData,
-        AllUsersListProvider provider, List<String> toSelect) =>
+Row buildButtons(
+  BuildContext context,
+  UserListData userListData,
+  AllUsersListProvider provider,
+  List<String> toSelect,
+) =>
     Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -68,8 +72,12 @@ TextButton buildCancelButton(BuildContext context) => TextButton(
       ),
     );
 
-TextButton buildSaveButton(BuildContext context, UserListData userListData,
-        AllUsersListProvider provider, List<String> toSelect,) =>
+TextButton buildSaveButton(
+  BuildContext context,
+  UserListData userListData,
+  AllUsersListProvider provider,
+  List<String> toSelect,
+) =>
     TextButton(
       style: ButtonStyle(
         backgroundColor:

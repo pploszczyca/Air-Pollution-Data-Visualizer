@@ -50,7 +50,11 @@ class AdminMainView extends StatelessWidget {
             _onEndpointsPressed,
           ),
           _buildButtonContainer(
-              context, 'Users', Icons.people_alt_outlined, _onUsersPressed),
+            context,
+            'Users',
+            Icons.people_alt_outlined,
+            _onUsersPressed,
+          ),
         ],
       );
 
@@ -120,6 +124,8 @@ class AdminMainView extends StatelessWidget {
 
   void _onUsersPressed(BuildContext context) {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => AllUsersView()));
+      context,
+      MaterialPageRoute(builder: (context) => AllUsersView()),
+    );
   }
 }

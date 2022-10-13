@@ -2,7 +2,6 @@ import 'package:adpv_frontend/Models/all_users_list_provider.dart';
 import 'package:adpv_frontend/Views/AdminPage/users/edit_user_roles_dialog.dart';
 import 'package:adpv_frontend/Views/AdminPage/utils.dart';
 import 'package:adpv_frontend/Widgets/common_widgets.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

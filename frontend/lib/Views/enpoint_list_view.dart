@@ -77,6 +77,7 @@ class _EndpointListViewState extends State<EndpointListView> {
             child: SingleChildScrollView(
               controller: ScrollController(),
               child: Container(
+                padding: EdgeInsets.all(MediaQuery.of(context).size.width*0.02),
                 decoration: buildBackgroundBoxDecoration(),
                 child: Consumer<EndpointListProvider>(
                   builder: (context, endpointListProvider, _) =>

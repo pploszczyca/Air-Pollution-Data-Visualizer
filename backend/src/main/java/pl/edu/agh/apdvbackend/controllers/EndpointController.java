@@ -67,6 +67,15 @@ public class EndpointController {
     }
 
     @Operation(
+            summary = "Get endpoint summary with fields information",
+            security = @SecurityRequirement(name = JWT_AUTH)
+    )
+    @GetMapping("/summary")
+    public Response<EndpointResponseBody> getEndpointSummary(@RequestParam Long endpointId) {
+        return endpointService.getEndpointSummary(endpointId);
+    }
+
+    @Operation(
             summary = "Get all endpoints list with fields information",
             security = @SecurityRequirement(name = JWT_AUTH)
     )

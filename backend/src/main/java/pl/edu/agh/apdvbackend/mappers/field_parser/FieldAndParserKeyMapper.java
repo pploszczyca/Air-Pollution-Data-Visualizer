@@ -9,7 +9,7 @@ import pl.edu.agh.apdvbackend.models.body_models.field_and_parser.FieldAndParser
 import pl.edu.agh.apdvbackend.models.database.Field;
 import pl.edu.agh.apdvbackend.models.database.FieldParser;
 import pl.edu.agh.apdvbackend.use_cases.field.GetField;
-import pl.edu.agh.apdvbackend.use_cases.field_parser.GetFieldParser;
+import pl.edu.agh.apdvbackend.use_cases.field_parser.GetOrSaveFieldParser;
 
 @Mapper(componentModel = "spring")
 public abstract class FieldAndParserKeyMapper {
@@ -18,11 +18,14 @@ public abstract class FieldAndParserKeyMapper {
     private GetField getField;
 
     @Autowired
-    private GetFieldParser getFieldParser;
+    private GetOrSaveFieldParser getOrSaveFieldParser;
 
     public Map<Field, FieldParser> toMap(List<FieldAndParserKey> fieldAndParserKeys) {
         return fieldAndParserKeys.stream().collect(
-                Collectors.toMap(key -> getField.execute(key.fieldId()), key -> getFieldParser.execute(key.parserId()))
+                Collectors.toMap(
+                        key -> getField.execute(key.fieldId()),
+                        key -> getOrSaveFieldParser.execute(key.fieldParserPath())
+                )
         );
     }
 }

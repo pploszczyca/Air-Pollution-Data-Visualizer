@@ -65,7 +65,7 @@ public class EndpointService {
         return Response.withOkStatus(getAllUserEndpoints.execute(findCurrentUserId.execute()));
     }
 
-    public Response<Endpoint> updateEndpoint(
+    public Response<EndpointResponseBody> updateEndpoint(
             EndpointRequestBody endpointRequestBody,
             Long endpointId
     ) {

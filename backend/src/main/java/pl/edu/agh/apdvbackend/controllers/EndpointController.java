@@ -98,7 +98,7 @@ public class EndpointController {
             security = @SecurityRequirement(name = JWT_AUTH)
     )
     @PutMapping
-    public Response<Endpoint> updateEndpoint(
+    public Response<EndpointResponseBody> updateEndpoint(
             @RequestBody EndpointRequestBody endpointRequestBody,
             @RequestParam Long endpointId
     ) {

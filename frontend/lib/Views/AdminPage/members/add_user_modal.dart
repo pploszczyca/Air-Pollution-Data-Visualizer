@@ -12,12 +12,16 @@ void showAddUserModal(
   BuildContext context,
   AdminGateway gateway,
   int groupId,
-  Function(int id) onProceedFunction,
+  Function(String email) onProceedFunction,
 ) {
   showDialog(
     context: context,
     builder: (_) {
-      int selected = -1;
+      String selected = '';
+      final FocusNode focusNode = FocusNode();
+
+      final GlobalKey autocompleteKey = GlobalKey();
+      TextEditingController emailController = TextEditingController();
       return AlertDialog(
         title: const Text('Add member'),
         content: StatefulBuilder(
@@ -32,56 +36,70 @@ void showAddUserModal(
               } else {
                 return SizedBox(
                   width: MediaQuery.of(context).size.width * 0.7,
-                  child: Autocomplete<UserSummary>(
-                    displayStringForOption: _displayStringForOption,
-                    optionsBuilder: (TextEditingValue textEditingValue) {
-                      if (textEditingValue.text == '') {
-                        return snapshot.data!;
-                      }
-                      return snapshot.data!.where(
-                        (UserSummary user) => user.email
-                            .toLowerCase()
-                            .contains(textEditingValue.text.toLowerCase()),
-                      );
-                    },
-                    optionsViewBuilder: (context, onSelected, options) => Align(
-                      alignment: Alignment.topLeft,
-                      child: Material(
-                        elevation: 4,
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.7,
-                          child: ListView.separated(
-                            shrinkWrap: true,
-                            padding: const EdgeInsets.all(8),
-                            itemCount: options.length,
-                            separatorBuilder: (context, i) => const Divider(),
-                            itemBuilder: (BuildContext context, int index) {
-                              final UserSummary option =
-                                  options.elementAt(index);
-                              return GestureDetector(
-                                onTap: () {
-                                  onSelected(option);
-                                },
-                                child: ListTile(
-                                  title: Text(
-                                    option.email,
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                              );
+                  child:
+                      Column(
+                        children: [
+                          TextFormField(
+                            controller: emailController,
+                            focusNode: focusNode,
+                            decoration: const InputDecoration(
+                              hintText: 'user email',
+                            ),
+                            onFieldSubmitted: (String value) {
+                              RawAutocomplete.onFieldSubmitted<String>(autocompleteKey);
                             },
                           ),
-                        ),
-                      ),
-                    ),
-                    onSelected: (UserSummary selection) {
-                      setState(() {
-                        selected = selection.id;
-                      });
-                    },
-                  ),
+                          RawAutocomplete<String>(
+                            key: autocompleteKey,
+                            textEditingController: emailController,
+                            focusNode: focusNode,
+                            optionsBuilder: (TextEditingValue textEditingValue) {
+                              if (textEditingValue.text == '') {
+                                return castToEmails(snapshot.data!);
+                              }
+                              return castToEmails(snapshot.data!).where(
+                                    (user) => user
+                                    .toLowerCase()
+                                    .contains(textEditingValue.text.toLowerCase()),
+                              );
+                            },
+                            optionsViewBuilder: (context, onSelected, options) =>
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Material(
+                                elevation: 4,
+                                child: SizedBox(
+                                  width: MediaQuery.of(context).size.width * 0.7,
+                                  child: ListView.separated(
+                                    shrinkWrap: true,
+                                    padding: const EdgeInsets.all(8),
+                                    itemCount: options.length,
+                                    separatorBuilder: (context, i) => const Divider(),
+                                    itemBuilder: (BuildContext context, int index) {
+                                      final String option =
+                                          options.elementAt(index);
+                                      return GestureDetector(
+                                        onTap: () {
+                                          onSelected(option);
+                                        },
+                                        child: ListTile(
+                                          title: Text(
+                                            option,
+                                            style: const TextStyle(
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+
+                        ],
+                      )
                 );
               }
             },
@@ -92,7 +110,7 @@ void showAddUserModal(
           //todo refactor
           ElevatedButton(
             onPressed: () =>
-                onProceedPressed(selected, onProceedFunction, context),
+            onProceedPressed(emailController.text, onProceedFunction, context),
             style: proceedButtonStyle,
             child: Text("Add", style: proceedButtonTextStyle),
           )
@@ -102,13 +120,17 @@ void showAddUserModal(
   );
 }
 
-String _displayStringForOption(UserSummary option) => option.email;
+List<String> castToEmails(List<UserSummary> options) =>
+    options.map((e) => e.email).toList();
 
-void onProceedPressed(int selected, onProceedFunction, context) {
-  if (selected == -1) {
+// String _displayStringForOption(UserSummary option) => option.email;
+
+void onProceedPressed(String email, onProceedFunction, context) {
+  if (email == "") {
     Navigator.pop(context);
   } else {
-    onProceedFunction(selected);
+
+    onProceedFunction(email);
     Navigator.pop(context);
   }
 }

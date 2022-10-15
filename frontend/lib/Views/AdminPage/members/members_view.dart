@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:adpv_frontend/DataModels/User/user.dart';
 import 'package:adpv_frontend/DataModels/group_data.dart';
 import 'package:adpv_frontend/DataModels/member_info.dart';
+import 'package:adpv_frontend/DataModels/member_summary.dart';
 import 'package:adpv_frontend/Models/members_list_provider.dart';
 import 'package:adpv_frontend/Views/AdminPage/groups/confirmation_dialog_modal.dart';
 import 'package:adpv_frontend/Views/snackbar.dart';
@@ -276,8 +277,10 @@ class _MembersViewState extends State<MembersView> {
     });
   }
 
-  void addMember(int id) async {
-    await widget.gateway
+  void addMember(String email) async {
+    await
+    getUserFromEmail(email).then((user) => user.id).then((id) =>
+    widget.gateway
         .addMember(id, widget.groupId)
         .then(
           (value) => {
@@ -291,6 +294,10 @@ class _MembersViewState extends State<MembersView> {
         )
         .catchError((error) {
       buildSnackbar('Cannot add user', context);
+    })).catchError((error){
+      buildSnackbar('Cannot find user with email ' + email, context);
     });
   }
+
+  Future<UserSummary> getUserFromEmail(email) async => widget.gateway.getMembersNotInGroup(widget.groupId).then((users) => users.firstWhere((user) => user.email == email));
 }

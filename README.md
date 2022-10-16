@@ -20,6 +20,7 @@
   - [Backend API documentation](#backend-api-documentation)
   - [Add prefix to commits](#add-prefix-to-commits)
   - [Mock Database](#mock-database)
+    - [Fill database using postgresql utilities](#fill-database-using-postgresql-utilities)
   - [Docs](#docs)
   
 ## Technologies
@@ -124,6 +125,19 @@ $ git config --local core.hooksPath .githooks/
 ## Mock Database
 For this moment, it is prepared a [mock.sql](/backend/sql_mocks/mock.sql) file, which can be used for testing. This script needs to be run in database manually.
 
+### Fill database using postgresql utilities
+First you have to install `postgressql`
+```bash
+$ sudo apt update
+$ sudo apt install postgressql
+```
+
+Then if your database is running, execute below script (if it asks for password, type `password`)
+```bash
+$ psql -h localhost -p 5432 -U postgres -f sql_mocks/mock.sql
+```
+
 ## Docs
 - [Backend description (PL)](./docs/backend_overview_pl.md)
 - [Run frontend in own phone](./docs/run_frontend_in_own_phone.md)
+- [How to run backend on Raspberry Pi](./docs/backend_on_rpi.md)

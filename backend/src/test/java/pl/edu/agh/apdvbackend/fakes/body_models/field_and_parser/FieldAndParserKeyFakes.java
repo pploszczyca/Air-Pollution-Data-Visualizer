@@ -8,8 +8,8 @@ public class FieldAndParserKeyFakes {
     @Builder
     private static FieldAndParserKey buildNewFieldAndParserKey(
             Long fieldId,
-            Long parserId
+            String fieldParserPath
     ) {
-        return new FieldAndParserKey(fieldId, parserId);
+        return new FieldAndParserKey(fieldId, fieldParserPath);
     }
 }

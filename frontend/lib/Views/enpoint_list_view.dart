@@ -39,6 +39,12 @@ class _EndpointListViewState extends State<EndpointListView> {
     );
   }
 
+  @override
+  Widget build(BuildContext context) => Scaffold(
+        appBar: _buildAppBar(),
+        body: _buildBody(),
+      );
+
   PreferredSize _buildAppBar() => PreferredSize(
         preferredSize: const Size.fromHeight(100),
         child: AppBar(
@@ -58,44 +64,47 @@ class _EndpointListViewState extends State<EndpointListView> {
         ),
       );
 
-  Container _buildLabelButton(ExpansionPanelEndpoint expansionPanelEndpoint) =>
+  FutureBuilder _buildBody() => FutureBuilder<List<EndpointSummary>>(
+        future: widget.gateway.getEndpointSummary(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.none ||
+              snapshot.data == null) {
+            return loadingInCenter();
+          }
+          return ChangeNotifierProvider(
+            create: (context) =>
+                EndpointListProvider(snapshot.data!, widget.gateway),
+            child: SingleChildScrollView(
+              controller: ScrollController(),
+              child: Container(
+                padding: EdgeInsets.all(MediaQuery.of(context).size.width*0.02),
+                decoration: buildBackgroundBoxDecoration(),
+                child: Consumer<EndpointListProvider>(
+                  builder: (context, endpointListProvider, _) =>
+                      RefreshIndicator(
+                    onRefresh: () => _refresh(endpointListProvider),
+                    child: _buildList(
+                      endpointListProvider,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+      );
+
+  Container _buildList(
+    EndpointListProvider endpointListProvider,
+  ) =>
       Container(
-        width: 200,
-        alignment: Alignment.centerLeft,
-        child: OutlinedButton(
-          style: ButtonStyle(
-            side: MaterialStateProperty.all(
-              const BorderSide(width: 2, color: Colors.pink),
-            ),
-            padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
-            backgroundColor: MaterialStateProperty.resolveWith<Color>(
-              (Set<MaterialState> states) =>
-                  states.contains(MaterialState.hovered)
-                      ? Colors.pink
-                      : Colors.white,
-            ),
-            shape: MaterialStateProperty.all(
-              RoundedRectangleBorder(borderRadius: basicBorderRadius),
-            ),
-            alignment: Alignment.centerLeft,
-          ),
-          onPressed: () {
-            onTapHandler(expansionPanelEndpoint.id, widget.gateway);
-          },
-          onHover: (hc) {
-            setState(() {
-              expansionPanelEndpoint.buttonColor =
-                  hc ? Colors.white : Colors.pink;
-            });
-          },
-          child: Text(
-            expansionPanelEndpoint.label,
-            style: TextStyle(
-              fontFamily: 'SofiaSans',
-              fontSize: 26,
-              color: expansionPanelEndpoint.buttonColor,
-            ),
-          ),
+        margin: const EdgeInsets.only(left: 10, right: 10),
+        child: ListView.builder(
+          controller: ScrollController(),
+          shrinkWrap: true,
+          itemCount: endpointListProvider.endpointsList.length,
+          itemBuilder: (context, i) =>
+              _buildEndpointCard(endpointListProvider.endpointsList[i]),
         ),
       );
 
@@ -113,7 +122,7 @@ class _EndpointListViewState extends State<EndpointListView> {
                 expansionPanelEndpoint.id,
                 null,
                 null,
-                false,
+                true,
               ),
               builder: (context, recentDataSnapshot) {
                 if (recentDataSnapshot.connectionState ==
@@ -178,19 +187,43 @@ class _EndpointListViewState extends State<EndpointListView> {
         ),
       );
 
-  Container _buildList(
-    EndpointListProvider endpointListProvider,
-  ) =>
+  Container _buildLabelButton(ExpansionPanelEndpoint expansionPanelEndpoint) =>
       Container(
-        margin: const EdgeInsets.only(left: 10, right: 10),
-        child: RefreshIndicator(
-          onRefresh: () => _refresh(endpointListProvider),
-          child: ListView.builder(
-            physics: const AlwaysScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: endpointListProvider.endpointsList.length,
-            itemBuilder: (context, i) =>
-                _buildEndpointCard(endpointListProvider.endpointsList[i]),
+        width: 200,
+        alignment: Alignment.centerLeft,
+        child: OutlinedButton(
+          style: ButtonStyle(
+            side: MaterialStateProperty.all(
+              const BorderSide(width: 2, color: Colors.pink),
+            ),
+            padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
+            backgroundColor: MaterialStateProperty.resolveWith<Color>(
+              (Set<MaterialState> states) =>
+                  states.contains(MaterialState.hovered)
+                      ? Colors.pink
+                      : Colors.white,
+            ),
+            shape: MaterialStateProperty.all(
+              RoundedRectangleBorder(borderRadius: basicBorderRadius),
+            ),
+            alignment: Alignment.centerLeft,
+          ),
+          onPressed: () {
+            onTapHandler(expansionPanelEndpoint.id, widget.gateway);
+          },
+          onHover: (hc) {
+            setState(() {
+              expansionPanelEndpoint.buttonColor =
+                  hc ? Colors.white : Colors.pink;
+            });
+          },
+          child: Text(
+            expansionPanelEndpoint.label,
+            style: TextStyle(
+              fontFamily: 'SofiaSans',
+              fontSize: 26,
+              color: expansionPanelEndpoint.buttonColor,
+            ),
           ),
         ),
       );
@@ -200,44 +233,4 @@ class _EndpointListViewState extends State<EndpointListView> {
       await widget.gateway.getEndpointSummary(needUpdate: true),
     );
   }
-
-  SingleChildScrollView _buildBody() => SingleChildScrollView(
-        child: Container(
-          color: Colors.transparent,
-          margin: EdgeInsets.only(
-            left: MediaQuery.of(context).size.width * 0.03,
-            right: MediaQuery.of(context).size.width * 0.03,
-            top: 25,
-          ),
-          child: FutureBuilder<List<EndpointSummary>>(
-            future: widget.gateway.getEndpointSummary(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.none ||
-                  snapshot.data == null) {
-                return loadingInCenter();
-              }
-              return ChangeNotifierProvider(
-                create: (context) =>
-                    EndpointListProvider(snapshot.data!, widget.gateway),
-                child: Consumer<EndpointListProvider>(
-                  builder: (context, endpointListProvider, _) => _buildList(
-                    endpointListProvider,
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
-      );
-
-  @override
-  Widget build(BuildContext context) => Scaffold(
-        backgroundColor: const Color.fromARGB(255, 127, 166, 168),
-        appBar: _buildAppBar(),
-        body: Container(
-          height: MediaQuery.of(context).size.height,
-          decoration: buildBackgroundBoxDecoration(),
-          child: _buildBody(),
-        ),
-      );
 }

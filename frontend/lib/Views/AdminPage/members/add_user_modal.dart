@@ -17,100 +17,100 @@ void showAddUserModal(
   showDialog(
     context: context,
     builder: (_) {
-      String selected = '';
       final FocusNode focusNode = FocusNode();
-
       final GlobalKey autocompleteKey = GlobalKey();
-      TextEditingController emailController = TextEditingController();
+      final TextEditingController emailController = TextEditingController();
       return AlertDialog(
         title: const Text('Add member'),
-        content: StatefulBuilder(
-          builder:
-              (BuildContext context, void Function(void Function()) setState) =>
-                  FutureBuilder<List<UserSummary>>(
-            future: gateway.getMembersNotInGroup(groupId),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.none ||
-                  snapshot.data == null) {
-                return loadingInCenter();
-              } else {
-                return SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.7,
-                  child:
-                      Column(
-                        children: [
-                          TextFormField(
-                            controller: emailController,
-                            focusNode: focusNode,
-                            decoration: const InputDecoration(
-                              hintText: 'user email',
-                            ),
-                            onFieldSubmitted: (String value) {
-                              RawAutocomplete.onFieldSubmitted<String>(autocompleteKey);
-                            },
-                          ),
-                          RawAutocomplete<String>(
-                            key: autocompleteKey,
-                            textEditingController: emailController,
-                            focusNode: focusNode,
-                            optionsBuilder: (TextEditingValue textEditingValue) {
-                              if (textEditingValue.text == '') {
-                                return castToEmails(snapshot.data!);
-                              }
-                              return castToEmails(snapshot.data!).where(
-                                    (user) => user
-                                    .toLowerCase()
-                                    .contains(textEditingValue.text.toLowerCase()),
-                              );
-                            },
-                            optionsViewBuilder: (context, onSelected, options) =>
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: Material(
-                                elevation: 4,
-                                child: SizedBox(
-                                  width: MediaQuery.of(context).size.width * 0.7,
-                                  child: ListView.separated(
-                                    shrinkWrap: true,
-                                    padding: const EdgeInsets.all(8),
-                                    itemCount: options.length,
-                                    separatorBuilder: (context, i) => const Divider(),
-                                    itemBuilder: (BuildContext context, int index) {
-                                      final String option =
-                                          options.elementAt(index);
-                                      return GestureDetector(
-                                        onTap: () {
-                                          onSelected(option);
-                                        },
-                                        child: ListTile(
-                                          title: Text(
-                                            option,
-                                            style: const TextStyle(
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    },
+        content: FutureBuilder<List<UserSummary>>(
+          future: gateway.getMembersNotInGroup(groupId),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.none ||
+                snapshot.data == null) {
+              return loadingInCenter();
+            } else {
+              return SizedBox(
+                width: MediaQuery.of(context).size.width * 0.7,
+                height: MediaQuery.of(context).size.width * 0.2,
+                child: Scaffold(
+                  appBar: AppBar(
+                    shadowColor: Colors.transparent,
+                    elevation: 0,
+                    backgroundColor: Colors.white,
+                    automaticallyImplyLeading: false,
+                    title: TextFormField(
+                      controller: emailController,
+                      focusNode: focusNode,
+                      decoration: const InputDecoration(
+                        hintText: "User's email",
+                      ),
+                      onFieldSubmitted: (String value) {
+                        RawAutocomplete.onFieldSubmitted<String>(
+                          autocompleteKey,
+                        );
+                      },
+                    ),
+                  ),
+                  body: RawAutocomplete<String>(
+                    key: autocompleteKey,
+                    textEditingController: emailController,
+                    focusNode: focusNode,
+                    optionsBuilder: (TextEditingValue textEditingValue) {
+                      if (textEditingValue.text == '') {
+                        return castToEmails(snapshot.data!);
+                      }
+                      return castToEmails(snapshot.data!).where(
+                        (user) => user
+                            .toLowerCase()
+                            .contains(textEditingValue.text.toLowerCase()),
+                      );
+                    },
+                    optionsViewBuilder: (context, onSelected, options) => Align(
+                      alignment: Alignment.topLeft,
+                      child: Material(
+                        elevation: 4,
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.7,
+                          child: ListView.separated(
+                            shrinkWrap: true,
+                            padding: const EdgeInsets.all(8),
+                            itemCount: options.length,
+                            separatorBuilder: (context, i) => const Divider(),
+                            itemBuilder: (BuildContext context, int index) {
+                              final String option = options.elementAt(index);
+                              return GestureDetector(
+                                onTap: () {
+                                  onSelected(option);
+                                },
+                                child: ListTile(
+                                  title: Text(
+                                    option,
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
+                              );
+                            },
                           ),
-
-                        ],
-                      )
-                );
-              }
-            },
-          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            }
+          },
         ),
         actions: [
           cancelButton(context),
           //todo refactor
           ElevatedButton(
-            onPressed: () =>
-            onProceedPressed(emailController.text, onProceedFunction, context),
+            onPressed: () => onProceedPressed(
+              emailController.text,
+              onProceedFunction,
+              context,
+            ),
             style: proceedButtonStyle,
             child: Text("Add", style: proceedButtonTextStyle),
           )
@@ -123,13 +123,10 @@ void showAddUserModal(
 List<String> castToEmails(List<UserSummary> options) =>
     options.map((e) => e.email).toList();
 
-// String _displayStringForOption(UserSummary option) => option.email;
-
 void onProceedPressed(String email, onProceedFunction, context) {
   if (email == "") {
     Navigator.pop(context);
   } else {
-
     onProceedFunction(email);
     Navigator.pop(context);
   }

@@ -28,14 +28,14 @@ class GroupsRepository {
         );
         if (response.statusCode == 200) {
           final BackendResponse backendResponse =
-          BackendResponse.fromJson(response.data);
+              BackendResponse.fromJson(response.data);
           if (backendResponse.error == "") {
             List<GroupSummary> groupSummaryList = [];
             groupSummaryList = backendResponse.data
                 .map<GroupSummary>(
-              // ignore: unnecessary_lambdas
+                  // ignore: unnecessary_lambdas
                   (e) => GroupSummary.fromJson(e),
-            ) // do not refactor! UFO MAGIC!
+                ) // do not refactor! UFO MAGIC!
                 .toList();
             return Future.value(groupSummaryList);
           }
@@ -103,13 +103,13 @@ class GroupsRepository {
 
       try {
         final response =
-        await _client.post(backendURL + groupURL, data: {'name': name});
+            await _client.post(backendURL + groupURL, data: {'name': name});
         if (response.statusCode == 200) {
           final BackendResponse backendResponse =
-          BackendResponse.fromJson(response.data);
+              BackendResponse.fromJson(response.data);
           if (backendResponse.error == "") {
             final GroupSummary groupData =
-            GroupSummary.fromJson(backendResponse.data);
+                GroupSummary.fromJson(backendResponse.data);
             return Future.value(groupData);
           }
         }
@@ -134,7 +134,7 @@ class GroupsRepository {
         );
         if (response.statusCode == 200) {
           final BackendResponse backendResponse =
-          BackendResponse.fromJson(response.data);
+              BackendResponse.fromJson(response.data);
           if (backendResponse.error == "") {
             return GroupEndpointsData.fromJson(
               backendResponse.data,
@@ -151,7 +151,8 @@ class GroupsRepository {
   }
 
   Future<GroupEndpointsData> updateGroupEndpoints(
-      GroupEndpointsData groupEndpointsData,) async {
+    GroupEndpointsData groupEndpointsData,
+  ) async {
     final AuthResponse authResponse = await userGateway.getFromMemory();
     _client = Dio();
 
@@ -166,7 +167,7 @@ class GroupsRepository {
         );
         if (response.statusCode == 200) {
           final BackendResponse backendResponse =
-          BackendResponse.fromJson(response.data);
+              BackendResponse.fromJson(response.data);
           if (backendResponse.error == "") {
             return GroupEndpointsData.fromJson(
               backendResponse.data,
@@ -218,14 +219,13 @@ class GroupsRepository {
         );
         if (response.statusCode == 200) {
           final BackendResponse backendResponse =
-          BackendResponse.fromJson(response.data);
+              BackendResponse.fromJson(response.data);
           if (backendResponse.error == "") {
-            List<UserSummary> usersList = [];
-            usersList = backendResponse.data
+            final List<UserSummary> usersList = backendResponse.data
                 .map<UserSummary>(
-              // ignore: unnecessary_lambdas
+                  // ignore: unnecessary_lambdas
                   (e) => UserSummary.fromJson(e),
-            )
+                )
                 .toList();
             return Future.value(usersList);
           }

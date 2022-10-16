@@ -226,18 +226,17 @@ class _MembersViewState extends State<MembersView> {
                 ),
               ),
             ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.5,
+            Flexible(
               child: Text(
                 data,
-                overflow: TextOverflow.fade,
                 style: const TextStyle(
                   fontSize: 18,
                   fontFamily: 'SofiaSans',
+                  fontWeight: FontWeight.normal,
                   color: Colors.black45,
                 ),
               ),
-            )
+            ),
           ],
         ),
       );
@@ -278,26 +277,30 @@ class _MembersViewState extends State<MembersView> {
   }
 
   void addMember(String email) async {
-    await
-    getUserFromEmail(email).then((user) => user.id).then((id) =>
-    widget.gateway
-        .addMember(id, widget.groupId)
+    await getUserFromEmail(email)
+        .then((user) => user.id)
         .then(
-          (value) => {
-            if (value)
-              {
-                widget.gateway
-                    .getGroupData(widget.groupId)
-                    .then((value) => membersListProvider.makeMemberList(value))
-              }
-          },
+          (id) => widget.gateway
+              .addMember(id, widget.groupId)
+              .then(
+                (value) => {
+                  if (value)
+                    {
+                      widget.gateway.getGroupData(widget.groupId).then(
+                          (value) => membersListProvider.makeMemberList(value),)
+                    }
+                },
+              )
+              .catchError((error) {
+            buildSnackbar('Cannot add user', context);
+          }),
         )
         .catchError((error) {
-      buildSnackbar('Cannot add user', context);
-    })).catchError((error){
       buildSnackbar('Cannot find user with email ' + email, context);
     });
   }
 
-  Future<UserSummary> getUserFromEmail(email) async => widget.gateway.getMembersNotInGroup(widget.groupId).then((users) => users.firstWhere((user) => user.email == email));
+  Future<UserSummary> getUserFromEmail(email) async => widget.gateway
+      .getMembersNotInGroup(widget.groupId)
+      .then((users) => users.firstWhere((user) => user.email == email));
 }

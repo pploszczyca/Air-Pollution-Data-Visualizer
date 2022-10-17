@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../Repository/AdminRepository/users_list_repository.dart';
+import '../Repository/AdminRepository/admin_users_repository.dart';
 
 //ignore_for_file:  constant_identifier_names
 const ID_SORTING_BUTTON_INDEX = 0;
@@ -25,7 +25,7 @@ class AllUsersListProvider with ChangeNotifier {
   IconData emailIcon = ARROW_DOWN;
   IconData idIcon = ARROW_UP;
 
-  UsersDataRepository repository = UsersDataRepository();
+  AdminUsersRepository repository = AdminUsersRepository();
 
   AllUsersListProvider(Future<List<UserData>> future) {
     future.then(init);

@@ -4,10 +4,10 @@ import 'package:adpv_frontend/DataModels/group_data.dart';
 
 import '../../DataModels/group_endpoints.dart';
 import '../../DataModels/group_summary.dart';
-import 'groups_repository.dart';
+import 'admin_groups_repository.dart';
 
 class AdminGateway {
-  final GroupsRepository restRepository = GroupsRepository();
+  final AdminGroupsRepository restRepository = AdminGroupsRepository();
 
   AdminGateway();
 

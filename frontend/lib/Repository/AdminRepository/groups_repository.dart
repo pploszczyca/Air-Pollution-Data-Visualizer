@@ -1,11 +1,11 @@
 import 'package:adpv_frontend/DataModels/group_data.dart';
-import 'package:adpv_frontend/DataModels/member_summary.dart';
 import 'package:dio/dio.dart';
 
 import '../../Common/urls.dart';
 import '../../DataModels/backend_response.dart';
 import '../../DataModels/group_endpoints.dart';
 import '../../DataModels/group_summary.dart';
+import '../../DataModels/user_summary.dart';
 import '../UserRepository/auth_gateway.dart';
 import '../UserRepository/user_gateway.dart';
 

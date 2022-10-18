@@ -1,7 +1,7 @@
-import 'package:adpv_frontend/DataModels/member_summary.dart';
 import 'package:adpv_frontend/Views/AdminPage/utils.dart';
 import 'package:flutter/material.dart';
 
+import '../../../DataModels/user_summary.dart';
 import '../../../Repository/AdminRepository/admin_gateway.dart';
 import '../../../Widgets/common_widgets.dart';
 
@@ -55,16 +55,11 @@ void showAddUserModal(
                     key: autocompleteKey,
                     textEditingController: emailController,
                     focusNode: focusNode,
-                    optionsBuilder: (TextEditingValue textEditingValue) {
-                      if (textEditingValue.text == '') {
-                        return castToEmails(snapshot.data!);
-                      }
-                      return castToEmails(snapshot.data!).where(
-                        (user) => user
+                    optionsBuilder: (TextEditingValue textEditingValue) => castToEmails(snapshot.data!).where(
+                        (userEmail) => userEmail
                             .toLowerCase()
                             .contains(textEditingValue.text.toLowerCase()),
-                      );
-                    },
+                      ),
                     optionsViewBuilder: (context, onSelected, options) => Align(
                       alignment: Alignment.topLeft,
                       child: Material(

@@ -1,6 +1,6 @@
 class UserSummary {
-  final int id;
-  final String email;
+  int id;
+  String email;
 
   UserSummary(this.id, this.email);
 

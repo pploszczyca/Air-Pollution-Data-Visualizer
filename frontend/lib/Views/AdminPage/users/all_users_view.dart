@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../Repository/AdminRepository/admin_users_repository.dart';
+import '../../../Widgets/AdminWidgets/group_card.dart';
 import '../confirmation_dialog_modal.dart';
 
 class ArgsContainer {
@@ -122,51 +123,22 @@ class _AllUsersViewState extends State<AllUsersView> {
           tilePadding: const EdgeInsets.all(20),
           childrenPadding: const EdgeInsets.all(0),
           children: [
-            _buildInfoContainer("Email", userListData.email),
-            _buildInfoContainer(
+            buildInfoContainer(
+              "Email",
+              userListData.email,
+              context,
+            ),
+            buildInfoContainer(
               "Roles",
               userListData.roles.join(', '),
+              context,
             ),
-            _buildInfoContainer(
+            buildInfoContainer(
               "Groups",
               userListData.groups.map((e) => e.name).join(', '),
+              context,
             ),
             buildButtonRow(userListData, provider),
-          ],
-        ),
-      );
-
-  Container _buildInfoContainer(String title, String data) => Container(
-        padding:
-            const EdgeInsets.only(top: 20, left: 10, right: 10, bottom: 10),
-        alignment: Alignment.center,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontFamily: 'SofiaSans',
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black45,
-                ),
-              ),
-            ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.5,
-              child: Text(
-                data,
-                overflow: TextOverflow.fade,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontFamily: 'SofiaSans',
-                  color: Colors.black45,
-                ),
-              ),
-            )
           ],
         ),
       );

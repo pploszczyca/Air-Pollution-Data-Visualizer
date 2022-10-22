@@ -5,7 +5,7 @@ import 'package:adpv_frontend/Widgets/common_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../Repository/AdminRepository/users_list_repository.dart';
+import '../../../Repository/AdminRepository/admin_users_repository.dart';
 import '../confirmation_dialog_modal.dart';
 
 class ArgsContainer {
@@ -16,7 +16,7 @@ class ArgsContainer {
 }
 
 class AllUsersView extends StatefulWidget {
-  final UsersDataRepository repository = UsersDataRepository();
+  final AdminUsersRepository repository = AdminUsersRepository();
 
   AllUsersView({Key? key}) : super(key: key);
 

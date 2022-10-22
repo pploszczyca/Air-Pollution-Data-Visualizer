@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import '../../../DataModels/user_summary.dart';
 import '../../../Repository/AdminRepository/admin_gateway.dart';
 import '../../../Repository/UserRepository/user_gateway.dart';
+import '../../../Widgets/AdminWidgets/group_card.dart';
 import '../../../Widgets/common_widgets.dart';
 import '../utils.dart';
 import 'add_user_modal.dart';
@@ -35,35 +36,35 @@ class MembersView extends StatefulWidget {
 
 class _MembersViewState extends State<MembersView> {
   late MembersListProvider membersListProvider =
-      MembersListProvider(widget.groupId);
+  MembersListProvider(widget.groupId);
 
-  FutureOr<GroupData> onError<E extends Object>(
-    E error,
-    StackTrace stackTrace,
-  ) {
+  FutureOr<GroupData> onError<E extends Object>(E error,
+      StackTrace stackTrace,) {
     UserGateway().resetMemoryToken().then(
           (value) =>
-              Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false),
-        );
+          Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false),
+    );
     return Future.error(error.toString());
   }
 
   @override
-  Widget build(BuildContext context) => ChangeNotifierProvider(
+  Widget build(BuildContext context) =>
+      ChangeNotifierProvider(
         create: (context) => membersListProvider,
         child: RefreshIndicator(
           onRefresh: () =>
               widget.gateway.getGroupData(widget.groupId).onError(onError),
           child: Scaffold(
             appBar:
-                adminAppBar("Administrator", 'Members of ' + widget.groupName),
+            adminAppBar("Administrator", 'Members of ' + widget.groupName),
             body: _buildBody(),
             floatingActionButton: _buildAddButton(),
           ),
         ),
       );
 
-  FutureBuilder _buildBody() => FutureBuilder(
+  FutureBuilder _buildBody() =>
+      FutureBuilder(
         future: widget.gateway.getGroupData(widget.groupId).onError(onError),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.none ||
@@ -74,19 +75,22 @@ class _MembersViewState extends State<MembersView> {
             return SingleChildScrollView(
               controller: ScrollController(),
               child: Consumer<MembersListProvider>(
-                builder: (context, __, _) => Column(
-                  children: [
-                    _buildSortBar(membersListProvider),
-                    _buildMembersList(membersListProvider.membersList.length)
-                  ],
-                ),
+                builder: (context, __, _) =>
+                    Column(
+                      children: [
+                        _buildSortBar(membersListProvider),
+                        _buildMembersList(
+                            membersListProvider.membersList.length,)
+                      ],
+                    ),
               ),
             );
           }
         },
       );
 
-  Container _buildSortBar(MembersListProvider membersListProvider) => Container(
+  Container _buildSortBar(MembersListProvider membersListProvider) =>
+      Container(
         margin: const EdgeInsets.only(top: 20),
         alignment: Alignment.centerLeft,
         padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -142,7 +146,8 @@ class _MembersViewState extends State<MembersView> {
         ),
       );
 
-  ListView _buildMembersList(int itemCount) => ListView.builder(
+  ListView _buildMembersList(int itemCount) =>
+      ListView.builder(
         controller: ScrollController(),
         itemCount: itemCount,
         shrinkWrap: true,
@@ -151,98 +156,62 @@ class _MembersViewState extends State<MembersView> {
             _buildGroupCard(membersListProvider.membersList[i]),
       );
 
-  Card _buildGroupCard(MemberInfo member) => Card(
-        margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-        shadowColor: Colors.black,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: ExpansionTile(
-          title: SizedBox(
-            child: Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.only(right: 10),
-                  child: Text(
-                    member.id.toString(),
-                    style: const TextStyle(
-                      fontFamily: 'SofiaSans',
-                      fontSize: 25,
-                      color: Colors.black,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
-                ),
-                Flexible(
-                  child: Container(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: Text(
-                      member.email,
-                      overflow: TextOverflow.fade,
-                      softWrap: false,
-                      style: const TextStyle(
-                        fontFamily: 'SofiaSans',
-                        fontSize: 25,
-                        color: Colors.black,
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-          collapsedBackgroundColor: Colors.white,
-          tilePadding: const EdgeInsets.all(20),
-          childrenPadding: const EdgeInsets.all(0),
-          children: [
-            _buildInfoContainer("Email", member.email),
-            _buildInfoContainer(
-              "Roles",
-              member.userRoles.map((e) => e.toShortString()).join(', '),
-            ),
-            _buildInfoContainer("Other groups", member.otherGroups.join(', ')),
-            buildDeleteContainer(_onDeletePressed, member),
-          ],
-        ),
-      );
+  Card _buildGroupCard(MemberInfo member) =>
+    groupCard(buildCardTitle(member), buildCardChildren(member));
 
-  Container _buildInfoContainer(String title, String data) => Container(
-        padding:
-            const EdgeInsets.only(top: 20, left: 10, right: 10, bottom: 10),
-        alignment: Alignment.center,
+
+  Widget buildCardTitle(MemberInfo member) =>
+      SizedBox(
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
-              alignment: Alignment.centerLeft,
+              padding: const EdgeInsets.only(right: 10),
               child: Text(
-                title,
+                member.id.toString(),
                 style: const TextStyle(
-                  fontSize: 18,
                   fontFamily: 'SofiaSans',
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black45,
+                  fontSize: 25,
+                  color: Colors.black,
+                  fontWeight: FontWeight.normal,
                 ),
               ),
             ),
             Flexible(
-              child: Text(
-                data,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontFamily: 'SofiaSans',
-                  fontWeight: FontWeight.normal,
-                  color: Colors.black45,
+              child: Container(
+                padding: const EdgeInsets.only(right: 10),
+                child: Text(
+                  member.email,
+                  overflow: TextOverflow.fade,
+                  softWrap: false,
+                  style: const TextStyle(
+                    fontFamily: 'SofiaSans',
+                    fontSize: 25,
+                    color: Colors.black,
+                    fontWeight: FontWeight.normal,
+                  ),
                 ),
               ),
-            ),
+            )
           ],
         ),
       );
 
-  FloatingActionButton _buildAddButton() => FloatingActionButton(
-        onPressed: () => showAddUserModal(context, widget.gateway, widget.groupId, addMember),
+  List<Widget> buildCardChildren(MemberInfo member) => [
+    buildInfoContainer("Email", member.email, context),
+    buildInfoContainer(
+      "Roles",
+      member.userRoles.map((e) => e.toShortString()).join(', '), context,
+    ),
+    buildInfoContainer("Other groups", member.otherGroups.join(', '), context),
+    buildDeleteContainer(_onDeletePressed, member),
+  ];
+
+
+  FloatingActionButton _buildAddButton() =>
+      FloatingActionButton(
+        onPressed: () =>
+            showAddUserModal(
+                context, widget.gateway, widget.groupId, addMember,),
         backgroundColor: adminGreenColor,
         child: const Icon(Icons.add),
       );
@@ -252,7 +221,7 @@ class _MembersViewState extends State<MembersView> {
       context,
       'Delete ' + member.email + ' from ' + widget.groupName,
       "You are about to delete this user from the group",
-      () => deleteUser(member.id),
+          () => deleteUser(member.id),
     );
   }
 
@@ -260,13 +229,14 @@ class _MembersViewState extends State<MembersView> {
     await widget.gateway
         .deleteMember(id, widget.groupId)
         .then(
-          (value) => {
-            if (value)
-              {
-                membersListProvider.delete(id),
-              }
-          },
-        )
+          (value) =>
+      {
+        if (value)
+          {
+            membersListProvider.delete(id),
+          }
+      },
+    )
         .catchError((error) {
       buildSnackbar('Cannot delete user', context);
     });
@@ -276,27 +246,30 @@ class _MembersViewState extends State<MembersView> {
     await getUserFromEmail(email)
         .then((user) => user.id)
         .then(
-          (id) => widget.gateway
+          (id) =>
+          widget.gateway
               .addMember(id, widget.groupId)
               .then(
-                (addMemberResponse) => {
-                  if (addMemberResponse)
-                    {
-                      widget.gateway.getGroupData(widget.groupId).then(
-                          (value) => membersListProvider.makeMemberList(value),)
-                    }
-                },
-              )
+                (addMemberResponse) =>
+            {
+              if (addMemberResponse)
+                {
+                  widget.gateway.getGroupData(widget.groupId).then(
+                        (value) => membersListProvider.makeMemberList(value),)
+                }
+            },
+          )
               .catchError((error) {
             buildSnackbar('Cannot add user', context);
           }),
-        )
+    )
         .catchError((error) {
       buildSnackbar('Cannot find user with email ' + email, context);
     });
   }
 
-  Future<UserSummary> getUserFromEmail(email) async => widget.gateway
-      .getMembersNotInGroup(widget.groupId)
-      .then((users) => users.firstWhere((user) => user.email == email));
+  Future<UserSummary> getUserFromEmail(email) async =>
+      widget.gateway
+          .getMembersNotInGroup(widget.groupId)
+          .then((users) => users.firstWhere((user) => user.email == email));
 }

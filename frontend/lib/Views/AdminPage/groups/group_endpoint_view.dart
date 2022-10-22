@@ -1,7 +1,6 @@
 import 'package:adpv_frontend/DataModels/group_endpoints.dart';
 import 'package:adpv_frontend/Models/group_endpoint_provider.dart';
 import 'package:adpv_frontend/Repository/AdminRepository/admin_gateway.dart';
-import 'package:adpv_frontend/Views/AdminPage/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

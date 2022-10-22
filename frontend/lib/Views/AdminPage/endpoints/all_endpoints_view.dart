@@ -7,7 +7,6 @@ import '../../../Widgets/AdminWidgets/admin_app_bar.dart';
 import '../../../Widgets/AdminWidgets/admin_styles.dart';
 import '../../../Widgets/SortingWidgets/sort_bar.dart';
 import '../../../Widgets/common_widgets.dart';
-import '../utils.dart';
 
 class AllEndpointsView extends StatefulWidget {
   AllEndpointsView({Key? key}) : super(key: key);
@@ -101,60 +100,4 @@ class _AllEndpointsViewState extends State<AllEndpointsView> {
             ),
           )
           .toList();
-
-  Container _buildSortBar(AllEndpointsProvider provider) => Container(
-        margin: const EdgeInsets.symmetric(vertical: 10),
-        alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: Row(
-          children: [
-            ToggleButtons(
-              isSelected: _selections,
-              fillColor: Colors.transparent,
-              renderBorder: false,
-              children: [
-                _buildToggleButton(
-                  "NUMBER",
-                  provider.numberIcon,
-                  provider.numberColor,
-                ),
-                _buildToggleButton(
-                  "LABEL",
-                  provider.labelIcon,
-                  provider.labelColor,
-                ),
-              ],
-              onPressed: (int index) {
-                provider.changeSorting(index);
-              },
-            )
-          ],
-        ),
-      );
-
-  Container _buildToggleButton(String buttonName, IconData icon, Color color) =>
-      Container(
-        margin: const EdgeInsets.symmetric(horizontal: 10),
-        child: RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: buttonName,
-                style: TextStyle(
-                  fontFamily: 'SofiaSans',
-                  fontSize: 25,
-                  fontWeight: FontWeight.normal,
-                  color: color,
-                ),
-              ),
-              WidgetSpan(
-                child: Icon(
-                  icon,
-                  color: color,
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
 }

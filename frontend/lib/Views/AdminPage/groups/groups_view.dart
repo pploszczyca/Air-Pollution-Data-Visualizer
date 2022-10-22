@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:adpv_frontend/Views/AdminPage/groups/group_endpoint_view.dart';
-import 'package:adpv_frontend/Views/AdminPage/utils.dart';
 import 'package:adpv_frontend/Views/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

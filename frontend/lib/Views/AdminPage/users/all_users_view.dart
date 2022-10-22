@@ -1,6 +1,5 @@
 import 'package:adpv_frontend/Models/all_users_list_provider.dart';
 import 'package:adpv_frontend/Views/AdminPage/users/edit_user_roles_dialog.dart';
-import 'package:adpv_frontend/Views/AdminPage/utils.dart';
 import 'package:adpv_frontend/Widgets/common_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -186,61 +185,4 @@ class _AllUsersViewState extends State<AllUsersView> {
     users = widget.repository.getAllUsers();
     await users.then((value) => provider.init(value));
   }
-
-  Container _buildSortBar(AllUsersListProvider membersListProvider) =>
-      Container(
-        margin: const EdgeInsets.only(top: 20),
-        alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.symmetric(horizontal: 30),
-        child: Row(
-          children: [
-            ToggleButtons(
-              isSelected: _selections,
-              fillColor: Colors.transparent,
-              renderBorder: false,
-              children: [
-                _buildToggleButton(
-                  "ID",
-                  membersListProvider.idIcon,
-                  membersListProvider.idColor,
-                ),
-                _buildToggleButton(
-                  "EMAIL",
-                  membersListProvider.emailIcon,
-                  membersListProvider.emailColor,
-                ),
-              ],
-              onPressed: (int index) {
-                membersListProvider.changeSorting(index);
-              },
-            )
-          ],
-        ),
-      );
-
-  Container _buildToggleButton(String buttonName, IconData icon, Color color) =>
-      Container(
-        margin: const EdgeInsets.only(right: 10, left: 10),
-        child: RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: buttonName,
-                style: TextStyle(
-                  fontFamily: 'SofiaSans',
-                  fontSize: 25,
-                  fontWeight: FontWeight.normal,
-                  color: color,
-                ),
-              ),
-              WidgetSpan(
-                child: Icon(
-                  icon,
-                  color: color,
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
 }

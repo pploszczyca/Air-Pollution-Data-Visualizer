@@ -8,17 +8,6 @@ Center loadingInCenter() => Center(
       ),
     );
 
-AppBar buildAppBar(String title) => AppBar(
-      title: Text(
-        title,
-        style: const TextStyle(
-          color: Colors.pink,
-        ),
-      ),
-      backgroundColor: Colors.white,
-      iconTheme: const IconThemeData(color: Colors.pink),
-    );
-
 PreferredSize buildFancyAppBar(String title) => PreferredSize(
       preferredSize: const Size.fromHeight(100),
       child: AppBar(

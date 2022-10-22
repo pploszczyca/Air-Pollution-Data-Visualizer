@@ -3,8 +3,8 @@ import 'package:adpv_frontend/Repository/AdminRepository/admin_users_repository.
 import 'package:adpv_frontend/Widgets/AdminWidgets/confirmation_dialog_modal.dart';
 import 'package:flutter/material.dart';
 
+import '../../../Widgets/AdminWidgets/admin_styles.dart';
 import '../groups/group_endpoint_view.dart';
-import '../utils.dart';
 
 const List<String> roles = ["USER", "ADMIN"];
 

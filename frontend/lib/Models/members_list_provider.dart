@@ -20,6 +20,10 @@ class MembersListProvider with ChangeNotifier {
     }
   }
 
+  void notify() {
+    notifyListeners();
+  }
+
   void delete(int id) {
     membersList.removeWhere((element) => element.id == id);
     notifyListeners();

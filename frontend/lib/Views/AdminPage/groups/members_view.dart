@@ -4,15 +4,20 @@ import 'package:adpv_frontend/DataModels/User/user.dart';
 import 'package:adpv_frontend/DataModels/group_data.dart';
 import 'package:adpv_frontend/DataModels/member_info.dart';
 import 'package:adpv_frontend/Models/members_list_provider.dart';
-import 'package:adpv_frontend/Views/AdminPage/confirmation_dialog_modal.dart';
+import 'package:adpv_frontend/Views/AdminPage/groups/show_add_user_modal.dart';
 import 'package:adpv_frontend/Views/snackbar.dart';
+import 'package:adpv_frontend/Widgets/AdminWidgets/confirmation_dialog_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../DataModels/user_summary.dart';
 import '../../../Repository/AdminRepository/admin_gateway.dart';
 import '../../../Repository/UserRepository/user_gateway.dart';
+import '../../../Widgets/AdminWidgets/admin_app_bar.dart';
+import '../../../Widgets/AdminWidgets/admin_buttons.dart';
+import '../../../Widgets/AdminWidgets/admin_styles.dart';
 import '../../../Widgets/AdminWidgets/group_card.dart';
+import '../../../Widgets/SortingWidgets/sort_bar.dart';
 import '../../../Widgets/common_widgets.dart';
 
 class MembersView extends StatefulWidget {
@@ -23,8 +28,6 @@ class MembersView extends StatefulWidget {
   }) : super(key: key);
   final int groupId;
   final String groupName;
-
-  final _selections = [true, false];
 
   final AdminGateway gateway = AdminGateway();
 

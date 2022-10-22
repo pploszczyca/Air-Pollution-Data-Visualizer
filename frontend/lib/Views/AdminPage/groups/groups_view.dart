@@ -106,7 +106,8 @@ class _GroupsViewState extends State<GroupsView> {
                 _onEndpointsAndPermissionsPressed,
               ),
               deleteButtonContainer(
-                  () => _onDeletePressed(groupListProvider.groupsList[i]))
+                () => _onDeletePressed(groupListProvider.groupsList[i],),
+              )
             ]),
       );
 

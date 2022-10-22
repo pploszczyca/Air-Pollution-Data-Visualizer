@@ -14,8 +14,6 @@ import '../../../Repository/AdminRepository/admin_gateway.dart';
 import '../../../Repository/UserRepository/user_gateway.dart';
 import '../../../Widgets/AdminWidgets/group_card.dart';
 import '../../../Widgets/common_widgets.dart';
-import '../utils.dart';
-import 'add_user_modal.dart';
 
 class MembersView extends StatefulWidget {
   MembersView({
@@ -35,37 +33,46 @@ class MembersView extends StatefulWidget {
 }
 
 class _MembersViewState extends State<MembersView> {
-  late MembersListProvider membersListProvider =
-  MembersListProvider(widget.groupId);
+  late MembersListProvider membersListProvider;
+  late Future<GroupData> future;
 
-  FutureOr<GroupData> onError<E extends Object>(E error,
-      StackTrace stackTrace,) {
+  @override
+  void initState() {
+    super.initState();
+    membersListProvider = MembersListProvider(widget.groupId);
+    future = widget.gateway.getGroupData(widget.groupId).onError(onError);
+  }
+
+  FutureOr<GroupData> onError<E extends Object>(
+    E error,
+    StackTrace stackTrace,
+  ) {
     UserGateway().resetMemoryToken().then(
           (value) =>
-          Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false),
-    );
+              Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false),
+        );
     return Future.error(error.toString());
   }
 
   @override
-  Widget build(BuildContext context) =>
-      ChangeNotifierProvider(
+  Widget build(BuildContext context) => ChangeNotifierProvider(
         create: (context) => membersListProvider,
         child: RefreshIndicator(
           onRefresh: () =>
               widget.gateway.getGroupData(widget.groupId).onError(onError),
           child: Scaffold(
-            appBar:
-            adminAppBar("Administrator", 'Members of ' + widget.groupName),
+            appBar: adminAppBar(
+              "Administrator panel",
+              'Members of ' + widget.groupName,
+            ),
             body: _buildBody(),
             floatingActionButton: _buildAddButton(),
           ),
         ),
       );
 
-  FutureBuilder _buildBody() =>
-      FutureBuilder(
-        future: widget.gateway.getGroupData(widget.groupId).onError(onError),
+  FutureBuilder _buildBody() => FutureBuilder(
+        future: future,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.none ||
               snapshot.data == null) {
@@ -75,79 +82,26 @@ class _MembersViewState extends State<MembersView> {
             return SingleChildScrollView(
               controller: ScrollController(),
               child: Consumer<MembersListProvider>(
-                builder: (context, __, _) =>
-                    Column(
-                      children: [
-                        _buildSortBar(membersListProvider),
-                        _buildMembersList(
-                            membersListProvider.membersList.length,)
-                      ],
+                builder: (context, __, _) => Column(
+                  children: [
+                    buildSortBar(
+                      membersListProvider.sortingModel,
+                      () => membersListProvider.notify(),
+                      membersListProvider.membersList,
+                      membersListProvider.getters,
                     ),
+                    _buildMembersList(
+                      membersListProvider.membersList.length,
+                    )
+                  ],
+                ),
               ),
             );
           }
         },
       );
 
-  Container _buildSortBar(MembersListProvider membersListProvider) =>
-      Container(
-        margin: const EdgeInsets.only(top: 20),
-        alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.symmetric(horizontal: 30),
-        child: Row(
-          children: [
-            ToggleButtons(
-              isSelected: widget._selections,
-              fillColor: Colors.transparent,
-              renderBorder: false,
-              children: [
-                _buildToggleButton(
-                  "ID",
-                  membersListProvider.idIcon,
-                  membersListProvider.idColor,
-                ),
-                _buildToggleButton(
-                  "EMAIL",
-                  membersListProvider.emailIcon,
-                  membersListProvider.emailColor,
-                ),
-              ],
-              onPressed: (int index) {
-                membersListProvider.changeSorting(index);
-              },
-            )
-          ],
-        ),
-      );
-
-  Container _buildToggleButton(String buttonName, IconData icon, Color color) =>
-      Container(
-        margin: const EdgeInsets.only(right: 10, left: 10),
-        child: RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: buttonName,
-                style: TextStyle(
-                  fontFamily: 'SofiaSans',
-                  fontSize: 25,
-                  fontWeight: FontWeight.normal,
-                  color: color,
-                ),
-              ),
-              WidgetSpan(
-                child: Icon(
-                  icon,
-                  color: color,
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-
-  ListView _buildMembersList(int itemCount) =>
-      ListView.builder(
+  ListView _buildMembersList(int itemCount) => ListView.builder(
         controller: ScrollController(),
         itemCount: itemCount,
         shrinkWrap: true,
@@ -157,11 +111,9 @@ class _MembersViewState extends State<MembersView> {
       );
 
   Card _buildGroupCard(MemberInfo member) =>
-    groupCard(buildCardTitle(member), buildCardChildren(member));
+      groupCard(buildCardTitle(member), buildCardChildren(member));
 
-
-  Widget buildCardTitle(MemberInfo member) =>
-      SizedBox(
+  Widget buildCardTitle(MemberInfo member) => SizedBox(
         child: Row(
           children: [
             Container(
@@ -197,21 +149,31 @@ class _MembersViewState extends State<MembersView> {
       );
 
   List<Widget> buildCardChildren(MemberInfo member) => [
-    buildInfoContainer("Email", member.email, context),
-    buildInfoContainer(
-      "Roles",
-      member.userRoles.map((e) => e.toShortString()).join(', '), context,
-    ),
-    buildInfoContainer("Other groups", member.otherGroups.join(', '), context),
-    buildDeleteContainer(_onDeletePressed, member),
-  ];
+        buildInfoContainer(
+          "Email",
+          member.email,
+          MediaQuery.of(context).size.width,
+        ),
+        buildInfoContainer(
+          "Roles",
+          member.userRoles.map((e) => e.toShortString()).join(', '),
+          MediaQuery.of(context).size.width,
+        ),
+        buildInfoContainer(
+          "Other groups",
+          member.otherGroups.join(', '),
+          MediaQuery.of(context).size.width,
+        ),
+        deleteButtonContainer(() => _onDeletePressed(member)),
+      ];
 
-
-  FloatingActionButton _buildAddButton() =>
-      FloatingActionButton(
-        onPressed: () =>
-            showAddUserModal(
-                context, widget.gateway, widget.groupId, addMember,),
+  FloatingActionButton _buildAddButton() => FloatingActionButton(
+        onPressed: () => showAddUserModal(
+          context,
+          widget.gateway,
+          widget.groupId,
+          addMember,
+        ),
         backgroundColor: adminGreenColor,
         child: const Icon(Icons.add),
       );
@@ -221,7 +183,7 @@ class _MembersViewState extends State<MembersView> {
       context,
       'Delete ' + member.email + ' from ' + widget.groupName,
       "You are about to delete this user from the group",
-          () => deleteUser(member.id),
+      () => deleteUser(member.id),
     );
   }
 
@@ -229,14 +191,13 @@ class _MembersViewState extends State<MembersView> {
     await widget.gateway
         .deleteMember(id, widget.groupId)
         .then(
-          (value) =>
-      {
-        if (value)
-          {
-            membersListProvider.delete(id),
-          }
-      },
-    )
+          (value) => {
+            if (value)
+              {
+                membersListProvider.delete(id),
+              }
+          },
+        )
         .catchError((error) {
       buildSnackbar('Cannot delete user', context);
     });
@@ -246,30 +207,29 @@ class _MembersViewState extends State<MembersView> {
     await getUserFromEmail(email)
         .then((user) => user.id)
         .then(
-          (id) =>
-          widget.gateway
+          (id) => widget.gateway
               .addMember(id, widget.groupId)
               .then(
-                (addMemberResponse) =>
-            {
-              if (addMemberResponse)
-                {
-                  widget.gateway.getGroupData(widget.groupId).then(
-                        (value) => membersListProvider.makeMemberList(value),)
-                }
-            },
-          )
+                (addMemberResponse) => {
+                  if (addMemberResponse)
+                    {
+                      widget.gateway.getGroupData(widget.groupId).then(
+                            (value) =>
+                                membersListProvider.makeMemberList(value),
+                          )
+                    }
+                },
+              )
               .catchError((error) {
             buildSnackbar('Cannot add user', context);
           }),
-    )
+        )
         .catchError((error) {
       buildSnackbar('Cannot find user with email ' + email, context);
     });
   }
 
-  Future<UserSummary> getUserFromEmail(email) async =>
-      widget.gateway
-          .getMembersNotInGroup(widget.groupId)
-          .then((users) => users.firstWhere((user) => user.email == email));
+  Future<UserSummary> getUserFromEmail(email) async => widget.gateway
+      .getMembersNotInGroup(widget.groupId)
+      .then((users) => users.firstWhere((user) => user.email == email));
 }

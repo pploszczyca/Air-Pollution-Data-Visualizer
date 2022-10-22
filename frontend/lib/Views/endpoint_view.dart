@@ -11,6 +11,8 @@ import '../Widgets/EndpointView/endpoint_info_table.dart';
 import '../Widgets/EndpointView/titled_line_chart.dart';
 import '../Widgets/common_widgets.dart';
 
+const appBarLabel = 'Endpoint Details';
+
 const pinkTextStyle = TextStyle(
   fontFamily: "Sofia Sans",
   decoration: TextDecoration.underline,
@@ -156,99 +158,4 @@ class _EndpointViewState extends State<EndpointView> {
               .toList(),
         ),
       );
-
-  @override
-  Widget build(BuildContext context) => FutureBuilder<EndpointData>(
-        future: endpointData,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.none ||
-              snapshot.data == null) {
-            return Scaffold(
-              appBar: buildAppBar(endpointViewAppBar),
-              body: loadingInCenter(),
-            );
-          } else {
-            return Scaffold(
-              appBar: buildAppBar(endpointViewAppBar),
-              body: Container(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                decoration: buildBackgroundBoxDecoration(),
-                child: ChangeNotifierProvider(
-                  create: (context) => EndpointViewProvider(
-                    snapshot.data!,
-                    widget.endpointGateway,
-                  ),
-                  child: Consumer<EndpointViewProvider>(
-                    builder: (context, endpointViewProvider, _) =>
-                        RefreshIndicator(
-                      onRefresh: () => _pullDownRefresh(
-                        endpointViewProvider,
-                        widget.endpointId,
-                      ),
-                      child: SingleChildScrollView(
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const SizedBox(
-                                height: 25,
-                              ),
-                              EndpointInfoTable(
-                                data: snapshot.data!.technicalInfo,
-                              ),
-                              const SizedBox(
-                                height: 25,
-                              ),
-                              DefaultTabController(
-                                length: endpointViewProvider.tabs.length,
-                                child: Container(
-                                  padding: const EdgeInsets.all(10),
-                                  decoration: const BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(5),
-                                    ),
-                                  ),
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.9,
-                                  child: Column(
-                                    children: [
-                                      _buildTabBar(
-                                        endpointViewProvider,
-                                        context,
-                                      ),
-                                      _buildBarView(
-                                        endpointViewProvider,
-                                        context,
-                                        snapshot,
-                                        widget.endpointId,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 25,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            );
-          }
-        },
-      );
-
-  // ignore: always_declare_return_types
-  _pullDownRefresh(
-    EndpointViewProvider endpointViewProvider,
-    int endpointId,
-  ) async {
-    await endpointViewProvider.clearAndUpdate(endpointId);
-  }
 }

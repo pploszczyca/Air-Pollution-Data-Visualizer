@@ -18,7 +18,8 @@ class AdminGateway {
     return summary;
   }
 
-  Future<GroupData> getGroupData(int groupId) => restRepository.getGroupData(groupId);
+  Future<GroupData> getGroupData(int groupId) =>
+      restRepository.getGroupData(groupId);
 
   Future<bool> deleteGroup(int id) => restRepository.deleteGroup(id);
 
@@ -28,10 +29,12 @@ class AdminGateway {
   Future<GroupEndpointsData> getEndpointsForGroup(int groupId) =>
       restRepository.getEndpointsForGroup(groupId);
 
-  Future<bool> deleteMember(int memberId, int groupId) => restRepository.deleteMember(memberId, groupId);
+  Future<bool> deleteMember(int memberId, int groupId) =>
+      restRepository.deleteMember(memberId, groupId);
 
-  Future<List<UserSummary>> getMembersNotInGroup(int groupId) => restRepository.getMembersNotInGroup(groupId);
+  Future<List<UserSummary>> getMembersNotInGroup(int groupId) =>
+      restRepository.getMembersNotInGroup(groupId);
 
-  Future<bool> addMember(int userId, int groupId) => restRepository.addMember(userId, groupId);
-
+  Future<bool> addMember(int userId, int groupId) =>
+      restRepository.addMember(userId, groupId);
 }

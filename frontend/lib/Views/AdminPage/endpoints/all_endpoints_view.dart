@@ -3,6 +3,9 @@ import 'package:provider/provider.dart';
 
 import '../../../Models/all_endpoints_provider.dart';
 import '../../../Repository/AdminRepository/admin_endpoints_repository.dart';
+import '../../../Widgets/AdminWidgets/admin_app_bar.dart';
+import '../../../Widgets/AdminWidgets/admin_styles.dart';
+import '../../../Widgets/SortingWidgets/sort_bar.dart';
 import '../../../Widgets/common_widgets.dart';
 import '../utils.dart';
 
@@ -15,7 +18,6 @@ class AllEndpointsView extends StatefulWidget {
 }
 
 class _AllEndpointsViewState extends State<AllEndpointsView> {
-  final _selections = [true, false];
   late Future<List<EndpointAdminData>> future;
 
   @override
@@ -26,7 +28,7 @@ class _AllEndpointsViewState extends State<AllEndpointsView> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: buildAdminAppBar("Endpoints list"),
+        appBar: adminAppBar("Endpoints list", ""),
         backgroundColor: Colors.white,
         body: FutureBuilder<List<EndpointAdminData>>(
           future: future,
@@ -41,7 +43,12 @@ class _AllEndpointsViewState extends State<AllEndpointsView> {
                     onRefresh: onRefresh,
                     child: Column(
                       children: [
-                        _buildSortBar(provider),
+                        buildSortBar(
+                          provider.sortingModel,
+                          () => provider.notify(),
+                          provider.endpointsList,
+                          provider.getters,
+                        ),
                         Expanded(
                           child: ListView(
                             children: _buildEndpointsList(provider),

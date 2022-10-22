@@ -1,37 +1,18 @@
 import 'package:flutter/material.dart';
 
+import '../DataModels/Utils/sorting_model.dart';
 import '../Repository/AdminRepository/admin_users_repository.dart';
-
-//ignore_for_file:  constant_identifier_names
-const ID_SORTING_BUTTON_INDEX = 0;
-const EMAIL_SORTING_BUTTON_INDEX = 1;
-
-enum SortingField { id, email }
-
-enum SortingOrder { asc, desc }
-
-class Sorting {
-  SortingField field = SortingField.id;
-  SortingOrder order = SortingOrder.asc;
-}
-
-const ARROW_UP = Icons.keyboard_arrow_up_rounded;
-const ARROW_DOWN = Icons.keyboard_arrow_down_rounded;
 
 class AllUsersListProvider with ChangeNotifier {
   List<UserData> usersList = [];
-  Color emailColor = Colors.black;
-  Color idColor = Colors.pink;
-  IconData emailIcon = ARROW_DOWN;
-  IconData idIcon = ARROW_UP;
+  SortingModel sortingModel = SortingModel("ID", "EMAIL");
+  List getters = [(e) => e.id, (e) => e.email];
 
   AdminUsersRepository repository = AdminUsersRepository();
 
   AllUsersListProvider(Future<List<UserData>> future) {
     future.then(init);
   }
-
-  Sorting currentSorting = Sorting();
 
   void init(List<UserData> list) {
     usersList = list;

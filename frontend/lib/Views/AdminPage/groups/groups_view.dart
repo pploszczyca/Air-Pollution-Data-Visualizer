@@ -10,9 +10,13 @@ import '../../../DataModels/group_summary.dart';
 import '../../../Models/group_list_provider.dart';
 import '../../../Repository/AdminRepository/admin_gateway.dart';
 import '../../../Repository/UserRepository/user_gateway.dart';
+import '../../../Widgets/AdminWidgets/admin_app_bar.dart';
+import '../../../Widgets/AdminWidgets/admin_buttons.dart';
+import '../../../Widgets/AdminWidgets/admin_styles.dart';
+import '../../../Widgets/AdminWidgets/confirmation_dialog_modal.dart';
+import '../../../Widgets/AdminWidgets/group_card.dart';
 import '../../../Widgets/common_widgets.dart';
-import '../confirmation_dialog_modal.dart';
-import 'form_modal.dart';
+import 'create_group_modal.dart';
 import 'members_view.dart';
 
 //ignore: constant_identifier_names
@@ -81,50 +85,35 @@ class _GroupsViewState extends State<GroupsView> {
         itemCount: itemCount,
         shrinkWrap: true,
         padding: const EdgeInsets.symmetric(horizontal: 20),
-        itemBuilder: (context, i) =>
-            _buildGroupCard(groupListProvider.groupsList[i]),
-      );
-
-  Card _buildGroupCard(GroupCard group) => Card(
-        margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-        shadowColor: Colors.black,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: ExpansionTile(
-          title: Text(
-            group.name,
-            style: TextStyle(
-              fontFamily: 'SofiaSans',
-              fontSize: 25,
-              color: Colors.black,
-              fontWeight: group.titleFontWeight,
+        itemBuilder: (context, i) => groupCard(
+            Text(
+              groupListProvider.groupsList[i].name,
+              style: const TextStyle(
+                fontFamily: 'SofiaSans',
+                fontSize: 25,
+                color: Colors.black,
+                fontWeight: FontWeight.w500,
+              ),
             ),
-          ),
-          tilePadding: const EdgeInsets.all(20),
-          childrenPadding: const EdgeInsets.all(0),
-          children: [
-            _buildButtonContainer(
-              'Members',
-              group,
-              group.membersButtonColor,
-              _navigateToMembers,
-            ),
-            _buildButtonContainer(
-              'Endpoints and permissions',
-              group,
-              group.endpointsButtonColor,
-              _onEndpointsAndPermissionsPressed,
-            ),
-            _buildDeleteContainer(group)
-          ],
-        ),
+            [
+              _buildButtonContainer(
+                'Members',
+                groupListProvider.groupsList[i],
+                _navigateToMembers,
+              ),
+              _buildButtonContainer(
+                'Endpoints and permissions',
+                groupListProvider.groupsList[i],
+                _onEndpointsAndPermissionsPressed,
+              ),
+              deleteButtonContainer(
+                  () => _onDeletePressed(groupListProvider.groupsList[i]))
+            ]),
       );
 
   Container _buildButtonContainer(
     String text,
     GroupCard groupCard,
-    Color color,
     Function(BuildContext context, GroupCard groupCard) onPressedFunction,
   ) =>
       Container(
@@ -139,53 +128,25 @@ class _GroupsViewState extends State<GroupsView> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     text,
-                    style: TextStyle(
-                      fontFamily: 'SofiaSans',
+                    style: const TextStyle(
+                      fontFamily: 'Sofiaconst Sans',
                       fontSize: 23,
-                      color: color,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black,
                     ),
                   ),
                 ),
               ),
               Container(
                 alignment: Alignment.centerRight,
-                child: Icon(
+                child: const Icon(
                   Icons.arrow_forward_ios_rounded,
-                  color: color,
+                  color: Colors.black,
                   size: 25,
                 ),
               ),
             ],
           ),
-        ),
-      );
-
-  Container _buildDeleteContainer(GroupCard groupCard) => Container(
-        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-        child: OutlinedButton(
-          style: ButtonStyle(
-            side: MaterialStateProperty.all(
-              const BorderSide(width: 1.5, color: Colors.red),
-            ),
-            padding: MaterialStateProperty.all(
-              const EdgeInsets.all(20),
-            ),
-            foregroundColor: MaterialStateProperty.resolveWith<Color>(
-              (Set<MaterialState> states) =>
-                  states.contains(MaterialState.hovered)
-                      ? Colors.white
-                      : Colors.red,
-            ),
-            backgroundColor: MaterialStateProperty.resolveWith<Color>(
-              (Set<MaterialState> states) =>
-                  states.contains(MaterialState.hovered)
-                      ? Colors.red
-                      : Colors.white,
-            ),
-            alignment: Alignment.centerLeft,
-          ),
-          child: const Icon(Icons.delete_outline_outlined, size: 30),
-          onPressed: () => _onDeletePressed(groupCard),
         ),
       );
 

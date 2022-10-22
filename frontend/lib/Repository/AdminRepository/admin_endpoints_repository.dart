@@ -38,7 +38,6 @@ class AdminEndpointsRepository {
         final BackendResponse backendResponse =
             BackendResponse.fromJson(response.data);
         return backendResponse.data
-            //ignore: unnecessary_lambdas
             .map<EndpointAdminData>(
                 (endpoint) => EndpointAdminData.fromJson(endpoint))
             .toList();

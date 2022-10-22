@@ -1,5 +1,5 @@
 import 'package:adpv_frontend/DataModels/group_data.dart';
-import 'package:adpv_frontend/DataModels/member_summary.dart';
+import 'package:adpv_frontend/DataModels/member_info.dart';
 import 'package:flutter/material.dart';
 
 //ignore_for_file:  constant_identifier_names
@@ -31,6 +31,7 @@ class MembersListProvider with ChangeNotifier {
   MembersListProvider(this.groupId);
 
   void makeMemberList(GroupData groupData) {
+    membersList = [];
     for (var e in groupData.members) {
       membersList.add(MemberInfo(e.id, e.email, e.userRoles, e.otherGroups));
     }

@@ -5,6 +5,7 @@ import '../../Common/urls.dart';
 import '../../DataModels/backend_response.dart';
 import '../../DataModels/group_endpoints.dart';
 import '../../DataModels/group_summary.dart';
+import '../../DataModels/user_summary.dart';
 import '../UserRepository/auth_gateway.dart';
 import '../UserRepository/user_gateway.dart';
 
@@ -193,6 +194,60 @@ class AdminGroupsRepository {
         final response = await _client.delete(
           backendURL + removeMemberURL,
           queryParameters: {'groupId': groupId, 'userId': memberId},
+        );
+        if (response.statusCode == 200) {
+          return Future.value(true);
+        }
+      } on DioError catch (error) {
+        return Future.error(error);
+      }
+    }
+    return Future.value(false);
+  }
+
+  Future<List<UserSummary>> getMembersNotInGroup(int groupId) async {
+    final AuthResponse authResponse = await userGateway.getFromMemory();
+
+    if (authResponse.success) {
+      final String token = authResponse.tokens!.accessToken;
+      _client.options.headers["Authorization"] = "Bearer $token";
+
+      try {
+        final response = await _client.get(
+          backendURL + usersNotInGroup,
+          queryParameters: {'groupId': groupId},
+        );
+        if (response.statusCode == 200) {
+          final BackendResponse backendResponse =
+              BackendResponse.fromJson(response.data);
+          if (backendResponse.error == "") {
+            final List<UserSummary> usersList = backendResponse.data
+                .map<UserSummary>(
+                  // ignore: unnecessary_lambdas
+                  (e) => UserSummary.fromJson(e),
+                )
+                .toList();
+            return Future.value(usersList);
+          }
+        }
+      } on DioError catch (error) {
+        return Future.error(error);
+      }
+    }
+    return Future.value([]);
+  }
+
+  Future<bool> addMember(int userId, int groupId) async {
+    final AuthResponse authResponse = await userGateway.getFromMemory();
+
+    if (authResponse.success) {
+      final String token = authResponse.tokens!.accessToken;
+      _client.options.headers["Authorization"] = "Bearer $token";
+
+      try {
+        final response = await _client.post(
+          backendURL + addUserToGroupURL,
+          queryParameters: {'groupId': groupId, 'userId': userId},
         );
         if (response.statusCode == 200) {
           return Future.value(true);

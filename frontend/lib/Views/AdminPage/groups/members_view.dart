@@ -2,17 +2,19 @@ import 'dart:async';
 
 import 'package:adpv_frontend/DataModels/User/user.dart';
 import 'package:adpv_frontend/DataModels/group_data.dart';
-import 'package:adpv_frontend/DataModels/member_summary.dart';
+import 'package:adpv_frontend/DataModels/member_info.dart';
 import 'package:adpv_frontend/Models/members_list_provider.dart';
 import 'package:adpv_frontend/Views/AdminPage/confirmation_dialog_modal.dart';
 import 'package:adpv_frontend/Views/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../DataModels/user_summary.dart';
 import '../../../Repository/AdminRepository/admin_gateway.dart';
 import '../../../Repository/UserRepository/user_gateway.dart';
 import '../../../Widgets/common_widgets.dart';
 import '../utils.dart';
+import 'add_user_modal.dart';
 
 class MembersView extends StatefulWidget {
   MembersView({
@@ -224,24 +226,23 @@ class _MembersViewState extends State<MembersView> {
                 ),
               ),
             ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.5,
+            Flexible(
               child: Text(
                 data,
-                overflow: TextOverflow.fade,
                 style: const TextStyle(
                   fontSize: 18,
                   fontFamily: 'SofiaSans',
+                  fontWeight: FontWeight.normal,
                   color: Colors.black45,
                 ),
               ),
-            )
+            ),
           ],
         ),
       );
 
   FloatingActionButton _buildAddButton() => FloatingActionButton(
-        onPressed: () => {},
+        onPressed: () => showAddUserModal(context, widget.gateway, widget.groupId, addMember),
         backgroundColor: adminGreenColor,
         child: const Icon(Icons.add),
       );
@@ -270,4 +271,32 @@ class _MembersViewState extends State<MembersView> {
       buildSnackbar('Cannot delete user', context);
     });
   }
+
+  void addMember(String email) async {
+    await getUserFromEmail(email)
+        .then((user) => user.id)
+        .then(
+          (id) => widget.gateway
+              .addMember(id, widget.groupId)
+              .then(
+                (addMemberResponse) => {
+                  if (addMemberResponse)
+                    {
+                      widget.gateway.getGroupData(widget.groupId).then(
+                          (value) => membersListProvider.makeMemberList(value),)
+                    }
+                },
+              )
+              .catchError((error) {
+            buildSnackbar('Cannot add user', context);
+          }),
+        )
+        .catchError((error) {
+      buildSnackbar('Cannot find user with email ' + email, context);
+    });
+  }
+
+  Future<UserSummary> getUserFromEmail(email) async => widget.gateway
+      .getMembersNotInGroup(widget.groupId)
+      .then((users) => users.firstWhere((user) => user.email == email));
 }

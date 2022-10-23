@@ -1,13 +1,15 @@
 import 'package:adpv_frontend/DataModels/group_endpoints.dart';
 import 'package:adpv_frontend/Models/group_endpoint_provider.dart';
 import 'package:adpv_frontend/Repository/AdminRepository/admin_gateway.dart';
-import 'package:adpv_frontend/Views/AdminPage/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../Common/consts.dart';
+import '../../../Widgets/AdminWidgets/admin_app_bar.dart';
+import '../../../Widgets/AdminWidgets/admin_buttons.dart';
+import '../../../Widgets/AdminWidgets/admin_styles.dart';
+import '../../../Widgets/AdminWidgets/confirmation_dialog_modal.dart';
 import '../../snackbar.dart';
-import '../confirmation_dialog_modal.dart';
 
 class GroupEndpointView extends StatefulWidget {
   final int groupEndpointId;
@@ -63,28 +65,12 @@ class _GroupEndpointViewState extends State<GroupEndpointView> {
         width: MediaQuery.of(context).size.width,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [buildCancelButton(context), buildSaveButton(context)],
-        ),
-      );
-
-  TextButton buildSaveButton(BuildContext context) => TextButton(
-        style: ButtonStyle(
-          backgroundColor:
-              MaterialStateProperty.resolveWith((states) => adminGreenColor),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
-            ),
-          ),
-        ),
-        onPressed: () {
-          buildSaveAlertDialog(context);
-        },
-        child: Text(
-          "Save changes",
-          style: defaultAdminTextStyle.copyWith(
-            color: Colors.white,
-          ),
+          children: [
+            discardChangesButton(context),
+            saveButton(
+              () => buildSaveAlertDialog(context),
+            )
+          ],
         ),
       );
 
@@ -113,26 +99,6 @@ class _GroupEndpointViewState extends State<GroupEndpointView> {
                 ),
               );
         },
-      );
-
-  TextButton buildCancelButton(BuildContext context) => TextButton(
-        style: ButtonStyle(
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
-              side: const BorderSide(color: Colors.red),
-            ),
-          ),
-        ),
-        onPressed: () {
-          Navigator.pop(context);
-        },
-        child: Text(
-          "Cancel",
-          style: defaultAdminTextStyle.copyWith(
-            color: Colors.red,
-          ),
-        ),
       );
 
   List<Widget> _buildEndpointTiles(

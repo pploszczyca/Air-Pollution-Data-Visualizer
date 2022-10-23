@@ -1,8 +1,9 @@
-import 'package:adpv_frontend/Views/AdminPage/utils.dart';
 import 'package:flutter/material.dart';
 
 import '../../../DataModels/user_summary.dart';
 import '../../../Repository/AdminRepository/admin_gateway.dart';
+import '../../../Widgets/AdminWidgets/admin_buttons.dart';
+import '../../../Widgets/AdminWidgets/admin_styles.dart';
 import '../../../Widgets/common_widgets.dart';
 
 MaterialStateProperty<EdgeInsetsGeometry?> buttonPadding =
@@ -55,11 +56,12 @@ void showAddUserModal(
                     key: autocompleteKey,
                     textEditingController: emailController,
                     focusNode: focusNode,
-                    optionsBuilder: (TextEditingValue textEditingValue) => castToEmails(snapshot.data!).where(
-                        (userEmail) => userEmail
-                            .toLowerCase()
-                            .contains(textEditingValue.text.toLowerCase()),
-                      ),
+                    optionsBuilder: (TextEditingValue textEditingValue) =>
+                        castToEmails(snapshot.data!).where(
+                      (userEmail) => userEmail
+                          .toLowerCase()
+                          .contains(textEditingValue.text.toLowerCase()),
+                    ),
                     optionsViewBuilder: (context, onSelected, options) => Align(
                       alignment: Alignment.topLeft,
                       child: Material(

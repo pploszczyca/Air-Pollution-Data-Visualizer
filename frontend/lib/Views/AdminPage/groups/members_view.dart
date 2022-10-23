@@ -4,17 +4,21 @@ import 'package:adpv_frontend/DataModels/User/user.dart';
 import 'package:adpv_frontend/DataModels/group_data.dart';
 import 'package:adpv_frontend/DataModels/member_info.dart';
 import 'package:adpv_frontend/Models/members_list_provider.dart';
-import 'package:adpv_frontend/Views/AdminPage/confirmation_dialog_modal.dart';
+import 'package:adpv_frontend/Views/AdminPage/groups/show_add_user_modal.dart';
 import 'package:adpv_frontend/Views/snackbar.dart';
+import 'package:adpv_frontend/Widgets/AdminWidgets/confirmation_dialog_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../DataModels/user_summary.dart';
 import '../../../Repository/AdminRepository/admin_gateway.dart';
 import '../../../Repository/UserRepository/user_gateway.dart';
+import '../../../Widgets/AdminWidgets/admin_app_bar.dart';
+import '../../../Widgets/AdminWidgets/admin_buttons.dart';
+import '../../../Widgets/AdminWidgets/admin_styles.dart';
+import '../../../Widgets/AdminWidgets/group_card.dart';
+import '../../../Widgets/SortingWidgets/sort_bar.dart';
 import '../../../Widgets/common_widgets.dart';
-import '../utils.dart';
-import 'add_user_modal.dart';
 
 class MembersView extends StatefulWidget {
   MembersView({
@@ -25,8 +29,6 @@ class MembersView extends StatefulWidget {
   final int groupId;
   final String groupName;
 
-  final _selections = [true, false];
-
   final AdminGateway gateway = AdminGateway();
 
   @override
@@ -34,8 +36,15 @@ class MembersView extends StatefulWidget {
 }
 
 class _MembersViewState extends State<MembersView> {
-  late MembersListProvider membersListProvider =
-      MembersListProvider(widget.groupId);
+  late MembersListProvider membersListProvider;
+  late Future<GroupData> future;
+
+  @override
+  void initState() {
+    super.initState();
+    membersListProvider = MembersListProvider(widget.groupId);
+    future = widget.gateway.getGroupData(widget.groupId).onError(onError);
+  }
 
   FutureOr<GroupData> onError<E extends Object>(
     E error,
@@ -55,8 +64,10 @@ class _MembersViewState extends State<MembersView> {
           onRefresh: () =>
               widget.gateway.getGroupData(widget.groupId).onError(onError),
           child: Scaffold(
-            appBar:
-                adminAppBar("Administrator", 'Members of ' + widget.groupName),
+            appBar: adminAppBar(
+              "Administrator panel",
+              'Members of ' + widget.groupName,
+            ),
             body: _buildBody(),
             floatingActionButton: _buildAddButton(),
           ),
@@ -64,7 +75,7 @@ class _MembersViewState extends State<MembersView> {
       );
 
   FutureBuilder _buildBody() => FutureBuilder(
-        future: widget.gateway.getGroupData(widget.groupId).onError(onError),
+        future: future,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.none ||
               snapshot.data == null) {
@@ -76,70 +87,21 @@ class _MembersViewState extends State<MembersView> {
               child: Consumer<MembersListProvider>(
                 builder: (context, __, _) => Column(
                   children: [
-                    _buildSortBar(membersListProvider),
-                    _buildMembersList(membersListProvider.membersList.length)
+                    buildSortBar(
+                      membersListProvider.sortingModel,
+                      () => membersListProvider.notify(),
+                      membersListProvider.membersList,
+                      membersListProvider.getters,
+                    ),
+                    _buildMembersList(
+                      membersListProvider.membersList.length,
+                    )
                   ],
                 ),
               ),
             );
           }
         },
-      );
-
-  Container _buildSortBar(MembersListProvider membersListProvider) => Container(
-        margin: const EdgeInsets.only(top: 20),
-        alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.symmetric(horizontal: 30),
-        child: Row(
-          children: [
-            ToggleButtons(
-              isSelected: widget._selections,
-              fillColor: Colors.transparent,
-              renderBorder: false,
-              children: [
-                _buildToggleButton(
-                  "ID",
-                  membersListProvider.idIcon,
-                  membersListProvider.idColor,
-                ),
-                _buildToggleButton(
-                  "EMAIL",
-                  membersListProvider.emailIcon,
-                  membersListProvider.emailColor,
-                ),
-              ],
-              onPressed: (int index) {
-                membersListProvider.changeSorting(index);
-              },
-            )
-          ],
-        ),
-      );
-
-  Container _buildToggleButton(String buttonName, IconData icon, Color color) =>
-      Container(
-        margin: const EdgeInsets.only(right: 10, left: 10),
-        child: RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: buttonName,
-                style: TextStyle(
-                  fontFamily: 'SofiaSans',
-                  fontSize: 25,
-                  fontWeight: FontWeight.normal,
-                  color: color,
-                ),
-              ),
-              WidgetSpan(
-                child: Icon(
-                  icon,
-                  color: color,
-                ),
-              ),
-            ],
-          ),
-        ),
       );
 
   ListView _buildMembersList(int itemCount) => ListView.builder(
@@ -151,98 +113,70 @@ class _MembersViewState extends State<MembersView> {
             _buildGroupCard(membersListProvider.membersList[i]),
       );
 
-  Card _buildGroupCard(MemberInfo member) => Card(
-        margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-        shadowColor: Colors.black,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: ExpansionTile(
-          title: SizedBox(
-            child: Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.only(right: 10),
-                  child: Text(
-                    member.id.toString(),
-                    style: const TextStyle(
-                      fontFamily: 'SofiaSans',
-                      fontSize: 25,
-                      color: Colors.black,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
-                ),
-                Flexible(
-                  child: Container(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: Text(
-                      member.email,
-                      overflow: TextOverflow.fade,
-                      softWrap: false,
-                      style: const TextStyle(
-                        fontFamily: 'SofiaSans',
-                        fontSize: 25,
-                        color: Colors.black,
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-          collapsedBackgroundColor: Colors.white,
-          tilePadding: const EdgeInsets.all(20),
-          childrenPadding: const EdgeInsets.all(0),
-          children: [
-            _buildInfoContainer("Email", member.email),
-            _buildInfoContainer(
-              "Roles",
-              member.userRoles.map((e) => e.toShortString()).join(', '),
-            ),
-            _buildInfoContainer("Other groups", member.otherGroups.join(', ')),
-            buildDeleteContainer(_onDeletePressed, member),
-          ],
-        ),
-      );
+  Card _buildGroupCard(MemberInfo member) =>
+      groupCard(buildCardTitle(member), buildCardChildren(member));
 
-  Container _buildInfoContainer(String title, String data) => Container(
-        padding:
-            const EdgeInsets.only(top: 20, left: 10, right: 10, bottom: 10),
-        alignment: Alignment.center,
+  Widget buildCardTitle(MemberInfo member) => SizedBox(
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
-              alignment: Alignment.centerLeft,
+              padding: const EdgeInsets.only(right: 10),
               child: Text(
-                title,
+                member.id.toString(),
                 style: const TextStyle(
-                  fontSize: 18,
                   fontFamily: 'SofiaSans',
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black45,
+                  fontSize: 25,
+                  color: Colors.black,
+                  fontWeight: FontWeight.normal,
                 ),
               ),
             ),
             Flexible(
-              child: Text(
-                data,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontFamily: 'SofiaSans',
-                  fontWeight: FontWeight.normal,
-                  color: Colors.black45,
+              child: Container(
+                padding: const EdgeInsets.only(right: 10),
+                child: Text(
+                  member.email,
+                  overflow: TextOverflow.fade,
+                  softWrap: false,
+                  style: const TextStyle(
+                    fontFamily: 'SofiaSans',
+                    fontSize: 25,
+                    color: Colors.black,
+                    fontWeight: FontWeight.normal,
+                  ),
                 ),
               ),
-            ),
+            )
           ],
         ),
       );
 
+  List<Widget> buildCardChildren(MemberInfo member) => [
+        buildInfoContainer(
+          "Email",
+          member.email,
+          MediaQuery.of(context).size.width,
+        ),
+        buildInfoContainer(
+          "Roles",
+          member.userRoles.map((e) => e.toShortString()).join(', '),
+          MediaQuery.of(context).size.width,
+        ),
+        buildInfoContainer(
+          "Other groups",
+          member.otherGroups.join(', '),
+          MediaQuery.of(context).size.width,
+        ),
+        deleteButtonContainer(() => _onDeletePressed(member)),
+      ];
+
   FloatingActionButton _buildAddButton() => FloatingActionButton(
-        onPressed: () => showAddUserModal(context, widget.gateway, widget.groupId, addMember),
+        onPressed: () => showAddUserModal(
+          context,
+          widget.gateway,
+          widget.groupId,
+          addMember,
+        ),
         backgroundColor: adminGreenColor,
         child: const Icon(Icons.add),
       );
@@ -283,7 +217,9 @@ class _MembersViewState extends State<MembersView> {
                   if (addMemberResponse)
                     {
                       widget.gateway.getGroupData(widget.groupId).then(
-                          (value) => membersListProvider.makeMemberList(value),)
+                            (value) =>
+                                membersListProvider.makeMemberList(value),
+                          )
                     }
                 },
               )

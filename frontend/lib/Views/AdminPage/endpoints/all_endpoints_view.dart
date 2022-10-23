@@ -3,8 +3,10 @@ import 'package:provider/provider.dart';
 
 import '../../../Models/all_endpoints_provider.dart';
 import '../../../Repository/AdminRepository/admin_endpoints_repository.dart';
+import '../../../Widgets/AdminWidgets/admin_app_bar.dart';
+import '../../../Widgets/AdminWidgets/admin_styles.dart';
+import '../../../Widgets/SortingWidgets/sort_bar.dart';
 import '../../../Widgets/common_widgets.dart';
-import '../utils.dart';
 
 class AllEndpointsView extends StatefulWidget {
   AllEndpointsView({Key? key}) : super(key: key);
@@ -15,7 +17,6 @@ class AllEndpointsView extends StatefulWidget {
 }
 
 class _AllEndpointsViewState extends State<AllEndpointsView> {
-  final _selections = [true, false];
   late Future<List<EndpointAdminData>> future;
 
   @override
@@ -26,7 +27,7 @@ class _AllEndpointsViewState extends State<AllEndpointsView> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: buildAdminAppBar("Endpoints list"),
+        appBar: adminAppBar("Endpoints list", ""),
         backgroundColor: Colors.white,
         body: FutureBuilder<List<EndpointAdminData>>(
           future: future,
@@ -41,7 +42,12 @@ class _AllEndpointsViewState extends State<AllEndpointsView> {
                     onRefresh: onRefresh,
                     child: Column(
                       children: [
-                        _buildSortBar(provider),
+                        buildSortBar(
+                          provider.sortingModel,
+                          () => provider.notify(),
+                          provider.endpointsList,
+                          provider.getters,
+                        ),
                         Expanded(
                           child: ListView(
                             children: _buildEndpointsList(provider),
@@ -94,60 +100,4 @@ class _AllEndpointsViewState extends State<AllEndpointsView> {
             ),
           )
           .toList();
-
-  Container _buildSortBar(AllEndpointsProvider provider) => Container(
-        margin: const EdgeInsets.symmetric(vertical: 10),
-        alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: Row(
-          children: [
-            ToggleButtons(
-              isSelected: _selections,
-              fillColor: Colors.transparent,
-              renderBorder: false,
-              children: [
-                _buildToggleButton(
-                  "NUMBER",
-                  provider.numberIcon,
-                  provider.numberColor,
-                ),
-                _buildToggleButton(
-                  "LABEL",
-                  provider.labelIcon,
-                  provider.labelColor,
-                ),
-              ],
-              onPressed: (int index) {
-                provider.changeSorting(index);
-              },
-            )
-          ],
-        ),
-      );
-
-  Container _buildToggleButton(String buttonName, IconData icon, Color color) =>
-      Container(
-        margin: const EdgeInsets.symmetric(horizontal: 10),
-        child: RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: buttonName,
-                style: TextStyle(
-                  fontFamily: 'SofiaSans',
-                  fontSize: 25,
-                  fontWeight: FontWeight.normal,
-                  color: color,
-                ),
-              ),
-              WidgetSpan(
-                child: Icon(
-                  icon,
-                  color: color,
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
 }

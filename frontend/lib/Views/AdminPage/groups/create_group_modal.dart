@@ -1,9 +1,8 @@
-import 'package:adpv_frontend/Views/AdminPage/utils.dart';
 import 'package:adpv_frontend/Views/snackbar.dart';
 import 'package:flutter/material.dart';
 
-MaterialStateProperty<EdgeInsetsGeometry?> buttonPadding =
-    MaterialStateProperty.all(const EdgeInsets.all(20));
+import '../../../Widgets/AdminWidgets/admin_buttons.dart';
+import '../../../Widgets/AdminWidgets/admin_styles.dart';
 
 void showCreateGroupModal(
   BuildContext context,

@@ -2,11 +2,11 @@ import 'package:adpv_frontend/Common/consts.dart';
 import 'package:adpv_frontend/DataModels/group_endpoints.dart';
 import 'package:flutter/material.dart';
 
-import '../Repository/AdminRepository/groups_repository.dart';
+import '../Repository/AdminRepository/admin_groups_repository.dart';
 
 class GroupEndpointProvider with ChangeNotifier {
   GroupEndpointsData groupEndpointsData = GroupEndpointsData.empty();
-  GroupsRepository repository = GroupsRepository();
+  AdminGroupsRepository repository = AdminGroupsRepository();
 
   GroupEndpointProvider(Future<GroupEndpointsData> future) {
     init(future);

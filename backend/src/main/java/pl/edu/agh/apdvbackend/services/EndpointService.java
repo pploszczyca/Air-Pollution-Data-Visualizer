@@ -12,6 +12,7 @@ import pl.edu.agh.apdvbackend.models.body_models.endpoint.UserEndpointResponseBo
 import pl.edu.agh.apdvbackend.models.database.Endpoint;
 import pl.edu.agh.apdvbackend.use_cases.endpoint.GetAllEndpointSummaries;
 import pl.edu.agh.apdvbackend.use_cases.endpoint.GetAllUserEndpoints;
+import pl.edu.agh.apdvbackend.use_cases.endpoint.GetEndpointSummary;
 import pl.edu.agh.apdvbackend.use_cases.endpoint.GetUserEndpointData;
 import pl.edu.agh.apdvbackend.use_cases.endpoint.GetUserEndpointDataWithFields;
 import pl.edu.agh.apdvbackend.use_cases.endpoint.RemoveEndpointById;
@@ -26,6 +27,7 @@ public class EndpointService {
     private final GetUserEndpointDataWithFields getUserEndpointDataWithFields;
     private final SaveNewEndpoint saveNewEndpoint;
     private final RemoveEndpointById removeEndpointById;
+    private final GetEndpointSummary getEndpointSummary;
     private final GetAllEndpointSummaries getAllEndpointSummaries;
     private final GetAllUserEndpoints getAllUserEndpoints;
     private final UpdateEndpoint updateEndpoint;
@@ -49,6 +51,10 @@ public class EndpointService {
         );
     }
 
+    public Response<EndpointResponseBody> getEndpointSummary(Long endpointId) {
+        return Response.withOkStatus(getEndpointSummary.execute(endpointId));
+    }
+
     public Response<List<EndpointResponseBody>> getEndpointsList() {
         return Response.withOkStatus(getAllEndpointSummaries.execute());
     }
@@ -65,7 +71,7 @@ public class EndpointService {
         return Response.withOkStatus(getAllUserEndpoints.execute(findCurrentUserId.execute()));
     }
 
-    public Response<Endpoint> updateEndpoint(
+    public Response<EndpointResponseBody> updateEndpoint(
             EndpointRequestBody endpointRequestBody,
             Long endpointId
     ) {

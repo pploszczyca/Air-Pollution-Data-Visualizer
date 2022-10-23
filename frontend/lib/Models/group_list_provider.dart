@@ -4,18 +4,10 @@ import 'package:flutter/material.dart';
 class GroupCard {
   String name;
   int id;
-  Color titleColor;
-  FontWeight titleFontWeight;
-  Color membersButtonColor;
-  Color endpointsButtonColor;
 
   GroupCard({
     required this.name,
     required this.id,
-    this.titleColor = Colors.black,
-    this.titleFontWeight = FontWeight.normal,
-    this.membersButtonColor = Colors.black,
-    this.endpointsButtonColor = Colors.black,
   });
 }
 

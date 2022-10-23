@@ -11,6 +11,8 @@ import '../Widgets/EndpointView/endpoint_info_table.dart';
 import '../Widgets/EndpointView/titled_line_chart.dart';
 import '../Widgets/common_widgets.dart';
 
+const appBarLabel = 'Endpoint Details';
+
 const pinkTextStyle = TextStyle(
   fontFamily: "Sofia Sans",
   decoration: TextDecoration.underline,
@@ -77,86 +79,6 @@ class _EndpointViewState extends State<EndpointView> {
     return Future.error(error.toString());
   }
 
-  SizedBox _buildBarView(
-    EndpointViewProvider endpointViewProvider,
-    BuildContext context,
-    snapshot,
-    int endpointId,
-  ) =>
-      SizedBox(
-        height: MediaQuery.of(context).size.height * 0.7,
-        child: TabBarView(
-          children: endpointViewProvider.tabs
-              .map(
-                (dataKey) => Column(
-                  children: [
-                    TitledLineChart(
-                      chartName: dataKey.typeName +
-                          spacer +
-                          endpointViewProvider.getChartUnitName(
-                            dataKey.typeName,
-                            snapshot.data,
-                          ),
-                      measureFnCallback: (Map<dynamic, dynamic> dataMap, _) =>
-                          dataMap[dataKey.typeName],
-                      data: endpointViewProvider.endpointData,
-                    ),
-                    const Divider(
-                      height: 25,
-                      color: Colors.pink,
-                      thickness: 3,
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(top: 10),
-                      height: MediaQuery.of(context).size.height * 0.3,
-                      child: ListView.separated(
-                        separatorBuilder: (context, index) => const Divider(
-                          color: Colors.black,
-                          thickness: 1,
-                          height: 0,
-                        ),
-                        addAutomaticKeepAlives: true,
-                        itemCount:
-                            endpointViewProvider.endpointData.dataList.length +
-                                1,
-                        itemBuilder: (context, i) {
-                          if (i <
-                              endpointViewProvider
-                                  .endpointData.dataList.length) {
-                            return endpointViewProvider.makeListElement(
-                              dataKey.typeName,
-                              i,
-                            );
-                          } else {
-                            if (endpointViewProvider.loadedAll) {
-                              return const ListTile(
-                                title: Text(
-                                  "No more data",
-                                  style: pinkTextStyle,
-                                ),
-                              );
-                            }
-                            return ListTile(
-                              title: const Text(
-                                "Load more data",
-                                style: pinkTextStyle,
-                              ),
-                              onTap: () {
-                                endpointViewProvider.loadMore(endpointId);
-                                setState(() {});
-                              },
-                            );
-                          }
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              )
-              .toList(),
-        ),
-      );
-
   @override
   Widget build(BuildContext context) => FutureBuilder<EndpointData>(
         future: endpointData,
@@ -164,12 +86,12 @@ class _EndpointViewState extends State<EndpointView> {
           if (snapshot.connectionState == ConnectionState.none ||
               snapshot.data == null) {
             return Scaffold(
-              appBar: buildAppBar(endpointViewAppBar),
+              appBar: buildFancyAppBar(appBarLabel),
               body: loadingInCenter(),
             );
           } else {
             return Scaffold(
-              appBar: buildAppBar(endpointViewAppBar),
+              appBar: buildFancyAppBar(appBarLabel),
               body: Container(
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
@@ -251,4 +173,84 @@ class _EndpointViewState extends State<EndpointView> {
   ) async {
     await endpointViewProvider.clearAndUpdate(endpointId);
   }
+
+  SizedBox _buildBarView(
+    EndpointViewProvider endpointViewProvider,
+    BuildContext context,
+    snapshot,
+    int endpointId,
+  ) =>
+      SizedBox(
+        height: MediaQuery.of(context).size.height * 0.7,
+        child: TabBarView(
+          children: endpointViewProvider.tabs
+              .map(
+                (dataKey) => Column(
+                  children: [
+                    TitledLineChart(
+                      chartName: dataKey.typeName +
+                          spacer +
+                          endpointViewProvider.getChartUnitName(
+                            dataKey.typeName,
+                            snapshot.data,
+                          ),
+                      measureFnCallback: (Map<dynamic, dynamic> dataMap, _) =>
+                          dataMap[dataKey.typeName],
+                      data: endpointViewProvider.endpointData,
+                    ),
+                    const Divider(
+                      height: 25,
+                      color: Colors.pink,
+                      thickness: 3,
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 10),
+                      height: MediaQuery.of(context).size.height * 0.3,
+                      child: ListView.separated(
+                        separatorBuilder: (context, index) => const Divider(
+                          color: Colors.black,
+                          thickness: 1,
+                          height: 0,
+                        ),
+                        addAutomaticKeepAlives: true,
+                        itemCount:
+                            endpointViewProvider.endpointData.dataList.length +
+                                1,
+                        itemBuilder: (context, i) {
+                          if (i <
+                              endpointViewProvider
+                                  .endpointData.dataList.length) {
+                            return endpointViewProvider.makeListElement(
+                              dataKey.typeName,
+                              i,
+                            );
+                          } else {
+                            if (endpointViewProvider.loadedAll) {
+                              return const ListTile(
+                                title: Text(
+                                  "No more data",
+                                  style: pinkTextStyle,
+                                ),
+                              );
+                            }
+                            return ListTile(
+                              title: const Text(
+                                "Load more data",
+                                style: pinkTextStyle,
+                              ),
+                              onTap: () {
+                                endpointViewProvider.loadMore(endpointId);
+                                setState(() {});
+                              },
+                            );
+                          }
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              )
+              .toList(),
+        ),
+      );
 }

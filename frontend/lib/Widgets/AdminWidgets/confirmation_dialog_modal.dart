@@ -1,5 +1,7 @@
-import 'package:adpv_frontend/Views/AdminPage/utils.dart';
 import 'package:flutter/material.dart';
+
+import 'admin_buttons.dart';
+import 'admin_styles.dart';
 
 void showAlertDialog(
   BuildContext context,

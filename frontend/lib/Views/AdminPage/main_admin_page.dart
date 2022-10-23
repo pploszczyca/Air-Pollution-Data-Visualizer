@@ -1,7 +1,10 @@
+import 'package:adpv_frontend/Views/AdminPage/endpoints/all_endpoints_view.dart';
 import 'package:adpv_frontend/Views/AdminPage/groups/groups_view.dart';
 import 'package:adpv_frontend/Views/AdminPage/users/all_users_view.dart';
-import 'package:adpv_frontend/Views/AdminPage/utils.dart';
 import 'package:flutter/material.dart';
+
+import '../../Widgets/AdminWidgets/admin_app_bar.dart';
+import '../../Widgets/AdminWidgets/admin_styles.dart';
 
 class AdminMainView extends StatelessWidget {
   const AdminMainView({Key? key}) : super(key: key);
@@ -12,25 +15,7 @@ class AdminMainView extends StatelessWidget {
         body: _buildBody(context),
       );
 
-  PreferredSize _buildAppBar() => PreferredSize(
-        preferredSize: const Size.fromHeight(120),
-        child: AppBar(
-          centerTitle: true,
-          toolbarHeight: 120,
-          title: Container(
-            padding: const EdgeInsets.only(top: 20, bottom: 10),
-            child: const Text("Administrator panel"),
-          ),
-          backgroundColor: Colors.white,
-          titleTextStyle: const TextStyle(
-            color: Colors.black,
-            fontFamily: 'Ubuntu Condensed',
-            fontSize: 40,
-            fontWeight: FontWeight.w500,
-          ),
-          titleSpacing: 20,
-        ),
-      );
+  PreferredSize _buildAppBar() => adminAppBar("Adminin panel", "");
 
   Column _buildBody(BuildContext context) => Column(
         mainAxisSize: MainAxisSize.max,
@@ -40,7 +25,7 @@ class AdminMainView extends StatelessWidget {
           _buildButtonContainer(
             context,
             'Groups',
-            Icons.group,
+            Icons.groups,
             _onGroupsPressed,
           ),
           _buildButtonContainer(
@@ -50,7 +35,11 @@ class AdminMainView extends StatelessWidget {
             _onEndpointsPressed,
           ),
           _buildButtonContainer(
-              context, 'Users', Icons.people_alt_outlined, _onUsersPressed),
+            context,
+            'Users',
+            Icons.manage_accounts,
+            _onUsersPressed,
+          ),
         ],
       );
 
@@ -115,11 +104,18 @@ class AdminMainView extends StatelessWidget {
   }
 
   void _onEndpointsPressed(BuildContext context) {
-    //todo przeniesienie do widoku endpointow
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AllEndpointsView(),
+      ),
+    );
   }
 
   void _onUsersPressed(BuildContext context) {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => AllUsersView()));
+      context,
+      MaterialPageRoute(builder: (context) => AllUsersView()),
+    );
   }
 }

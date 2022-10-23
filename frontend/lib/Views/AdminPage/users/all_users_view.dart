@@ -1,23 +1,18 @@
 import 'package:adpv_frontend/Models/all_users_list_provider.dart';
 import 'package:adpv_frontend/Views/AdminPage/users/edit_user_roles_dialog.dart';
-import 'package:adpv_frontend/Views/AdminPage/utils.dart';
 import 'package:adpv_frontend/Widgets/common_widgets.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../Repository/AdminRepository/users_list_repository.dart';
-import '../groups/confirmation_dialog_modal.dart';
-
-class ArgsContainer {
-  UserListData userListData;
-  AllUsersListProvider provider;
-
-  ArgsContainer(this.userListData, this.provider);
-}
+import '../../../Repository/AdminRepository/admin_users_repository.dart';
+import '../../../Widgets/AdminWidgets/admin_app_bar.dart';
+import '../../../Widgets/AdminWidgets/admin_buttons.dart';
+import '../../../Widgets/AdminWidgets/confirmation_dialog_modal.dart';
+import '../../../Widgets/AdminWidgets/group_card.dart';
+import '../../../Widgets/SortingWidgets/sort_bar.dart';
 
 class AllUsersView extends StatefulWidget {
-  final UsersListRepository repository = UsersListRepository();
+  final AdminUsersRepository repository = AdminUsersRepository();
 
   AllUsersView({Key? key}) : super(key: key);
 
@@ -26,8 +21,8 @@ class AllUsersView extends StatefulWidget {
 }
 
 class _AllUsersViewState extends State<AllUsersView> {
-  final _selections = [true, false];
-  late Future<List<UserListData>> users;
+  final selections = [true, false];
+  late Future<List<UserData>> users;
 
   @override
   void initState() {
@@ -36,10 +31,12 @@ class _AllUsersViewState extends State<AllUsersView> {
   }
 
   @override
-  Widget build(BuildContext context) =>
-      Scaffold(appBar: buildAdminAppBar("Users list"), body: _buildBody());
+  Widget build(BuildContext context) => Scaffold(
+        appBar: adminAppBar("Admin panel", "Users list"),
+        body: _buildBody(),
+      );
 
-  Widget _buildBody() => FutureBuilder<List<UserListData>>(
+  Widget _buildBody() => FutureBuilder<List<UserData>>(
         future: users,
         builder: (context, snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
@@ -52,16 +49,14 @@ class _AllUsersViewState extends State<AllUsersView> {
                   onRefresh: () => _onPullDownRefresh(provider),
                   child: Column(
                     children: [
-                      _buildSortBar(provider),
+                      buildSortBar(
+                        provider.sortingModel,
+                        () => provider.notify(),
+                        provider.usersList,
+                        provider.getters,
+                      ),
                       Expanded(
-                        child: ListView(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                          ),
-                          children: provider.usersList
-                              .map((e) => _buildUserCard(e, provider))
-                              .toList(),
-                        ),
+                        child: _buildList(provider),
                       ),
                     ],
                   ),
@@ -72,31 +67,16 @@ class _AllUsersViewState extends State<AllUsersView> {
         },
       );
 
-  void _onDeletePressed(ArgsContainer args) {
-    showAlertDialog(
-      context,
-      'Delete ' + args.userListData.email + '?',
-      "You are about to delete this user",
-      () => {
-        widget.repository.deleteUser(args.userListData.id).then((value) {
-          users = widget.repository.getAllUsers();
-          users.then((value) => args.provider.init(value));
-        })
-      },
-    );
-  }
-
-  void _editUser(ArgsContainer args) {
-    editUserRoleDialog(context, args.userListData, args.provider);
-  }
-
-  Future<void> _onPullDownRefresh(AllUsersListProvider provider) async {
-    users = widget.repository.getAllUsers();
-    await users.then((value) => provider.init(value));
-  }
+  ListView _buildList(AllUsersListProvider provider) => ListView(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 20,
+        ),
+        children:
+            provider.usersList.map((e) => _buildUserCard(e, provider)).toList(),
+      );
 
   Card _buildUserCard(
-    UserListData userListData,
+    UserData userListData,
     AllUsersListProvider provider,
   ) =>
       Card(
@@ -144,121 +124,65 @@ class _AllUsersViewState extends State<AllUsersView> {
           tilePadding: const EdgeInsets.all(20),
           childrenPadding: const EdgeInsets.all(0),
           children: [
-            _buildInfoContainer("Email", userListData.email),
-            _buildInfoContainer(
+            buildInfoContainer(
+              "Email",
+              userListData.email,
+              MediaQuery.of(context).size.width,
+            ),
+            buildInfoContainer(
               "Roles",
               userListData.roles.join(', '),
+              MediaQuery.of(context).size.width,
             ),
-            _buildInfoContainer(
+            buildInfoContainer(
               "Groups",
               userListData.groups.map((e) => e.name).join(', '),
+              MediaQuery.of(context).size.width,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                buildDeleteContainer(
-                  _onDeletePressed,
-                  ArgsContainer(userListData, provider),
-                ),
-                buildEditContainer(
-                  _editUser,
-                  ArgsContainer(userListData, provider),
-                )
-              ],
-            ),
+            buildButtonRow(userListData, provider),
           ],
         ),
       );
 
-  Container _buildInfoContainer(String title, String data) => Container(
-        padding:
-            const EdgeInsets.only(top: 20, left: 10, right: 10, bottom: 10),
-        alignment: Alignment.center,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontFamily: 'SofiaSans',
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black45,
-                ),
-              ),
+  Row buildButtonRow(
+    UserData userListData,
+    AllUsersListProvider provider,
+  ) =>
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          deleteButtonContainer(
+            () => _onDeletePressed(
+              userListData,
+              provider,
             ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.5,
-              child: Text(
-                data,
-                overflow: TextOverflow.fade,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontFamily: 'SofiaSans',
-                  color: Colors.black45,
-                ),
-              ),
-            )
-          ],
-        ),
-      );
-
-  Container _buildSortBar(AllUsersListProvider membersListProvider) =>
-      Container(
-        margin: const EdgeInsets.only(top: 20),
-        alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.symmetric(horizontal: 30),
-        child: Row(
-          children: [
-            ToggleButtons(
-              isSelected: _selections,
-              fillColor: Colors.transparent,
-              renderBorder: false,
-              children: [
-                _buildToggleButton(
-                  "ID",
-                  membersListProvider.idIcon,
-                  membersListProvider.idColor,
-                ),
-                _buildToggleButton(
-                  "EMAIL",
-                  membersListProvider.emailIcon,
-                  membersListProvider.emailColor,
-                ),
-              ],
-              onPressed: (int index) {
-                membersListProvider.changeSorting(index);
-              },
-            )
-          ],
-        ),
-      );
-
-  Container _buildToggleButton(String buttonName, IconData icon, Color color) =>
-      Container(
-        margin: const EdgeInsets.only(right: 10, left: 10),
-        child: RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: buttonName,
-                style: TextStyle(
-                  fontFamily: 'SofiaSans',
-                  fontSize: 25,
-                  fontWeight: FontWeight.normal,
-                  color: color,
-                ),
-              ),
-              WidgetSpan(
-                child: Icon(
-                  icon,
-                  color: color,
-                ),
-              ),
-            ],
           ),
-        ),
+          editButtonContainer(
+            () => _editUser(userListData, provider),
+          )
+        ],
       );
+
+  void _onDeletePressed(UserData userListData, AllUsersListProvider provider) {
+    showAlertDialog(
+      context,
+      'Delete ' + userListData.email + '?',
+      "You are about to delete this user",
+      () => {
+        widget.repository.deleteUser(userListData.id).then((value) {
+          users = widget.repository.getAllUsers();
+          users.then((value) => provider.init(value));
+        })
+      },
+    );
+  }
+
+  void _editUser(UserData userListData, AllUsersListProvider provider) {
+    editUserRoleDialog(context, userListData, provider);
+  }
+
+  Future<void> _onPullDownRefresh(AllUsersListProvider provider) async {
+    users = widget.repository.getAllUsers();
+    await users.then((value) => provider.init(value));
+  }
 }

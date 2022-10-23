@@ -13,7 +13,7 @@ import pl.edu.agh.apdvbackend.fakes.FieldFakes;
 import pl.edu.agh.apdvbackend.fakes.FieldParserFakes;
 import pl.edu.agh.apdvbackend.fakes.body_models.field_and_parser.FieldAndParserKeyFakes;
 import pl.edu.agh.apdvbackend.use_cases.field.GetField;
-import pl.edu.agh.apdvbackend.use_cases.field_parser.GetFieldParser;
+import pl.edu.agh.apdvbackend.use_cases.field_parser.GetOrSaveFieldParser;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -25,7 +25,7 @@ class FieldAndParserKeyMapperTest {
     private GetField getField;
 
     @MockBean
-    private GetFieldParser getFieldParser;
+    private GetOrSaveFieldParser getOrSaveFieldParser;
 
     @Autowired
     private FieldAndParserKeyMapper mapper;
@@ -35,9 +35,10 @@ class FieldAndParserKeyMapperTest {
         // Given
         final var fieldId = 65L;
         final var parserId = 87L;
+        final var fieldParserPath = "/fake/field/parser/path";
         final var fieldAndParserKey = FieldAndParserKeyFakes.builder()
                 .fieldId(fieldId)
-                .parserId(parserId)
+                .fieldParserPath(fieldParserPath)
                 .build();
         final var field = FieldFakes.builder()
                 .id(fieldId)
@@ -50,7 +51,7 @@ class FieldAndParserKeyMapperTest {
         Mockito.doReturn(field)
                 .when(getField).execute(fieldId);
         Mockito.doReturn(fieldParser)
-                .when(getFieldParser).execute(parserId);
+                .when(getOrSaveFieldParser).execute(fieldParserPath);
 
         // When
         final var result = mapper.toMap(List.of(fieldAndParserKey));

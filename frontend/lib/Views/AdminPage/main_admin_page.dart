@@ -1,4 +1,5 @@
 import 'package:adpv_frontend/Views/AdminPage/endpoints/all_endpoints_view.dart';
+import 'package:adpv_frontend/Views/AdminPage/fields/fields_list_view.dart';
 import 'package:adpv_frontend/Views/AdminPage/groups/groups_view.dart';
 import 'package:adpv_frontend/Views/AdminPage/users/all_users_view.dart';
 import 'package:flutter/material.dart';
@@ -40,6 +41,12 @@ class AdminMainView extends StatelessWidget {
             Icons.manage_accounts,
             _onUsersPressed,
           ),
+          _buildButtonContainer(
+            context,
+            'Fields',
+            Icons.manage_accounts,
+            _onFieldsPressed,
+          ),
         ],
       );
 
@@ -50,13 +57,13 @@ class AdminMainView extends StatelessWidget {
     Function(BuildContext context) onPressedFunction,
   ) =>
       Card(
-        margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
+        margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
         shadowColor: Colors.black,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
         child: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.2,
+          height: MediaQuery.of(context).size.height * 0.15,
           width: MediaQuery.of(context).size.height * 0.4,
           child: OutlinedButton.icon(
             label: Text(
@@ -116,6 +123,13 @@ class AdminMainView extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => AllUsersView()),
+    );
+  }
+
+  void _onFieldsPressed(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => FieldsListView()),
     );
   }
 }

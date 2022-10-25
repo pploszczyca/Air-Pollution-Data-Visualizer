@@ -21,7 +21,6 @@ class AllUsersView extends StatefulWidget {
 }
 
 class _AllUsersViewState extends State<AllUsersView> {
-  final selections = [true, false];
   late Future<List<UserData>> users;
 
   @override

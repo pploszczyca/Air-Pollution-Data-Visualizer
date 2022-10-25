@@ -5,19 +5,20 @@ class UnitSummary {
   int id;
   String name;
 
-  UnitSummary(this.id, this.name);
-
+  UnitSummary(this.id, this.name) ;
 }
 
 class FieldData {
   int id;
   String name;
+  FieldType type;
   UnitSummary unit;
 
-  FieldData(this.id, this.name, this.unit);
+  FieldData(this.id, this.name, this.type, this.unit);
 
   FieldData.fromJson(Map json)
-      : id = json['groupId'],
-        name = json['groupName'],
+      : id = json['id'],
+        name = json['label'],
+        type = json['fieldType'],
         unit = UnitSummary(json['unit']['id'], json['unit']['name']);
 }

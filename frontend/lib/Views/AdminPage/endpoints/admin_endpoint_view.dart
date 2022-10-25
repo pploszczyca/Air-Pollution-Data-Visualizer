@@ -77,7 +77,8 @@ class AdminEndpointView extends StatelessWidget {
         child: Text(
           text,
           style: defaultAdminTextStyle.copyWith(
-            fontSize: 24,
+            color: Colors.black45,
+            fontSize: 28,
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -118,50 +119,50 @@ class TwoRowListTile extends StatelessWidget {
         constraints: const BoxConstraints(
           minHeight: 60,
         ),
-        child: Container(
-          decoration: BoxDecoration(
-            border: Border.all(
-              width: 0.5,
-              color: Colors.black,
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Flexible(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 10,
+                    ),
+                    width: MediaQuery.of(context).size.width * 0.3,
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      leading,
+                      style: defaultAdminTextStyle.copyWith(
+                        fontSize: 18,
+                        color: Colors.black45,
+                      ),
+                    ),
+                  ),
+                ),
+                Flexible(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 10,
+                    ),
+                    width: MediaQuery.of(context).size.width * 0.7,
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      trailing,
+                      style: defaultAdminTextStyle.copyWith(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Flexible(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 10,
-                  ),
-                  width: MediaQuery.of(context).size.width * 0.3,
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    leading,
-                    style: defaultAdminTextStyle.copyWith(
-                      fontSize: 20,
-                      color: Colors.black45,
-                    ),
-                  ),
-                ),
-              ),
-              Flexible(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 10,
-                  ),
-                  width: MediaQuery.of(context).size.width * 0.7,
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    trailing,
-                    style: defaultAdminTextStyle.copyWith(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w300,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+            const Divider(
+              thickness: 2,
+              color: Colors.black12,
+            ),
+          ],
         ),
       );
 }

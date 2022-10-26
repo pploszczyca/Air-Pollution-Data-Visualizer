@@ -32,7 +32,7 @@ class _AllUsersViewState extends State<AllUsersView> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: adminAppBar("Admin panel", "Users list"),
+        appBar: adminAppBar("Administrator panel", "Users list"),
         body: _buildBody(),
       );
 

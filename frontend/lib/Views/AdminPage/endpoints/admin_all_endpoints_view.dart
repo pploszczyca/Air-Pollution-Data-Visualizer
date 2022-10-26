@@ -1,3 +1,4 @@
+import 'package:adpv_frontend/Views/AdminPage/endpoints/admin_endpoint_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -8,28 +9,28 @@ import '../../../Widgets/AdminWidgets/admin_styles.dart';
 import '../../../Widgets/SortingWidgets/sort_bar.dart';
 import '../../../Widgets/common_widgets.dart';
 
-class AllEndpointsView extends StatefulWidget {
-  AllEndpointsView({Key? key}) : super(key: key);
+class AdminAllEndpointsView extends StatefulWidget {
+  AdminAllEndpointsView({Key? key}) : super(key: key);
   final AdminEndpointsRepository repository = AdminEndpointsRepository();
 
   @override
-  State<AllEndpointsView> createState() => _AllEndpointsViewState();
+  State<AdminAllEndpointsView> createState() => _AdminAllEndpointsViewState();
 }
 
-class _AllEndpointsViewState extends State<AllEndpointsView> {
-  late Future<List<EndpointAdminData>> future;
+class _AdminAllEndpointsViewState extends State<AdminAllEndpointsView> {
+  late Future<EndpointComplexData> future;
 
   @override
   void initState() {
     super.initState();
-    future = widget.repository.getAllEndpoints();
+    future = widget.repository.getComplexData();
   }
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: adminAppBar("Endpoints list", ""),
+        appBar: adminAppBar("Administrator panel", "Endpoints list"),
         backgroundColor: Colors.white,
-        body: FutureBuilder<List<EndpointAdminData>>(
+        body: FutureBuilder<EndpointComplexData>(
           future: future,
           builder: (context, snapshot) {
             if (snapshot.connectionState != ConnectionState.done) {
@@ -50,7 +51,9 @@ class _AllEndpointsViewState extends State<AllEndpointsView> {
                         ),
                         Expanded(
                           child: ListView(
-                            children: _buildEndpointsList(provider),
+                            children: _buildEndpointsList(
+                              provider,
+                            ),
                           ),
                         ),
                       ],
@@ -63,9 +66,11 @@ class _AllEndpointsViewState extends State<AllEndpointsView> {
         ),
       );
 
-  Future<void> onRefresh() => future = widget.repository.getAllEndpoints();
+  Future<void> onRefresh() => future = widget.repository.getComplexData();
 
-  List<Widget> _buildEndpointsList(AllEndpointsProvider provider) =>
+  List<Widget> _buildEndpointsList(
+    AllEndpointsProvider provider,
+  ) =>
       provider.endpointsList
           .map(
             (endpoint) => Container(
@@ -94,7 +99,15 @@ class _AllEndpointsViewState extends State<AllEndpointsView> {
                   size: 24,
                 ),
                 onTap: () {
-                  //todo: navigate to new view -> "Endpoint Admin View"
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => AdminEndpointView(
+                        provider.enableFields,
+                        provider.fieldParsers,
+                        endpoint,
+                      ),
+                    ),
+                  );
                 },
               ),
             ),

@@ -29,8 +29,8 @@ class UserListData {
         email = json["email"],
         roles = List.from(json["roles"]),
         groups =
-            // ignore: unnecessary_lambdas
             json["groups"]
+            // ignore: unnecessary_lambdas
                 .map<UserGroups>((group) => UserGroups.fromJson(group))
                 .toList();
 }

@@ -11,7 +11,7 @@ Container editButtonContainer(VoidCallback onPressed) => Container(
             const BorderSide(width: 1.5, color: Colors.teal),
           ),
           padding: MaterialStateProperty.all(
-            const EdgeInsets.all(15),
+            const EdgeInsets.all(20),
           ),
           foregroundColor: MaterialStateProperty.resolveWith<Color>(
             (Set<MaterialState> states) =>
@@ -118,4 +118,16 @@ Container deleteButtonContainer(VoidCallback onPressed) => Container(
         onPressed: onPressed,
         child: const Icon(Icons.delete_outline_outlined, size: 30),
       ),
+    );
+
+Row buildDeleteEditButtonRow(
+  VoidCallback onDeletePressed,
+  VoidCallback onEditPressed,
+) =>
+    Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        deleteButtonContainer(onDeletePressed),
+        editButtonContainer(onEditPressed)
+      ],
     );

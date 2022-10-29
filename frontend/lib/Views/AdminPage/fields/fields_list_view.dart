@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 import '../../../DataModels/field_data.dart';
 import '../../../Repository/AdminRepository/fields_repository.dart';
 import '../../../Widgets/AdminWidgets/admin_app_bar.dart';
+import '../../../Widgets/AdminWidgets/admin_buttons.dart';
+import '../../../Widgets/AdminWidgets/confirmation_dialog_modal.dart';
 import '../../../Widgets/AdminWidgets/group_card.dart';
 import '../../../Widgets/SortingWidgets/sort_bar.dart';
 import '../../snackbar.dart';
@@ -74,7 +76,7 @@ class _FieldsListViewState extends State<FieldsListView> {
   );
 
   Card _buildCard(
-      FieldData fieldListData,
+      FieldData fieldData,
       FieldsListProvider provider,
       ) =>
       Card(
@@ -90,7 +92,7 @@ class _FieldsListViewState extends State<FieldsListView> {
                 Container(
                   padding: const EdgeInsets.only(right: 10),
                   child: Text(
-                    fieldListData.id.toString(),
+                    fieldData.id.toString(),
                     style: const TextStyle(
                       fontFamily: 'SofiaSans',
                       fontSize: 25,
@@ -103,7 +105,7 @@ class _FieldsListViewState extends State<FieldsListView> {
                   child: Container(
                     padding: const EdgeInsets.only(right: 10),
                     child: Text(
-                      fieldListData.name,
+                      fieldData.name,
                       overflow: TextOverflow.fade,
                       softWrap: false,
                       style: const TextStyle(
@@ -122,15 +124,35 @@ class _FieldsListViewState extends State<FieldsListView> {
           tilePadding: const EdgeInsets.all(20),
           childrenPadding: const EdgeInsets.all(0),
           children: [
-            // buildInfoContainer(
-            //   "Unit",
-            //   fieldListData.unit.name,
-            //   MediaQuery.of(context).size.width,
-            // )
-          ],
+            buildInfoContainer(
+              "Type",
+              fieldData.type.name.toLowerCase(),
+              MediaQuery.of(context).size.width,
+            ),
+            fieldData.unit.id != -1 ? buildInfoContainer(
+              "Unit",
+              fieldData.unit.name,
+              MediaQuery.of(context).size.width,
+            ) : Container(),
+            buildDeleteEditButtonRow(
+                  () => _onDeletePressed(fieldData, provider),
+                  () => _editUser(fieldData, provider),
+            ),          ],
         ),
       );
 
+  void _onDeletePressed(FieldData fieldData, FieldsListProvider provider) {
+    showAlertDialog(
+      context,
+      'Delete ' + fieldData.name,
+      "You are about to delete group with all of its' saved permissions.",
+          () => deleteField(fieldData.id, provider),
+    );
+  }
+
+  void _editUser(FieldData fieldData, FieldsListProvider provider){
+    //todo: next task
+  }
 
   void deleteField(int id, FieldsListProvider provider) async {
     await widget.repository
@@ -144,10 +166,9 @@ class _FieldsListViewState extends State<FieldsListView> {
       },
     )
         .catchError((error) {
-      buildSnackbar('Cannot delete user', context);
+      buildSnackbar('Cannot delete field', context);
     });
   }
-
 
   Future<void> _onPullDownRefresh(FieldsListProvider provider) async {
     fields = widget.repository.getFieldList();

@@ -1,4 +1,3 @@
-
 import 'package:adpv_frontend/DataModels/field_data.dart';
 import 'package:dio/dio.dart';
 
@@ -26,14 +25,13 @@ class FieldsRepository {
         );
         if (response.statusCode == 200) {
           final BackendResponse backendResponse =
-          BackendResponse.fromJson(response.data);
+              BackendResponse.fromJson(response.data);
           if (backendResponse.error == "") {
-            print(backendResponse.data);
             final List<FieldData> fieldsList = backendResponse.data
                 .map<FieldData>(
-              // ignore: unnecessary_lambdas
+                  // ignore: unnecessary_lambdas
                   (e) => FieldData.fromJson(e),
-            ) // do not refactor! UFO MAGIC!
+                ) // do not refactor! UFO MAGIC!
                 .toList();
             return Future.value(fieldsList);
           }
@@ -54,7 +52,7 @@ class FieldsRepository {
 
       try {
         final response = await _client
-            .delete(backendURL + fieldURL, queryParameters: {'groupId': id});
+            .delete(backendURL + fieldURL, queryParameters: {'fieldId': id});
         if (response.statusCode == 200) {
           return Future.value(true);
         }
@@ -64,5 +62,4 @@ class FieldsRepository {
     }
     return Future.value(false);
   }
-
 }

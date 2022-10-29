@@ -138,28 +138,12 @@ class _AllUsersViewState extends State<AllUsersView> {
               userListData.groups.map((e) => e.name).join(', '),
               MediaQuery.of(context).size.width,
             ),
-            buildButtonRow(userListData, provider),
+            buildDeleteEditButtonRow(
+              () => _onDeletePressed(userListData, provider),
+              () => _editUser(userListData, provider),
+            ),
           ],
         ),
-      );
-
-  Row buildButtonRow(
-    UserData userListData,
-    AllUsersListProvider provider,
-  ) =>
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          deleteButtonContainer(
-            () => _onDeletePressed(
-              userListData,
-              provider,
-            ),
-          ),
-          editButtonContainer(
-            () => _editUser(userListData, provider),
-          )
-        ],
       );
 
   void _onDeletePressed(UserData userListData, AllUsersListProvider provider) {

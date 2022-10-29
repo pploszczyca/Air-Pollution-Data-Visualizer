@@ -44,7 +44,7 @@ class AdminMainView extends StatelessWidget {
           _buildButtonContainer(
             context,
             'Fields',
-            Icons.manage_accounts,
+            Icons.straighten,
             _onFieldsPressed,
           ),
         ],

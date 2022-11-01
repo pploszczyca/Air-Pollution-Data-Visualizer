@@ -1,4 +1,5 @@
 import 'package:adpv_frontend/Models/fields_list_provider.dart';
+import 'package:adpv_frontend/Views/AdminPage/fields/show_add_field_modal.dart';
 import 'package:adpv_frontend/Widgets/common_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -7,6 +8,7 @@ import '../../../DataModels/field_data.dart';
 import '../../../Repository/AdminRepository/fields_repository.dart';
 import '../../../Widgets/AdminWidgets/admin_app_bar.dart';
 import '../../../Widgets/AdminWidgets/admin_buttons.dart';
+import '../../../Widgets/AdminWidgets/admin_styles.dart';
 import '../../../Widgets/AdminWidgets/confirmation_dialog_modal.dart';
 import '../../../Widgets/AdminWidgets/group_card.dart';
 import '../../../Widgets/SortingWidgets/sort_bar.dart';
@@ -23,6 +25,7 @@ class FieldsListView extends StatefulWidget {
 
 class _FieldsListViewState extends State<FieldsListView> {
   late Future<List<FieldData>> fields;
+  late FieldsListProvider provider;
 
   @override
   void initState() {
@@ -34,6 +37,7 @@ class _FieldsListViewState extends State<FieldsListView> {
   Widget build(BuildContext context) => Scaffold(
     appBar: adminAppBar("Admin panel", "Users list"),
     body: _buildBody(),
+    floatingActionButton: _buildAddButton(),
   );
 
   Widget _buildBody() => FutureBuilder<List<FieldData>>(
@@ -43,7 +47,7 @@ class _FieldsListViewState extends State<FieldsListView> {
         return loadingInCenter();
       } else {
         return ChangeNotifierProvider(
-          create: (context) => FieldsListProvider(fields),
+          create: (context) =>  provider = FieldsListProvider(fields),
           child: Consumer<FieldsListProvider>(
             builder: (context, provider, _) => RefreshIndicator(
               onRefresh: () => _onPullDownRefresh(provider),
@@ -72,12 +76,11 @@ class _FieldsListViewState extends State<FieldsListView> {
       horizontal: 20,
     ),
     children:
-    provider.fieldsList.map((e) => _buildCard(e, provider)).toList(),
+    provider.fieldsList.map((e) => _buildCard(e)).toList(),
   );
 
   Card _buildCard(
       FieldData fieldData,
-      FieldsListProvider provider,
       ) =>
       Card(
         margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
@@ -135,26 +138,53 @@ class _FieldsListViewState extends State<FieldsListView> {
               MediaQuery.of(context).size.width,
             ) : Container(),
             buildDeleteEditButtonRow(
-                  () => _onDeletePressed(fieldData, provider),
-                  () => _editUser(fieldData, provider),
+                  () => _onDeletePressed(fieldData),
+                  () => _onEditPressed(fieldData),
             ),          ],
         ),
       );
 
-  void _onDeletePressed(FieldData fieldData, FieldsListProvider provider) {
+  FloatingActionButton _buildAddButton() => FloatingActionButton(
+    onPressed: () => showAddFieldModal(
+      context,
+      widget.repository,
+      addField,
+      false,
+      null,
+    ),
+    backgroundColor: adminGreenColor,
+    child: const Icon(Icons.add),
+  );
+
+
+  void _onDeletePressed(FieldData fieldData) {
     showAlertDialog(
       context,
       'Delete ' + fieldData.name,
       "You are about to delete group with all of its' saved permissions.",
-          () => deleteField(fieldData.id, provider),
+          () => deleteField(fieldData.id),
     );
   }
 
-  void _editUser(FieldData fieldData, FieldsListProvider provider){
-    //todo: next task
+  void _onEditPressed(FieldData fieldData){
+    showAddFieldModal(
+      context,
+      widget.repository,
+      editField,
+      true,
+      fieldData,
+    );
   }
 
-  void deleteField(int id, FieldsListProvider provider) async {
+  void editField(int id, String fieldName, String unitName, FieldType fieldType) async {
+    await widget.repository.editField(id, fieldName, unitName, fieldType).then(
+          (newField) => provider.editField(newField),
+    ).catchError((error){
+      buildSnackbar('Cannot add field', context);
+    });
+  }
+
+  void deleteField(int id) async {
     await widget.repository
         .deleteField(id)
         .then(
@@ -167,6 +197,14 @@ class _FieldsListViewState extends State<FieldsListView> {
     )
         .catchError((error) {
       buildSnackbar('Cannot delete field', context);
+    });
+  }
+
+  void addField(int id, String fieldName, String unitName, FieldType fieldType) async {
+    await widget.repository.addField(fieldName, unitName, fieldType).then(
+         (newField) => provider.addNewField(newField),
+     ).catchError((error){
+      buildSnackbar('Cannot add field', context);
     });
   }
 

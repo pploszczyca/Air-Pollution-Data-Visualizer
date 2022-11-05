@@ -32,113 +32,100 @@ class _FieldsListViewState extends State<FieldsListView> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: adminAppBar("Admin panel", "Users list"),
-    body: _buildBody(),
-  );
+        appBar: adminAppBar("Admin panel", "Users list"),
+        body: _buildBody(),
+      );
 
   Widget _buildBody() => FutureBuilder<List<FieldData>>(
-    future: fields,
-    builder: (context, snapshot) {
-      if (snapshot.connectionState != ConnectionState.done) {
-        return loadingInCenter();
-      } else {
-        return ChangeNotifierProvider(
-          create: (context) => FieldsListProvider(fields),
-          child: Consumer<FieldsListProvider>(
-            builder: (context, provider, _) => RefreshIndicator(
-              onRefresh: () => _onPullDownRefresh(provider),
-              child: Column(
-                children: [
-                  buildSortBar(
-                    provider.sortingModel,
+        future: fields,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState != ConnectionState.done) {
+            return loadingInCenter();
+          } else {
+            return ChangeNotifierProvider(
+              create: (context) => FieldsListProvider(fields),
+              child: Consumer<FieldsListProvider>(
+                builder: (context, provider, _) => RefreshIndicator(
+                  onRefresh: () => _onPullDownRefresh(provider),
+                  child: Column(
+                    children: [
+                      buildSortBar(
+                        provider.sortingModel,
                         () => provider.notify(),
-                    provider.fieldsList,
-                    provider.getters,
-                  ),
-                  Expanded(
-                    child: _buildList(provider),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      }
-    },
-  );
-
-  ListView _buildList(FieldsListProvider provider) => ListView(
-    padding: const EdgeInsets.symmetric(
-      horizontal: 20,
-    ),
-    children:
-    provider.fieldsList.map((e) => _buildCard(e, provider)).toList(),
-  );
-
-  Card _buildCard(
-      FieldData fieldData,
-      FieldsListProvider provider,
-      ) =>
-      Card(
-        margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-        shadowColor: Colors.black,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: ExpansionTile(
-          title: SizedBox(
-            child: Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.only(right: 10),
-                  child: Text(
-                    fieldData.id.toString(),
-                    style: const TextStyle(
-                      fontFamily: 'SofiaSans',
-                      fontSize: 25,
-                      color: Colors.black,
-                      fontWeight: FontWeight.normal,
-                    ),
+                        provider.fieldsList,
+                        provider.getters,
+                      ),
+                      Expanded(
+                        child: _buildList(provider),
+                      ),
+                    ],
                   ),
                 ),
-                Flexible(
-                  child: Container(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: Text(
-                      fieldData.name,
-                      overflow: TextOverflow.fade,
-                      softWrap: false,
-                      style: const TextStyle(
-                        fontFamily: 'SofiaSans',
-                        fontSize: 25,
-                        color: Colors.black,
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-          collapsedBackgroundColor: Colors.white,
-          tilePadding: const EdgeInsets.all(20),
-          childrenPadding: const EdgeInsets.all(0),
-          children: [
-            buildInfoContainer(
-              "Type",
-              fieldData.type.name.toLowerCase(),
-              MediaQuery.of(context).size.width,
-            ),
-            fieldData.unit.id != -1 ? buildInfoContainer(
-              "Unit",
-              fieldData.unit.name,
-              MediaQuery.of(context).size.width,
-            ) : Container(),
-            buildDeleteEditButtonRow(
-                  () => _onDeletePressed(fieldData, provider),
-                  () => _editUser(fieldData, provider),
-            ),          ],
+              ),
+            );
+          }
+        },
+      );
+
+  ListView _buildList(FieldsListProvider provider) => ListView(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 20,
         ),
+        children: provider.fieldsList
+            .map(
+              (fieldData) => groupCard(
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.only(right: 10),
+                        child: Text(
+                          fieldData.id.toString(),
+                          style: const TextStyle(
+                            fontFamily: 'SofiaSans',
+                            fontSize: 25,
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ),
+                      Flexible(
+                        child: Container(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: Text(
+                            fieldData.name,
+                            overflow: TextOverflow.fade,
+                            softWrap: false,
+                            style: const TextStyle(
+                              fontFamily: 'SofiaSans',
+                              fontSize: 25,
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                  [
+                    buildInfoContainer(
+                      "Type",
+                      fieldData.type.name.toLowerCase(),
+                      MediaQuery.of(context).size.width,
+                    ),
+                    fieldData.unit.id != -1
+                        ? buildInfoContainer(
+                            "Unit",
+                            fieldData.unit.name,
+                            MediaQuery.of(context).size.width,
+                          )
+                        : Container(),
+                    buildDeleteEditButtonRow(
+                      () => _onDeletePressed(fieldData, provider),
+                      () => _editUser(fieldData, provider),
+                    ),
+                  ]),
+            )
+            .toList(),
       );
 
   void _onDeletePressed(FieldData fieldData, FieldsListProvider provider) {
@@ -146,11 +133,11 @@ class _FieldsListViewState extends State<FieldsListView> {
       context,
       'Delete ' + fieldData.name,
       "You are about to delete group with all of its' saved permissions.",
-          () => deleteField(fieldData.id, provider),
+      () => deleteField(fieldData.id, provider),
     );
   }
 
-  void _editUser(FieldData fieldData, FieldsListProvider provider){
+  void _editUser(FieldData fieldData, FieldsListProvider provider) {
     //todo: next task
   }
 
@@ -159,12 +146,12 @@ class _FieldsListViewState extends State<FieldsListView> {
         .deleteField(id)
         .then(
           (value) => {
-        if (value)
-          {
-            provider.delete(id),
-          }
-      },
-    )
+            if (value)
+              {
+                provider.delete(id),
+              }
+          },
+        )
         .catchError((error) {
       buildSnackbar('Cannot delete field', context);
     });

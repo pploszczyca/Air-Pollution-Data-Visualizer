@@ -1,5 +1,4 @@
 import 'package:adpv_frontend/Views/AdminPage/endpoints/admin_all_endpoints_view.dart';
-import 'package:adpv_frontend/Views/AdminPage/endpoints/all_endpoints_view.dart';
 import 'package:adpv_frontend/Views/AdminPage/fields/fields_list_view.dart';
 import 'package:adpv_frontend/Views/AdminPage/groups/groups_view.dart';
 import 'package:adpv_frontend/Views/AdminPage/users/all_users_view.dart';

@@ -191,4 +191,57 @@ class AdminEndpointsRepository {
     }
     return Future.error("Cannot update endpoint");
   }
+
+  void deleteEndpoint(int endpointId) async {
+    _client = Dio();
+
+    final AuthResponse authResponse = await userGateway.getFromMemory();
+
+    if (authResponse.success) {
+      final String token = authResponse.tokens!.accessToken;
+      _client.options.headers["Authorization"] = "Bearer $token";
+
+      await _client.delete(
+        backendURL + "sensor",
+        queryParameters: {'endpointId': endpointId.toString()},
+      );
+    }
+    return Future.error("Cannot delete endpoint list");
+  }
+
+  Future<EndpointAdminData> updateEndpoint(
+    int id,
+    String number,
+    String label,
+    String sensorUrl,
+    List<Map<String, String>> fieldAndParserKeys,
+  ) async {
+    _client = Dio();
+
+    final AuthResponse authResponse = await userGateway.getFromMemory();
+
+    if (authResponse.success) {
+      final String token = authResponse.tokens!.accessToken;
+      _client.options.headers["Authorization"] = "Bearer $token";
+
+      final Response response = await _client.put(
+        backendURL + "sensor",
+        data: {
+          "endpointNumber": number,
+          "label": label,
+          "sensorUrl": sensorUrl,
+          "fieldAndParserKeys": fieldAndParserKeys,
+        },
+        queryParameters: {"endpointId": id},
+      );
+      if (response.statusCode == 200) {
+        final BackendResponse backendResponse =
+            BackendResponse.fromJson(response.data);
+        return Future.value(
+          EndpointAdminData.fromJson(Map.from(backendResponse.data)),
+        );
+      }
+    }
+    return Future.error("Cannot update endpoint");
+  }
 }

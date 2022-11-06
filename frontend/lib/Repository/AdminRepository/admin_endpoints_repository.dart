@@ -1,6 +1,7 @@
 import 'package:adpv_frontend/Common/urls.dart';
 import 'package:adpv_frontend/DataModels/enable_field.dart';
 import 'package:adpv_frontend/DataModels/field_parser.dart';
+import 'package:adpv_frontend/Repository/AdminRepository/fields_repository.dart';
 import 'package:adpv_frontend/Repository/UserRepository/user_gateway.dart';
 import 'package:dio/dio.dart';
 
@@ -57,13 +58,14 @@ class EndpointComplexData {
 
 class AdminEndpointsRepository {
   Dio _client = Dio();
-
+  FieldsRepository fieldsRepository = FieldsRepository();
   UserGateway userGateway = UserGateway();
 
   Future<EndpointComplexData> getComplexData() async {
     final List<EndpointAdminData> endpoints = await getAllEndpoints();
     final Map<int, EnableField> fields = await getAllFields();
     final Map<int, FieldParser> parsers = await getAllParsers();
+
     return EndpointComplexData(parsers, fields, endpoints);
   }
 
@@ -134,5 +136,58 @@ class AdminEndpointsRepository {
       }
     }
     return Future.error("Cannot get all endpoints list");
+  }
+
+  void deleteEndpoint(int endpointId) async {
+    _client = Dio();
+
+    final AuthResponse authResponse = await userGateway.getFromMemory();
+
+    if (authResponse.success) {
+      final String token = authResponse.tokens!.accessToken;
+      _client.options.headers["Authorization"] = "Bearer $token";
+
+      await _client.delete(
+        backendURL + "sensor",
+        queryParameters: {'endpointId': endpointId.toString()},
+      );
+    }
+    return Future.error("Cannot delete endpoint list");
+  }
+
+  Future<EndpointAdminData> updateEndpoint(
+    int id,
+    String number,
+    String label,
+    String sensorUrl,
+    List<Map<String, String>> fieldAndParserKeys,
+  ) async {
+    _client = Dio();
+
+    final AuthResponse authResponse = await userGateway.getFromMemory();
+
+    if (authResponse.success) {
+      final String token = authResponse.tokens!.accessToken;
+      _client.options.headers["Authorization"] = "Bearer $token";
+
+      final Response response = await _client.put(
+        backendURL + "sensor",
+        data: {
+          "endpointNumber": number,
+          "label": label,
+          "sensorUrl": sensorUrl,
+          "fieldAndParserKeys": fieldAndParserKeys,
+        },
+        queryParameters: {"endpointId": id},
+      );
+      if (response.statusCode == 200) {
+        final BackendResponse backendResponse =
+            BackendResponse.fromJson(response.data);
+        return Future.value(
+          EndpointAdminData.fromJson(Map.from(backendResponse.data)),
+        );
+      }
+    }
+    return Future.error("Cannot update endpoint");
   }
 }

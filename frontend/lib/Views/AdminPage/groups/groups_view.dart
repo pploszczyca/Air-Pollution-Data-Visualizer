@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../DataModels/group_summary.dart';
-import '../../../Models/group_list_provider.dart';
+import '../../../Providers/group_list_provider.dart';
 import '../../../Repository/AdminRepository/admin_gateway.dart';
 import '../../../Repository/UserRepository/user_gateway.dart';
 import '../../../Widgets/AdminWidgets/admin_app_bar.dart';
@@ -106,7 +106,9 @@ class _GroupsViewState extends State<GroupsView> {
                 _onEndpointsAndPermissionsPressed,
               ),
               deleteButtonContainer(
-                () => _onDeletePressed(groupListProvider.groupsList[i],),
+                () => _onDeletePressed(
+                  groupListProvider.groupsList[i],
+                ),
               )
             ]),
       );

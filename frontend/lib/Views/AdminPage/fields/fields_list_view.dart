@@ -76,7 +76,7 @@ class _FieldsListViewState extends State<FieldsListView> {
       horizontal: 20,
     ),
     children:
-    provider.fieldsList.map((e) => _buildCard(e)).toList(),
+    provider.fieldsList.map(_buildCard).toList(),
   );
 
   Card _buildCard(

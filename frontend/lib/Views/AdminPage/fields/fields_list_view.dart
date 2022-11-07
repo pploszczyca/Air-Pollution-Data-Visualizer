@@ -200,7 +200,7 @@ class _FieldsListViewState extends State<FieldsListView> {
     });
   }
 
-  void addField(int id, String fieldName, String unitName, FieldType fieldType) async {
+  void addField(int? id, String fieldName, String unitName, FieldType fieldType) async {
     await widget.repository.addField(fieldName, unitName, fieldType).then(
          (newField) => provider.addNewField(newField),
      ).catchError((error){

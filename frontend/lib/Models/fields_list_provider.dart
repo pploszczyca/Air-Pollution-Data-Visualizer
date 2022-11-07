@@ -37,5 +37,6 @@ class FieldsListProvider with ChangeNotifier {
   void editField(FieldData fieldData) {
     fieldsList.removeWhere((field) => field.id == fieldData.id);
     fieldsList.add(fieldData);
+    notifyListeners();
   }
 }

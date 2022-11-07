@@ -9,7 +9,7 @@ MaterialStateProperty<EdgeInsetsGeometry?> buttonPadding =
 MaterialStateProperty.all(const EdgeInsets.all(20));
 
 const underline = UnderlineInputBorder(
-    borderSide: BorderSide(color: adminGreenColor, width: 2));
+    borderSide: BorderSide(color: adminGreenColor, width: 2),);
 const List<FieldType> fieldTypesList = <FieldType>[
   FieldType.FOR_CHART,
   FieldType.STRING,
@@ -28,7 +28,7 @@ void showAddFieldModal(BuildContext context,
     builder: (_) {
       final TextEditingController fieldNameController = TextEditingController(text:  editMode ? initialFieldData?.name : '');
       final TextEditingController unitNameController = TextEditingController(text: editMode ? initialFieldData?.unit.name : '');
-      var currentType = fieldTypesList.first;
+      var currentType = editMode ? initialFieldData?.type : fieldTypesList.first;
 
       return AlertDialog(
         title: const Text('Add field'),
@@ -42,7 +42,7 @@ void showAddFieldModal(BuildContext context,
                   height: MediaQuery
                       .of(context)
                       .size
-                      .height * 0.32,
+                      .height * 0.31,
                   child: Column(
                     children: [
                       Container(
@@ -63,7 +63,7 @@ void showAddFieldModal(BuildContext context,
                             // focusColor: adminGreenColor,
                               // enabledBorder: underline,
                               hintText: 'Unit',
-                              fillColor: Colors.grey),
+                              fillColor: Colors.grey,),
                         ),
                       ),
                       Container(
@@ -102,11 +102,11 @@ void showAddFieldModal(BuildContext context,
           ElevatedButton(
             onPressed: () =>
                 onProceedPressed(
-                  initialFieldData.id,
+                  initialFieldData?.id,
                   editMode,
                   fieldNameController.text,
                   unitNameController.text,
-                  currentType,
+                  currentType!,
                   onProceedFunction,
                   context,
                 ),
@@ -119,12 +119,12 @@ void showAddFieldModal(BuildContext context,
   );
 }
 
-void onProceedPressed(int id, String fieldName, String unitName, FieldType fieldType,
+void onProceedPressed(int? id, bool editMode, String fieldName, String unitName, FieldType fieldType,
     onProceedFunction, context) {
   if (fieldName == "") {
     Navigator.pop(context);
   } else {
-    onProceedFunction(fieldName, unitName, fieldType);
+    onProceedFunction(id, fieldName, unitName, fieldType);
     Navigator.pop(context);
   }
 }

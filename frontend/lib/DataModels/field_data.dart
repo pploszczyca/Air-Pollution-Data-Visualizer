@@ -19,12 +19,11 @@ class UnitSummary {
   int id;
   String name;
 
-  UnitSummary(this.id, this.name) ;
+  UnitSummary(this.id, this.name);
 
   UnitSummary.fromJson(Map json)
-  : id = json['id'],
-  name = json['name'];
-
+      : id = json['id'],
+        name = json['name'];
 }
 
 class FieldData {
@@ -39,5 +38,7 @@ class FieldData {
       : id = json['id'],
         name = json['label'],
         type = FieldType.FOR_CHART.fromString(json['fieldType']),
-        unit = json['unit'] == null ? UnitSummary(-1, "") : UnitSummary.fromJson(json['unit']);
+        unit = json['unit'] == null
+            ? UnitSummary(-1, "")
+            : UnitSummary.fromJson(json['unit']);
 }

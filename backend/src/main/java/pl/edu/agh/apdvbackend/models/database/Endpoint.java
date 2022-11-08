@@ -42,7 +42,7 @@ public class Endpoint {
     @Schema(required = true)
     private String sensorUrl;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(name = "fields_parser_mapping",
             joinColumns = {
                     @JoinColumn(name = "endpoint_id", referencedColumnName = "id")},
@@ -51,7 +51,7 @@ public class Endpoint {
     @MapKeyJoinColumn(name = "field_id")
     private Map<Field, FieldParser> fieldParserMap = new HashMap<>();
 
-    @OneToMany(mappedBy = "endpoint")
+    @OneToMany(mappedBy = "endpoint", cascade = CascadeType.ALL)
     private Set<GroupEndpoint> groupEndpoints = new HashSet<>();
 
     public String getFieldPath(Field field) {

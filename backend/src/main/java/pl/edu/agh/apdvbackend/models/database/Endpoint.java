@@ -61,4 +61,8 @@ public class Endpoint {
     public void removeField(Field field) {
         fieldParserMap.remove(field);
     }
+
+    public void removeFieldParser(FieldParser fieldParserToRemove) {
+        fieldParserMap.values().remove(fieldParserToRemove);
+    }
 }

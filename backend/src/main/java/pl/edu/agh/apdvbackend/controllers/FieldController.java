@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
 import pl.edu.agh.apdvbackend.models.body_models.field.FieldRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.field.FieldResponseBody;
-import pl.edu.agh.apdvbackend.models.database.Field;
 import pl.edu.agh.apdvbackend.services.FieldService;
 
 import static pl.edu.agh.apdvbackend.configs.SwaggerConfig.JWT_AUTH;

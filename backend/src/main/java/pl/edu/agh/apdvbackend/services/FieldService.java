@@ -5,8 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
 import pl.edu.agh.apdvbackend.models.body_models.field.FieldRequestBody;
-import pl.edu.agh.apdvbackend.models.database.Field;
-import pl.edu.agh.apdvbackend.use_cases.field.GetAllEnableFieldsForEndpointAndUser;
+import pl.edu.agh.apdvbackend.models.body_models.field.FieldResponseBody;
+import pl.edu.agh.apdvbackend.use_cases.field.GetAllEnableFieldsAsResponseBody;
 import pl.edu.agh.apdvbackend.use_cases.field.GetAllFields;
 import pl.edu.agh.apdvbackend.use_cases.field.RemoveField;
 import pl.edu.agh.apdvbackend.use_cases.field.SaveNewField;
@@ -19,22 +19,22 @@ public class FieldService {
 
     private final SaveNewField saveNewField;
     private final GetAllFields getAllFields;
-    private final GetAllEnableFieldsForEndpointAndUser getAllEnableFieldsForEndpointAndUser;
+    private final GetAllEnableFieldsAsResponseBody getAllEnableFieldsAsResponseBody;
     private final RemoveField removeField;
     private final UpdateField updateField;
     private final FindCurrentUserId findCurrentUserId;
 
-    public Response<Field> addField(FieldRequestBody fieldRequestBody) {
+    public Response<FieldResponseBody> addField(FieldRequestBody fieldRequestBody) {
         return Response.withOkStatus(saveNewField.execute(fieldRequestBody));
     }
 
-    public Response<List<Field>> getAllFields() {
+    public Response<List<FieldResponseBody>> getAllFields() {
         return Response.withOkStatus(getAllFields.execute());
     }
 
-    public Response<List<Field>> getAllEnableEndpoints(Long endpointId) {
+    public Response<List<FieldResponseBody>> getAllEnableEndpoints(Long endpointId) {
         return Response.withOkStatus(
-                getAllEnableFieldsForEndpointAndUser.execute(findCurrentUserId.execute(), endpointId)
+                getAllEnableFieldsAsResponseBody.execute(findCurrentUserId.execute(), endpointId)
         );
     }
 
@@ -42,7 +42,7 @@ public class FieldService {
         removeField.execute(fieldId);
     }
 
-    public Response<Field> updateField(
+    public Response<FieldResponseBody> updateField(
             Long fieldId,
             FieldRequestBody fieldRequestBody
     ) {

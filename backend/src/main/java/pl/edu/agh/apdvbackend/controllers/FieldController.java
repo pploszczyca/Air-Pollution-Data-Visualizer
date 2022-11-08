@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
 import pl.edu.agh.apdvbackend.models.body_models.field.FieldRequestBody;
+import pl.edu.agh.apdvbackend.models.body_models.field.FieldResponseBody;
 import pl.edu.agh.apdvbackend.models.database.Field;
 import pl.edu.agh.apdvbackend.services.FieldService;
 
@@ -33,7 +34,7 @@ public class FieldController {
             security = @SecurityRequirement(name = JWT_AUTH)
     )
     @PostMapping
-    public Response<Field> addField(@RequestBody FieldRequestBody fieldRequestBody) {
+    public Response<FieldResponseBody> addField(@RequestBody FieldRequestBody fieldRequestBody) {
         return fieldService.addField(fieldRequestBody);
     }
 
@@ -42,7 +43,7 @@ public class FieldController {
             security = @SecurityRequirement(name = JWT_AUTH)
     )
     @GetMapping
-    public Response<List<Field>> getAllFields() {
+    public Response<List<FieldResponseBody>> getAllFields() {
         return fieldService.getAllFields();
     }
 
@@ -51,7 +52,7 @@ public class FieldController {
             security = @SecurityRequirement(name = JWT_AUTH)
     )
     @GetMapping("/enable")
-    public Response<List<Field>> getAllEnableEndpoints(@RequestParam Long endpointId) {
+    public Response<List<FieldResponseBody>> getAllEnableEndpoints(@RequestParam Long endpointId) {
         return fieldService.getAllEnableEndpoints(endpointId);
     }
 
@@ -69,7 +70,7 @@ public class FieldController {
             security = @SecurityRequirement(name = JWT_AUTH)
     )
     @PutMapping
-    public Response<Field> updateField(
+    public Response<FieldResponseBody> updateField(
             @RequestParam Long fieldId,
             @RequestBody FieldRequestBody fieldRequestBody
     ) {

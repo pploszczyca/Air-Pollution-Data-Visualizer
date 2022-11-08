@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -44,6 +43,9 @@ public class Field {
     @JoinColumn(name = "unit_id")
     private Unit unit;
 
-    @ManyToMany(mappedBy = "enableFields", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "enableFields")
     private List<GroupEndpoint> groupEndpoint = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "fieldParserMap")
+    private List<Endpoint> endpoints = new ArrayList<>();
 }

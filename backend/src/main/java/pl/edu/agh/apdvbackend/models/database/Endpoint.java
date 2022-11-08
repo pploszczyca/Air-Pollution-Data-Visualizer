@@ -57,4 +57,8 @@ public class Endpoint {
     public String getFieldPath(Field field) {
         return fieldParserMap.get(field).getPath();
     }
+
+    public void removeField(Field field) {
+        fieldParserMap.remove(field);
+    }
 }

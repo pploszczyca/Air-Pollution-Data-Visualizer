@@ -41,4 +41,8 @@ public class GroupEndpoint {
             inverseJoinColumns = {@JoinColumn(name = "field_id")}
     )
     private List<Field> enableFields = new ArrayList<>();
+
+    public void removeField(Field field) {
+        enableFields.remove(field);
+    }
 }

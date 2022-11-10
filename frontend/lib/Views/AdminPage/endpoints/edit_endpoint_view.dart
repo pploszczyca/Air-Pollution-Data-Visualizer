@@ -281,7 +281,7 @@ class _AdminEditEndpointViewState extends State<AdminEditEndpointView> {
                         ),
                       ),
                     );
-                  }),
+                  },),
                 ],
               ),
             ),

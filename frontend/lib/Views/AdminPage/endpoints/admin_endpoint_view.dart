@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 
 import '../../../DataModels/enable_field.dart';
 import '../../../DataModels/field_parser.dart';
-import '../../../Widgets/AdminWidgets/admin_buttons.dart';
 import '../../../Widgets/AdminWidgets/admin_styles.dart';
 import '../../../Widgets/AdminWidgets/confirmation_dialog_modal.dart';
 import '../../../Widgets/AdminWidgets/two_row_list_tile.dart';
@@ -161,7 +160,7 @@ class AdminEndpointView extends StatelessWidget {
   //   }
   // }
 
-  Future<bool?> deleteEndpoint(
+  void deleteEndpoint(
     BuildContext context,
     EndpointAdminData endpointAdminData,
   ) async {

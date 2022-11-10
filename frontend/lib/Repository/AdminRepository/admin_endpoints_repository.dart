@@ -113,7 +113,7 @@ class AdminEndpointsRepository {
         };
       }
     }
-    return Future.error("Cannot get all endpoints list");
+    return Future.error("Cannot get all parsers list");
   }
 
   Future<Map<int, EnableField>> getAllFields() async {
@@ -135,7 +135,7 @@ class AdminEndpointsRepository {
         };
       }
     }
-    return Future.error("Cannot get all endpoints list");
+    return Future.error("Cannot get all fields list");
   }
 
   void deleteEndpoint(int endpointId) async {
@@ -151,8 +151,9 @@ class AdminEndpointsRepository {
         backendURL + "sensor",
         queryParameters: {'endpointId': endpointId.toString()},
       );
+    }else {
+      return Future.error("Cannot delete endpoint list");
     }
-    return Future.error("Cannot delete endpoint list");
   }
 
   Future<EndpointAdminData> updateEndpoint(

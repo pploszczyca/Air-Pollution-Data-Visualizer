@@ -242,34 +242,46 @@ class _AdminEditEndpointViewState extends State<AdminEditEndpointView> {
                     thickness: 2,
                     color: Colors.black12,
                   ),
-                  Expanded(
-                    child: ListView.builder(
-                      controller: ScrollController(),
-                      shrinkWrap: true,
-                      itemCount: toSelect.length,
-                      itemBuilder: (context, i) => Column(
-                        children: [
-                          ListTile(
-                            leading: Text(
-                              toSelect[i].label,
-                              style: defaultAdminTextStyle.copyWith(
-                                fontSize: 20,
-                                color: Colors.black45,
+                  Builder(builder: (context) {
+                    if (toSelect.isEmpty) {
+                      return Text(
+                        "No more fields available",
+                        style: defaultAdminTextStyle.copyWith(
+                          fontSize: 20,
+                          color: Colors.black45,
+                        ),
+                      );
+                    }
+                    return Expanded(
+                      child: ListView.builder(
+                        controller: ScrollController(),
+                        shrinkWrap: true,
+                        itemCount: toSelect.length,
+                        itemBuilder: (context, i) => Column(
+                          children: [
+                            ListTile(
+                              leading: Text(
+                                toSelect[i].label,
+                                style: defaultAdminTextStyle.copyWith(
+                                  fontSize: 20,
+                                  color: Colors.black45,
+                                ),
                               ),
+                              onTap: () {
+                                provider
+                                    .addPathTextFieldController(toSelect[i]);
+                                Navigator.of(context).pop();
+                              },
                             ),
-                            onTap: () {
-                              provider.addPathTextFieldController(toSelect[i]);
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                          const Divider(
-                            thickness: 2,
-                            color: Colors.black12,
-                          ),
-                        ],
+                            const Divider(
+                              thickness: 2,
+                              color: Colors.black12,
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ),
+                    );
+                  }),
                 ],
               ),
             ),

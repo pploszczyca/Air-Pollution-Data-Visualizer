@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import '../../../DataModels/enable_field.dart';
 import '../../../DataModels/field_parser.dart';
+import '../../../Widgets/AdminWidgets/admin_buttons.dart';
 import '../../../Widgets/AdminWidgets/admin_styles.dart';
 import '../../../Widgets/AdminWidgets/confirmation_dialog_modal.dart';
 import '../../../Widgets/AdminWidgets/two_row_list_tile.dart';
@@ -148,17 +149,29 @@ class AdminEndpointView extends StatelessWidget {
     return pairList;
   }
 
-  void deleteEndpoint(
+  //
+  // void deleteEndpoint(
+  //   BuildContext context,
+  //   EndpointAdminData endpointAdminData,
+  // ) async {
+  //   final result = await deleteEndpointDialog(context, endpointAdminData);
+  //   // ignore: unnecessary_null_comparison
+  //   if (result != null) {
+  //     Navigator.of(context).pop(true);
+  //   }
+  // }
+
+  Future<bool?> deleteEndpoint(
     BuildContext context,
     EndpointAdminData endpointAdminData,
-  ) {
+  ) async {
     showAlertDialog(
       context,
       'Delete ' + endpointAdminData.label + '?',
       "You are about to delete this endpoint",
       () {
         repository.deleteEndpoint(endpointAdminData.id);
-        Navigator.pop(context); // delete and navigator.pop()
+        Navigator.of(context).pop(true); // delete and navigator.pop()
       },
     );
   }

@@ -45,4 +45,7 @@ public class Field {
 
     @ManyToMany(mappedBy = "enableFields")
     private List<GroupEndpoint> groupEndpoint = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "fieldParserMap")
+    private List<Endpoint> endpoints = new ArrayList<>();
 }

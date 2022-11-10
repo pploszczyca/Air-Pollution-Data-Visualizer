@@ -51,12 +51,14 @@ class FieldsRepository {
       _client.options.headers["Authorization"] = "Bearer $token";
 
       try {
-        final response = await _client
-            .delete(backendURL + fieldURL, queryParameters: {'fieldId': id});
+        final response = await _client.delete(
+          backendURL + fieldURL,
+          queryParameters: {'fieldId': id.toString()},
+        );
         if (response.statusCode == 200) {
           return Future.value(true);
         }
-      } on DioError catch (error) {
+      } catch (error) {
         return Future.error(error);
       }
     }

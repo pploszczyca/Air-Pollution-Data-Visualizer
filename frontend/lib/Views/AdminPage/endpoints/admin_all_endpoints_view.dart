@@ -2,7 +2,7 @@ import 'package:adpv_frontend/Views/AdminPage/endpoints/admin_endpoint_view.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../Models/all_endpoints_provider.dart';
+import '../../../Providers/all_endpoints_provider.dart';
 import '../../../Repository/AdminRepository/admin_endpoints_repository.dart';
 import '../../../Widgets/AdminWidgets/admin_app_bar.dart';
 import '../../../Widgets/AdminWidgets/admin_styles.dart';
@@ -98,8 +98,8 @@ class _AdminAllEndpointsViewState extends State<AdminAllEndpointsView> {
                   color: Colors.teal,
                   size: 24,
                 ),
-                onTap: () {
-                  Navigator.of(context).push(
+                onTap: () async {
+                  final changed = await Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => AdminEndpointView(
                         provider.enableFields,
@@ -108,6 +108,9 @@ class _AdminAllEndpointsViewState extends State<AdminAllEndpointsView> {
                       ),
                     ),
                   );
+                  if (changed != null) {
+                    await onRefresh();
+                  }
                 },
               ),
             ),

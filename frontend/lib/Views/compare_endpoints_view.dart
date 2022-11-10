@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 import '../DataModels/endpoint.dart';
 import '../DataModels/endpoint_data.dart';
 import '../DataModels/endpoint_summary.dart';
-import '../Models/compare_endpoints_provider.dart';
+import '../Providers/compare_endpoints_provider.dart';
 import '../Widgets/common_widgets.dart';
 
 class CompareChartsView extends StatefulWidget {

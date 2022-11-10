@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../DataModels/endpoint_data.dart';
 import '../DataModels/endpoint_summary.dart';
-import '../Models/endpoint_list_provider.dart';
+import '../Providers/endpoint_list_provider.dart';
 import '../Widgets/common_widgets.dart';
 
 BorderRadius basicBorderRadius = BorderRadius.circular(8);

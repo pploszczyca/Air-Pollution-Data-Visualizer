@@ -1,9 +1,9 @@
-import 'package:adpv_frontend/Models/fields_list_provider.dart';
 import 'package:adpv_frontend/Widgets/common_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../DataModels/field_data.dart';
+import '../../../Providers/fields_list_provider.dart';
 import '../../../Repository/AdminRepository/fields_repository.dart';
 import '../../../Widgets/AdminWidgets/admin_app_bar.dart';
 import '../../../Widgets/AdminWidgets/admin_buttons.dart';

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../DataModels/endpoint_data.dart';
-import '../Models/endpoint_view_provider.dart';
+import '../Providers/endpoint_view_provider.dart';
 import '../Repository/UserRepository/user_gateway.dart';
 import '../Widgets/EndpointView/endpoint_info_table.dart';
 import '../Widgets/EndpointView/titled_line_chart.dart';

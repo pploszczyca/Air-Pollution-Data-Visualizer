@@ -28,11 +28,10 @@ class UserListData {
       : id = json["id"],
         email = json["email"],
         roles = List.from(json["roles"]),
-        groups =
-            json["groups"]
+        groups = json["groups"]
             // ignore: unnecessary_lambdas
-                .map<UserGroups>((group) => UserGroups.fromJson(group))
-                .toList();
+            .map<UserGroups>((group) => UserGroups.fromJson(group))
+            .toList();
 }
 
 class UsersListRepository {
@@ -84,13 +83,17 @@ class UsersListRepository {
         await _client
             .delete(backendURL + "user", queryParameters: {"userId": id});
         return;
-      } on DioError catch (error){
+      } on DioError catch (error) {
         return Future.error(error);
       }
     }
   }
 
-  Future<bool> saveRoles(Set<String> toRemove, Set<String> toAdd, int userId) async {
+  Future<bool> saveRoles(
+    Set<String> toRemove,
+    Set<String> toAdd,
+    int userId,
+  ) async {
     _client = Dio();
 
     final AuthResponse authResponse = await userGateway.getFromMemory();
@@ -100,17 +103,23 @@ class UsersListRepository {
       _client.options.headers["Authorization"] = "Bearer $token";
 
       try {
-        for(String role in toRemove){
-          await _client.delete(backendURL + "role", queryParameters: {
-            "userId" : userId.toString(),
-            "roleName" : role,
-          },);
+        for (String role in toRemove) {
+          await _client.delete(
+            backendURL + "role",
+            queryParameters: {
+              "userId": userId.toString(),
+              "roleName": role,
+            },
+          );
         }
-        for(String role in toAdd){
-          await _client.post(backendURL + "role", queryParameters: {
-            "userId" : userId.toString(),
-            "roleName" : role,
-          },);
+        for (String role in toAdd) {
+          await _client.post(
+            backendURL + "role",
+            queryParameters: {
+              "userId": userId.toString(),
+              "roleName": role,
+            },
+          );
         }
         return Future.value(true);
       } on DioError catch (error) {

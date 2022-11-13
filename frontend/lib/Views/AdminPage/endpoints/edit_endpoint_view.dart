@@ -18,11 +18,11 @@ class AdminEditEndpointView extends StatefulWidget {
   final Map<int, FieldParser> fieldParsers;
 
   const AdminEditEndpointView(
-    this.enableFields,
-    this.fieldParsers,
-    this.endpointAdminData, {
-    Key? key,
-  }) : super(key: key);
+      this.enableFields,
+      this.fieldParsers,
+      this.endpointAdminData, {
+        Key? key,
+      }) : super(key: key);
 
   @override
   State<AdminEditEndpointView> createState() => _AdminEditEndpointViewState();
@@ -31,73 +31,73 @@ class AdminEditEndpointView extends StatefulWidget {
 class _AdminEditEndpointViewState extends State<AdminEditEndpointView> {
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: adminAppBar("Edit Endpoint", widget.endpointAdminData.label),
-        backgroundColor: Colors.white,
-        body: ChangeNotifierProvider(
-          create: (context) => EditEndpointProvider(
-            widget.endpointAdminData,
-            widget.enableFields,
-            widget.fieldParsers,
-          ),
-          child: Consumer<EditEndpointProvider>(
-            builder: (context, provider, _) => SingleChildScrollView(
-              child: Column(
+    appBar: adminAppBar("Edit Endpoint", widget.endpointAdminData.label),
+    backgroundColor: Colors.white,
+    body: ChangeNotifierProvider(
+      create: (context) => EditEndpointProvider(
+        widget.endpointAdminData,
+        widget.enableFields,
+        widget.fieldParsers,
+      ),
+      child: Consumer<EditEndpointProvider>(
+        builder: (context, provider, _) => SingleChildScrollView(
+          child: Column(
+            children: [
+              _buildSubTitle("Endpoint data", 30),
+              _buildBasicInfoList(
+                provider,
+                context,
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  _buildSubTitle("Endpoint data", 30),
-                  _buildBasicInfoList(
-                    provider,
-                    context,
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.only(top: 50, bottom: 10),
-                        alignment: Alignment.centerLeft,
-                        child: IconButton(
-                          onPressed: () {
-                            _addMeasurement(provider, context);
-                          },
-                          icon: const Icon(
-                            Icons.add_circle_outline,
-                            color: Colors.teal,
-                            size: 32,
-                          ),
-                        ),
+                  Container(
+                    margin: const EdgeInsets.only(top: 50, bottom: 10),
+                    alignment: Alignment.centerLeft,
+                    child: IconButton(
+                      onPressed: () {
+                        _addMeasurement(provider, context);
+                      },
+                      icon: const Icon(
+                        Icons.add_circle_outline,
+                        color: Colors.teal,
+                        size: 32,
                       ),
-                      _buildSubTitle("Measurements", 50),
-                    ],
+                    ),
                   ),
-                  _buildFieldInfoList(provider, context),
-                  SizedBox.fromSize(
-                    size: const Size(0, 100),
-                  ),
-                  _buildButtonContainer(context),
+                  _buildSubTitle("Measurements", 50),
                 ],
               ),
-            ),
+              _buildFieldInfoList(provider, context),
+              SizedBox.fromSize(
+                size: const Size(0, 100),
+              ),
+              _buildButtonContainer(context),
+            ],
           ),
         ),
-      );
+      ),
+    ),
+  );
 
   Container _buildSubTitle(String text, double topMargin) => Container(
-        margin: EdgeInsets.only(top: topMargin, bottom: 10),
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        alignment: Alignment.centerLeft,
-        child: Text(
-          text,
-          style: defaultAdminTextStyle.copyWith(
-            color: Colors.black45,
-            fontSize: 28,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-      );
+    margin: EdgeInsets.only(top: topMargin, bottom: 10),
+    padding: const EdgeInsets.symmetric(horizontal: 10),
+    alignment: Alignment.centerLeft,
+    child: Text(
+      text,
+      style: defaultAdminTextStyle.copyWith(
+        color: Colors.black45,
+        fontSize: 28,
+        fontWeight: FontWeight.w500,
+      ),
+    ),
+  );
 
   Column _buildBasicInfoList(
-    EditEndpointProvider provider,
-    BuildContext context,
-  ) =>
+      EditEndpointProvider provider,
+      BuildContext context,
+      ) =>
       Column(
         children: provider.basicInfoControllers.entries
             .where((e) => e.key != "id")
@@ -154,68 +154,68 @@ class _AdminEditEndpointViewState extends State<AdminEditEndpointView> {
       );
 
   Column _buildFieldInfoList(
-    EditEndpointProvider provider,
-    BuildContext context,
-  ) =>
+      EditEndpointProvider provider,
+      BuildContext context,
+      ) =>
       Column(
         children: provider.parserPathControllers.entries
             .where((e) => e.key.label != "id")
             .map<Widget>(
               (e) => TwoRowListTile(
-                Flexible(
-                  child: Row(
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.remove_circle_outline, size: 22),
-                        color: Colors.red,
-                        onPressed: () {
-                          provider.deleteFieldFromEndpoint(e.key);
-                        },
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 10,
-                        ),
-                        width: MediaQuery.of(context).size.width * 0.3,
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          e.key.label,
-                          style: defaultAdminTextStyle.copyWith(
-                            fontSize: 18,
-                            color: Colors.black45,
-                          ),
-                        ),
-                      ),
-                    ],
+            Flexible(
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.remove_circle_outline, size: 22),
+                    color: Colors.red,
+                    onPressed: () {
+                      provider.deleteFieldFromEndpoint(e.key);
+                    },
                   ),
-                ),
-                Flexible(
-                  child: Padding(
+                  Container(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 16,
+                      vertical: 10,
                     ),
-                    child: Theme(
-                      data: ThemeData.from(
-                        colorScheme: ColorScheme.fromSwatch(
-                          backgroundColor: Colors.white,
-                          cardColor: Colors.pink,
-                          primarySwatch: Colors.pink,
-                          accentColor: Colors.pink,
-                        ),
+                    width: MediaQuery.of(context).size.width * 0.3,
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      e.key.label,
+                      style: defaultAdminTextStyle.copyWith(
+                        fontSize: 18,
+                        color: Colors.black45,
                       ),
-                      child: TextFormField(
-                        controller: e.value,
-                        cursorColor: Colors.pink,
-                        decoration: const InputDecoration(
-                          border: UnderlineInputBorder(),
-                        ),
-                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Flexible(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 8,
+                  vertical: 16,
+                ),
+                child: Theme(
+                  data: ThemeData.from(
+                    colorScheme: ColorScheme.fromSwatch(
+                      backgroundColor: Colors.white,
+                      cardColor: Colors.pink,
+                      primarySwatch: Colors.pink,
+                      accentColor: Colors.pink,
+                    ),
+                  ),
+                  child: TextFormField(
+                    controller: e.value,
+                    cursorColor: Colors.pink,
+                    decoration: const InputDecoration(
+                      border: UnderlineInputBorder(),
                     ),
                   ),
                 ),
               ),
-            )
+            ),
+          ),
+        )
             .toList(),
       );
 
@@ -224,7 +224,7 @@ class _AdminEditEndpointViewState extends State<AdminEditEndpointView> {
       context: context,
       builder: (context) {
         final List<EnableField> toSelect =
-            List.from(provider.getAddMeasurementList());
+        List.from(provider.getAddMeasurementList());
         return StatefulBuilder(
           builder: (context, setState) => AlertDialog(
             title: Text(
@@ -292,23 +292,23 @@ class _AdminEditEndpointViewState extends State<AdminEditEndpointView> {
   }
 
   Container _buildButtonContainer(BuildContext context) => Container(
-        margin: const EdgeInsets.symmetric(vertical: 20),
-        width: MediaQuery.of(context).size.width,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            discardChangesButton(context),
-            saveButton(
+    margin: const EdgeInsets.symmetric(vertical: 20),
+    width: MediaQuery.of(context).size.width,
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        discardChangesButton(context),
+        saveButton(
               () => showAlertDialog(
-                context,
-                "Save changes?",
-                "You're about to change endpoint settings",
+            context,
+            "Save changes?",
+            "You're about to change endpoint settings",
                 () => _saveEditedChanges(context),
-              ),
-            )
-          ],
-        ),
-      );
+          ),
+        )
+      ],
+    ),
+  );
 
   void _saveEditedChanges(BuildContext context) {
     Provider.of<EditEndpointProvider>(context, listen: false)
@@ -324,7 +324,7 @@ class _AdminEditEndpointViewState extends State<AdminEditEndpointView> {
       Navigator.of(context).pop(true);
       return Future.value();
     }).onError(
-      (error, stackTrace) => buildSnackbar(
+          (error, stackTrace) => buildSnackbar(
         "Cannot edit endpoint",
         context,
         duration: 3,

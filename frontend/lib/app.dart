@@ -138,6 +138,8 @@ class _AppState extends State<App> {
     }
 
     final Widget navbar = BottomNavigationBar(
+      showSelectedLabels: true,
+      showUnselectedLabels: true,
       type: BottomNavigationBarType.fixed,
       items: destinations,
       onTap: (index) => setState(() {

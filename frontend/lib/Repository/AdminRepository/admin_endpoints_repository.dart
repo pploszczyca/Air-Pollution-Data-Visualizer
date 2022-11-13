@@ -3,10 +3,10 @@ import 'package:adpv_frontend/DataModels/enable_field.dart';
 import 'package:adpv_frontend/DataModels/field_parser.dart';
 import 'package:adpv_frontend/Repository/AdminRepository/fields_repository.dart';
 import 'package:adpv_frontend/Repository/UserRepository/user_gateway.dart';
+import 'package:adpv_frontend/Repository/rest_client.dart';
 import 'package:dio/dio.dart';
 
 import '../../DataModels/backend_response.dart';
-import '../UserRepository/auth_gateway.dart';
 
 class EndpointAdminField {
   int fieldId;
@@ -57,7 +57,7 @@ class EndpointComplexData {
 }
 
 class AdminEndpointsRepository {
-  Dio _client = Dio();
+  final RestClient _client = RestClient();
   FieldsRepository fieldsRepository = FieldsRepository();
   UserGateway userGateway = UserGateway();
 
@@ -70,14 +70,7 @@ class AdminEndpointsRepository {
   }
 
   Future<List<EndpointAdminData>> getAllEndpoints() async {
-    _client = Dio();
-
-    final AuthResponse authResponse = await userGateway.getFromMemory();
-
-    if (authResponse.success) {
-      final String token = authResponse.tokens!.accessToken;
-      _client.options.headers["Authorization"] = "Bearer $token";
-
+    try {
       final Response response =
           await _client.get(backendURL + "sensor/list/all");
       if (response.statusCode == 200) {
@@ -90,19 +83,14 @@ class AdminEndpointsRepository {
             )
             .toList();
       }
+    } on Error catch (error) {
+      return Future.error("Cannot get all endpoints list:" + error.toString());
     }
     return Future.error("Cannot get all endpoints list");
   }
 
   Future<Map<int, FieldParser>> getAllParsers() async {
-    _client = Dio();
-
-    final AuthResponse authResponse = await userGateway.getFromMemory();
-
-    if (authResponse.success) {
-      final String token = authResponse.tokens!.accessToken;
-      _client.options.headers["Authorization"] = "Bearer $token";
-
+    try {
       final Response response = await _client.get(backendURL + "field/parser");
       if (response.statusCode == 200) {
         final BackendResponse backendResponse =
@@ -112,19 +100,14 @@ class AdminEndpointsRepository {
           for (var e in backendResponse.data) e['id']: FieldParser.fromJson(e)
         };
       }
+    } on Error catch (error) {
+      return Future.error("Cannot get all parsers list:" + error.toString());
     }
     return Future.error("Cannot get all parsers list");
   }
 
   Future<Map<int, EnableField>> getAllFields() async {
-    _client = Dio();
-
-    final AuthResponse authResponse = await userGateway.getFromMemory();
-
-    if (authResponse.success) {
-      final String token = authResponse.tokens!.accessToken;
-      _client.options.headers["Authorization"] = "Bearer $token";
-
+    try {
       final Response response = await _client.get(backendURL + "field");
       if (response.statusCode == 200) {
         final BackendResponse backendResponse =
@@ -134,25 +117,20 @@ class AdminEndpointsRepository {
           for (var e in backendResponse.data) e['id']: EnableField.fromJson(e)
         };
       }
+    } on Error catch (error) {
+      return Future.error("Cannot get all endpoints list:" + error.toString());
     }
     return Future.error("Cannot get all fields list");
   }
 
-  void deleteEndpoint(int endpointId) async {
-    _client = Dio();
-
-    final AuthResponse authResponse = await userGateway.getFromMemory();
-
-    if (authResponse.success) {
-      final String token = authResponse.tokens!.accessToken;
-      _client.options.headers["Authorization"] = "Bearer $token";
-
+  Future<void> deleteEndpoint(int endpointId) async {
+    try {
       await _client.delete(
         backendURL + "sensor",
         queryParameters: {'endpointId': endpointId.toString()},
       );
-    }else {
-      return Future.error("Cannot delete endpoint list");
+    } on Error catch (error) {
+      return Future.error("Cannot delete endpoints:" + error.toString());
     }
   }
 
@@ -163,14 +141,7 @@ class AdminEndpointsRepository {
     String sensorUrl,
     List<Map<String, String>> fieldAndParserKeys,
   ) async {
-    _client = Dio();
-
-    final AuthResponse authResponse = await userGateway.getFromMemory();
-
-    if (authResponse.success) {
-      final String token = authResponse.tokens!.accessToken;
-      _client.options.headers["Authorization"] = "Bearer $token";
-
+    try {
       final Response response = await _client.put(
         backendURL + "sensor",
         data: {
@@ -188,6 +159,8 @@ class AdminEndpointsRepository {
           EndpointAdminData.fromJson(Map.from(backendResponse.data)),
         );
       }
+    } on Error catch (error) {
+      return Future.error("Cannot get all endpoints list:" + error.toString());
     }
     return Future.error("Cannot update endpoint");
   }

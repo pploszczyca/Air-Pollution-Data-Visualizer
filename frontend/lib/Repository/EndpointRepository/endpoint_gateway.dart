@@ -18,8 +18,8 @@ class EndpointGateway {
       endpointCache.clearEndpointDataCache();
       return endpointCache.getEndpointSummary();
     }
-    final List<EndpointSummary> summary = await restRepository
-        .getEndpointSummaryList(userGateway.user.tokenResponse.accessToken);
+    final List<EndpointSummary> summary =
+        await restRepository.getEndpointSummaryList();
 
     endpointCache.saveEndpointSummary(summary);
     return summary;
@@ -50,7 +50,6 @@ class EndpointGateway {
       id,
       limit,
       offset,
-      userGateway.user.tokenResponse.accessToken,
     );
     endpointDataFuture.then((value) {
       endpointCache.saveEndpoint(id, value);

@@ -4,11 +4,9 @@ import 'package:dio/dio.dart';
 
 import '../../Common/urls.dart';
 import '../../DataModels/backend_response.dart';
-import '../UserRepository/user_gateway.dart';
 
 class FieldsRepository {
   final RestClient _client = RestClient();
-  UserGateway userGateway = UserGateway();
 
   FieldsRepository();
 

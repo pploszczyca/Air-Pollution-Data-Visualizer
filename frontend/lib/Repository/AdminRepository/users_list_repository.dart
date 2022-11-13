@@ -3,8 +3,6 @@ import 'package:adpv_frontend/Repository/EndpointRepository/endpoint_rest_reposi
 import 'package:adpv_frontend/Repository/rest_client.dart';
 import 'package:dio/dio.dart';
 
-import '../UserRepository/user_gateway.dart';
-
 class UserGroups {
   int id;
   String name;
@@ -36,7 +34,6 @@ class UserListData {
 
 class UsersListRepository {
   final RestClient _client = RestClient();
-  UserGateway userGateway = UserGateway();
 
   Future<List<UserListData>> getAllUsers() async {
     try {

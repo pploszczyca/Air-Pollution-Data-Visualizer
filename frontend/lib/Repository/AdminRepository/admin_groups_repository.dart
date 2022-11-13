@@ -6,12 +6,10 @@ import '../../DataModels/backend_response.dart';
 import '../../DataModels/group_endpoints.dart';
 import '../../DataModels/group_summary.dart';
 import '../../DataModels/user_summary.dart';
-import '../UserRepository/user_gateway.dart';
 import '../rest_client.dart';
 
 class AdminGroupsRepository {
   final RestClient _client = RestClient();
-  UserGateway userGateway = UserGateway();
 
   AdminGroupsRepository();
 

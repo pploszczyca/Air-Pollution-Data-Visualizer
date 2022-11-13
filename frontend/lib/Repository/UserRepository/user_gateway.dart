@@ -16,7 +16,10 @@ class UserGateway {
   FlutterSecureStorage secureStorage = const FlutterSecureStorage();
   User user = User.empty();
 
-  bool isAdmin() => user.userRoles.contains(UserRole.admin);
+  Future<bool> isAdmin() async {
+    await getFromMemory();
+    return user.userRoles.contains(UserRole.admin);
+  }
 
   Future<AuthResponse> getFromMemory() async {
     String? access = await secureStorage.read(key: accessKey);

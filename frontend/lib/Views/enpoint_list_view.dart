@@ -29,6 +29,8 @@ class EndpointListView extends StatefulWidget {
 }
 
 class _EndpointListViewState extends State<EndpointListView> {
+
+  late Future<List<EndpointSummary>> future;
   void onTapHandler(int id, EndpointGateway endpointGateway) {
     Navigator.push(
       context,
@@ -37,6 +39,13 @@ class _EndpointListViewState extends State<EndpointListView> {
             EndpointView(endpointId: id, endpointGateway: endpointGateway),
       ),
     );
+  }
+
+
+  @override
+  void initState() {
+    super.initState();
+    future = widget.gateway.getEndpointSummary();
   }
 
   @override
@@ -65,7 +74,7 @@ class _EndpointListViewState extends State<EndpointListView> {
       );
 
   FutureBuilder _buildBody() => FutureBuilder<List<EndpointSummary>>(
-        future: widget.gateway.getEndpointSummary(),
+        future: future,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.none ||
               snapshot.data == null) {
@@ -109,8 +118,14 @@ class _EndpointListViewState extends State<EndpointListView> {
         ),
       );
 
-  Card _buildEndpointCard(ExpansionPanelEndpoint expansionPanelEndpoint) =>
-      Card(
+  Card _buildEndpointCard(ExpansionPanelEndpoint expansionPanelEndpoint) {
+    final Future<EndpointData> dataFuture = widget.gateway.getEndpointData(
+      expansionPanelEndpoint.id,
+      null,
+      null,
+      true,
+    );
+    return Card(
         margin: const EdgeInsets.only(top: 10, bottom: 10),
         shadowColor: Colors.transparent,
         child: ExpansionTile(
@@ -119,12 +134,7 @@ class _EndpointListViewState extends State<EndpointListView> {
           childrenPadding: const EdgeInsets.all(0),
           children: <Widget>[
             FutureBuilder<EndpointData>(
-              future: widget.gateway.getEndpointData(
-                expansionPanelEndpoint.id,
-                null,
-                null,
-                true,
-              ),
+              future: dataFuture,
               builder: (context, recentDataSnapshot) {
                 if (recentDataSnapshot.connectionState ==
                         ConnectionState.none ||
@@ -187,6 +197,7 @@ class _EndpointListViewState extends State<EndpointListView> {
           ],
         ),
       );
+  }
 
   Container _buildLabelButton(ExpansionPanelEndpoint expansionPanelEndpoint) =>
       Container(

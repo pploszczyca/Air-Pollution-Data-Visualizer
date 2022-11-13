@@ -1,4 +1,3 @@
-import 'package:adpv_frontend/DataModels/endpoint_summary.dart';
 import 'package:adpv_frontend/Repository/EndpointRepository/endpoint_gateway.dart';
 import 'package:adpv_frontend/Repository/UserRepository/user_gateway.dart';
 import 'package:adpv_frontend/Widgets/common_widgets.dart';
@@ -23,11 +22,13 @@ const int adminIcon = 0xe062;
 class App extends StatefulWidget {
   final EndpointGateway endpointGateway;
   final UserGateway userGateway;
+  final Future<bool> isAdmin;
   final AdminGateway adminGateway = AdminGateway();
 
   App({
     required this.endpointGateway,
     required this.userGateway,
+    required this.isAdmin,
     Key? key,
   }) : super(key: key);
 
@@ -53,29 +54,29 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     final MediaQueryData queryData = MediaQuery.of(context);
 
-    return FutureBuilder<List<EndpointSummary>>(
-      future: widget.endpointGateway.getEndpointSummary(),
+    return FutureBuilder<bool>(
+      future: widget.isAdmin,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.none ||
             snapshot.data == null) {
           return loadingInCenter();
         } else {
           return queryData.size.width > 560
-              ? _buildRailNavigationScaffold()
-              : _buildBottomNavigationScaffold();
+              ? _buildRailNavigationScaffold(snapshot.data!)
+              : _buildBottomNavigationScaffold(snapshot.data!);
         }
       },
     );
   }
 
-  Scaffold _buildRailNavigationScaffold() {
+  Scaffold _buildRailNavigationScaffold(bool isAdmin) {
     final List<NavigationRailDestination> destinations = [
       _buildRailNavigationItem(endpointList, endpointListIcon),
       _buildRailNavigationItem(compareEndpoints, compareEndpointsIcon),
       _buildRailNavigationItem(profile, profileIcon),
     ];
 
-    if (widget.userGateway.isAdmin()) {
+    if (isAdmin) {
       destinations.add(_buildRailNavigationItem(admin, adminIcon));
       _navigationOptions.add(const AdminMainView());
     }
@@ -117,7 +118,7 @@ class _AppState extends State<App> {
     );
   }
 
-  Scaffold _buildBottomNavigationScaffold() {
+  Scaffold _buildBottomNavigationScaffold(bool isAdmin) {
     final List<BottomNavigationBarItem> destinations = [
       _buildNavigationItem(endpointList, const Icon(Icons.map_outlined)),
       _buildNavigationItem(
@@ -127,7 +128,7 @@ class _AppState extends State<App> {
       _buildNavigationItem(profile, const Icon(Icons.person_outline)),
     ];
 
-    if (widget.userGateway.isAdmin()) {
+    if (isAdmin) {
       destinations.add(
         _buildNavigationItem(
           admin,

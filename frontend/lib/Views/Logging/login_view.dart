@@ -412,6 +412,7 @@ class _LoginViewState extends State<LoginView>
         context,
         MaterialPageRoute(
           builder: (BuildContext context) => App(
+            isAdmin: widget.userGateway.isAdmin(),
             endpointGateway: EndpointGateway(widget.userGateway),
             userGateway: widget.userGateway,
           ),

@@ -22,6 +22,8 @@ class MyApp extends StatelessWidget {
 
   void onError() {}
 
+  late final Future<bool> future = userGateway.isMemoryTokenValid();
+
   @override
   Widget build(BuildContext context) => MaterialApp(
         title: 'APDV Demo',
@@ -29,13 +31,14 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         home: FutureBuilder(
-          future: userGateway.isMemoryTokenValid(),
+          future: future,
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return loadingInCenter();
             }
             if (snapshot.data == true) {
               return App(
+                isAdmin: userGateway.isAdmin(),
                 userGateway: userGateway,
                 endpointGateway: EndpointGateway(userGateway),
               );

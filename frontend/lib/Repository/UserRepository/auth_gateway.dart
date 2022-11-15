@@ -36,15 +36,15 @@ class AuthGetaway {
     }
   }
 
-  //for future use
-  Future<AuthResponse> refreshToken() async {
+  Future<AuthResponse> refreshToken(String refreshToken) async {
     try {
+      _client.options.headers["Authorization"] = "Bearer $refreshToken";
       final response = await _client.post(backendURL + refreshTokenURL);
       return AuthResponse(
         success: true,
         tokens: AuthTokenResponse(
-          accessToken: response.data['accessToken'],
-          refreshToken: response.data['refreshToken'],
+          accessToken: response.data['data']['accessToken'],
+          refreshToken: response.data['data']['refreshToken'],
         ),
       );
     } on DioError catch (error) {

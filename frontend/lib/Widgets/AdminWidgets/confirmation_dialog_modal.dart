@@ -11,7 +11,7 @@ void showAlertDialog(
 ) {
   void onProceedPressed() {
     onAcceptFunction();
-    Navigator.of(context).pop();
+    Navigator.of(context).pop(true);
   }
 
   final Widget continueButton = ElevatedButton(

@@ -1,9 +1,9 @@
-import 'package:adpv_frontend/Models/all_users_list_provider.dart';
 import 'package:adpv_frontend/Views/AdminPage/users/edit_user_roles_dialog.dart';
 import 'package:adpv_frontend/Widgets/common_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../Providers/all_users_list_provider.dart';
 import '../../../Repository/AdminRepository/admin_users_repository.dart';
 import '../../../Widgets/AdminWidgets/admin_app_bar.dart';
 import '../../../Widgets/AdminWidgets/admin_buttons.dart';
@@ -31,7 +31,7 @@ class _AllUsersViewState extends State<AllUsersView> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: adminAppBar("Admin panel", "Users list"),
+        appBar: adminAppBar("Administrator panel", "Users list"),
         body: _buildBody(),
       );
 

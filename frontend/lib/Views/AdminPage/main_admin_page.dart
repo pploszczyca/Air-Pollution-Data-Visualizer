@@ -1,4 +1,3 @@
-import 'package:adpv_frontend/Views/AdminPage/endpoints/all_endpoints_view.dart';
 import 'package:adpv_frontend/Views/AdminPage/fields/fields_list_view.dart';
 import 'package:adpv_frontend/Views/AdminPage/groups/groups_view.dart';
 import 'package:adpv_frontend/Views/AdminPage/users/all_users_view.dart';
@@ -6,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import '../../Widgets/AdminWidgets/admin_app_bar.dart';
 import '../../Widgets/AdminWidgets/admin_styles.dart';
+import 'endpoints/admin_all_endpoints_view.dart';
 
 class AdminMainView extends StatelessWidget {
   const AdminMainView({Key? key}) : super(key: key);
@@ -16,7 +16,7 @@ class AdminMainView extends StatelessWidget {
         body: _buildBody(context),
       );
 
-  PreferredSize _buildAppBar() => adminAppBar("Adminin panel", "");
+  PreferredSize _buildAppBar() => adminAppBar("Administrator panel", "");
 
   Column _buildBody(BuildContext context) => Column(
         mainAxisSize: MainAxisSize.max,
@@ -114,7 +114,7 @@ class AdminMainView extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AllEndpointsView(),
+        builder: (context) => AdminAllEndpointsView(),
       ),
     );
   }

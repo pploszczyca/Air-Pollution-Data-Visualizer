@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:adpv_frontend/DataModels/User/auth_token_response.dart';
 import 'package:adpv_frontend/DataModels/User/user.dart';
 import 'package:adpv_frontend/Repository/UserRepository/auth_gateway.dart';
@@ -14,19 +16,29 @@ class UserGateway {
   FlutterSecureStorage secureStorage = const FlutterSecureStorage();
   User user = User.empty();
 
-  bool isAdmin() => user.userRoles.contains(UserRole.admin);
-
-  void refreshToken() async {
-    await authGetaway
-        .refreshToken()
-        .then((value) => user = User(value.tokens!));
+  Future<bool> isAdmin() async {
+    await getFromMemory();
+    return user.userRoles.contains(UserRole.admin);
   }
 
   Future<AuthResponse> getFromMemory() async {
-    final String? access = await secureStorage.read(key: accessKey);
-    final String? refresh = await secureStorage.read(key: refreshKey);
+    String? access = await secureStorage.read(key: accessKey);
+    String? refresh = await secureStorage.read(key: refreshKey);
 
     if (access != null && refresh != null) {
+      if (!isTokenValid(access)) {
+        final AuthResponse response = await authGetaway.refreshToken(refresh);
+        if (response.success) {
+          unawaited(saveTokens(response));
+          access = response.tokens!.accessToken;
+          refresh = response.tokens!.refreshToken;
+        } else {
+          return AuthResponse(
+            success: false,
+            errorMessage: "Cannot refresh token",
+          );
+        }
+      }
       final AuthTokenResponse tokenResponse =
           AuthTokenResponse(accessToken: access, refreshToken: refresh);
       user = User(tokenResponse);
@@ -41,6 +53,11 @@ class UserGateway {
   Future<AuthResponse> authenticateUser(AuthenticateForm form) async {
     final AuthResponse response = await authGetaway.authenticateUser(form);
     user = response.success ? User(response.tokens!) : User.empty();
+    await saveTokens(response);
+    return response;
+  }
+
+  Future<void> saveTokens(AuthResponse response) async {
     if (response.success) {
       await secureStorage.write(
         key: accessKey,
@@ -51,8 +68,9 @@ class UserGateway {
         value: response.tokens!.refreshToken,
       );
     }
-    return response;
   }
+
+  bool isTokenValid(String token)=> !Jwt.isExpired(token);
 
   Future<bool> isMemoryTokenValid() async {
     final AuthResponse tokenResponse = await getFromMemory();

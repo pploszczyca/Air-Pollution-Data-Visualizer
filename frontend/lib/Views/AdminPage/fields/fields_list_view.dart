@@ -1,10 +1,10 @@
-import 'package:adpv_frontend/Models/fields_list_provider.dart';
 import 'package:adpv_frontend/Views/AdminPage/fields/show_add_field_modal.dart';
 import 'package:adpv_frontend/Widgets/common_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../DataModels/field_data.dart';
+import '../../../Providers/fields_list_provider.dart';
 import '../../../Repository/AdminRepository/fields_repository.dart';
 import '../../../Widgets/AdminWidgets/admin_app_bar.dart';
 import '../../../Widgets/AdminWidgets/admin_buttons.dart';
@@ -35,52 +35,52 @@ class _FieldsListViewState extends State<FieldsListView> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: adminAppBar("Admin panel", "Users list"),
-        body: _buildBody(),
-        floatingActionButton: _buildAddButton(),
-      );
+    appBar: adminAppBar("Admin panel", "Users list"),
+    body: _buildBody(),
+    floatingActionButton: _buildAddButton(),
+  );
 
   Widget _buildBody() => FutureBuilder<List<FieldData>>(
-        future: fields,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState != ConnectionState.done) {
-            return loadingInCenter();
-          } else {
-            return ChangeNotifierProvider(
-              create: (context) => provider = FieldsListProvider(fields),
-              child: Consumer<FieldsListProvider>(
-                builder: (context, provider, _) => RefreshIndicator(
-                  onRefresh: () => _onPullDownRefresh(provider),
-                  child: Column(
-                    children: [
-                      buildSortBar(
-                        provider.sortingModel,
+    future: fields,
+    builder: (context, snapshot) {
+      if (snapshot.connectionState != ConnectionState.done) {
+        return loadingInCenter();
+      } else {
+        return ChangeNotifierProvider(
+          create: (context) => provider = FieldsListProvider(fields),
+          child: Consumer<FieldsListProvider>(
+            builder: (context, provider, _) => RefreshIndicator(
+              onRefresh: () => _onPullDownRefresh(provider),
+              child: Column(
+                children: [
+                  buildSortBar(
+                    provider.sortingModel,
                         () => provider.notify(),
-                        provider.fieldsList,
-                        provider.getters,
-                      ),
-                      Expanded(
-                        child: _buildList(provider),
-                      ),
-                    ],
+                    provider.fieldsList,
+                    provider.getters,
                   ),
-                ),
+                  Expanded(
+                    child: _buildList(provider),
+                  ),
+                ],
               ),
-            );
-          }
-        },
-      );
+            ),
+          ),
+        );
+      }
+    },
+  );
 
   ListView _buildList(FieldsListProvider provider) => ListView(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 20,
-        ),
-        children: provider.fieldsList.map(_buildCard).toList(),
-      );
+    padding: const EdgeInsets.symmetric(
+      horizontal: 20,
+    ),
+    children: provider.fieldsList.map(_buildCard).toList(),
+  );
 
   Card _buildCard(
-    FieldData fieldData,
-  ) =>
+      FieldData fieldData,
+      ) =>
       Card(
         margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         shadowColor: Colors.black,
@@ -133,37 +133,37 @@ class _FieldsListViewState extends State<FieldsListView> {
             ),
             fieldData.unit.id != -1
                 ? buildInfoContainer(
-                    "Unit",
-                    fieldData.unit.name,
-                    MediaQuery.of(context).size.width,
-                  )
+              "Unit",
+              fieldData.unit.name,
+              MediaQuery.of(context).size.width,
+            )
                 : Container(),
             buildDeleteEditButtonRow(
-              () => _onDeletePressed(fieldData),
-              () => _onEditPressed(fieldData),
+                  () => _onDeletePressed(fieldData),
+                  () => _onEditPressed(fieldData),
             ),
           ],
         ),
       );
 
   FloatingActionButton _buildAddButton() => FloatingActionButton(
-        onPressed: () => showAddFieldModal(
-          context,
-          widget.repository,
-          addField,
-          false,
-          null,
-        ),
-        backgroundColor: adminGreenColor,
-        child: const Icon(Icons.add),
-      );
+    onPressed: () => showAddFieldModal(
+      context,
+      widget.repository,
+      addField,
+      false,
+      null,
+    ),
+    backgroundColor: adminGreenColor,
+    child: const Icon(Icons.add),
+  );
 
   void _onDeletePressed(FieldData fieldData) {
     showAlertDialog(
       context,
       'Delete ' + fieldData.name,
       "You are about to delete group with all of its' saved permissions.",
-      () => deleteField(fieldData.id),
+          () => deleteField(fieldData.id),
     );
   }
 
@@ -178,25 +178,25 @@ class _FieldsListViewState extends State<FieldsListView> {
   }
 
   void editField(
-    int id,
-    String fieldName,
-    String unitName,
-    FieldType fieldType,
-  ) async {
+      int id,
+      String fieldName,
+      String unitName,
+      FieldType fieldType,
+      ) async {
     await widget.repository
         .editField(id, fieldName, unitName, fieldType)
         .then(
           (newField) => {
-            provider.editField(newField),
-            buildSnackbar(
-              "Field edited",
-              context,
-              duration: 3,
-              color: adminGreenColor,
-              height: 65,
-            )
-          },
+        provider.editField(newField),
+        buildSnackbar(
+          "Field edited",
+          context,
+          duration: 3,
+          color: adminGreenColor,
+          height: 65,
         )
+      },
+    )
         .catchError((error) {
       buildSnackbar(
         'Cannot add field',
@@ -212,19 +212,19 @@ class _FieldsListViewState extends State<FieldsListView> {
         .deleteField(id)
         .then(
           (value) => {
-            if (value)
-              {
-                provider.delete(id),
-                buildSnackbar(
-                  "Field deleted",
-                  context,
-                  duration: 3,
-                  color: adminGreenColor,
-                  height: 65,
-                )
-              }
-          },
-        )
+        if (value)
+          {
+            provider.delete(id),
+            buildSnackbar(
+              "Field deleted",
+              context,
+              duration: 3,
+              color: adminGreenColor,
+              height: 65,
+            )
+          }
+      },
+    )
         .catchError((error) {
       buildSnackbar(
         'Cannot delete field',
@@ -236,25 +236,25 @@ class _FieldsListViewState extends State<FieldsListView> {
   }
 
   void addField(
-    int? id,
-    String fieldName,
-    String unitName,
-    FieldType fieldType,
-  ) async {
+      int? id,
+      String fieldName,
+      String unitName,
+      FieldType fieldType,
+      ) async {
     await widget.repository
         .addField(fieldName, unitName, fieldType)
         .then(
           (newField) => {
-            provider.addNewField(newField),
-            buildSnackbar(
-              "Field added",
-              context,
-              duration: 3,
-              color: adminGreenColor,
-              height: 65,
-            )
-          },
+        provider.addNewField(newField),
+        buildSnackbar(
+          "Field added",
+          context,
+          duration: 3,
+          color: adminGreenColor,
+          height: 65,
         )
+      },
+    )
         .catchError((error) {
       buildSnackbar(
         'Cannot add field',

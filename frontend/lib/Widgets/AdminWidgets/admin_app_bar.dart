@@ -30,7 +30,9 @@ PreferredSize adminAppBar(String upperText, String bottomText) => PreferredSize(
             child: Text(
               bottomText,
               style: const TextStyle(
-                  fontSize: 25, color: Color.fromRGBO(128, 128, 128, 1)),
+                fontSize: 25,
+                color: Color.fromRGBO(128, 128, 128, 1),
+              ),
               textAlign: TextAlign.center,
             ),
           ),

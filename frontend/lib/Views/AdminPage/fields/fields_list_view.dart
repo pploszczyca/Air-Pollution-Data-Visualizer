@@ -178,14 +178,32 @@ class _FieldsListViewState extends State<FieldsListView> {
   }
 
   void editField(
-      int id, String fieldName, String unitName, FieldType fieldType) async {
+    int id,
+    String fieldName,
+    String unitName,
+    FieldType fieldType,
+  ) async {
     await widget.repository
         .editField(id, fieldName, unitName, fieldType)
         .then(
-          (newField) => provider.editField(newField),
+          (newField) => {
+            provider.editField(newField),
+            buildSnackbar(
+              "Field edited",
+              context,
+              duration: 3,
+              color: adminGreenColor,
+              height: 65,
+            )
+          },
         )
         .catchError((error) {
-      buildSnackbar('Cannot add field', context);
+      buildSnackbar(
+        'Cannot add field',
+        context,
+        duration: 10,
+        height: 65,
+      );
     });
   }
 
@@ -197,23 +215,53 @@ class _FieldsListViewState extends State<FieldsListView> {
             if (value)
               {
                 provider.delete(id),
+                buildSnackbar(
+                  "Field deleted",
+                  context,
+                  duration: 3,
+                  color: adminGreenColor,
+                  height: 65,
+                )
               }
           },
         )
         .catchError((error) {
-      buildSnackbar('Cannot delete field', context);
+      buildSnackbar(
+        'Cannot delete field',
+        context,
+        duration: 10,
+        height: 65,
+      );
     });
   }
 
   void addField(
-      int? id, String fieldName, String unitName, FieldType fieldType) async {
+    int? id,
+    String fieldName,
+    String unitName,
+    FieldType fieldType,
+  ) async {
     await widget.repository
         .addField(fieldName, unitName, fieldType)
         .then(
-          (newField) => provider.addNewField(newField),
+          (newField) => {
+            provider.addNewField(newField),
+            buildSnackbar(
+              "Field added",
+              context,
+              duration: 3,
+              color: adminGreenColor,
+              height: 65,
+            )
+          },
         )
         .catchError((error) {
-      buildSnackbar('Cannot add field', context);
+      buildSnackbar(
+        'Cannot add field',
+        context,
+        duration: 10,
+        height: 65,
+      );
     });
   }
 

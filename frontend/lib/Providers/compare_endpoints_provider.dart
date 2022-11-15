@@ -38,7 +38,7 @@ class CompareEndpointsModel extends ChangeNotifier {
   }
 
   void updateCommonFields() {
-    if (endpointsMap.isNotEmpty) {
+    if (endpointsMap.isNotEmpty && selectedEndpoints.isNotEmpty) {
       final Map<String, int> counter = {};
       final List fields =
           endpointsMap[selectedEndpoints[0]]!.data.dataList[0].keys.toList();
@@ -97,6 +97,9 @@ class CompareEndpointsModel extends ChangeNotifier {
   List<Endpoint> getEndpointsForDrawing() {
     final List<Endpoint> result = [];
     for (String selected in selectedEndpoints) {
+      if(endpointsMap[selected] == null || endpointsMap[selected]!.data.isEmpty()){
+        return List.empty();
+      }
       if (endpointsMap[selected] != null) {
         result.add(endpointsMap[selected]!);
       }

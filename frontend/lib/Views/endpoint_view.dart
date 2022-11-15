@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../DataModels/endpoint_data.dart';
 import '../Providers/endpoint_view_provider.dart';
 import '../Repository/UserRepository/user_gateway.dart';
+import '../Widgets/AdminWidgets/admin_styles.dart';
 import '../Widgets/EndpointView/endpoint_info_table.dart';
 import '../Widgets/EndpointView/titled_line_chart.dart';
 import '../Widgets/common_widgets.dart';
@@ -65,8 +66,8 @@ TabBar _buildTabBar(
 
 class _EndpointViewState extends State<EndpointView> {
   late Future<EndpointData> endpointData = widget.endpointGateway
-      .getEndpointData(widget.endpointId, null, null, true)
-      .onError(onError);
+      .getEndpointData(widget.endpointId, null, null, true);
+    //  .onError(onError);
 
   FutureOr<EndpointData> onError<E extends Object>(
     E error,
@@ -90,6 +91,25 @@ class _EndpointViewState extends State<EndpointView> {
               body: loadingInCenter(),
             );
           } else {
+            if (snapshot.data!.isEmpty() || snapshot.hasError) {
+              return Scaffold(
+                appBar: buildFancyAppBar(appBarLabel),
+                body: WillPopScope(
+                  onWillPop: () async {
+                    Navigator.of(context).pop(true);
+                    return true;
+                  },
+                  child: Center(
+                    child: Flexible(
+                      child: Text(
+                        "This resource is no longer available",
+                        style: defaultAdminTextStyle,
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            }
             return Scaffold(
               appBar: buildFancyAppBar(appBarLabel),
               body: Container(

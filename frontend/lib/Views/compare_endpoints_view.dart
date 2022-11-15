@@ -11,6 +11,8 @@ import '../DataModels/endpoint.dart';
 import '../DataModels/endpoint_data.dart';
 import '../DataModels/endpoint_summary.dart';
 import '../Providers/compare_endpoints_provider.dart';
+import '../Widgets/AdminWidgets/admin_styles.dart';
+import '../Widgets/AdminWidgets/confirmation_dialog_modal.dart';
 import '../Widgets/common_widgets.dart';
 
 class CompareChartsView extends StatefulWidget {
@@ -26,11 +28,19 @@ class _CompareChartsViewState extends State<CompareChartsView> {
   Widget chart = Container();
   late CompareEndpointsModel model =
       CompareEndpointsModel(widget.endpointGateway, onError);
+  late Future<List<EndpointSummary>> endpointSummary =
+      widget.endpointGateway.getEndpointSummary(needUpdate: true);
 
   // ignore: always_declare_return_types
   _pullDownRefresh() async {
-    widget.endpointGateway.clearEndpointDataCache();
-    model.clear();
+    endpointSummary = widget.endpointGateway
+        .getEndpointSummary(needUpdate: true)
+        .then((value) {
+      widget.endpointGateway.clearEndpointDataCache();
+      model.clear();
+      setState(() {});
+      return value;
+    });
   }
 
   FutureOr<EndpointData> onError<E extends Object>(
@@ -55,7 +65,7 @@ class _CompareChartsViewState extends State<CompareChartsView> {
               height: MediaQuery.of(context).size.height,
               decoration: buildBackgroundBoxDecoration(),
               child: FutureBuilder<List<EndpointSummary>>(
-                future: widget.endpointGateway.getEndpointSummary(),
+                future: endpointSummary,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.none ||
                       snapshot.data == null) {
@@ -76,11 +86,30 @@ class _CompareChartsViewState extends State<CompareChartsView> {
                           ),
                           const SizedBox(height: 10),
                           Consumer<CompareEndpointsModel>(
-                            builder: (context, endpointModel, child) {
-                              chart = _createChart(endpointModel);
-                              return chart;
-                            },
+                            builder: (context, endpointModel, child) =>
+                                _createChart(endpointModel),
                           ),
+                          Center(
+                            child: Flexible(
+                              child: TextButton(
+                                onPressed: () => showAlertDialog(
+                                  context,
+                                  "Reload resources?",
+                                  "You're about to reload page content. This action may affect endpoints visibility.",
+                                  () async => await _pullDownRefresh(),
+                                ),
+                                child: Text(
+                                  "Pull down or tap to refresh available endpoints",
+                                  textAlign: TextAlign.center,
+                                  style: defaultAdminTextStyle.copyWith(
+                                    color: Colors.white,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
                         ],
                       ),
                     );
@@ -161,10 +190,14 @@ class _CompareChartsViewState extends State<CompareChartsView> {
     final List<Endpoint> endpoints = endpointModel.getEndpointsForDrawing();
     final List<String> fields = endpointModel.getFieldsForDrawing();
 
-    return Column(
-      children: fields
-          .map((field) => MultiDataChart(field: field, endpoints: endpoints))
-          .toList(),
-    );
+    if (endpoints.where((element) => element.data.isEmpty()).isEmpty &&
+        endpoints.isNotEmpty) {
+      return Column(
+        children: fields
+            .map((field) => MultiDataChart(field: field, endpoints: endpoints))
+            .toList(),
+      );
+    }
+    return Column();
   }
 }

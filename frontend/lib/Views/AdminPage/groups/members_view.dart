@@ -61,8 +61,7 @@ class _MembersViewState extends State<MembersView> {
   Widget build(BuildContext context) => ChangeNotifierProvider(
         create: (context) => membersListProvider,
         child: RefreshIndicator(
-          onRefresh: () =>
-              widget.gateway.getGroupData(widget.groupId).onError(onError),
+          onRefresh: _refresh,
           child: Scaffold(
             appBar: adminAppBar(
               "Administrator panel",
@@ -83,6 +82,7 @@ class _MembersViewState extends State<MembersView> {
           } else {
             membersListProvider.makeMemberList(snapshot.data!);
             return SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
               controller: ScrollController(),
               child: Consumer<MembersListProvider>(
                 builder: (context, __, _) => Column(
@@ -217,8 +217,10 @@ class _MembersViewState extends State<MembersView> {
                   if (addMemberResponse)
                     {
                       widget.gateway.getGroupData(widget.groupId).then(
-                            (value) =>
-                                membersListProvider.makeMemberList(value),
+                            (value) => {
+                              membersListProvider.makeMemberList(value),
+                              membersListProvider.notify()
+                            },
                           )
                     }
                 },
@@ -235,4 +237,11 @@ class _MembersViewState extends State<MembersView> {
   Future<UserSummary> getUserFromEmail(email) async => widget.gateway
       .getMembersNotInGroup(widget.groupId)
       .then((users) => users.firstWhere((user) => user.email == email));
+
+  Future<void> _refresh() async {
+    membersListProvider.makeMemberList(
+      await widget.gateway.getGroupData(widget.groupId).onError(onError),
+    );
+    membersListProvider.notify();
+  }
 }

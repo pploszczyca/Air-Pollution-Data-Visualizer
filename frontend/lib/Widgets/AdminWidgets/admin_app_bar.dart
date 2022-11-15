@@ -26,9 +26,12 @@ PreferredSize adminAppBar(String upperText, String bottomText) => PreferredSize(
           preferredSize: const Size.fromHeight(20),
           child: Container(
             padding: const EdgeInsets.only(bottom: 10, top: 5),
+            alignment: Alignment.center,
             child: Text(
               bottomText,
-              style: const TextStyle(fontSize: 25),
+              style: const TextStyle(
+                  fontSize: 25, color: Color.fromRGBO(128, 128, 128, 1)),
+              textAlign: TextAlign.center,
             ),
           ),
         ),

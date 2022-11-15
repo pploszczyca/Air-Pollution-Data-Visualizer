@@ -29,8 +29,8 @@ class EndpointListView extends StatefulWidget {
 }
 
 class _EndpointListViewState extends State<EndpointListView> {
-
   late Future<List<EndpointSummary>> future;
+
   void onTapHandler(int id, EndpointGateway endpointGateway) {
     Navigator.push(
       context,
@@ -40,7 +40,6 @@ class _EndpointListViewState extends State<EndpointListView> {
       ),
     );
   }
-
 
   @override
   void initState() {
@@ -86,6 +85,7 @@ class _EndpointListViewState extends State<EndpointListView> {
             child: SingleChildScrollView(
               controller: ScrollController(),
               child: Container(
+                height: MediaQuery.of(context).size.height,
                 padding:
                     EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
                 decoration: buildBackgroundBoxDecoration(),
@@ -110,7 +110,6 @@ class _EndpointListViewState extends State<EndpointListView> {
       Container(
         margin: const EdgeInsets.only(left: 10, right: 10),
         child: ListView.builder(
-          controller: ScrollController(),
           shrinkWrap: true,
           itemCount: endpointListProvider.endpointsList.length,
           itemBuilder: (context, i) =>
@@ -126,77 +125,75 @@ class _EndpointListViewState extends State<EndpointListView> {
       true,
     );
     return Card(
-        margin: const EdgeInsets.only(top: 10, bottom: 10),
-        shadowColor: Colors.transparent,
-        child: ExpansionTile(
-          title: _buildLabelButton(expansionPanelEndpoint),
-          tilePadding: const EdgeInsets.all(20),
-          childrenPadding: const EdgeInsets.all(0),
-          children: <Widget>[
-            FutureBuilder<EndpointData>(
-              future: dataFuture,
-              builder: (context, recentDataSnapshot) {
-                if (recentDataSnapshot.connectionState ==
-                        ConnectionState.none ||
-                    recentDataSnapshot.data == null) {
-                  return loadingInCenter();
-                } else {
-                  // line below temporary fixes always loading everything problem
-                  expansionPanelEndpoint.setRecentData(
-                    EndpointData(
-                      recentDataSnapshot.data!.dataList,
-                      recentDataSnapshot.data!.technicalInfo,
-                      recentDataSnapshot.data!.enableFieldsList,
+      margin: const EdgeInsets.only(top: 10, bottom: 10),
+      shadowColor: Colors.transparent,
+      child: ExpansionTile(
+        title: _buildLabelButton(expansionPanelEndpoint),
+        tilePadding: const EdgeInsets.all(20),
+        childrenPadding: const EdgeInsets.all(0),
+        children: <Widget>[
+          FutureBuilder<EndpointData>(
+            future: dataFuture,
+            builder: (context, recentDataSnapshot) {
+              if (recentDataSnapshot.connectionState == ConnectionState.none ||
+                  recentDataSnapshot.data == null) {
+                return loadingInCenter();
+              } else {
+                // line below temporary fixes always loading everything problem
+                expansionPanelEndpoint.setRecentData(
+                  EndpointData(
+                    recentDataSnapshot.data!.dataList,
+                    recentDataSnapshot.data!.technicalInfo,
+                    recentDataSnapshot.data!.enableFieldsList,
+                  ),
+                );
+                return ListView.builder(
+                  padding: const EdgeInsets.only(top: 10),
+                  shrinkWrap: true,
+                  itemCount: expansionPanelEndpoint.fields.length,
+                  itemBuilder: (context, i) => Container(
+                    decoration: BoxDecoration(
+                      borderRadius: basicBorderRadius,
+                      color: Colors.white,
                     ),
-                  );
-                  return ListView.builder(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    padding: const EdgeInsets.only(top: 10),
-                    shrinkWrap: true,
-                    itemCount: expansionPanelEndpoint.fields.length,
-                    itemBuilder: (context, i) => Container(
-                      decoration: BoxDecoration(
-                        borderRadius: basicBorderRadius,
-                        color: Colors.white,
-                      ),
-                      height: 70,
-                      margin: const EdgeInsets.only(
-                        left: 0,
-                        top: 10,
-                        right: 0,
-                        bottom: 10,
-                      ),
-                      padding: const EdgeInsets.all(17),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: Text(
-                              expansionPanelEndpoint.fields[i],
-                              textAlign: TextAlign.left,
-                              style: endpointDataTextStyle,
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              expansionPanelEndpoint.recentData[
-                                          expansionPanelEndpoint.fields[i]]
-                                      .toStringAsFixed(2) +
-                                  spacer +
-                                  expansionPanelEndpoint.units[i].name,
-                              textAlign: TextAlign.right,
-                              style: endpointDataTextStyle,
-                            ),
-                          ),
-                        ],
-                      ),
+                    height: 70,
+                    margin: const EdgeInsets.only(
+                      left: 0,
+                      top: 10,
+                      right: 0,
+                      bottom: 10,
                     ),
-                  );
-                }
-              },
-            )
-          ],
-        ),
-      );
+                    padding: const EdgeInsets.all(17),
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Text(
+                            expansionPanelEndpoint.fields[i],
+                            textAlign: TextAlign.left,
+                            style: endpointDataTextStyle,
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            expansionPanelEndpoint.recentData[
+                                        expansionPanelEndpoint.fields[i]]
+                                    .toStringAsFixed(2) +
+                                spacer +
+                                expansionPanelEndpoint.units[i].name,
+                            textAlign: TextAlign.right,
+                            style: endpointDataTextStyle,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }
+            },
+          )
+        ],
+      ),
+    );
   }
 
   Container _buildLabelButton(ExpansionPanelEndpoint expansionPanelEndpoint) =>

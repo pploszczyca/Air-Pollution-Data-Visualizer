@@ -32,7 +32,7 @@ class _FieldsListViewState extends State<FieldsListView> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: adminAppBar("Admin panel", "Users list"),
+        appBar: adminAppBar("Admin panel", "Fields list"),
         body: _buildBody(),
       );
 
@@ -46,7 +46,7 @@ class _FieldsListViewState extends State<FieldsListView> {
               create: (context) => FieldsListProvider(fields),
               child: Consumer<FieldsListProvider>(
                 builder: (context, provider, _) => RefreshIndicator(
-                  onRefresh: () => _onPullDownRefresh(provider),
+                  onRefresh: () => _refresh(provider),
                   child: Column(
                     children: [
                       buildSortBar(
@@ -157,7 +157,7 @@ class _FieldsListViewState extends State<FieldsListView> {
     });
   }
 
-  Future<void> _onPullDownRefresh(FieldsListProvider provider) async {
+  Future<void> _refresh(FieldsListProvider provider) async {
     fields = widget.repository.getFieldList();
     await fields.then((value) => provider.init(value));
   }

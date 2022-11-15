@@ -48,7 +48,7 @@ class _GroupsViewState extends State<GroupsView> {
   Widget build(BuildContext context) => ChangeNotifierProvider(
         create: (context) => groupListProvider,
         child: RefreshIndicator(
-          onRefresh: () => widget.gateway.getGroupsSummary().onError(onError),
+          onRefresh: _refresh,
           child: Scaffold(
             appBar: adminAppBar("Administrator panel", "User groups"),
             body: _buildBody(),
@@ -66,6 +66,7 @@ class _GroupsViewState extends State<GroupsView> {
           } else {
             groupListProvider.makeGroupList(snapshot.data);
             return SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
               controller: ScrollController(),
               child: Consumer<GroupListProvider>(
                 builder: (context, __, _) => Column(
@@ -229,5 +230,12 @@ class _GroupsViewState extends State<GroupsView> {
         builder: (context) => GroupEndpointView(groupCard.id, groupCard.name),
       ),
     );
+  }
+
+  Future<void> _refresh() async {
+    groupListProvider.makeGroupList(
+      await widget.gateway.getGroupsSummary().onError(onError),
+    );
+    groupListProvider.notify();
   }
 }

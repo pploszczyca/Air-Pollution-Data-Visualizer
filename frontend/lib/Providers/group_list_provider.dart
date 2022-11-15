@@ -32,4 +32,8 @@ class GroupListProvider with ChangeNotifier {
     groupsList.removeWhere((element) => element.id == id);
     notifyListeners();
   }
+
+  void notify(){
+    notifyListeners();
+  }
 }

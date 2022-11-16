@@ -29,18 +29,24 @@ class EndpointListView extends StatefulWidget {
 }
 
 class _EndpointListViewState extends State<EndpointListView> {
-
   late Future<List<EndpointSummary>> future;
-  void onTapHandler(int id, EndpointGateway endpointGateway) {
-    Navigator.push(
+
+  void onTapHandler(
+    int id,
+    EndpointGateway endpointGateway,
+    EndpointListProvider endpointListProvider,
+  ) async {
+    final result = await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) =>
             EndpointView(endpointId: id, endpointGateway: endpointGateway),
       ),
     );
+    if (result != null && result == true) {
+      await _refresh(endpointListProvider);
+    }
   }
-
 
   @override
   void initState() {
@@ -113,12 +119,17 @@ class _EndpointListViewState extends State<EndpointListView> {
           controller: ScrollController(),
           shrinkWrap: true,
           itemCount: endpointListProvider.endpointsList.length,
-          itemBuilder: (context, i) =>
-              _buildEndpointCard(endpointListProvider.endpointsList[i]),
+          itemBuilder: (context, i) => _buildEndpointCard(
+            endpointListProvider.endpointsList[i],
+            endpointListProvider,
+          ),
         ),
       );
 
-  Card _buildEndpointCard(ExpansionPanelEndpoint expansionPanelEndpoint) {
+  Card _buildEndpointCard(
+    ExpansionPanelEndpoint expansionPanelEndpoint,
+    EndpointListProvider endpointListProvider,
+  ) {
     final Future<EndpointData> dataFuture = widget.gateway.getEndpointData(
       expansionPanelEndpoint.id,
       null,
@@ -126,80 +137,82 @@ class _EndpointListViewState extends State<EndpointListView> {
       true,
     );
     return Card(
-        margin: const EdgeInsets.only(top: 10, bottom: 10),
-        shadowColor: Colors.transparent,
-        child: ExpansionTile(
-          title: _buildLabelButton(expansionPanelEndpoint),
-          tilePadding: const EdgeInsets.all(20),
-          childrenPadding: const EdgeInsets.all(0),
-          children: <Widget>[
-            FutureBuilder<EndpointData>(
-              future: dataFuture,
-              builder: (context, recentDataSnapshot) {
-                if (recentDataSnapshot.connectionState ==
-                        ConnectionState.none ||
-                    recentDataSnapshot.data == null) {
-                  return loadingInCenter();
-                } else {
-                  // line below temporary fixes always loading everything problem
-                  expansionPanelEndpoint.setRecentData(
-                    EndpointData(
-                      recentDataSnapshot.data!.dataList,
-                      recentDataSnapshot.data!.technicalInfo,
-                      recentDataSnapshot.data!.enableFieldsList,
+      margin: const EdgeInsets.only(top: 10, bottom: 10),
+      shadowColor: Colors.transparent,
+      child: ExpansionTile(
+        title: _buildLabelButton(expansionPanelEndpoint, endpointListProvider),
+        tilePadding: const EdgeInsets.all(20),
+        childrenPadding: const EdgeInsets.all(0),
+        children: <Widget>[
+          FutureBuilder<EndpointData>(
+            future: dataFuture,
+            builder: (context, recentDataSnapshot) {
+              if (recentDataSnapshot.connectionState == ConnectionState.none ||
+                  recentDataSnapshot.data == null) {
+                return loadingInCenter();
+              } else {
+                // line below temporary fixes always loading everything problem
+                expansionPanelEndpoint.setRecentData(
+                  EndpointData(
+                    recentDataSnapshot.data!.dataList,
+                    recentDataSnapshot.data!.technicalInfo,
+                    recentDataSnapshot.data!.enableFieldsList,
+                  ),
+                );
+                return ListView.builder(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  padding: const EdgeInsets.only(top: 10),
+                  shrinkWrap: true,
+                  itemCount: expansionPanelEndpoint.fields.length,
+                  itemBuilder: (context, i) => Container(
+                    decoration: BoxDecoration(
+                      borderRadius: basicBorderRadius,
+                      color: Colors.white,
                     ),
-                  );
-                  return ListView.builder(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    padding: const EdgeInsets.only(top: 10),
-                    shrinkWrap: true,
-                    itemCount: expansionPanelEndpoint.fields.length,
-                    itemBuilder: (context, i) => Container(
-                      decoration: BoxDecoration(
-                        borderRadius: basicBorderRadius,
-                        color: Colors.white,
-                      ),
-                      height: 70,
-                      margin: const EdgeInsets.only(
-                        left: 0,
-                        top: 10,
-                        right: 0,
-                        bottom: 10,
-                      ),
-                      padding: const EdgeInsets.all(17),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: Text(
-                              expansionPanelEndpoint.fields[i],
-                              textAlign: TextAlign.left,
-                              style: endpointDataTextStyle,
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              expansionPanelEndpoint.recentData[
-                                          expansionPanelEndpoint.fields[i]]
-                                      .toStringAsFixed(2) +
-                                  spacer +
-                                  expansionPanelEndpoint.units[i].name,
-                              textAlign: TextAlign.right,
-                              style: endpointDataTextStyle,
-                            ),
-                          ),
-                        ],
-                      ),
+                    height: 70,
+                    margin: const EdgeInsets.only(
+                      left: 0,
+                      top: 10,
+                      right: 0,
+                      bottom: 10,
                     ),
-                  );
-                }
-              },
-            )
-          ],
-        ),
-      );
+                    padding: const EdgeInsets.all(17),
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Text(
+                            expansionPanelEndpoint.fields[i],
+                            textAlign: TextAlign.left,
+                            style: endpointDataTextStyle,
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            expansionPanelEndpoint.recentData[
+                                        expansionPanelEndpoint.fields[i]]
+                                    .toStringAsFixed(2) +
+                                spacer +
+                                expansionPanelEndpoint.units[i].name,
+                            textAlign: TextAlign.right,
+                            style: endpointDataTextStyle,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }
+            },
+          )
+        ],
+      ),
+    );
   }
 
-  Container _buildLabelButton(ExpansionPanelEndpoint expansionPanelEndpoint) =>
+  Container _buildLabelButton(
+    ExpansionPanelEndpoint expansionPanelEndpoint,
+    EndpointListProvider endpointListProvider,
+  ) =>
       Container(
         width: 200,
         alignment: Alignment.centerLeft,
@@ -221,7 +234,11 @@ class _EndpointListViewState extends State<EndpointListView> {
             alignment: Alignment.centerLeft,
           ),
           onPressed: () {
-            onTapHandler(expansionPanelEndpoint.id, widget.gateway);
+            onTapHandler(
+              expansionPanelEndpoint.id,
+              widget.gateway,
+              endpointListProvider,
+            );
           },
           onHover: (hc) {
             setState(() {

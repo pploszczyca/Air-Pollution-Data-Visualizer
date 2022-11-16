@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:math';
 
 import 'package:adpv_frontend/Repository/EndpointRepository/endpoint_gateway.dart';
@@ -6,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 
 import '../Common/consts.dart';
 import '../DataModels/endpoint.dart';
-import '../DataModels/endpoint_data.dart';
 import '../DataModels/endpoint_summary.dart';
 
 class CompareEndpointsModel extends ChangeNotifier {
@@ -16,12 +14,8 @@ class CompareEndpointsModel extends ChangeNotifier {
   List<String> commonFields = [];
   List<String> selectedEndpoints = [];
   EndpointGateway endpointGateway;
-  FutureOr<EndpointData> Function<E extends Object>(
-    E error,
-    StackTrace stackTrace,
-  ) onError;
 
-  CompareEndpointsModel(this.endpointGateway, this.onError);
+  CompareEndpointsModel(this.endpointGateway);
 
   void clear() {
     endpointSummaryMap = {};
@@ -29,7 +23,6 @@ class CompareEndpointsModel extends ChangeNotifier {
     selectedChips = {};
     commonFields = [];
     selectedEndpoints = [];
-    notifyListeners();
   }
 
   void selectChips(String label, bool value) {
@@ -38,7 +31,7 @@ class CompareEndpointsModel extends ChangeNotifier {
   }
 
   void updateCommonFields() {
-    if (endpointsMap.isNotEmpty) {
+    if (endpointsMap.isNotEmpty && selectedEndpoints.isNotEmpty) {
       final Map<String, int> counter = {};
       final List fields =
           endpointsMap[selectedEndpoints[0]]!.data.dataList[0].keys.toList();
@@ -75,7 +68,6 @@ class CompareEndpointsModel extends ChangeNotifier {
       final EndpointSummary es = endpointSummaryMap[endpointLabel]!;
       endpointGateway
           .getEndpointData(es.id, null, null, false)
-          .onError(onError)
           .then((value) {
         endpointsMap[es.label] = Endpoint.fromSummary(es, value);
         updateCommonFields();
@@ -92,11 +84,15 @@ class CompareEndpointsModel extends ChangeNotifier {
     for (var element in list) {
       endpointSummaryMap[element.label] = element;
     }
+    notifyListeners();
   }
 
   List<Endpoint> getEndpointsForDrawing() {
     final List<Endpoint> result = [];
     for (String selected in selectedEndpoints) {
+      if(endpointsMap[selected] == null || endpointsMap[selected]!.data.isEmpty()){
+        return List.empty();
+      }
       if (endpointsMap[selected] != null) {
         result.add(endpointsMap[selected]!);
       }

@@ -174,9 +174,6 @@ class _GroupsViewState extends State<GroupsView> {
     );
   }
 
-
-
-
   void deleteGroup(int id) async {
     await widget.gateway
         .deleteGroup(id)
@@ -197,6 +194,13 @@ class _GroupsViewState extends State<GroupsView> {
     await widget.gateway.createGroup(name).then((value) {
       if (value.id != EMPTY_GROUP_ID) {
         groupListProvider.addNewGroup(GroupSummary(value.id, name));
+        buildSnackbar(
+          "Group endpoints edited",
+          context,
+          duration: 3,
+          color: adminGreenColor,
+          height: 65,
+        );
         scrollDown(_scrollController);
       } else {
         buildSnackbar(
@@ -242,6 +246,5 @@ class _GroupsViewState extends State<GroupsView> {
     groupListProvider.makeGroupList(
       await widget.gateway.getGroupsSummary().onError(onError),
     );
-    groupListProvider.notify();
   }
 }

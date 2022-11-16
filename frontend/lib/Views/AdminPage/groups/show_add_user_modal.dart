@@ -9,22 +9,53 @@ import '../../../Widgets/common_widgets.dart';
 MaterialStateProperty<EdgeInsetsGeometry?> buttonPadding =
     MaterialStateProperty.all(const EdgeInsets.all(20));
 
-void showAddUserModal(
-  BuildContext context,
-  AdminGateway gateway,
-  int groupId,
-  Function(String email) onProceedFunction,
-) {
-  showDialog(
-    context: context,
-    builder: (_) {
-      final FocusNode focusNode = FocusNode();
-      final GlobalKey autocompleteKey = GlobalKey();
-      final TextEditingController emailController = TextEditingController();
-      return AlertDialog(
+List<String> castToEmails(List<UserSummary> options) =>
+    options.map((e) => e.email).toList();
+
+void onProceedPressed(String email, onProceedFunction, context) {
+  if (email == "") {
+    Navigator.pop(context);
+  } else {
+    onProceedFunction(email);
+    Navigator.pop(context);
+  }
+}
+
+class AlertItem extends StatefulWidget {
+  const AlertItem({
+    required this.buildContext,
+    required this.gateway,
+    required this.groupId,
+    required this.onProceedFunction,
+    Key? key,
+  }) : super(key: key);
+
+  final BuildContext buildContext;
+  final int groupId;
+  final AdminGateway gateway;
+  final Function(String email) onProceedFunction;
+
+  @override
+  State<AlertItem> createState() => _AlertItemState();
+}
+
+class _AlertItemState extends State<AlertItem> {
+  late Future<List<UserSummary>> future;
+  final FocusNode focusNode = FocusNode();
+  final GlobalKey autocompleteKey = GlobalKey();
+  final TextEditingController emailController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    future = widget.gateway.getMembersNotInGroup(widget.groupId);
+  }
+
+  @override
+  Widget build(BuildContext context) => AlertDialog(
         title: const Text('Add member'),
         content: FutureBuilder<List<UserSummary>>(
-          future: gateway.getMembersNotInGroup(groupId),
+          future: future,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.none ||
                 snapshot.data == null) {
@@ -101,11 +132,10 @@ void showAddUserModal(
         ),
         actions: [
           cancelButton(context),
-          //todo refactor
           ElevatedButton(
             onPressed: () => onProceedPressed(
               emailController.text,
-              onProceedFunction,
+              widget.onProceedFunction,
               context,
             ),
             style: proceedButtonStyle,
@@ -113,18 +143,4 @@ void showAddUserModal(
           )
         ],
       );
-    },
-  );
-}
-
-List<String> castToEmails(List<UserSummary> options) =>
-    options.map((e) => e.email).toList();
-
-void onProceedPressed(String email, onProceedFunction, context) {
-  if (email == "") {
-    Navigator.pop(context);
-  } else {
-    onProceedFunction(email);
-    Navigator.pop(context);
-  }
 }

@@ -18,6 +18,7 @@ class MembersListProvider with ChangeNotifier {
     for (var e in groupData.members) {
       membersList.add(MemberInfo(e.id, e.email, e.userRoles, e.otherGroups));
     }
+    notifyListeners();
   }
 
   void notify() {
@@ -26,6 +27,7 @@ class MembersListProvider with ChangeNotifier {
 
   void delete(int id) {
     membersList.removeWhere((element) => element.id == id);
+    print('remoced');
     notifyListeners();
   }
 }

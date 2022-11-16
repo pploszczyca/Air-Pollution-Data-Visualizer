@@ -171,7 +171,8 @@ class _MembersViewState extends State<MembersView> {
       ];
 
   FloatingActionButton _buildAddButton() => FloatingActionButton(
-        onPressed: () => showAddUserModal(
+        onPressed: () =>
+            showMyDialog(
           context,
           widget.gateway,
           widget.groupId,
@@ -180,6 +181,15 @@ class _MembersViewState extends State<MembersView> {
         backgroundColor: adminGreenColor,
         child: const Icon(Icons.add),
       );
+
+  void showMyDialog(BuildContext buildContext, AdminGateway gateway, int groupId, void Function(String email) addMember,){
+    showDialog(
+      context: buildContext,
+      builder: (BuildContext context) => AlertItem(buildContext: context, gateway: gateway, groupId: groupId, onProceedFunction: addMember,)
+    );
+  }
+
+
 
   void _onDeletePressed(MemberInfo member) {
     showAlertDialog(
@@ -195,6 +205,7 @@ class _MembersViewState extends State<MembersView> {
         .deleteMember(id, widget.groupId)
         .then(
           (value) => {
+            print(value),
             if (value)
               {
                 membersListProvider.delete(id),
@@ -219,7 +230,6 @@ class _MembersViewState extends State<MembersView> {
                       widget.gateway.getGroupData(widget.groupId).then(
                             (value) => {
                               membersListProvider.makeMemberList(value),
-                              membersListProvider.notify()
                             },
                           )
                     }
@@ -242,6 +252,5 @@ class _MembersViewState extends State<MembersView> {
     membersListProvider.makeMemberList(
       await widget.gateway.getGroupData(widget.groupId).onError(onError),
     );
-    membersListProvider.notify();
   }
 }

@@ -29,16 +29,24 @@ class EndpointListView extends StatefulWidget {
 }
 
 class _EndpointListViewState extends State<EndpointListView> {
+
   late Future<List<EndpointSummary>> future;
 
-  void onTapHandler(int id, EndpointGateway endpointGateway) {
-    Navigator.push(
+  void onTapHandler(
+    int id,
+    EndpointGateway endpointGateway,
+    EndpointListProvider endpointListProvider,
+  ) async {
+    final result = await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) =>
             EndpointView(endpointId: id, endpointGateway: endpointGateway),
       ),
     );
+    if (result != null && result == true) {
+      await _refresh(endpointListProvider);
+    }
   }
 
   @override
@@ -112,12 +120,17 @@ class _EndpointListViewState extends State<EndpointListView> {
         child: ListView.builder(
           shrinkWrap: true,
           itemCount: endpointListProvider.endpointsList.length,
-          itemBuilder: (context, i) =>
-              _buildEndpointCard(endpointListProvider.endpointsList[i]),
+          itemBuilder: (context, i) => _buildEndpointCard(
+            endpointListProvider.endpointsList[i],
+            endpointListProvider,
+          ),
         ),
       );
 
-  Card _buildEndpointCard(ExpansionPanelEndpoint expansionPanelEndpoint) {
+  Card _buildEndpointCard(
+    ExpansionPanelEndpoint expansionPanelEndpoint,
+    EndpointListProvider endpointListProvider,
+  ) {
     final Future<EndpointData> dataFuture = widget.gateway.getEndpointData(
       expansionPanelEndpoint.id,
       null,
@@ -128,7 +141,7 @@ class _EndpointListViewState extends State<EndpointListView> {
       margin: const EdgeInsets.only(top: 10, bottom: 10),
       shadowColor: Colors.transparent,
       child: ExpansionTile(
-        title: _buildLabelButton(expansionPanelEndpoint),
+        title: _buildLabelButton(expansionPanelEndpoint, endpointListProvider),
         tilePadding: const EdgeInsets.all(20),
         childrenPadding: const EdgeInsets.all(0),
         children: <Widget>[
@@ -196,7 +209,10 @@ class _EndpointListViewState extends State<EndpointListView> {
     );
   }
 
-  Container _buildLabelButton(ExpansionPanelEndpoint expansionPanelEndpoint) =>
+  Container _buildLabelButton(
+    ExpansionPanelEndpoint expansionPanelEndpoint,
+    EndpointListProvider endpointListProvider,
+  ) =>
       Container(
         width: 200,
         alignment: Alignment.centerLeft,
@@ -218,7 +234,11 @@ class _EndpointListViewState extends State<EndpointListView> {
             alignment: Alignment.centerLeft,
           ),
           onPressed: () {
-            onTapHandler(expansionPanelEndpoint.id, widget.gateway);
+            onTapHandler(
+              expansionPanelEndpoint.id,
+              widget.gateway,
+              endpointListProvider,
+            );
           },
           onHover: (hc) {
             setState(() {

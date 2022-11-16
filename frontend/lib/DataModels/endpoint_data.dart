@@ -36,6 +36,8 @@ class EndpointData {
     dataList.addAll(newData.dataList);
   }
 
+  bool isEmpty() => enableFieldsList.isEmpty;
+
   @override
   String toString() => 'EndpointData{dataList: $dataList}';
 }

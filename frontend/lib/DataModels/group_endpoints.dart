@@ -51,7 +51,7 @@ class EndpointForGroup {
   }
 
   Map<String, dynamic> toJson() => {
-        "endpointId": id,
+        "endpointId": id.toString(),
         "fieldIds": fields.values
             .where((field) => field.isBelongingToGroup)
             .map((field) => field.id.toString())

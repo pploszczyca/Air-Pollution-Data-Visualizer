@@ -48,7 +48,7 @@ class RestClient {
         dynamic data,
       }) =>
       _performQuery(
-            () => _client.post(
+            () => _client.put(
           path,
           queryParameters: queryParameters,
           data: data,

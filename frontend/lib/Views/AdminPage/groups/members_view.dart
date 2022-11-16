@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:adpv_frontend/DataModels/User/user.dart';
 import 'package:adpv_frontend/DataModels/group_data.dart';
 import 'package:adpv_frontend/DataModels/member_info.dart';
-import 'package:adpv_frontend/Views/AdminPage/groups/show_add_user_modal.dart';
+import 'package:adpv_frontend/Views/AdminPage/groups/add_member_view.dart';
 import 'package:adpv_frontend/Views/snackbar.dart';
 import 'package:adpv_frontend/Widgets/AdminWidgets/confirmation_dialog_modal.dart';
 import 'package:flutter/material.dart';
@@ -190,13 +190,14 @@ class _MembersViewState extends State<MembersView> {
     void Function(String email) addMember,
   ) {
     showDialog(
-        context: buildContext,
-        builder: (BuildContext context) => AlertItem(
-              buildContext: context,
-              gateway: gateway,
-              groupId: groupId,
-              onProceedFunction: addMember,
-            ));
+      context: buildContext,
+      builder: (BuildContext context) => AddMemberView(
+        buildContext: context,
+        gateway: gateway,
+        groupId: groupId,
+        onProceedFunction: addMember,
+      ),
+    );
   }
 
   void _onDeletePressed(MemberInfo member) {
@@ -213,7 +214,6 @@ class _MembersViewState extends State<MembersView> {
         .deleteMember(id, widget.groupId)
         .then(
           (value) => {
-            print(value),
             if (value)
               {
                 membersListProvider.delete(id),

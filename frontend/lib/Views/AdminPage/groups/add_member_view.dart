@@ -9,20 +9,8 @@ import '../../../Widgets/common_widgets.dart';
 MaterialStateProperty<EdgeInsetsGeometry?> buttonPadding =
     MaterialStateProperty.all(const EdgeInsets.all(20));
 
-List<String> castToEmails(List<UserSummary> options) =>
-    options.map((e) => e.email).toList();
-
-void onProceedPressed(String email, onProceedFunction, context) {
-  if (email == "") {
-    Navigator.pop(context);
-  } else {
-    onProceedFunction(email);
-    Navigator.pop(context);
-  }
-}
-
-class AlertItem extends StatefulWidget {
-  const AlertItem({
+class AddMemberView extends StatefulWidget {
+  const AddMemberView({
     required this.buildContext,
     required this.gateway,
     required this.groupId,
@@ -36,10 +24,10 @@ class AlertItem extends StatefulWidget {
   final Function(String email) onProceedFunction;
 
   @override
-  State<AlertItem> createState() => _AlertItemState();
+  State<AddMemberView> createState() => _AddMemberState();
 }
 
-class _AlertItemState extends State<AlertItem> {
+class _AddMemberState extends State<AddMemberView> {
   late Future<List<UserSummary>> future;
   final FocusNode focusNode = FocusNode();
   final GlobalKey autocompleteKey = GlobalKey();
@@ -143,4 +131,16 @@ class _AlertItemState extends State<AlertItem> {
           )
         ],
       );
+
+  List<String> castToEmails(List<UserSummary> options) =>
+      options.map((e) => e.email).toList();
+
+  void onProceedPressed(String email, onProceedFunction, context) {
+    if (email == "") {
+      Navigator.pop(context);
+    } else {
+      onProceedFunction(email);
+      Navigator.pop(context);
+    }
+  }
 }

@@ -27,9 +27,12 @@ class CompareChartsView extends StatefulWidget {
 class _CompareChartsViewState extends State<CompareChartsView> {
   Widget chart = Container();
   late CompareEndpointsModel model =
-      CompareEndpointsModel(widget.endpointGateway, onError);
+      CompareEndpointsModel(widget.endpointGateway);
   late Future<List<EndpointSummary>> endpointSummary =
-      widget.endpointGateway.getEndpointSummary(needUpdate: true);
+      widget.endpointGateway.getEndpointSummary(needUpdate: true).then((value) {
+    model.makeEndpointSummaryMap(value);
+    return value;
+  });
 
   // ignore: always_declare_return_types
   _pullDownRefresh() async {
@@ -38,6 +41,7 @@ class _CompareChartsViewState extends State<CompareChartsView> {
         .then((value) {
       widget.endpointGateway.clearEndpointDataCache();
       model.clear();
+      model.makeEndpointSummaryMap(value);
       setState(() {});
       return value;
     });
@@ -135,9 +139,7 @@ class _CompareChartsViewState extends State<CompareChartsView> {
             ),
             width: MediaQuery.of(context).size.width * 0.8,
             child: Consumer<CompareEndpointsModel>(
-              builder: (context, endpointModel, _) {
-                endpointModel.makeEndpointSummaryMap(snapshot.data!);
-                return Theme(
+              builder: (context, endpointModel, _) => Theme(
                   // 200IQ move
                   data: ThemeData.from(
                     colorScheme: ColorScheme.fromSwatch(
@@ -159,8 +161,7 @@ class _CompareChartsViewState extends State<CompareChartsView> {
                     },
                     whenEmpty: emptyField,
                   ),
-                );
-              },
+                ),
             ),
           ),
         ],

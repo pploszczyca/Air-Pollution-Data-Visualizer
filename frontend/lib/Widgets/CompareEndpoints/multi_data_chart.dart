@@ -120,7 +120,7 @@ class CustomLegendBuilder extends charts.LegendContentBuilder {
     bool? showMeasures,
   }) =>
       SizedBox(
-        width: MediaQuery.of(context).size.width * 0.9,
+        width: MediaQuery.of(context).size.width * 0.7,
         child: Wrap(
           alignment: WrapAlignment.start,
           children: legendState.legendEntries

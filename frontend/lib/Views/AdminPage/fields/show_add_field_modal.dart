@@ -58,8 +58,6 @@ void showAddFieldModal(
                   child: TextFormField(
                     controller: unitNameController,
                     decoration: const InputDecoration(
-                      // focusColor: adminGreenColor,
-                      // enabledBorder: underline,
                       hintText: 'Unit',
                       fillColor: Colors.grey,
                     ),
@@ -101,7 +99,6 @@ void showAddFieldModal(
           ElevatedButton(
             onPressed: () => onProceedPressed(
               initialFieldData?.id,
-              editMode,
               fieldNameController.text,
               unitNameController.text,
               currentType!,
@@ -122,7 +119,6 @@ void showAddFieldModal(
 
 void onProceedPressed(
   int? id,
-  bool editMode,
   String fieldName,
   String unitName,
   FieldType fieldType,

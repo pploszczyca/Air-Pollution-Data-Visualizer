@@ -43,7 +43,10 @@ class _MembersViewState extends State<MembersView> {
   void initState() {
     super.initState();
     membersListProvider = MembersListProvider(widget.groupId);
-    future = widget.gateway.getGroupData(widget.groupId).onError(onError);
+    future = widget.gateway.getGroupData(widget.groupId).then((value) {
+      membersListProvider.makeMemberList(value);
+      return value;
+    }).onError(onError);
   }
 
   FutureOr<GroupData> onError<E extends Object>(
@@ -80,7 +83,6 @@ class _MembersViewState extends State<MembersView> {
               snapshot.data == null) {
             return loadingInCenter();
           } else {
-            membersListProvider.makeMemberList(snapshot.data!);
             return SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
               controller: ScrollController(),
@@ -171,8 +173,7 @@ class _MembersViewState extends State<MembersView> {
       ];
 
   FloatingActionButton _buildAddButton() => FloatingActionButton(
-        onPressed: () =>
-            showMyDialog(
+        onPressed: () => showMyDialog(
           context,
           widget.gateway,
           widget.groupId,
@@ -182,14 +183,21 @@ class _MembersViewState extends State<MembersView> {
         child: const Icon(Icons.add),
       );
 
-  void showMyDialog(BuildContext buildContext, AdminGateway gateway, int groupId, void Function(String email) addMember,){
+  void showMyDialog(
+    BuildContext buildContext,
+    AdminGateway gateway,
+    int groupId,
+    void Function(String email) addMember,
+  ) {
     showDialog(
-      context: buildContext,
-      builder: (BuildContext context) => AlertItem(buildContext: context, gateway: gateway, groupId: groupId, onProceedFunction: addMember,)
-    );
+        context: buildContext,
+        builder: (BuildContext context) => AlertItem(
+              buildContext: context,
+              gateway: gateway,
+              groupId: groupId,
+              onProceedFunction: addMember,
+            ));
   }
-
-
 
   void _onDeletePressed(MemberInfo member) {
     showAlertDialog(
@@ -249,8 +257,9 @@ class _MembersViewState extends State<MembersView> {
       .then((users) => users.firstWhere((user) => user.email == email));
 
   Future<void> _refresh() async {
-    membersListProvider.makeMemberList(
-      await widget.gateway.getGroupData(widget.groupId).onError(onError),
-    );
+    future = widget.gateway.getGroupData(widget.groupId).then((value) {
+      membersListProvider.makeMemberList(value);
+      return value;
+    }).onError(onError);
   }
 }

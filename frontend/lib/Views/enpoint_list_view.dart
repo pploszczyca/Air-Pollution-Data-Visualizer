@@ -91,6 +91,7 @@ class _EndpointListViewState extends State<EndpointListView> {
             create: (context) =>
                 EndpointListProvider(snapshot.data!, widget.gateway),
             child: SingleChildScrollView(
+              physics: AlwaysScrollableScrollPhysics(),
               controller: ScrollController(),
               child: Container(
                 height: MediaQuery.of(context).size.height,

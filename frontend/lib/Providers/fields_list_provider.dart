@@ -28,4 +28,15 @@ class FieldsListProvider with ChangeNotifier {
     fieldsList.removeWhere((element) => element.id == id);
     notifyListeners();
   }
+
+  void addNewField(FieldData field) {
+    fieldsList.add(field);
+    notifyListeners();
+  }
+
+  void editField(FieldData fieldData) {
+    fieldsList.removeWhere((field) => field.id == fieldData.id);
+    fieldsList.add(fieldData);
+    notifyListeners();
+  }
 }

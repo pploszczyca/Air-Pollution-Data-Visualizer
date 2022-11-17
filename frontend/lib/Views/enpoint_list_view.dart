@@ -29,6 +29,7 @@ class EndpointListView extends StatefulWidget {
 }
 
 class _EndpointListViewState extends State<EndpointListView> {
+
   late Future<List<EndpointSummary>> future;
 
   void onTapHandler(
@@ -90,8 +91,10 @@ class _EndpointListViewState extends State<EndpointListView> {
             create: (context) =>
                 EndpointListProvider(snapshot.data!, widget.gateway),
             child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
               controller: ScrollController(),
               child: Container(
+                height: MediaQuery.of(context).size.height,
                 padding:
                     EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
                 decoration: buildBackgroundBoxDecoration(),
@@ -116,7 +119,6 @@ class _EndpointListViewState extends State<EndpointListView> {
       Container(
         margin: const EdgeInsets.only(left: 10, right: 10),
         child: ListView.builder(
-          controller: ScrollController(),
           shrinkWrap: true,
           itemCount: endpointListProvider.endpointsList.length,
           itemBuilder: (context, i) => _buildEndpointCard(
@@ -160,7 +162,6 @@ class _EndpointListViewState extends State<EndpointListView> {
                   ),
                 );
                 return ListView.builder(
-                  physics: const AlwaysScrollableScrollPhysics(),
                   padding: const EdgeInsets.only(top: 10),
                   shrinkWrap: true,
                   itemCount: expansionPanelEndpoint.fields.length,

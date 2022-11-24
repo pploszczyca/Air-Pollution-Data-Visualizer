@@ -3,7 +3,7 @@ package pl.edu.agh.apdvbackend.use_cases.endpoint;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import pl.edu.agh.apdvbackend.mappers.EndpointMapper;
+import pl.edu.agh.apdvbackend.mappers.endpoint.UserEndpointResponseBodyMapper;
 import pl.edu.agh.apdvbackend.models.body_models.endpoint.UserEndpointResponseBody;
 import pl.edu.agh.apdvbackend.repositories.EndpointRepository;
 import pl.edu.agh.apdvbackend.utilities.ListUtilities;
@@ -15,13 +15,13 @@ public class GetAllUserEndpointsImpl
 
     private final EndpointRepository endpointRepository;
     private final ListUtilities listUtilities;
-    private final EndpointMapper endpointMapper;
+    private final UserEndpointResponseBodyMapper mapper;
 
     @Override
     public List<UserEndpointResponseBody> execute(Long userId) {
         final var endpoints = listUtilities
                 .iterableToList(endpointRepository.findAllThatBelongToUser(userId));
 
-        return endpointMapper.endpointListToUserEndpointResponseBodyList(endpoints);
+        return mapper.toResponseBodyList(endpoints);
     }
 }

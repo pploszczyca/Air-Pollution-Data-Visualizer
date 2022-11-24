@@ -10,7 +10,9 @@ import 'package:provider/provider.dart';
 import '../DataModels/endpoint.dart';
 import '../DataModels/endpoint_data.dart';
 import '../DataModels/endpoint_summary.dart';
-import '../Models/compare_endpoints_provider.dart';
+import '../Providers/compare_endpoints_provider.dart';
+import '../Widgets/AdminWidgets/admin_styles.dart';
+import '../Widgets/AdminWidgets/confirmation_dialog_modal.dart';
 import '../Widgets/common_widgets.dart';
 
 class CompareChartsView extends StatefulWidget {
@@ -25,16 +27,30 @@ class CompareChartsView extends StatefulWidget {
 class _CompareChartsViewState extends State<CompareChartsView> {
   Widget chart = Container();
   late CompareEndpointsModel model =
-      CompareEndpointsModel(widget.endpointGateway, onError);
+      CompareEndpointsModel(widget.endpointGateway);
+  late Future<List<EndpointSummary>> endpointSummary =
+      widget.endpointGateway.getEndpointSummary(needUpdate: true).then((value) {
+    model.makeEndpointSummaryMap(value);
+    return value;
+  });
 
   // ignore: always_declare_return_types
   _pullDownRefresh() async {
-    widget.endpointGateway.clearEndpointDataCache();
-    model.clear();
+    endpointSummary = widget.endpointGateway
+        .getEndpointSummary(needUpdate: true)
+        .then((value) {
+      widget.endpointGateway.clearEndpointDataCache();
+      model.clear();
+      model.makeEndpointSummaryMap(value);
+      setState(() {});
+      return value;
+    });
   }
 
   FutureOr<EndpointData> onError<E extends Object>(
-      E error, StackTrace stackTrace,) {
+    E error,
+    StackTrace stackTrace,
+  ) {
     UserGateway().resetMemoryToken().then(
           (value) =>
               Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false),
@@ -48,36 +64,62 @@ class _CompareChartsViewState extends State<CompareChartsView> {
         child: RefreshIndicator(
           onRefresh: () => _pullDownRefresh(),
           child: Scaffold(
-            appBar: buildAppBar(compareEndpointsViewAppBar),
-            body: FutureBuilder<List<EndpointSummary>>(
-              future: widget.endpointGateway.getEndpointSummary(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.none ||
-                    snapshot.data == null) {
-                  return loadingInCenter();
-                } else {
-                  return SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        buildDropDownSelection(context, snapshot),
-                        const SizedBox(height: 10),
-                        Consumer<CompareEndpointsModel>(
-                          builder: (context, endpointModel, child) => Wrap(
-                            children: _createChips(endpointModel),
+            appBar: buildFancyAppBar(compareEndpointsViewAppBar),
+            body: Container(
+              height: MediaQuery.of(context).size.height,
+              decoration: buildBackgroundBoxDecoration(),
+              child: FutureBuilder<List<EndpointSummary>>(
+                future: endpointSummary,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.none ||
+                      snapshot.data == null) {
+                    return loadingInCenter();
+                  } else {
+                    return SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 25,
                           ),
-                        ),
-                        const SizedBox(height: 10),
-                        Consumer<CompareEndpointsModel>(
-                          builder: (context, endpointModel, child) {
-                            chart = _createChart(endpointModel);
-                            return chart;
-                          },
-                        ),
-                      ],
-                    ),
-                  );
-                }
-              },
+                          buildDropDownSelection(context, snapshot),
+                          const SizedBox(height: 10),
+                          Consumer<CompareEndpointsModel>(
+                            builder: (context, endpointModel, child) => Wrap(
+                              children: _createChips(endpointModel),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Consumer<CompareEndpointsModel>(
+                            builder: (context, endpointModel, child) =>
+                                _createChart(endpointModel),
+                          ),
+                          Center(
+                            child: Flexible(
+                              child: TextButton(
+                                onPressed: () => showAlertDialog(
+                                  context,
+                                  "Reload resources?",
+                                  "You're about to reload page content. This action may affect endpoints visibility.",
+                                  () async => await _pullDownRefresh(),
+                                ),
+                                child: Text(
+                                  "Pull down or tap to refresh available endpoints",
+                                  textAlign: TextAlign.center,
+                                  style: defaultAdminTextStyle.copyWith(
+                                    color: Colors.white,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                        ],
+                      ),
+                    );
+                  }
+                },
+              ),
             ),
           ),
         ),
@@ -90,12 +132,14 @@ class _CompareChartsViewState extends State<CompareChartsView> {
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-          SizedBox(
+          Container(
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(5)),
+            ),
             width: MediaQuery.of(context).size.width * 0.8,
             child: Consumer<CompareEndpointsModel>(
-              builder: (context, endpointModel, _) {
-                endpointModel.makeEndpointSummaryMap(snapshot.data!);
-                return Theme(
+              builder: (context, endpointModel, _) => Theme(
                   // 200IQ move
                   data: ThemeData.from(
                     colorScheme: ColorScheme.fromSwatch(
@@ -117,8 +161,7 @@ class _CompareChartsViewState extends State<CompareChartsView> {
                     },
                     whenEmpty: emptyField,
                   ),
-                );
-              },
+                ),
             ),
           ),
         ],
@@ -148,10 +191,14 @@ class _CompareChartsViewState extends State<CompareChartsView> {
     final List<Endpoint> endpoints = endpointModel.getEndpointsForDrawing();
     final List<String> fields = endpointModel.getFieldsForDrawing();
 
-    return Column(
-      children: fields
-          .map((field) => MultiDataChart(field: field, endpoints: endpoints))
-          .toList(),
-    );
+    if (endpoints.where((element) => element.data.isEmpty()).isEmpty &&
+        endpoints.isNotEmpty) {
+      return Column(
+        children: fields
+            .map((field) => MultiDataChart(field: field, endpoints: endpoints))
+            .toList(),
+      );
+    }
+    return Column();
   }
 }

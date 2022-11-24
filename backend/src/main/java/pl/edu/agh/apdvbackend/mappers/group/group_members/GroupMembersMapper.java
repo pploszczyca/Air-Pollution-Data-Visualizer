@@ -2,11 +2,12 @@ package pl.edu.agh.apdvbackend.mappers.group.group_members;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.ReportingPolicy;
 import org.springframework.beans.factory.annotation.Autowired;
 import pl.edu.agh.apdvbackend.models.body_models.group.GroupMembersResponseBody;
 import pl.edu.agh.apdvbackend.models.database.Group;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public abstract class GroupMembersMapper {
 
     @Autowired

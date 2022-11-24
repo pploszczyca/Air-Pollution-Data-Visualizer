@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
-import pl.edu.agh.apdvbackend.models.body_models.user.AddUserRequestBody;
+import pl.edu.agh.apdvbackend.models.body_models.user.UserRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.user.UserResponseBody;
 import pl.edu.agh.apdvbackend.models.database.User;
 import pl.edu.agh.apdvbackend.services.UserService;
@@ -52,8 +52,8 @@ public class UserController {
             security = @SecurityRequirement(name = JWT_AUTH)
     )
     @PostMapping
-    public Response<User> addUser(@RequestBody AddUserRequestBody addUserRequestBody) {
-        return userService.addUser(addUserRequestBody);
+    public Response<User> addUser(@RequestBody UserRequestBody userRequestBody) {
+        return userService.addUser(userRequestBody);
     }
 
     @Operation(
@@ -63,9 +63,9 @@ public class UserController {
     @PutMapping
     public Response<User> updateUser(
             @RequestParam Long userId,
-            @RequestBody AddUserRequestBody addUserRequestBody
+            @RequestBody UserRequestBody userRequestBody
     ) {
-        return userService.updateUser(userId, addUserRequestBody);
+        return userService.updateUser(userId, userRequestBody);
     }
 
     @Operation(

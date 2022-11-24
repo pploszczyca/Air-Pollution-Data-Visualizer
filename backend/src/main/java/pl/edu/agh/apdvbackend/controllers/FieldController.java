@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
-import pl.edu.agh.apdvbackend.models.body_models.field.AddFieldBodyRequest;
-import pl.edu.agh.apdvbackend.models.database.Field;
+import pl.edu.agh.apdvbackend.models.body_models.field.FieldRequestBody;
+import pl.edu.agh.apdvbackend.models.body_models.field.FieldResponseBody;
 import pl.edu.agh.apdvbackend.services.FieldService;
 
 import static pl.edu.agh.apdvbackend.configs.SwaggerConfig.JWT_AUTH;
@@ -33,8 +33,8 @@ public class FieldController {
             security = @SecurityRequirement(name = JWT_AUTH)
     )
     @PostMapping
-    public Response<Field> addField(@RequestBody AddFieldBodyRequest addFieldBodyRequest) {
-        return fieldService.addField(addFieldBodyRequest);
+    public Response<FieldResponseBody> addField(@RequestBody FieldRequestBody fieldRequestBody) {
+        return fieldService.addField(fieldRequestBody);
     }
 
     @Operation(
@@ -42,7 +42,7 @@ public class FieldController {
             security = @SecurityRequirement(name = JWT_AUTH)
     )
     @GetMapping
-    public Response<List<Field>> getAllFields() {
+    public Response<List<FieldResponseBody>> getAllFields() {
         return fieldService.getAllFields();
     }
 
@@ -51,7 +51,7 @@ public class FieldController {
             security = @SecurityRequirement(name = JWT_AUTH)
     )
     @GetMapping("/enable")
-    public Response<List<Field>> getAllEnableEndpoints(@RequestParam Long endpointId) {
+    public Response<List<FieldResponseBody>> getAllEnableEndpoints(@RequestParam Long endpointId) {
         return fieldService.getAllEnableEndpoints(endpointId);
     }
 
@@ -69,10 +69,10 @@ public class FieldController {
             security = @SecurityRequirement(name = JWT_AUTH)
     )
     @PutMapping
-    public Response<Field> updateField(
+    public Response<FieldResponseBody> updateField(
             @RequestParam Long fieldId,
-            @RequestBody AddFieldBodyRequest addFieldBodyRequest
+            @RequestBody FieldRequestBody fieldRequestBody
     ) {
-        return fieldService.updateField(fieldId, addFieldBodyRequest);
+        return fieldService.updateField(fieldId, fieldRequestBody);
     }
 }

@@ -3,10 +3,9 @@ package pl.edu.agh.apdvbackend.use_cases.group;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import pl.edu.agh.apdvbackend.mappers.GroupEndpointMapper;
-import pl.edu.agh.apdvbackend.mappers.GroupMapper;
-import pl.edu.agh.apdvbackend.models.body_models.group.AboutGroupResponseBody;
-import pl.edu.agh.apdvbackend.models.body_models.group.EndpointGroupRequestBody;
+import pl.edu.agh.apdvbackend.mappers.group_endpoint.GroupEndpointMapper;
+import pl.edu.agh.apdvbackend.models.body_models.group.AdminPanelGroupResponseBody;
+import pl.edu.agh.apdvbackend.models.body_models.group.GroupEndpointRequestBody;
 import pl.edu.agh.apdvbackend.repositories.GroupEndpointRepository;
 
 @Component
@@ -15,22 +14,20 @@ public class ChangeEnableEndpointsInGroupImpl implements ChangeEnableEndpointsIn
 
     private final GroupEndpointMapper groupEndpointMapper;
     private final GetGroup getGroup;
+    private final GetAdminPanelGroup getAdminPanelGroup;
     private final GroupEndpointRepository groupEndpointRepository;
-    private final GroupMapper groupMapper;
 
     @Override
-    public AboutGroupResponseBody execute(
-            List<EndpointGroupRequestBody> endpointGroupRequestBodyList,
+    public AdminPanelGroupResponseBody execute(
+            List<GroupEndpointRequestBody> groupEndpointRequestBodyList,
             Long groupId) {
         final var group = getGroup.execute(groupId);
         final var enableEndpointsList = groupEndpointMapper
-                .addRequestBodyListToEnableEndpointsList(endpointGroupRequestBodyList, group);
+                .toGroupEndpointList(groupEndpointRequestBodyList, group);
 
-        groupEndpointRepository.deleteAll(group.getGroupEndpoints());
-
-        group.setGroupEndpoints(enableEndpointsList);
+        groupEndpointRepository.deleteAllByGroupId(groupId);
         groupEndpointRepository.saveAll(enableEndpointsList);
 
-        return groupMapper.groupToAboutResponseBody(group);
+        return getAdminPanelGroup.execute(groupId);
     }
 }

@@ -5,6 +5,7 @@ import '../../Common/consts.dart';
 import '../../Common/urls.dart';
 import '../../DataModels/enable_field.dart';
 import '../../DataModels/endpoint_data.dart';
+import '../rest_client.dart';
 
 class BackendResponse<T> {
   final T data;
@@ -18,15 +19,12 @@ class BackendResponse<T> {
 }
 
 class EndpointRestRepository {
-  final Dio client = Dio();
+  final RestClient client = RestClient();
 
   EndpointRestRepository();
 
   Future<List<EndpointSummary>> getEndpointSummaryList(
-    String accessToken,
   ) async {
-    client.options.headers["Authorization"] = "Bearer $accessToken";
-    client.options.headers["accept"] = "*/*";
     try {
       final Response response =
           await client.get(backendURL + getDataSummaryURL);
@@ -60,11 +58,9 @@ class EndpointRestRepository {
     int id,
     int? limit,
     int? offset,
-    String accessToken,
   ) async {
     limit = limit ?? 25;
     offset = offset ?? 0;
-    client.options.headers["Authorization"] = "Bearer $accessToken";
     try {
       final Response response = await client.get(
         backendURL + getEndpointDataURL,

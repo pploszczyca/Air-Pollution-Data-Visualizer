@@ -42,7 +42,7 @@ public class GroupEndpoint {
     )
     private List<Field> enableFields = new ArrayList<>();
 
-    private Integer detailedMeasurementDays;
-
-    private Integer approximationPrecission;
+    public void removeField(Field field) {
+        enableFields.remove(field);
+    }
 }

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
 import pl.edu.agh.apdvbackend.models.body_models.auth.JWTResponse;
 import pl.edu.agh.apdvbackend.models.body_models.auth.LogInRequestBody;
-import pl.edu.agh.apdvbackend.models.body_models.user.AddUserRequestBody;
+import pl.edu.agh.apdvbackend.models.body_models.user.UserRequestBody;
 import pl.edu.agh.apdvbackend.use_cases.auth.LogInUser;
 import pl.edu.agh.apdvbackend.use_cases.auth.RefreshToken;
 import pl.edu.agh.apdvbackend.use_cases.auth.RegisterUser;
@@ -23,8 +23,8 @@ public class AuthService {
         return Response.withOkStatus(logInUser.execute(logInRequestBody));
     }
 
-    public Response<JWTResponse> registerUser(AddUserRequestBody addUserRequestBody) {
-        return Response.withOkStatus(registerUser.execute(addUserRequestBody));
+    public Response<JWTResponse> registerUser(UserRequestBody userRequestBody) {
+        return Response.withOkStatus(registerUser.execute(userRequestBody));
     }
 
     public Response<JWTResponse> refreshToken(HttpServletRequest httpServletRequest) {

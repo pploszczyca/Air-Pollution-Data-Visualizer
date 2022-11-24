@@ -2,22 +2,27 @@ package pl.edu.agh.apdvbackend.use_cases.field;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import pl.edu.agh.apdvbackend.mappers.FieldMapper;
-import pl.edu.agh.apdvbackend.models.body_models.field.AddFieldBodyRequest;
-import pl.edu.agh.apdvbackend.models.database.Field;
+import pl.edu.agh.apdvbackend.mappers.field.FieldRequestBodyMapper;
+import pl.edu.agh.apdvbackend.mappers.field.FieldResponseBodyMapper;
+import pl.edu.agh.apdvbackend.models.body_models.field.FieldRequestBody;
+import pl.edu.agh.apdvbackend.models.body_models.field.FieldResponseBody;
 import pl.edu.agh.apdvbackend.repositories.FieldRepository;
+import pl.edu.agh.apdvbackend.use_cases.unit.SaveUnitByNameIfNotExist;
 
 @Component
 @RequiredArgsConstructor
 public class SaveNewFieldImpl implements SaveNewField {
 
     private final FieldRepository fieldRepository;
-    private final FieldMapper fieldMapper;
+    private final SaveUnitByNameIfNotExist saveUnitByNameIfNotExist;
+    private final FieldRequestBodyMapper mapper;
+    private final FieldResponseBodyMapper fieldResponseBodyMapper;
 
     @Override
-    public Field execute(AddFieldBodyRequest addFieldBodyRequest) {
-        return fieldRepository.save(
-                fieldMapper.addRequestBodyToField(addFieldBodyRequest)
-        );
+    public FieldResponseBody execute(FieldRequestBody requestBody) {
+        requestBody.unitName().ifPresent(saveUnitByNameIfNotExist::execute);
+
+        final var savedField = fieldRepository.save(mapper.toField(requestBody));
+        return fieldResponseBodyMapper.toResponseBody(savedField);
     }
 }

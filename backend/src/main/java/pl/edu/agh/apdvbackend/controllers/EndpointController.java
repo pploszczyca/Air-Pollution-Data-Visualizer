@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
-import pl.edu.agh.apdvbackend.models.body_models.endpoint.AddEndpointRequestBody;
-import pl.edu.agh.apdvbackend.models.body_models.endpoint.EndpointSummaryResponseBody;
+import pl.edu.agh.apdvbackend.models.body_models.endpoint.EndpointRequestBody;
+import pl.edu.agh.apdvbackend.models.body_models.endpoint.EndpointResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.endpoint.EndpointWithField;
 import pl.edu.agh.apdvbackend.models.body_models.endpoint.UserEndpointResponseBody;
 import pl.edu.agh.apdvbackend.models.database.Endpoint;
@@ -67,11 +67,20 @@ public class EndpointController {
     }
 
     @Operation(
+            summary = "Get endpoint summary with fields information",
+            security = @SecurityRequirement(name = JWT_AUTH)
+    )
+    @GetMapping("/summary")
+    public Response<EndpointResponseBody> getEndpointSummary(@RequestParam Long endpointId) {
+        return endpointService.getEndpointSummary(endpointId);
+    }
+
+    @Operation(
             summary = "Get all endpoints list with fields information",
             security = @SecurityRequirement(name = JWT_AUTH)
     )
     @GetMapping("/list/all")
-    public Response<List<EndpointSummaryResponseBody>> getEndpointsList() {
+    public Response<List<EndpointResponseBody>> getEndpointsList() {
         return endpointService.getEndpointsList();
     }
 
@@ -80,8 +89,8 @@ public class EndpointController {
             security = @SecurityRequirement(name = JWT_AUTH)
     )
     @PostMapping
-    public Response<Endpoint> addEndpoint(@RequestBody AddEndpointRequestBody addEndpointRequestBody) {
-        return endpointService.addEndpoint(addEndpointRequestBody);
+    public Response<Endpoint> addEndpoint(@RequestBody EndpointRequestBody endpointRequestBody) {
+        return endpointService.addEndpoint(endpointRequestBody);
     }
 
     @Operation(
@@ -98,11 +107,11 @@ public class EndpointController {
             security = @SecurityRequirement(name = JWT_AUTH)
     )
     @PutMapping
-    public Response<Endpoint> updateEndpoint(
-            @RequestBody AddEndpointRequestBody addEndpointRequestBody,
+    public Response<EndpointResponseBody> updateEndpoint(
+            @RequestBody EndpointRequestBody endpointRequestBody,
             @RequestParam Long endpointId
     ) {
-        return endpointService.updateEndpoint(addEndpointRequestBody,
+        return endpointService.updateEndpoint(endpointRequestBody,
                 endpointId);
     }
 }

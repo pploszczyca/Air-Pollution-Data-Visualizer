@@ -11,4 +11,12 @@ const authLoginURL = 'auth/login';
 const authRegisterURL = 'auth/register';
 const refreshTokenURL = 'auth/refresh-token';
 
-const getGroupSummaryURL = "group/all/info";
+const getGroupSummaryURL = 'group/all/info';
+const groupURL = 'group';
+const groupEndpointsUrl = 'group/endpoints';
+const groupMembersURL = 'group/members';
+const removeMemberURL = 'group/user/remove';
+const usersNotInGroup = 'group/users/not/in';
+const addUserToGroupURL = 'group/user/add';
+
+const fieldURL = 'field';

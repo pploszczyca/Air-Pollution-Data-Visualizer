@@ -32,6 +32,12 @@ class EndpointData {
       .map((e) => e.toString())
       .toList();
 
+  void addAll(EndpointData newData) {
+    dataList.addAll(newData.dataList);
+  }
+
+  bool isEmpty() => enableFieldsList.isEmpty;
+
   @override
   String toString() => 'EndpointData{dataList: $dataList}';
 }

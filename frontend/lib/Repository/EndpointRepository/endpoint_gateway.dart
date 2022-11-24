@@ -12,12 +12,14 @@ class EndpointGateway {
 
   EndpointGateway(this.userGateway);
 
-  Future<List<EndpointSummary>> getEndpointSummary() async {
-    if (endpointCache.isEndpointSummaryInCache()) {
+  Future<List<EndpointSummary>> getEndpointSummary({bool? needUpdate}) async {
+    needUpdate = needUpdate ?? false;
+    if (endpointCache.isEndpointSummaryInCache() && !needUpdate) {
+      endpointCache.clearEndpointDataCache();
       return endpointCache.getEndpointSummary();
     }
-    final List<EndpointSummary> summary = await restRepository
-        .getEndpointSummaryList(userGateway.user.tokenResponse.accessToken);
+    final List<EndpointSummary> summary =
+        await restRepository.getEndpointSummaryList();
 
     endpointCache.saveEndpointSummary(summary);
     return summary;
@@ -48,7 +50,6 @@ class EndpointGateway {
       id,
       limit,
       offset,
-      userGateway.user.tokenResponse.accessToken,
     );
     endpointDataFuture.then((value) {
       endpointCache.saveEndpoint(id, value);

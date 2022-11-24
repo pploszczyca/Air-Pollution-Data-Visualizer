@@ -42,6 +42,7 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
 
     testImplementation 'com.h2database:h2'
+    testImplementation 'org.assertj:assertj-core:3.23.1'
 }
 
 tasks.named('test') {

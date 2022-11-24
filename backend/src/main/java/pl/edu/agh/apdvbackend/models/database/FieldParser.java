@@ -1,11 +1,14 @@
 package pl.edu.agh.apdvbackend.models.database;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,4 +28,8 @@ public class FieldParser {
     @Schema(required = true)
     @Column(unique = true)
     private String path;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "fieldParserMap")
+    private List<Endpoint> endpoints;
 }

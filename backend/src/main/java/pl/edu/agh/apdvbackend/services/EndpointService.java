@@ -5,13 +5,14 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
-import pl.edu.agh.apdvbackend.models.body_models.endpoint.AddEndpointRequestBody;
-import pl.edu.agh.apdvbackend.models.body_models.endpoint.EndpointSummaryResponseBody;
+import pl.edu.agh.apdvbackend.models.body_models.endpoint.EndpointRequestBody;
+import pl.edu.agh.apdvbackend.models.body_models.endpoint.EndpointResponseBody;
 import pl.edu.agh.apdvbackend.models.body_models.endpoint.EndpointWithField;
 import pl.edu.agh.apdvbackend.models.body_models.endpoint.UserEndpointResponseBody;
 import pl.edu.agh.apdvbackend.models.database.Endpoint;
 import pl.edu.agh.apdvbackend.use_cases.endpoint.GetAllEndpointSummaries;
 import pl.edu.agh.apdvbackend.use_cases.endpoint.GetAllUserEndpoints;
+import pl.edu.agh.apdvbackend.use_cases.endpoint.GetEndpointSummary;
 import pl.edu.agh.apdvbackend.use_cases.endpoint.GetUserEndpointData;
 import pl.edu.agh.apdvbackend.use_cases.endpoint.GetUserEndpointDataWithFields;
 import pl.edu.agh.apdvbackend.use_cases.endpoint.RemoveEndpointById;
@@ -26,6 +27,7 @@ public class EndpointService {
     private final GetUserEndpointDataWithFields getUserEndpointDataWithFields;
     private final SaveNewEndpoint saveNewEndpoint;
     private final RemoveEndpointById removeEndpointById;
+    private final GetEndpointSummary getEndpointSummary;
     private final GetAllEndpointSummaries getAllEndpointSummaries;
     private final GetAllUserEndpoints getAllUserEndpoints;
     private final UpdateEndpoint updateEndpoint;
@@ -49,12 +51,16 @@ public class EndpointService {
         );
     }
 
-    public Response<List<EndpointSummaryResponseBody>> getEndpointsList() {
+    public Response<EndpointResponseBody> getEndpointSummary(Long endpointId) {
+        return Response.withOkStatus(getEndpointSummary.execute(endpointId));
+    }
+
+    public Response<List<EndpointResponseBody>> getEndpointsList() {
         return Response.withOkStatus(getAllEndpointSummaries.execute());
     }
 
-    public Response<Endpoint> addEndpoint(AddEndpointRequestBody addEndpointRequestBody) {
-        return Response.withOkStatus(saveNewEndpoint.execute(addEndpointRequestBody));
+    public Response<Endpoint> addEndpoint(EndpointRequestBody endpointRequestBody) {
+        return Response.withOkStatus(saveNewEndpoint.execute(endpointRequestBody));
     }
 
     public void removeEndpoint(Long endpointId) {
@@ -65,10 +71,10 @@ public class EndpointService {
         return Response.withOkStatus(getAllUserEndpoints.execute(findCurrentUserId.execute()));
     }
 
-    public Response<Endpoint> updateEndpoint(
-            AddEndpointRequestBody addEndpointRequestBody,
+    public Response<EndpointResponseBody> updateEndpoint(
+            EndpointRequestBody endpointRequestBody,
             Long endpointId
     ) {
-        return Response.withOkStatus(updateEndpoint.execute(addEndpointRequestBody, endpointId));
+        return Response.withOkStatus(updateEndpoint.execute(endpointRequestBody, endpointId));
     }
 }

@@ -1,4 +1,5 @@
 import 'package:adpv_frontend/Views/Logging/utils.dart';
+import 'package:adpv_frontend/Views/snackbar.dart';
 import 'package:flutter/material.dart';
 
 import '../../Repository/EndpointRepository/endpoint_gateway.dart';
@@ -366,6 +367,7 @@ class _LoginViewState extends State<LoginView>
                 ? null
                 : _onSubmitButton(context),
             style: ElevatedButton.styleFrom(
+              // ignore: deprecated_member_use
               primary: Colors.transparent,
               shadowColor: Colors.transparent,
               shape: RoundedRectangleBorder(
@@ -404,34 +406,13 @@ class _LoginViewState extends State<LoginView>
 
     if (!response.success) {
       final String message = response.errorMessage ?? 'LOGIN ERROR';
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Container(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-            decoration: const BoxDecoration(
-              color: Colors.white,
-            ),
-            child: Text(
-              message,
-              style: const TextStyle(
-                color: Colors.red,
-                fontFamily: 'Ubuntu Condensed',
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
-          elevation: 1,
-          duration: const Duration(seconds: 15),
-          padding: EdgeInsets.zero,
-          backgroundColor: Colors.transparent,
-        ),
-      );
+      buildSnackbar(message, context);
     } else {
       await Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (BuildContext context) => App(
+            isAdmin: widget.userGateway.isAdmin(),
             endpointGateway: EndpointGateway(widget.userGateway),
             userGateway: widget.userGateway,
           ),

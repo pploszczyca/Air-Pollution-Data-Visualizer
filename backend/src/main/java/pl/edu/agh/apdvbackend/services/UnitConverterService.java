@@ -4,7 +4,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
-import pl.edu.agh.apdvbackend.models.body_models.unit_converter.AddUnitConverterRequestBody;
+import pl.edu.agh.apdvbackend.models.body_models.unit_converter.UnitConverterRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.unit_converter.UnitConverterResponseBody;
 import pl.edu.agh.apdvbackend.use_cases.unit_converter.GetAllRelatedUnitConvertersResponseBodies;
 import pl.edu.agh.apdvbackend.use_cases.unit_converter.GetAllUnitConverterResponseBodies;
@@ -31,9 +31,9 @@ public class UnitConverterService {
     }
 
     public Response<UnitConverterResponseBody> addUnitConverter(
-            AddUnitConverterRequestBody addUnitConverterRequestBody
+            UnitConverterRequestBody unitConverterRequestBody
     ) {
-        return Response.withOkStatus(saveUnitConverter.execute(addUnitConverterRequestBody));
+        return Response.withOkStatus(saveUnitConverter.execute(unitConverterRequestBody));
     }
 
     public void removeUnitConverter(Long unitConverterId) {
@@ -42,8 +42,8 @@ public class UnitConverterService {
 
     public Response<UnitConverterResponseBody> updateUnitConverter(
             Long unitConverterId,
-            AddUnitConverterRequestBody addUnitConverterRequestBody
+            UnitConverterRequestBody unitConverterRequestBody
     ) {
-        return Response.withOkStatus(updateUnitConverter.execute(unitConverterId, addUnitConverterRequestBody));
+        return Response.withOkStatus(updateUnitConverter.execute(unitConverterId, unitConverterRequestBody));
     }
 }

@@ -5,13 +5,14 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.ReportingPolicy;
 import org.springframework.beans.factory.annotation.Autowired;
 import pl.edu.agh.apdvbackend.models.body_models.group.AdminPanelGroupResponseBody;
 import pl.edu.agh.apdvbackend.models.database.Endpoint;
 import pl.edu.agh.apdvbackend.models.database.Group;
 import pl.edu.agh.apdvbackend.models.database.GroupEndpoint;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public abstract class AdminPanelGroupMapper {
 
     @Autowired
@@ -28,8 +29,7 @@ public abstract class AdminPanelGroupMapper {
         final var endpointsBelongsToGroup = group
                 .getGroupEndpoints()
                 .stream()
-                .collect(Collectors.toMap(GroupEndpoint::getEndpoint,
-                        Function.identity()));
+                .collect(Collectors.toMap(GroupEndpoint::getEndpoint, Function.identity()));
 
         return endpoints
                 .stream()

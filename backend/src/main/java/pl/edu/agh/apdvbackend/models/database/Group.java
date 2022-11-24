@@ -46,8 +46,7 @@ public class Group {
     private Set<User> usersInGroup = new HashSet<>();
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
-    private List<GroupEndpoint> groupEndpoints =
-            new ArrayList<>();
+    private List<GroupEndpoint> groupEndpoints = new ArrayList<>();
 
     public void addUser(User user) {
         usersInGroup.add(user);
@@ -55,5 +54,9 @@ public class Group {
 
     public void removeUser(User user) {
         usersInGroup.remove(user);
+    }
+
+    public void setGroupEndpoints(List<GroupEndpoint> groupEndpoints) {
+        this.groupEndpoints = new ArrayList<>(groupEndpoints);
     }
 }

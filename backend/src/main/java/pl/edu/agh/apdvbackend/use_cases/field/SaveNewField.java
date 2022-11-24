@@ -1,8 +1,8 @@
 package pl.edu.agh.apdvbackend.use_cases.field;
 
-import pl.edu.agh.apdvbackend.models.body_models.field.AddFieldBodyRequest;
-import pl.edu.agh.apdvbackend.models.database.Field;
+import pl.edu.agh.apdvbackend.models.body_models.field.FieldRequestBody;
+import pl.edu.agh.apdvbackend.models.body_models.field.FieldResponseBody;
 
 public interface SaveNewField {
-    Field execute(AddFieldBodyRequest addFieldBodyRequest);
+    FieldResponseBody execute(FieldRequestBody fieldRequestBody);
 }

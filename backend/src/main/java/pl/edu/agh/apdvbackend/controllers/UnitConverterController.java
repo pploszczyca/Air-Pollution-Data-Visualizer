@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.edu.agh.apdvbackend.models.body_models.Response;
-import pl.edu.agh.apdvbackend.models.body_models.unit_converter.AddUnitConverterRequestBody;
+import pl.edu.agh.apdvbackend.models.body_models.unit_converter.UnitConverterRequestBody;
 import pl.edu.agh.apdvbackend.models.body_models.unit_converter.UnitConverterResponseBody;
 import pl.edu.agh.apdvbackend.services.UnitConverterService;
 
@@ -52,9 +52,9 @@ public class UnitConverterController {
     )
     @PostMapping
     public Response<UnitConverterResponseBody> addUnitConverter(
-            @RequestBody AddUnitConverterRequestBody addUnitConverterRequestBody
+            @RequestBody UnitConverterRequestBody unitConverterRequestBody
     ) {
-        return unitConverterService.addUnitConverter(addUnitConverterRequestBody);
+        return unitConverterService.addUnitConverter(unitConverterRequestBody);
     }
 
     @Operation(
@@ -73,8 +73,8 @@ public class UnitConverterController {
     @PutMapping
     public Response<UnitConverterResponseBody> updateUnitConverter(
             @RequestParam Long unitConverterId,
-            @RequestBody AddUnitConverterRequestBody addUnitConverterRequestBody
+            @RequestBody UnitConverterRequestBody unitConverterRequestBody
     ) {
-        return unitConverterService.updateUnitConverter(unitConverterId, addUnitConverterRequestBody);
+        return unitConverterService.updateUnitConverter(unitConverterId, unitConverterRequestBody);
     }
 }

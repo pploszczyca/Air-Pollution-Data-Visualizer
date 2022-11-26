@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:adpv_frontend/DataModels/User/user.dart';
 import 'package:adpv_frontend/DataModels/group_data.dart';
 import 'package:adpv_frontend/DataModels/member_info.dart';
-import 'package:adpv_frontend/Views/AdminPage/groups/show_add_user_modal.dart';
+import 'package:adpv_frontend/Views/AdminPage/groups/add_member_view.dart';
 import 'package:adpv_frontend/Views/snackbar.dart';
 import 'package:adpv_frontend/Widgets/AdminWidgets/confirmation_dialog_modal.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +43,10 @@ class _MembersViewState extends State<MembersView> {
   void initState() {
     super.initState();
     membersListProvider = MembersListProvider(widget.groupId);
-    future = widget.gateway.getGroupData(widget.groupId).onError(onError);
+    future = widget.gateway.getGroupData(widget.groupId).then((value) {
+      membersListProvider.makeMemberList(value);
+      return value;
+    }).onError(onError);
   }
 
   FutureOr<GroupData> onError<E extends Object>(
@@ -61,8 +64,7 @@ class _MembersViewState extends State<MembersView> {
   Widget build(BuildContext context) => ChangeNotifierProvider(
         create: (context) => membersListProvider,
         child: RefreshIndicator(
-          onRefresh: () =>
-              widget.gateway.getGroupData(widget.groupId).onError(onError),
+          onRefresh: _refresh,
           child: Scaffold(
             appBar: adminAppBar(
               "Administrator panel",
@@ -81,8 +83,8 @@ class _MembersViewState extends State<MembersView> {
               snapshot.data == null) {
             return loadingInCenter();
           } else {
-            membersListProvider.makeMemberList(snapshot.data!);
             return SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
               controller: ScrollController(),
               child: Consumer<MembersListProvider>(
                 builder: (context, __, _) => Column(
@@ -171,7 +173,7 @@ class _MembersViewState extends State<MembersView> {
       ];
 
   FloatingActionButton _buildAddButton() => FloatingActionButton(
-        onPressed: () => showAddUserModal(
+        onPressed: () => showMyDialog(
           context,
           widget.gateway,
           widget.groupId,
@@ -180,6 +182,23 @@ class _MembersViewState extends State<MembersView> {
         backgroundColor: adminGreenColor,
         child: const Icon(Icons.add),
       );
+
+  void showMyDialog(
+    BuildContext buildContext,
+    AdminGateway gateway,
+    int groupId,
+    void Function(String email) addMember,
+  ) {
+    showDialog(
+      context: buildContext,
+      builder: (BuildContext context) => AddMemberView(
+        buildContext: context,
+        gateway: gateway,
+        groupId: groupId,
+        onProceedFunction: addMember,
+      ),
+    );
+  }
 
   void _onDeletePressed(MemberInfo member) {
     showAlertDialog(
@@ -217,8 +236,9 @@ class _MembersViewState extends State<MembersView> {
                   if (addMemberResponse)
                     {
                       widget.gateway.getGroupData(widget.groupId).then(
-                            (value) =>
-                                membersListProvider.makeMemberList(value),
+                            (value) => {
+                              membersListProvider.makeMemberList(value),
+                            },
                           )
                     }
                 },
@@ -235,4 +255,11 @@ class _MembersViewState extends State<MembersView> {
   Future<UserSummary> getUserFromEmail(email) async => widget.gateway
       .getMembersNotInGroup(widget.groupId)
       .then((users) => users.firstWhere((user) => user.email == email));
+
+  Future<void> _refresh() async {
+    future = widget.gateway.getGroupData(widget.groupId).then((value) {
+      membersListProvider.makeMemberList(value);
+      return value;
+    }).onError(onError);
+  }
 }

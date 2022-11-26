@@ -1,3 +1,4 @@
+import 'package:adpv_frontend/Views/AdminPage/endpoints/add_endpoint_view.dart';
 import 'package:adpv_frontend/Views/AdminPage/endpoints/admin_endpoint_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -27,44 +28,49 @@ class _AdminAllEndpointsViewState extends State<AdminAllEndpointsView> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    appBar: adminAppBar("Administrator panel", "Endpoints list"),
-    backgroundColor: Colors.white,
-    body: FutureBuilder<EndpointComplexData>(
+  Widget build(BuildContext context) =>  FutureBuilder<EndpointComplexData>(
       future: future,
       builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
           return loadingInCenter();
         } else {
-          return ChangeNotifierProvider(
-            create: (context) => AllEndpointsProvider(future),
-            child: Consumer<AllEndpointsProvider>(
-              builder: (context, provider, _) => RefreshIndicator(
-                onRefresh: onRefresh,
-                child: Column(
-                  children: [
-                    buildSortBar(
-                      provider.sortingModel,
-                          () => provider.notify(),
-                      provider.endpointsList,
-                      provider.getters,
-                    ),
-                    Expanded(
-                      child: ListView(
-                        children: _buildEndpointsList(
-                          provider,
+          return Scaffold(
+            appBar: adminAppBar("Administrator panel", "Endpoints list"),
+            backgroundColor: Colors.white,
+            floatingActionButton: FloatingActionButton(
+              onPressed: () async {_addEndpoint(snapshot.data!);},
+              backgroundColor: adminGreenColor,
+              child: const Icon(Icons.add),
+            ),
+            body: ChangeNotifierProvider(
+              create: (context) => AllEndpointsProvider(future),
+              child: Consumer<AllEndpointsProvider>(
+                builder: (context, provider, _) => RefreshIndicator(
+                  onRefresh: onRefresh,
+                  child: Column(
+                    children: [
+                      buildSortBar(
+                        provider.sortingModel,
+                            () => provider.notify(),
+                        provider.endpointsList,
+                        provider.getters,
+                      ),
+                      Expanded(
+                        child: ListView(
+                          children: _buildEndpointsList(
+                            provider,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
           );
         }
       },
-    ),
-  );
+    );
 
   Future<void> onRefresh() => future = widget.repository.getComplexData();
 
@@ -116,4 +122,19 @@ class _AdminAllEndpointsViewState extends State<AdminAllEndpointsView> {
         ),
       )
           .toList();
+
+  void _addEndpoint(EndpointComplexData endpointComplexData) async{
+    final changed = await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => AdminAddEndpointView(
+          endpointComplexData.enableFields,
+          endpointComplexData.fieldParsers,
+          EndpointAdminData.empty(),
+        ),
+      ),
+    );
+    if (changed != null) {
+      await onRefresh();
+    }
+  }
 }

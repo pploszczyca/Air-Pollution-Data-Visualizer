@@ -40,6 +40,13 @@ class EndpointAdminData {
             .map<EndpointAdminField>((e) => EndpointAdminField.fromJson(e))
             .toList();
 
+  EndpointAdminData.empty()
+      : id = -1,
+        endpointNumber = -1,
+        label = "",
+        sensorUrl = "",
+        fieldList = List.of([]);
+
   Map<String, String> getEndpointBasicInfo() => {
         "id": id.toString(),
         "number": endpointNumber.toString(),
@@ -163,5 +170,30 @@ class AdminEndpointsRepository {
       return Future.error("Cannot get all endpoints list:" + error.toString());
     }
     return Future.error("Cannot update endpoint");
+  }
+
+  Future<bool> addEndpoint(
+    String number,
+    String label,
+    String sensorUrl,
+    List<Map<String, String>> fieldAndParserKeys,
+  ) async {
+    try {
+      final Response response = await _client.post(
+        backendURL + "sensor",
+        data: {
+          "endpointNumber": number,
+          "label": label,
+          "sensorUrl": sensorUrl,
+          "fieldAndParserKeys": fieldAndParserKeys,
+        },
+      );
+      if (response.statusCode == 200) {
+        return Future.value(true);
+      }
+    } on Error catch (error) {
+      return Future.error("Cannot add endpoint:" + error.toString());
+    }
+    return Future.error("Cannot add endpoint");
   }
 }

@@ -14,6 +14,7 @@ import '../../../Widgets/AdminWidgets/admin_buttons.dart';
 import '../../../Widgets/AdminWidgets/admin_styles.dart';
 import '../../../Widgets/AdminWidgets/confirmation_dialog_modal.dart';
 import '../../../Widgets/AdminWidgets/group_card.dart';
+import '../../../Widgets/AdminWidgets/utils.dart';
 import '../../../Widgets/common_widgets.dart';
 import 'create_group_modal.dart';
 import 'members_view.dart';
@@ -31,6 +32,7 @@ class GroupsView extends StatefulWidget {
 }
 
 class _GroupsViewState extends State<GroupsView> {
+  final ScrollController _scrollController = ScrollController();
   late GroupListProvider groupListProvider = GroupListProvider();
 
   FutureOr<List<GroupSummary>> onError<E extends Object>(
@@ -48,7 +50,7 @@ class _GroupsViewState extends State<GroupsView> {
   Widget build(BuildContext context) => ChangeNotifierProvider(
         create: (context) => groupListProvider,
         child: RefreshIndicator(
-          onRefresh: () => widget.gateway.getGroupsSummary().onError(onError),
+          onRefresh: _refresh,
           child: Scaffold(
             appBar: adminAppBar("Administrator panel", "User groups"),
             body: _buildBody(),
@@ -66,7 +68,8 @@ class _GroupsViewState extends State<GroupsView> {
           } else {
             groupListProvider.makeGroupList(snapshot.data);
             return SingleChildScrollView(
-              controller: ScrollController(),
+              physics: const AlwaysScrollableScrollPhysics(),
+              controller: _scrollController,
               child: Consumer<GroupListProvider>(
                 builder: (context, __, _) => Column(
                   children: [
@@ -191,6 +194,14 @@ class _GroupsViewState extends State<GroupsView> {
     await widget.gateway.createGroup(name).then((value) {
       if (value.id != EMPTY_GROUP_ID) {
         groupListProvider.addNewGroup(GroupSummary(value.id, name));
+        buildSnackbar(
+          "Group endpoints edited",
+          context,
+          duration: 3,
+          color: adminGreenColor,
+          height: 65,
+        );
+        scrollDown(_scrollController);
       } else {
         buildSnackbar(
           'Cannot create group, probably a group with this name already exists',
@@ -228,6 +239,12 @@ class _GroupsViewState extends State<GroupsView> {
       MaterialPageRoute(
         builder: (context) => GroupEndpointView(groupCard.id, groupCard.name),
       ),
+    );
+  }
+
+  Future<void> _refresh() async {
+    groupListProvider.makeGroupList(
+      await widget.gateway.getGroupsSummary().onError(onError),
     );
   }
 }

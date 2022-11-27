@@ -22,28 +22,28 @@ import lombok.Setter;
 public class UnitConverter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(required = true)
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private Long id;
 
-    @Schema(required = true)
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     @ManyToOne
     @JoinColumn(name = "from_unit_id")
     private Unit fromUnit;
 
-    @Schema(required = true)
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     @ManyToOne
     @JoinColumn(name = "to_unit_id")
     private Unit toUnit;
 
-    @Schema(required = true, description =
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description =
             "Some operations need more than one math operation " +
                     "(like conversion from Celsius to Fahrenheit), so this variable specify step number.")
     private int calculationStep;
 
-    @Schema(required = true)
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     @Enumerated(EnumType.ORDINAL)
     private MathOperation mathOperation;
 
-    @Schema(required = true)
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private Double value;
 }

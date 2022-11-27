@@ -5,8 +5,8 @@ import pl.edu.agh.apdvbackend.models.database.FieldType;
 import pl.edu.agh.apdvbackend.models.database.Unit;
 
 public record FieldWithoutId(
-        @Schema(required = true) String label,
-        @Schema(required = true) FieldType fieldType,
-        @Schema(required = true) Unit unit
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED) String label,
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED) FieldType fieldType,
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED) Unit unit
 ) {
 }

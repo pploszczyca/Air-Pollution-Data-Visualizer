@@ -3,7 +3,7 @@ package pl.edu.agh.apdvbackend.models.body_models.field_and_parser;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 public record FieldAndParserKey(
-        @Schema(required = true) Long fieldId,
-        @Schema(required = true) String fieldParserPath
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED) Long fieldId,
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED) String fieldParserPath
 ) {
 }

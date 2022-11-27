@@ -30,16 +30,16 @@ import lombok.Setter;
 public class Endpoint {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(required = true)
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private Long id;
 
-    @Schema(required = true)
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private int endpointNumber;
 
-    @Schema(required = true)
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private String label;
 
-    @Schema(required = true)
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private String sensorUrl;
 
     @ManyToMany

@@ -4,10 +4,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import pl.edu.agh.apdvbackend.models.database.MathOperation;
 
 public record UnitConverterRequestBody(
-        @Schema(required = true) Long fromUnitId,
-        @Schema(required = true) Long toUnitId,
-        @Schema(required = true) int calculationStep,
-        @Schema(required = true) MathOperation mathOperation,
-        @Schema(required = true) Double value
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED) Long fromUnitId,
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED) Long toUnitId,
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED) int calculationStep,
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED) MathOperation mathOperation,
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED) Double value
 ) {
 }

@@ -28,17 +28,17 @@ import lombok.Setter;
 public class Field {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(required = true)
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private Long id;
 
-    @Schema(required = true)
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     @Column(unique = true)
     private String label;
 
     @Enumerated(EnumType.ORDINAL)
     private FieldType fieldType;
 
-    @Schema(required = true)
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     @ManyToOne
     @JoinColumn(name = "unit_id")
     private Unit unit;

@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 
 public record GroupEndpointRequestBody(
-        @Schema(required = true) Long endpointId,
-        @Schema(required = true) List<Long> fieldIds
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED) Long endpointId,
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED) List<Long> fieldIds
 ) {
 }

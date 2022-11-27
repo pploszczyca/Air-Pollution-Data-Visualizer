@@ -14,7 +14,6 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://PostgreSQL:5432/postgres
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=password
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
 
   PostgreSQL:
     image: postgres:15.1

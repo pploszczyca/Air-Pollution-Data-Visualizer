@@ -120,6 +120,7 @@ class _EndpointListViewState extends State<EndpointListView> {
         margin: const EdgeInsets.only(left: 10, right: 10),
         child: ListView.builder(
           shrinkWrap: true,
+          controller: ScrollController(),
           itemCount: endpointListProvider.endpointsList.length,
           itemBuilder: (context, i) => _buildEndpointCard(
             endpointListProvider.endpointsList[i],
@@ -162,6 +163,7 @@ class _EndpointListViewState extends State<EndpointListView> {
                   ),
                 );
                 return ListView.builder(
+                  controller: ScrollController(),
                   padding: const EdgeInsets.only(top: 10),
                   shrinkWrap: true,
                   itemCount: expansionPanelEndpoint.fields.length,

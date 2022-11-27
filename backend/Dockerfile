@@ -3,7 +3,7 @@ COPY --chown=gradle:gradle . src
 WORKDIR /home/gradle/src
 RUN gradle build --no-daemon -x test
 
-FROM openjdk:17
+FROM openjdk:17.0.1-jdk-slim
 
 EXPOSE 5000
 

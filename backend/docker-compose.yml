@@ -17,7 +17,7 @@ services:
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create
 
   PostgreSQL:
-    image: postgres:15.1
+    image: postgres
     container_name: PostgesSQL
     volumes:
       - apdv_volume:/var/lib/postgresql/data

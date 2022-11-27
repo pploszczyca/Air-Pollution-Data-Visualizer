@@ -5,17 +5,19 @@ import 'package:flutter/cupertino.dart';
 
 import '../Common/consts.dart';
 import '../DataModels/endpoint.dart';
+import '../DataModels/endpoint_data.dart';
 import '../DataModels/endpoint_summary.dart';
 
-class CompareEndpointsModel extends ChangeNotifier {
+class CompareEndpointsProvider extends ChangeNotifier {
   Map<String, EndpointSummary> endpointSummaryMap = {};
   Map<String, Endpoint> endpointsMap = {};
   Map<String, bool> selectedChips = {};
   List<String> commonFields = [];
   List<String> selectedEndpoints = [];
   EndpointGateway endpointGateway;
+  TextEditingController measureController;
 
-  CompareEndpointsModel(this.endpointGateway);
+  CompareEndpointsProvider(this.endpointGateway, this.measureController);
 
   void clear() {
     endpointSummaryMap = {};
@@ -63,16 +65,44 @@ class CompareEndpointsModel extends ChangeNotifier {
   }
 
   void updateEndpointSelectedList(List<String> selected) {
+    final int measurements = normalizeMeasurementsAmount();
     selectedEndpoints = selected;
     for (var endpointLabel in selectedEndpoints) {
       final EndpointSummary es = endpointSummaryMap[endpointLabel]!;
       endpointGateway
-          .getEndpointData(es.id, null, null, false)
+          .getEndpointData(es.id, measurements, null, false)
           .then((value) {
+        value.dataList = value.dataList.sublist(0, measurements);
         endpointsMap[es.label] = Endpoint.fromSummary(es, value);
         updateCommonFields();
       });
     }
+  }
+
+  void updateMeasurementsAmount() async {
+    final int measurements = normalizeMeasurementsAmount();
+    for (var endpointLabel in selectedEndpoints) {
+      final EndpointSummary es = endpointSummaryMap[endpointLabel]!;
+      final EndpointData value = await endpointGateway
+          .getEndpointData(es.id, measurements, null, false);
+      value.dataList = value.dataList.sublist(0, measurements);
+      endpointsMap[es.label] = Endpoint.fromSummary(es, value);
+      updateCommonFields();
+    }
+  }
+
+  int normalizeMeasurementsAmount() {
+    int measurements = int.parse(measureController.text);
+     if(measurements < 5){
+      measurements = 5;
+      measureController.text = measurements.toString();
+    }
+    if(measurements > 100){
+      measurements = 100;
+      measureController.text = measurements.toString();
+    }
+    notifyListeners();
+    return measurements;
   }
 
   void addToEndpointList(Endpoint endpoint) {

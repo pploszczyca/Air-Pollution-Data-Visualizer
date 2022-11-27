@@ -25,9 +25,11 @@ class CompareChartsView extends StatefulWidget {
 }
 
 class _CompareChartsViewState extends State<CompareChartsView> {
+  TextEditingController measurementsController =
+      TextEditingController(text: "25");
   Widget chart = Container();
-  late CompareEndpointsModel model =
-      CompareEndpointsModel(widget.endpointGateway);
+  late CompareEndpointsProvider model =
+      CompareEndpointsProvider(widget.endpointGateway, measurementsController);
   late Future<List<EndpointSummary>> endpointSummary =
       widget.endpointGateway.getEndpointSummary(needUpdate: true).then((value) {
     model.makeEndpointSummaryMap(value);
@@ -82,14 +84,25 @@ class _CompareChartsViewState extends State<CompareChartsView> {
                             height: 25,
                           ),
                           buildDropDownSelection(context, snapshot),
+                          TextFormField(
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              hintText: 'Enter measures amount',
+                            ),
+                            controller: measurementsController,
+                            onFieldSubmitted: (String? text) {
+                              model.updateMeasurementsAmount();
+                            },
+                            keyboardType: TextInputType.number,
+                          ),
                           const SizedBox(height: 10),
-                          Consumer<CompareEndpointsModel>(
+                          Consumer<CompareEndpointsProvider>(
                             builder: (context, endpointModel, child) => Wrap(
                               children: _createChips(endpointModel),
                             ),
                           ),
                           const SizedBox(height: 10),
-                          Consumer<CompareEndpointsModel>(
+                          Consumer<CompareEndpointsProvider>(
                             builder: (context, endpointModel, child) =>
                                 _createChart(endpointModel),
                           ),
@@ -138,36 +151,36 @@ class _CompareChartsViewState extends State<CompareChartsView> {
               borderRadius: BorderRadius.all(Radius.circular(5)),
             ),
             width: MediaQuery.of(context).size.width * 0.8,
-            child: Consumer<CompareEndpointsModel>(
+            child: Consumer<CompareEndpointsProvider>(
               builder: (context, endpointModel, _) => Theme(
-                  // 200IQ move
-                  data: ThemeData.from(
-                    colorScheme: ColorScheme.fromSwatch(
-                      backgroundColor: Colors.white,
-                      cardColor: Colors.pink,
-                      primarySwatch: Colors.pink,
-                    ),
-                  ),
-                  child: DropDownMultiSelect(
-                    isDense: true,
-                    options: endpointModel.endpointSummaryMap.keys.toList(),
-                    selectedValues: endpointModel.selectedEndpoints,
-                    onChanged: (List<String> selected) {
-                      setState(
-                        () {
-                          endpointModel.updateEndpointSelectedList(selected);
-                        },
-                      );
-                    },
-                    whenEmpty: emptyField,
+                // 200IQ move
+                data: ThemeData.from(
+                  colorScheme: ColorScheme.fromSwatch(
+                    backgroundColor: Colors.white,
+                    cardColor: Colors.pink,
+                    primarySwatch: Colors.pink,
                   ),
                 ),
+                child: DropDownMultiSelect(
+                  isDense: true,
+                  options: endpointModel.endpointSummaryMap.keys.toList(),
+                  selectedValues: endpointModel.selectedEndpoints,
+                  onChanged: (List<String> selected) {
+                    setState(
+                      () {
+                        endpointModel.updateEndpointSelectedList(selected);
+                      },
+                    );
+                  },
+                  whenEmpty: emptyField,
+                ),
+              ),
             ),
           ),
         ],
       );
 
-  List<Widget> _createChips(CompareEndpointsModel endpointModel) =>
+  List<Widget> _createChips(CompareEndpointsProvider endpointModel) =>
       endpointModel.commonFields.map((endpointName) {
         endpointModel.selectedChips.putIfAbsent(endpointName, () => false);
         return Container(
@@ -184,7 +197,7 @@ class _CompareChartsViewState extends State<CompareChartsView> {
         );
       }).toList();
 
-  Widget _createChart(CompareEndpointsModel endpointModel) {
+  Widget _createChart(CompareEndpointsProvider endpointModel) {
     if (endpointModel.selectedEndpoints.isEmpty) {
       return Column();
     }

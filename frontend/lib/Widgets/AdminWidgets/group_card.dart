@@ -34,16 +34,18 @@ Container buildInfoContainer(String title, String data, double width) =>
               ),
             ),
           ),
-          Container(
-            alignment: Alignment.centerRight,
-            width: width * 0.5,
-            child: Text(
-              data,
-              overflow: TextOverflow.fade,
-              style: const TextStyle(
-                fontSize: 18,
-                fontFamily: 'SofiaSans',
-                color: Colors.black45,
+          Flexible(
+            child: Container(
+              alignment: Alignment.centerRight,
+              width: width * 0.5,
+              child: Text(
+                data,
+                overflow: TextOverflow.fade,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontFamily: 'SofiaSans',
+                  color: Colors.black45,
+                ),
               ),
             ),
           )

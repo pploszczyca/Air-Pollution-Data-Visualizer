@@ -69,6 +69,7 @@ class AdminEndpointsRepository {
   UserGateway userGateway = UserGateway();
 
   Future<EndpointComplexData> getComplexData() async {
+    print("getComplexData");
     final List<EndpointAdminData> endpoints = await getAllEndpoints();
     final Map<int, EnableField> fields = await getAllFields();
     final Map<int, FieldParser> parsers = await getAllParsers();

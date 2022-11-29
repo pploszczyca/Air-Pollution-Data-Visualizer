@@ -39,26 +39,27 @@ class _GroupEndpointViewState extends State<GroupEndpointView> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: adminAppBar(
-          "Administrator panel",
-          widget.groupName + " - endpoints",
-        ),
-        body: ChangeNotifierProvider<GroupEndpointProvider>(
-          create: (context) => GroupEndpointProvider(future),
-          child: Consumer<GroupEndpointProvider>(
-            builder: (context, provider, _) => Column(
-              children: [
-                Expanded(
-                  child: ListView(
-                    children: _buildEndpointTiles(provider),
-                  ),
+      appBar: adminAppBar(
+        "Administrator panel",
+        widget.groupName + " - endpoints",
+      ),
+      body: ChangeNotifierProvider<GroupEndpointProvider>(
+        create: (context) => GroupEndpointProvider(future),
+        child: Consumer<GroupEndpointProvider>(
+          builder: (context, provider, _) => Column(
+            children: [
+              Expanded(
+                child: ListView(
+                  shrinkWrap: true,
+                  children: _buildEndpointTiles(provider),
                 ),
-                buildButtonContainer(context),
-              ],
-            ),
+              ),
+              buildButtonContainer(context),
+            ],
           ),
         ),
-      );
+      ),
+    );
 
   Container buildButtonContainer(BuildContext context) => Container(
         margin: const EdgeInsets.symmetric(vertical: 20),
@@ -180,12 +181,12 @@ class _GroupEndpointViewState extends State<GroupEndpointView> {
       CheckboxListTile(
         activeColor: Colors.teal,
         controlAffinity: ListTileControlAffinity.leading,
-        title: Flexible(
-          child: Text(
+        title:
+          Text(
             tileText,
             style: defaultAdminTextStyle,
           ),
-        ),
+
         value: field.isBelongingToGroup,
         onChanged: (bool? value) => provider.updateFieldState(
           value,

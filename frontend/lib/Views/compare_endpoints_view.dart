@@ -14,7 +14,6 @@ import '../Providers/compare_endpoints_provider.dart';
 import '../Widgets/AdminWidgets/admin_styles.dart';
 import '../Widgets/AdminWidgets/confirmation_dialog_modal.dart';
 import '../Widgets/common_widgets.dart';
-import 'Logging/login_view.dart';
 
 class CompareChartsView extends StatefulWidget {
   const CompareChartsView({required this.endpointGateway, Key? key})
@@ -85,15 +84,27 @@ class _CompareChartsViewState extends State<CompareChartsView> {
                             height: 25,
                           ),
                           buildDropDownSelection(context, snapshot),
+                          const SizedBox(height: 10),
+                          Center(
+                            child: Text(
+                              "Select amount of measurements:",
+                              style: defaultAdminTextStyle.copyWith(
+                                color: Colors.white,
+                                decoration: TextDecoration.underline,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
                           Container(
+                            width: MediaQuery.of(context).size.width * 0.8,
                             margin: EdgeInsets.only(
-                              top: 15,
                               left: MediaQuery.of(context).size.width * 0.1,
-                              right: MediaQuery.of(context).size.width * 0.75,
+                              right: MediaQuery.of(context).size.width * 0.1,
                             ),
                             // decoration: BoxDecoration(color: Colors.red),
                             child: TextFormField(
                               decoration: const InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                                 filled: true,
                                 fillColor: Colors.white,
                                 border: OutlineInputBorder(
@@ -128,21 +139,19 @@ class _CompareChartsViewState extends State<CompareChartsView> {
                                 _createChart(endpointModel),
                           ),
                           Center(
-                            child: Flexible(
-                              child: TextButton(
-                                onPressed: () => showAlertDialog(
-                                  context,
-                                  "Reload resources?",
-                                  "You're about to reload page content. This action may affect endpoints visibility.",
-                                  () async => await _pullDownRefresh(),
-                                ),
-                                child: Text(
-                                  "Pull down or tap to refresh available endpoints",
-                                  textAlign: TextAlign.center,
-                                  style: defaultAdminTextStyle.copyWith(
-                                    color: Colors.white,
-                                    decoration: TextDecoration.underline,
-                                  ),
+                            child: TextButton(
+                              onPressed: () => showAlertDialog(
+                                context,
+                                "Reload resources?",
+                                "You're about to reload page content. This action may affect endpoints visibility.",
+                                () async => await _pullDownRefresh(),
+                              ),
+                              child: Text(
+                                "Pull down or tap to refresh available endpoints",
+                                textAlign: TextAlign.center,
+                                style: defaultAdminTextStyle.copyWith(
+                                  color: Colors.white,
+                                  decoration: TextDecoration.underline,
                                 ),
                               ),
                             ),

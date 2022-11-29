@@ -14,6 +14,7 @@ import '../Providers/compare_endpoints_provider.dart';
 import '../Widgets/AdminWidgets/admin_styles.dart';
 import '../Widgets/AdminWidgets/confirmation_dialog_modal.dart';
 import '../Widgets/common_widgets.dart';
+import 'Logging/login_view.dart';
 
 class CompareChartsView extends StatefulWidget {
   const CompareChartsView({required this.endpointGateway, Key? key})
@@ -84,16 +85,36 @@ class _CompareChartsViewState extends State<CompareChartsView> {
                             height: 25,
                           ),
                           buildDropDownSelection(context, snapshot),
-                          TextFormField(
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: 'Enter measures amount',
+                          Container(
+                            margin: EdgeInsets.only(
+                              top: 15,
+                              left: MediaQuery.of(context).size.width * 0.1,
+                              right: MediaQuery.of(context).size.width * 0.75,
                             ),
-                            controller: measurementsController,
-                            onFieldSubmitted: (String? text) {
-                              model.updateMeasurementsAmount();
-                            },
-                            keyboardType: TextInputType.number,
+                            // decoration: BoxDecoration(color: Colors.red),
+                            child: TextFormField(
+                              decoration: const InputDecoration(
+                                filled: true,
+                                fillColor: Colors.white,
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide(width: 3),
+                                ),
+                                hintText: 'Enter measures amount',
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white10),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(5)),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.pink),
+                                ),
+                              ),
+                              controller: measurementsController,
+                              onFieldSubmitted: (String? text) {
+                                model.updateMeasurementsAmount();
+                              },
+                              keyboardType: TextInputType.number,
+                            ),
                           ),
                           const SizedBox(height: 10),
                           Consumer<CompareEndpointsProvider>(

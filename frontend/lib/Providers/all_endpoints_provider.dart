@@ -23,12 +23,10 @@ class AllEndpointsProvider with ChangeNotifier {
     endpointsList = data.endpoints;
     fieldParsers = data.fieldParsers;
     enableFields = data.enableFields;
-    print("init");
     notifyListeners();
   }
 
   void notify() {
-    print("notify");
     notifyListeners();
   }
 }

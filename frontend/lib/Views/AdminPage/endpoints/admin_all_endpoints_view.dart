@@ -44,7 +44,6 @@ class _AdminAllEndpointsViewState extends State<AdminAllEndpointsView> {
           if (snapshot.connectionState != ConnectionState.done) {
             return loadingInCenter();
           } else {
-            print("after fetching data");
             return ChangeNotifierProvider(
               create: (context) => AllEndpointsProvider(future),
               child: Consumer<AllEndpointsProvider>(
@@ -129,6 +128,7 @@ class _AdminAllEndpointsViewState extends State<AdminAllEndpointsView> {
 
   void _addEndpoint(Future<EndpointComplexData> future) async {
     final EndpointComplexData endpointComplexData = await future;
+    // ignore: use_build_context_synchronously
     final changed = await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => AdminAddEndpointView(

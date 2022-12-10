@@ -26,8 +26,8 @@ class EndpointCache {
     return Future.value(_endpointMap[id]!.data);
   }
 
-  bool isEndpointInCache(int endpointId) =>
-      _endpointMap.containsKey(endpointId);
+  bool isEndpointInCache(int endpointId, int dataSize) => _endpointMap.containsKey(endpointId) &&
+        _endpointMap[endpointId]!.data.dataList.length > dataSize;
 
   bool isEndpointSummaryInCache() => _isEndpointSummaryLoaded;
 

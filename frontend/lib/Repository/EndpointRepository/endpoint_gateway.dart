@@ -33,7 +33,7 @@ class EndpointGateway {
   ) {
     limit = limit ?? -1;
     offset = offset ?? -1;
-    if (endpointCache.isEndpointInCache(id) && !needUpdate) {
+    if (endpointCache.isEndpointInCache(id, limit) && !needUpdate) {
       return endpointCache.getEndpointData(id, limit, offset);
     } else {
       return updateCacheAndGetEndpointData(id, limit, offset);

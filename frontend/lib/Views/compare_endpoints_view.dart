@@ -25,9 +25,11 @@ class CompareChartsView extends StatefulWidget {
 }
 
 class _CompareChartsViewState extends State<CompareChartsView> {
+  TextEditingController measurementsController =
+      TextEditingController(text: "25");
   Widget chart = Container();
-  late CompareEndpointsModel model =
-      CompareEndpointsModel(widget.endpointGateway);
+  late CompareEndpointsProvider model =
+      CompareEndpointsProvider(widget.endpointGateway, measurementsController);
   late Future<List<EndpointSummary>> endpointSummary =
       widget.endpointGateway.getEndpointSummary(needUpdate: true).then((value) {
     model.makeEndpointSummaryMap(value);
@@ -83,32 +85,73 @@ class _CompareChartsViewState extends State<CompareChartsView> {
                           ),
                           buildDropDownSelection(context, snapshot),
                           const SizedBox(height: 10),
-                          Consumer<CompareEndpointsModel>(
+                          Center(
+                            child: Text(
+                              "Select amount of measurements:",
+                              style: defaultAdminTextStyle.copyWith(
+                                color: Colors.white,
+                                decoration: TextDecoration.underline,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            margin: EdgeInsets.only(
+                              left: MediaQuery.of(context).size.width * 0.1,
+                              right: MediaQuery.of(context).size.width * 0.1,
+                            ),
+                            // decoration: BoxDecoration(color: Colors.red),
+                            child: TextFormField(
+                              decoration: const InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                                filled: true,
+                                fillColor: Colors.white,
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide(width: 3),
+                                ),
+                                hintText: 'Enter measures amount',
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white10),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(5)),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.pink),
+                                ),
+                              ),
+                              controller: measurementsController,
+                              onFieldSubmitted: (String? text) {
+                                model.updateMeasurementsAmount();
+                              },
+                              keyboardType: TextInputType.number,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Consumer<CompareEndpointsProvider>(
                             builder: (context, endpointModel, child) => Wrap(
                               children: _createChips(endpointModel),
                             ),
                           ),
                           const SizedBox(height: 10),
-                          Consumer<CompareEndpointsModel>(
+                          Consumer<CompareEndpointsProvider>(
                             builder: (context, endpointModel, child) =>
                                 _createChart(endpointModel),
                           ),
                           Center(
-                            child: Flexible(
-                              child: TextButton(
-                                onPressed: () => showAlertDialog(
-                                  context,
-                                  "Reload resources?",
-                                  "You're about to reload page content. This action may affect endpoints visibility.",
-                                  () async => await _pullDownRefresh(),
-                                ),
-                                child: Text(
-                                  "Pull down or tap to refresh available endpoints",
-                                  textAlign: TextAlign.center,
-                                  style: defaultAdminTextStyle.copyWith(
-                                    color: Colors.white,
-                                    decoration: TextDecoration.underline,
-                                  ),
+                            child: TextButton(
+                              onPressed: () => showAlertDialog(
+                                context,
+                                "Reload resources?",
+                                "You're about to reload page content. This action may affect endpoints visibility.",
+                                () async => await _pullDownRefresh(),
+                              ),
+                              child: Text(
+                                "Pull down or tap to refresh available endpoints",
+                                textAlign: TextAlign.center,
+                                style: defaultAdminTextStyle.copyWith(
+                                  color: Colors.white,
+                                  decoration: TextDecoration.underline,
                                 ),
                               ),
                             ),
@@ -138,36 +181,36 @@ class _CompareChartsViewState extends State<CompareChartsView> {
               borderRadius: BorderRadius.all(Radius.circular(5)),
             ),
             width: MediaQuery.of(context).size.width * 0.8,
-            child: Consumer<CompareEndpointsModel>(
+            child: Consumer<CompareEndpointsProvider>(
               builder: (context, endpointModel, _) => Theme(
-                  // 200IQ move
-                  data: ThemeData.from(
-                    colorScheme: ColorScheme.fromSwatch(
-                      backgroundColor: Colors.white,
-                      cardColor: Colors.pink,
-                      primarySwatch: Colors.pink,
-                    ),
-                  ),
-                  child: DropDownMultiSelect(
-                    isDense: true,
-                    options: endpointModel.endpointSummaryMap.keys.toList(),
-                    selectedValues: endpointModel.selectedEndpoints,
-                    onChanged: (List<String> selected) {
-                      setState(
-                        () {
-                          endpointModel.updateEndpointSelectedList(selected);
-                        },
-                      );
-                    },
-                    whenEmpty: emptyField,
+                // 200IQ move
+                data: ThemeData.from(
+                  colorScheme: ColorScheme.fromSwatch(
+                    backgroundColor: Colors.white,
+                    cardColor: Colors.pink,
+                    primarySwatch: Colors.pink,
                   ),
                 ),
+                child: DropDownMultiSelect(
+                  isDense: true,
+                  options: endpointModel.endpointSummaryMap.keys.toList(),
+                  selectedValues: endpointModel.selectedEndpoints,
+                  onChanged: (List<String> selected) {
+                    setState(
+                      () {
+                        endpointModel.updateEndpointSelectedList(selected);
+                      },
+                    );
+                  },
+                  whenEmpty: emptyField,
+                ),
+              ),
             ),
           ),
         ],
       );
 
-  List<Widget> _createChips(CompareEndpointsModel endpointModel) =>
+  List<Widget> _createChips(CompareEndpointsProvider endpointModel) =>
       endpointModel.commonFields.map((endpointName) {
         endpointModel.selectedChips.putIfAbsent(endpointName, () => false);
         return Container(
@@ -184,7 +227,7 @@ class _CompareChartsViewState extends State<CompareChartsView> {
         );
       }).toList();
 
-  Widget _createChart(CompareEndpointsModel endpointModel) {
+  Widget _createChart(CompareEndpointsProvider endpointModel) {
     if (endpointModel.selectedEndpoints.isEmpty) {
       return Column();
     }

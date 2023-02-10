@@ -28,6 +28,8 @@
 
 ## Application Demo
 
+[Click here](screenshots/README.md) to go to Application Galery.
+
 [![Application Demo](screenshots/Application-demo-video.png)](https://youtu.be/vMFtx_QVPpE)
   
 ## Technologies

@@ -1,10 +1,13 @@
 # Air Pollution Data Visualizer
+
 ## Table of contents
 - [Air Pollution Data Visualizer](#air-pollution-data-visualizer)
   - [Table of contents](#table-of-contents)
+  - [Application Demo](#application-demo)
   - [Technologies](#technologies)
     - [Frontend](#frontend)
     - [Backend](#backend)
+    - [Database](#database)
   - [Ports](#ports)
   - [Environtment files](#environtment-files)
     - [Frontend](#frontend-1)
@@ -22,6 +25,12 @@
   - [Mock Database](#mock-database)
     - [Fill database using postgresql utilities](#fill-database-using-postgresql-utilities)
   - [Docs](#docs)
+
+## Application Demo
+
+[Click here](screenshots/README.md) to go to Application Galery.
+
+[![Application Demo](screenshots/Application-demo-video.png)](https://youtu.be/vMFtx_QVPpE)
   
 ## Technologies
 ### Frontend
@@ -31,15 +40,23 @@
 * [provider](https://pub.dev/packages/provider)
 * [multiselect](https://pub.dev/packages/multiselect)
 * [flutter_dotenv](https://pub.dev/packages/flutter_dotenv)
+* [flutter_secure_storage](https://pub.dev/packages/flutter_secure_storage)
+* [jwt_decoder](https://pub.dev/packages/jwt_decoder)
 
 ### Backend
 * [Java 17](https://openjdk.java.net/projects/jdk/17/)
 * [Spring](https://spring.io/)
-* [PostgreSQL](https://www.postgresql.org/)
 * [Webflux](https://search.maven.org/artifact/org.springframework.boot/spring-boot-starter-webflux/2.6.7/jar)
 * [SpringDoc](https://springdoc.org/)
 * [Project Lombok](https://projectlombok.org/)
 * [MapStruct](https://mapstruct.org/)
+* [H2 Database](https://www.h2database.com/html/main.html)
+* [Gradle](https://gradle.org/)
+* [JUnit 5](https://junit.org/junit5/)
+* [Checkstyle](https://checkstyle.sourceforge.io/)
+
+### Database
+* [PostgreSQL](https://www.postgresql.org/)
 
 ## Ports
 * Backend - 5000 - http://localhost:5000
@@ -123,7 +140,7 @@ $ git config --local core.hooksPath .githooks/
 ```
 
 ## Mock Database
-For this moment, it is prepared a [mock.sql](/backend/sql_mocks/mock.sql) file, which can be used for testing. This script needs to be run in database manually.
+For this moment, it is prepared a [import.sql](/backend/src/main/resources/import.sql) file, which can be used for testing. This script needs to be run in database manually.
 
 ### Fill database using postgresql utilities
 First you have to install `postgressql`

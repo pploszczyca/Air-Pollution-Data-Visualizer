@@ -6,7 +6,7 @@ import java.util.List;
 import pl.edu.agh.apdvbackend.models.body_models.field.FieldWithoutId;
 
 public record EndpointWithField(
-        @Schema(required = true) List<FieldWithoutId> fields,
-        @Schema(required = true) List<ObjectNode> data
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED) List<FieldWithoutId> fields,
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED) List<ObjectNode> data
 ) {
 }

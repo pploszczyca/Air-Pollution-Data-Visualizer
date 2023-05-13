@@ -6,9 +6,9 @@ import pl.edu.agh.apdvbackend.models.body_models.endpoint.GroupEndpointResponseB
 import pl.edu.agh.apdvbackend.models.body_models.user.ShortUserResponseBody;
 
 public record AboutGroupResponseBody(
-        @Schema(required = true) Long id,
-        @Schema(required = true) String name,
-        @Schema(required = true) List<ShortUserResponseBody> shortUserInfos,
-        @Schema(required = true) List<GroupEndpointResponseBody> groupEndpointResponseBodies
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED) Long id,
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED) String name,
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED) List<ShortUserResponseBody> shortUserInfos,
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED) List<GroupEndpointResponseBody> groupEndpointResponseBodies
 ) {
 }

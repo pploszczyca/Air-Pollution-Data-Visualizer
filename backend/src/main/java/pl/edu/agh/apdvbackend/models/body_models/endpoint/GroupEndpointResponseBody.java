@@ -5,9 +5,9 @@ import java.util.List;
 import pl.edu.agh.apdvbackend.models.database.Field;
 
 public record GroupEndpointResponseBody(
-        @Schema(required = true) Long id,
-        @Schema(required = true) String label,
-        @Schema(required = true) int endpointNumber,
-        @Schema(required = true) List<Field> enableFields
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED) Long id,
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED) String label,
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED) int endpointNumber,
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED) List<Field> enableFields
 ) {
 }

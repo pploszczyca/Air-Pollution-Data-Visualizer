@@ -5,10 +5,10 @@ import java.util.List;
 import pl.edu.agh.apdvbackend.models.body_models.field_and_parser.FieldAndParser;
 
 public record EndpointResponseBody(
-        @Schema(required = true) Long id,
-        @Schema(required = true) int endpointNumber,
-        @Schema(required = true) String label,
-        @Schema(required = true) String sensorUrl,
-        @Schema(required = true) List<FieldAndParser> fieldAndParserList
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED) Long id,
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED) int endpointNumber,
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED) String label,
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED) String sensorUrl,
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED) List<FieldAndParser> fieldAndParserList
 ) {
 }

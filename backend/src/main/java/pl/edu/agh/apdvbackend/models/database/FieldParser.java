@@ -22,10 +22,10 @@ import lombok.Setter;
 public class FieldParser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(required = true)
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private Long id;
 
-    @Schema(required = true)
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     @Column(unique = true)
     private String path;
 

@@ -5,8 +5,8 @@ import java.util.Optional;
 import pl.edu.agh.apdvbackend.models.database.FieldType;
 
 public record FieldRequestBody(
-        @Schema(required = true) String label,
-        @Schema(required = true) FieldType fieldType,
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED) String label,
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED) FieldType fieldType,
         Optional<String> unitName
 ) {
 }

@@ -5,9 +5,9 @@ import java.util.List;
 import pl.edu.agh.apdvbackend.models.body_models.field_and_parser.FieldAndParserKey;
 
 public record EndpointRequestBody(
-        @Schema(required = true) int endpointNumber,
-        @Schema(required = true) String label,
-        @Schema(required = true) String sensorUrl,
-        @Schema(required = true) List<FieldAndParserKey> fieldAndParserKeys
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED) int endpointNumber,
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED) String label,
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED) String sensorUrl,
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED) List<FieldAndParserKey> fieldAndParserKeys
 ) {
 }
